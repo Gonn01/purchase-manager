@@ -47,39 +47,39 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyBxY64_ZUu9Nvbm8x2Stye0rN7opWQ1U8A',
     appId: '1:1033469084474:web:6623a9af18e071a764c603',
     messagingSenderId: '1033469084474',
-    projectId: 'purchase_manager-3e47f',
-    authDomain: 'purchase_manager-3e47f.firebaseapp.com',
-    storageBucket: 'purchase_manager-3e47f.appspot.com',
+    projectId: 'compras-3e47f',
+    authDomain: 'compras-3e47f.firebaseapp.com',
+    storageBucket: 'compras-3e47f.appspot.com',
     measurementId: 'G-LYYSTZSVHR',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDCqO4F_YcVKNaj1oBdmfKzmWOM5pRBfLE',
-    appId: '1:1033469084474:android:0fcccb6d1b3f424d64c603',
+    appId: '1:1033469084474:android:0ff82f545d98940764c603',
     messagingSenderId: '1033469084474',
-    projectId: 'purchase_manager-3e47f',
-    storageBucket: 'purchase_manager-3e47f.appspot.com',
+    projectId: 'compras-3e47f',
+    storageBucket: 'compras-3e47f.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDbKwHwWdgmwM3-Z150rWdalbc4XhvcjZI',
-    appId: '1:1033469084474:ios:54aeb22bcc31f04b64c603',
+    appId: '1:1033469084474:ios:d67c8ba499f5128864c603',
     messagingSenderId: '1033469084474',
-    projectId: 'purchase_manager-3e47f',
-    storageBucket: 'purchase_manager-3e47f.appspot.com',
-    iosClientId:
-        '1033469084474-op6lteciqhq0r5lsdsjspdpg2idjnal9.apps.googleusercontent.com',
-    iosBundleId: 'com.example.purchase_manager',
+    projectId: 'compras-3e47f',
+    storageBucket: 'compras-3e47f.appspot.com',
+    androidClientId: '1033469084474-6jlphiu259q9rj1bi4mt773bmgokhi4b.apps.googleusercontent.com',
+    iosClientId: '1033469084474-e749u4ldduv1shoojvqdtquef9tbe69c.apps.googleusercontent.com',
+    iosBundleId: 'com.example.pruchaseManager',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyDbKwHwWdgmwM3-Z150rWdalbc4XhvcjZI',
-    appId: '1:1033469084474:ios:59e1c2970516683864c603',
+    appId: '1:1033469084474:ios:10731cbba1af91e064c603',
     messagingSenderId: '1033469084474',
-    projectId: 'purchase_manager-3e47f',
-    storageBucket: 'purchase_manager-3e47f.appspot.com',
-    iosClientId:
-        '1033469084474-bq7rvtvam750grsu3mkt9fkr8rvua2au.apps.googleusercontent.com',
-    iosBundleId: 'com.example.purchase_manager.RunnerTests',
+    projectId: 'compras-3e47f',
+    storageBucket: 'compras-3e47f.appspot.com',
+    androidClientId: '1033469084474-6jlphiu259q9rj1bi4mt773bmgokhi4b.apps.googleusercontent.com',
+    iosClientId: '1033469084474-8550728r42vb01pckv2np4l62bb61vec.apps.googleusercontent.com',
+    iosBundleId: 'com.example.pruchaseManager.RunnerTests',
   );
 }

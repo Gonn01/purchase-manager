@@ -38,7 +38,7 @@ Future<List<FinancialEntity>> readFinancialEntities({
 
     return Future.wait(querySnapshot.docs.map((doc) async {
       QuerySnapshot purchase_managerSnapshot =
-          await doc.reference.collection('purchase_manager').get();
+          await doc.reference.collection('compras').get();
 
       List<Purchase> purchases = purchase_managerSnapshot.docs.map((compraDoc) {
         Map<String, dynamic> compraData =

@@ -14,7 +14,7 @@ Future<void> createCompra({
         .doc(usuarioId)
         .collection('categorias')
         .doc(categoriaId)
-        .collection('purchase_manager')
+        .collection('compras')
         .add({
       'cantidadCuotas': nuevaCompra.amountOfQuotas,
       'monto': nuevaCompra.totalAmount,
@@ -44,7 +44,7 @@ Future<void> updatePurchase({
         .doc(idUser)
         .collection('categorias')
         .doc(idFinancialEntity)
-        .collection('purchase_manager')
+        .collection('compras')
         .doc(newPurchase.id);
 
     await compraRef.update({
@@ -72,7 +72,7 @@ Future<void> deleteCompra({
         .doc(usuarioId)
         .collection('categorias')
         .doc(categoriaId)
-        .collection('purchase_manager')
+        .collection('compras')
         .doc(compraId)
         .delete();
 
