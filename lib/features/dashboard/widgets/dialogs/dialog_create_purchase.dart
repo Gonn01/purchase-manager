@@ -1,4 +1,5 @@
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
+import 'package:purchase_manager/models/enums/purchase_type.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
 import 'package:purchase_manager/widgets/pm_dialogs.dart';
 import 'package:purchase_manager/widgets/pm_textfields.dart';
@@ -31,8 +32,13 @@ class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
             totalAmount: double.parse(_controllerAmount.text),
             amountQuotas: int.parse(_controllerQuotas.text),
             idFinancialEntity: idSelectedFinancialEntity ?? '',
-            debtOrDebtor: _selectedItems[0],
-            current: widget.current,
+            purchaseType: _selectedItems[0]
+                ? widget.current
+                    ? PurchaseType.currentDebtorPurchase
+                    : PurchaseType.settledDebtorPurchase
+                : !widget.current
+                    ? PurchaseType.currentCreditorPurchase
+                    : PurchaseType.settledCreditorPurchase,
           ),
         );
     Navigator.pop(context);

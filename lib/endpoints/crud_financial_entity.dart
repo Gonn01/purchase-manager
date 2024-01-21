@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:purchase_manager/models/enums/purchase_type.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
 import 'package:flutter/foundation.dart';
 import 'package:purchase_manager/models/purchase.dart';
@@ -35,8 +36,7 @@ Future<List<FinancialEntity>> readFinancialEntities({
         .doc(idUser)
         .collection('categorias')
         .get();
-
-    return Future.wait(querySnapshot.docs.map((doc) async {
+    final list = Future.wait(querySnapshot.docs.map((doc) async {
       QuerySnapshot purchase_managerSnapshot =
           await doc.reference.collection('compras').get();
 
@@ -50,8 +50,7 @@ Future<List<FinancialEntity>> readFinancialEntities({
           totalAmount: compraData['monto'],
           amountPerQuota: compraData['montoPorCuota'],
           nameOfProduct: compraData['producto'],
-          current: compraData['vigente'],
-          debt: compraData['debo'],
+          type: PurchaseType.type(compraData['type']),
           creationDate: compraData['fechaCreacion'].toDate(),
           lastCuotaDate: compraData['FechaFinalizacion'] != null
               ? compraData['FechaFinalizacion'].toDate()
@@ -66,6 +65,7 @@ Future<List<FinancialEntity>> readFinancialEntities({
         purchases: purchases,
       );
     }).toList());
+    return list;
   } catch (e) {
     debugPrint('Error al leer las categorías: $e');
     return [];

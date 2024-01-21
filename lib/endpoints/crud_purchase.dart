@@ -20,8 +20,7 @@ Future<void> createCompra({
       'monto': nuevaCompra.totalAmount,
       'montoPorCuota': nuevaCompra.amountPerQuota,
       'producto': nuevaCompra.nameOfProduct,
-      'vigente': nuevaCompra.current,
-      'debo': nuevaCompra.debt,
+      'type': nuevaCompra.type.value,
       'fechaCreacion': nuevaCompra.creationDate,
       'fechaFinalizacion': null,
       'fechaPrimeraCuota': null,
@@ -52,7 +51,7 @@ Future<void> updatePurchase({
       'monto': newPurchase.totalAmount,
       'producto': newPurchase.nameOfProduct,
       'montoPorCuota': newPurchase.amountPerQuota,
-      'debo': newPurchase.debt,
+      'type': newPurchase.type.value,
     });
 
     debugPrint('Compra actualizada en Firestore.');

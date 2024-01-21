@@ -20,9 +20,11 @@ class BlocDashboardEventModifyAmountOfQuotas extends BlocDashboardEvento {
   const BlocDashboardEventModifyAmountOfQuotas({
     required this.idPurchase,
     required this.modificationType,
+    required this.purchaseType,
   });
   final String idPurchase;
   final ModificationType modificationType;
+  final PurchaseType purchaseType;
 }
 
 class BlocDashboardEventCreateFinancialEntity extends BlocDashboardEvento {
@@ -54,15 +56,13 @@ class BlocDashboardEventCreatePurchase extends BlocDashboardEvento {
     required this.totalAmount,
     required this.amountQuotas,
     required this.idFinancialEntity,
-    required this.debtOrDebtor,
-    required this.current,
+    required this.purchaseType,
   });
   final String productName;
   final double totalAmount;
   final int amountQuotas;
   final String idFinancialEntity;
-  final bool debtOrDebtor;
-  final bool current;
+  final PurchaseType purchaseType;
 }
 
 class BlocDashboardEventEditPurchase extends BlocDashboardEvento {
@@ -72,14 +72,14 @@ class BlocDashboardEventEditPurchase extends BlocDashboardEvento {
     required this.amount,
     required this.amountOfQuotas,
     required this.idFinancialEntity,
-    required this.debtOrDebtor,
+    required this.purchaseType,
   });
   final Purchase purchase;
   final String productName;
   final double amount;
   final int amountOfQuotas;
   final String idFinancialEntity;
-  final bool debtOrDebtor;
+  final PurchaseType purchaseType;
 }
 
 enum ModificationType {

@@ -3,6 +3,7 @@ import 'package:purchase_manager/endpoints/crud_financial_entity.dart';
 import 'package:purchase_manager/endpoints/crud_purchase.dart';
 import 'package:purchase_manager/endpoints/services/dolar.dart';
 import 'package:purchase_manager/models/coin.dart';
+import 'package:purchase_manager/models/enums/purchase_type.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
 import 'package:purchase_manager/models/purchase.dart';
 import 'package:purchase_manager/models/enums/status.dart';
@@ -77,7 +78,11 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
           idFinancialEntity: categoriaModificada.id,
           newPurchase: compraAModificar
             ..amountOfQuotas += 1
-            ..current = true,
+            ..type = event.purchaseType.isCurrent
+                ? event.purchaseType
+                : event.purchaseType == PurchaseType.settledDebtorPurchase
+                    ? PurchaseType.currentDebtorPurchase
+                    : PurchaseType.currentCreditorPurchase,
         );
       } else {
         if (compraAModificar.amountOfQuotas > 1) {
@@ -91,7 +96,9 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
             idUser: auth.currentUser?.uid ?? '',
             idFinancialEntity: categoriaModificada.id,
             newPurchase: compraAModificar
-              ..current = false
+              ..type = event.purchaseType == PurchaseType.currentDebtorPurchase
+                  ? PurchaseType.settledDebtorPurchase
+                  : PurchaseType.settledCreditorPurchase
               ..amountOfQuotas -= 1
               ..lastCuotaDate = DateTime.now(),
           );
@@ -155,22 +162,25 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
     emit(state.copyWith(estado: Status.loading));
     try {
       final auth = FirebaseAuth.instance;
+
       final nuevaCompra = Purchase(
         creationDate: DateTime.now(),
-        debt: event.debtOrDebtor,
         id: DateTime.now().toString(),
         amountOfQuotas: event.amountQuotas,
         totalAmount: event.totalAmount,
         amountPerQuota: event.totalAmount / event.amountQuotas,
         nameOfProduct: event.productName,
-        current: event.current,
+        type: event.purchaseType,
       );
+
       await createCompra(
         usuarioId: auth.currentUser?.uid ?? '',
         categoriaId: event.idFinancialEntity,
         nuevaCompra: nuevaCompra,
       );
+
       add(BlocDashboardEventInitialize());
+
       emit(
         state.copyWith(estado: Status.success),
       );
@@ -191,7 +201,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
         ..amountOfQuotas = event.amountOfQuotas
         ..totalAmount = event.amount
         ..nameOfProduct = event.productName
-        ..debt = event.debtOrDebtor
+        ..type = event.purchaseType
         ..amountPerQuota = event.amount / event.amountOfQuotas;
 
       await updatePurchase(

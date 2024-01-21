@@ -68,7 +68,7 @@ class PurchaseElement extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  purchase.current
+                  purchase.type.isCurrent
                       ? 'Total: ${purchase.totalAmount.formatAmount()}'
                       : 'Fecha de finalización: ${DateFormat('dd/MM/yyyy').format(purchase.lastCuotaDate ?? purchase.creationDate)}',
                   maxLines: 1,
@@ -95,11 +95,11 @@ class PurchaseElement extends StatelessWidget {
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
-                        decoration: !purchase.current
+                        decoration: !purchase.type.isCurrent
                             ? TextDecoration.lineThrough
                             : null),
                   ),
-                  purchase.current
+                  purchase.type.isCurrent
                       ? Row(
                           children: [
                             GestureDetector(
@@ -108,6 +108,7 @@ class PurchaseElement extends StatelessWidget {
                                       idPurchase: purchase.id,
                                       modificationType:
                                           ModificationType.increase,
+                                      purchaseType: purchase.type,
                                     ),
                                   ),
                               child: const Icon(
@@ -123,6 +124,7 @@ class PurchaseElement extends StatelessWidget {
                                       idPurchase: purchase.id,
                                       modificationType:
                                           ModificationType.decrease,
+                                      purchaseType: purchase.type,
                                     ),
                                   ),
                               child: const Icon(
@@ -138,6 +140,7 @@ class PurchaseElement extends StatelessWidget {
                                 BlocDashboardEventModifyAmountOfQuotas(
                                   idPurchase: purchase.id,
                                   modificationType: ModificationType.increase,
+                                  purchaseType: purchase.type,
                                 ),
                               ),
                           child: const Icon(

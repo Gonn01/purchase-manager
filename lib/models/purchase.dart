@@ -1,3 +1,5 @@
+import 'package:purchase_manager/models/enums/purchase_type.dart';
+
 class Purchase {
   Purchase({
     required this.id,
@@ -5,8 +7,7 @@ class Purchase {
     required this.totalAmount,
     required this.amountPerQuota,
     required this.nameOfProduct,
-    required this.current,
-    required this.debt,
+    required this.type,
     required this.creationDate,
     this.lastCuotaDate,
     this.firstQuotaDate,
@@ -17,8 +18,7 @@ class Purchase {
   double totalAmount;
   double amountPerQuota;
   String nameOfProduct;
-  bool current;
-  bool debt;
+  PurchaseType type;
   DateTime creationDate;
   DateTime? firstQuotaDate;
   DateTime? lastCuotaDate;

@@ -1,5 +1,6 @@
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/widgets/dialogs/dialog_delete_purchase.dart';
+import 'package:purchase_manager/models/enums/purchase_type.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
 import 'package:purchase_manager/models/purchase.dart';
 import 'package:purchase_manager/widgets/pm_buttons.dart';
@@ -23,7 +24,7 @@ class DialogEditPurchase extends StatefulWidget {
 }
 
 class _DialogEditPurchaseState extends State<DialogEditPurchase> {
-  List<bool> _debtOrDebtor = <bool>[true, false];
+  List<bool> _debtorOrCreditor = <bool>[true, false];
 
   final _controllerProductName = TextEditingController();
 
@@ -39,7 +40,13 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
             amount: double.parse(_controllerAmount.text),
             amountOfQuotas: int.parse(_controllerQuotas.text),
             idFinancialEntity: dropdownValue ?? '',
-            debtOrDebtor: _debtOrDebtor[0],
+            purchaseType: widget.purchase.type.isCurrent
+                ? _debtorOrCreditor[0]
+                    ? PurchaseType.currentDebtorPurchase
+                    : PurchaseType.currentCreditorPurchase
+                : !_debtorOrCreditor[0]
+                    ? PurchaseType.settledDebtorPurchase
+                    : PurchaseType.settledCreditorPurchase,
           ),
         );
 
@@ -66,7 +73,10 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
     _controllerAmount.text = widget.purchase.totalAmount.toString();
     _controllerQuotas.text = widget.purchase.amountOfQuotas.toString();
     dropdownValue = widget.financialEntity.id;
-    _debtOrDebtor = [widget.purchase.debt, !widget.purchase.debt];
+    _debtorOrCreditor = [
+      widget.purchase.type.isDebtor,
+      !widget.purchase.type.isDebtor
+    ];
   }
 
   @override
@@ -129,8 +139,8 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
             direction: Axis.horizontal,
             onPressed: (int index) {
               setState(() {
-                for (int i = 0; i < _debtOrDebtor.length; i++) {
-                  _debtOrDebtor[i] = i == index;
+                for (int i = 0; i < _debtorOrCreditor.length; i++) {
+                  _debtorOrCreditor[i] = i == index;
                 }
               });
             },
@@ -143,7 +153,7 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
               minHeight: 40.0,
               minWidth: 130.0,
             ),
-            isSelected: _debtOrDebtor,
+            isSelected: _debtorOrCreditor,
             children: const [
               Text('Debo'),
               Text('Me deben'),

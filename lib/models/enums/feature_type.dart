@@ -30,13 +30,13 @@ enum FeatureType {
   bool getBooleanValue(FeatureType type, Purchase purchase) {
     switch (type) {
       case FeatureType.currentDebtor:
-        return purchase.current && purchase.debt;
+        return purchase.type.isCurrent && purchase.type.isDebtor;
       case FeatureType.currentCreditor:
-        return purchase.current && !purchase.debt;
+        return purchase.type.isCurrent && purchase.type.isDebtor;
       case FeatureType.settledDebtor:
-        return !purchase.current && purchase.debt;
+        return !purchase.type.isCurrent && !purchase.type.isDebtor;
       case FeatureType.settledCreditor:
-        return !purchase.current && !purchase.debt;
+        return !purchase.type.isCurrent && !purchase.type.isDebtor;
       default:
         return false;
     }
