@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
-import 'package:purchase_manager/features/dashboard/widgets/dialogs/dialog_create_purchase.dart';
+import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/home/widgets/dialogs/dialog_create_purchase.dart';
 import 'package:purchase_manager/models/enums/feature_type.dart';
 
 /// {@template PMFloatingActionButton}
@@ -26,7 +26,7 @@ class PMFloatingActionButton extends StatelessWidget {
     return showDialog<void>(
       context: context,
       builder: (_) => BlocProvider.value(
-        value: context.read<BlocDashboard>(),
+        value: context.read<BlocHome>(),
         child: DialogCreatePurchase(current: current),
       ),
     );

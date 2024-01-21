@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
+import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/widgets/pm_dialogs.dart';
 
 /// {@template DialogDeletePurchase}
@@ -30,8 +30,8 @@ class DialogDeletePurchase extends StatelessWidget {
   Widget build(BuildContext context) {
     return PMDialogs.actionRequest(
       onTapConfirm: () {
-        context.read<BlocDashboard>().add(
-              BlocDashboardEventDeletePurchase(
+        context.read<BlocHome>().add(
+              BlocHomeEventDeletePurchase(
                 idPurchase: idPurchase,
                 idFinancialEntity: idFinancialEntity,
               ),

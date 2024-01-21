@@ -1,35 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
+import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/home/widgets/dialogs/dialog_delete_purchase.dart';
 import 'package:purchase_manager/models/enums/currency_type.dart';
 import 'package:purchase_manager/models/enums/purchase_type.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
+import 'package:purchase_manager/models/purchase.dart';
+import 'package:purchase_manager/widgets/pm_buttons.dart';
 import 'package:purchase_manager/widgets/pm_dialogs.dart';
 import 'package:purchase_manager/widgets/pm_textfields.dart';
 
-/// {@template DialogCreatePurchase}
-/// Dialog para crear una compra
+/// {@template DialogEditPurchase}
+/// Dialog para editar una compra
 ///
-/// Dialog to create a purchase
+/// Dialog to edit a purchase
 /// {@endtemplate}
-class DialogCreatePurchase extends StatefulWidget {
-  /// {@macro DialogCreatePurchase}
-  const DialogCreatePurchase({
-    required this.current,
+class DialogEditPurchase extends StatefulWidget {
+  /// {@macro DialogEditPurchase}
+  const DialogEditPurchase({
+    required this.purchase,
+    required this.financialEntity,
     super.key,
   });
 
-  /// Indica si la compra es actual o liquidada
+  /// Compra a editar
   ///
-  /// Indicates if the purchase is current or settled
-  final bool current;
+  /// Purchase to edit
+  final Purchase purchase;
+
+  /// Entidad financiera a la que pertenece la compra
+  ///
+  /// Financial entity to which the purchase belongs
+  final FinancialEntity financialEntity;
+
   @override
-  State<DialogCreatePurchase> createState() => _DialogCreatePurchaseState();
+  State<DialogEditPurchase> createState() => _DialogEditPurchaseState();
 }
 
-class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
-  final List<bool> _purchaseType = <bool>[true, false];
-  final List<bool> _currency = <bool>[true, false];
+class _DialogEditPurchaseState extends State<DialogEditPurchase> {
+  List<bool> _debtorOrCreditor = <bool>[true, false];
+  List<bool> _currency = <bool>[true, false];
 
   final _controllerProductName = TextEditingController();
 
@@ -37,29 +47,59 @@ class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
 
   final _controllerAmount = TextEditingController();
 
-  void _createPurchase() {
-    context.read<BlocDashboard>().add(
-          BlocDashboardEventCreatePurchase(
+  void _editPurchase() {
+    context.read<BlocHome>().add(
+          BlocHomeEventEditPurchase(
+            purchase: widget.purchase,
             productName: _controllerProductName.text,
-            totalAmount: double.parse(_controllerAmount.text),
-            amountQuotas: int.parse(_controllerQuotas.text),
-            idFinancialEntity: idSelectedFinancialEntity ?? '',
+            amount: double.parse(_controllerAmount.text),
+            amountOfQuotas: int.parse(_controllerQuotas.text),
+            idFinancialEntity: dropdownValue ?? '',
+            purchaseType: widget.purchase.type.isCurrent
+                ? _debtorOrCreditor[0]
+                    ? PurchaseType.currentDebtorPurchase
+                    : PurchaseType.currentCreditorPurchase
+                : !_debtorOrCreditor[0]
+                    ? PurchaseType.settledDebtorPurchase
+                    : PurchaseType.settledCreditorPurchase,
             currency: _currency[0]
                 ? CurrencyType.pesoArgentino
                 : CurrencyType.usDollar,
-            purchaseType: _purchaseType[0]
-                ? widget.current
-                    ? PurchaseType.currentDebtorPurchase
-                    : PurchaseType.settledDebtorPurchase
-                : !widget.current
-                    ? PurchaseType.currentCreditorPurchase
-                    : PurchaseType.settledCreditorPurchase,
           ),
         );
+
     Navigator.pop(context);
   }
 
-  String? idSelectedFinancialEntity;
+  Future<void> _confirmDeletePurchase(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (_) => BlocProvider.value(
+        value: context.read<BlocHome>(),
+        child: DialogDeletePurchase(
+          idPurchase: widget.purchase.id,
+          idFinancialEntity: widget.financialEntity.id,
+        ),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controllerProductName.text = widget.purchase.nameOfProduct;
+    _controllerAmount.text = widget.purchase.totalAmount.toString();
+    _controllerQuotas.text = widget.purchase.amountOfQuotas.toString();
+    dropdownValue = widget.financialEntity.id;
+    _debtorOrCreditor = [
+      widget.purchase.type.isDebtor,
+      !widget.purchase.type.isDebtor,
+    ];
+    _currency = [
+      widget.purchase.currency == CurrencyType.pesoArgentino,
+      !(widget.purchase.currency == CurrencyType.pesoArgentino),
+    ];
+  }
 
   @override
   void dispose() {
@@ -69,21 +109,28 @@ class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
     super.dispose();
   }
 
+  String? dropdownValue;
   @override
   Widget build(BuildContext context) {
     return PMDialogs.actionRequest(
       isEnabled: _controllerQuotas.text.isNotEmpty &&
           _controllerAmount.text.isNotEmpty &&
           _controllerProductName.text.isNotEmpty &&
-          idSelectedFinancialEntity != null &&
-          idSelectedFinancialEntity != '' &&
+          dropdownValue != null &&
+          dropdownValue != '' &&
           double.tryParse(_controllerAmount.text)?.round() != 0 &&
           int.tryParse(_controllerQuotas.text) != 0,
-      onTapConfirm: _createPurchase,
-      title: 'Crear compra',
+      onTapConfirm: _editPurchase,
+      title: 'Editar compra',
       content: Column(
         children: [
-          BlocBuilder<BlocDashboard, BlocDashboardState>(
+          PMButtons.text(
+            onTap: () => _confirmDeletePurchase(context),
+            backgroundColor: Colors.redAccent,
+            text: 'Eliminar compra',
+            isEnabled: true,
+          ),
+          BlocBuilder<BlocHome, BlocHomeState>(
             builder: (context, state) {
               return Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -93,11 +140,11 @@ class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
                 ),
                 child: DropdownButton<String>(
                   hint: const Text('Elegi Categoria'),
-                  value: idSelectedFinancialEntity,
+                  value: dropdownValue,
                   elevation: 16,
                   style: const TextStyle(color: Color(0xff02B4A3)),
                   onChanged: (String? value) =>
-                      setState(() => idSelectedFinancialEntity = value),
+                      setState(() => dropdownValue = value),
                   items: state.financialEntityList
                       .map<DropdownMenuItem<String>>((FinancialEntity cat) {
                     return DropdownMenuItem<String>(
@@ -113,8 +160,8 @@ class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
           ToggleButtons(
             onPressed: (int index) {
               setState(() {
-                for (var i = 0; i < _purchaseType.length; i++) {
-                  _purchaseType[i] = i == index;
+                for (var i = 0; i < _debtorOrCreditor.length; i++) {
+                  _debtorOrCreditor[i] = i == index;
                 }
               });
             },
@@ -127,7 +174,7 @@ class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
               minHeight: 40,
               minWidth: 130,
             ),
-            isSelected: _purchaseType,
+            isSelected: _debtorOrCreditor,
             children: const [
               Text('Debo'),
               Text('Me deben'),

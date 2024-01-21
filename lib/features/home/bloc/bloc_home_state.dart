@@ -1,13 +1,13 @@
-part of 'bloc_dashboard.dart';
+part of 'bloc_home.dart';
 
-/// {@template BlocDashboardState}
+/// {@template BlocHomeState}
 /// Maneja los distintos estados y variables guardadas en los mismos
 ///
 /// Manage the different states and variables saved in them
 /// {@endtemplate}
-class BlocDashboardState extends Equatable {
+class BlocHomeState extends Equatable {
   /// {@macro BlocInicioEstado}
-  const BlocDashboardState({
+  const BlocHomeState({
     this.financialEntityList = const [],
     this.status = Status.initial,
     this.currency,
@@ -140,12 +140,12 @@ class BlocDashboardState extends Equatable {
 
   /// Copia el estado actual y lo modifica con los parámetros proporcionados.
   /// Copy the current state and modify it with the provided parameters.
-  BlocDashboardState copyWith({
+  BlocHomeState copyWith({
     List<FinancialEntity>? listaCategorias,
     Status? estado,
     Currency? coin,
   }) {
-    return BlocDashboardState(
+    return BlocHomeState(
       financialEntityList: listaCategorias ?? financialEntityList,
       status: estado ?? status,
       currency: coin,

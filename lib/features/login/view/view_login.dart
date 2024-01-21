@@ -25,7 +25,7 @@ class _ViewLoginState extends State<ViewLogin> {
     return BlocListener<BlocLogin, BlocLoginState>(
       listener: (context, state) {
         if (state.status == Status.success) {
-          context.router.push(const RutaDashboard());
+          context.router.push(const RutaHome());
         }
       },
       child: Scaffold(

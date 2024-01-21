@@ -9,12 +9,12 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i6;
-import 'package:purchase_manager/features/dashboard/current_purchases/page_current_purchases.dart'
+import 'package:purchase_manager/features/home/current_purchases/page_current_purchases.dart'
     as _i1;
-import 'package:purchase_manager/features/dashboard/financial_entitys/page_financial_entities.dart'
-    as _i3;
-import 'package:purchase_manager/features/dashboard/page_dashboard.dart' as _i2;
-import 'package:purchase_manager/features/dashboard/settled_purchases/page_settled_purchases.dart'
+import 'package:purchase_manager/features/home/financial_entitys/page_financial_entities.dart'
+    as _i2;
+import 'package:purchase_manager/features/home/page_dashboard.dart' as _i3;
+import 'package:purchase_manager/features/home/settled_purchases/page_settled_purchases.dart'
     as _i5;
 import 'package:purchase_manager/features/login/page_login.dart' as _i4;
 
@@ -29,16 +29,16 @@ abstract class $AppRouter extends _i6.RootStackRouter {
         child: const _i1.PageCurrentPurchases(),
       );
     },
-    RutaDashboard.name: (routeData) {
-      return _i6.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i2.PageDashboard(),
-      );
-    },
     RutaFinancialEntities.name: (routeData) {
       return _i6.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i3.PageFinancialEntities(),
+        child: const _i2.PageFinancialEntities(),
+      );
+    },
+    RutaHome.name: (routeData) {
+      return _i6.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i3.PageHome(),
       );
     },
     RutaLogin.name: (routeData) {
@@ -71,21 +71,7 @@ class RutaCurrentPurchases extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.PageDashboard]
-class RutaDashboard extends _i6.PageRouteInfo<void> {
-  const RutaDashboard({List<_i6.PageRouteInfo>? children})
-      : super(
-          RutaDashboard.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'RutaDashboard';
-
-  static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i3.PageFinancialEntities]
+/// [_i2.PageFinancialEntities]
 class RutaFinancialEntities extends _i6.PageRouteInfo<void> {
   const RutaFinancialEntities({List<_i6.PageRouteInfo>? children})
       : super(
@@ -94,6 +80,20 @@ class RutaFinancialEntities extends _i6.PageRouteInfo<void> {
         );
 
   static const String name = 'RutaFinancialEntities';
+
+  static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i3.PageHome]
+class RutaHome extends _i6.PageRouteInfo<void> {
+  const RutaHome({List<_i6.PageRouteInfo>? children})
+      : super(
+          RutaHome.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RutaHome';
 
   static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
 }

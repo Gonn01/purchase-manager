@@ -11,29 +11,29 @@ import 'package:purchase_manager/models/enums/status.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
 import 'package:purchase_manager/models/purchase.dart';
 
-part 'bloc_dashboard_event.dart';
-part 'bloc_dashboard_state.dart';
+part 'bloc_home_event.dart';
+part 'bloc_home_state.dart';
 
 /// {@template BlocInicio}
 /// Bloc que maneja los estados y lógica de la pagina de 'Login'
 /// {@endtemplate}
-class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
+class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
   /// {@macro BlocInicio}
-  BlocDashboard() : super(const BlocDashboardState()) {
-    on<BlocDashboardEventInitialize>(_onInitialize);
-    on<BlocDashboardEventModifyAmountOfQuotas>(_onModifyAmountOfQuotas);
-    on<BlocDashboardEventCreateFinancialEntity>(_onCreateFinancialEntity);
-    on<BlocDashboardEventDeleteFinancialEntity>(_onDeleteFinancialEntity);
-    on<BlocDashboardEventCreatePurchase>(_onCreatePurchase);
-    on<BlocDashboardEventEditPurchase>(_onEditPurchase);
-    on<BlocDashboardEventDeletePurchase>(_onDeletePurchase);
+  BlocHome() : super(const BlocHomeState()) {
+    on<BlocHomeEventInitialize>(_onInitialize);
+    on<BlocHomeEventModifyAmountOfQuotas>(_onModifyAmountOfQuotas);
+    on<BlocHomeEventCreateFinancialEntity>(_onCreateFinancialEntity);
+    on<BlocHomeEventDeleteFinancialEntity>(_onDeleteFinancialEntity);
+    on<BlocHomeEventCreatePurchase>(_onCreatePurchase);
+    on<BlocHomeEventEditPurchase>(_onEditPurchase);
+    on<BlocHomeEventDeletePurchase>(_onDeletePurchase);
 
-    add(BlocDashboardEventInitialize());
+    add(BlocHomeEventInitialize());
   }
 
   Future<void> _onInitialize(
-    BlocDashboardEventInitialize event,
-    Emitter<BlocDashboardState> emit,
+    BlocHomeEventInitialize event,
+    Emitter<BlocHomeState> emit,
   ) async {
     emit(state.copyWith(estado: Status.loading));
     try {
@@ -54,8 +54,8 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
   }
 
   Future<void> _onModifyAmountOfQuotas(
-    BlocDashboardEventModifyAmountOfQuotas event,
-    Emitter<BlocDashboardState> emit,
+    BlocHomeEventModifyAmountOfQuotas event,
+    Emitter<BlocHomeState> emit,
   ) async {
     emit(state.copyWith(estado: Status.loading));
     try {
@@ -117,8 +117,8 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
   }
 
   Future<void> _onCreateFinancialEntity(
-    BlocDashboardEventCreateFinancialEntity event,
-    Emitter<BlocDashboardState> emit,
+    BlocHomeEventCreateFinancialEntity event,
+    Emitter<BlocHomeState> emit,
   ) async {
     emit(state.copyWith(estado: Status.loading));
     try {
@@ -127,7 +127,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
         financialEntityName: event.financialEntityName,
         idUser: auth.currentUser?.uid ?? '',
       );
-      add(BlocDashboardEventInitialize());
+      add(BlocHomeEventInitialize());
       emit(
         state.copyWith(estado: Status.success),
       );
@@ -137,8 +137,8 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
   }
 
   Future<void> _onDeleteFinancialEntity(
-    BlocDashboardEventDeleteFinancialEntity event,
-    Emitter<BlocDashboardState> emit,
+    BlocHomeEventDeleteFinancialEntity event,
+    Emitter<BlocHomeState> emit,
   ) async {
     emit(state.copyWith(estado: Status.loading));
     try {
@@ -147,7 +147,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
         categoriaId: event.idFinancialEntity,
         idUsuario: auth.currentUser?.uid ?? '',
       );
-      add(BlocDashboardEventInitialize());
+      add(BlocHomeEventInitialize());
       emit(
         state.copyWith(estado: Status.success),
       );
@@ -157,8 +157,8 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
   }
 
   Future<void> _onCreatePurchase(
-    BlocDashboardEventCreatePurchase event,
-    Emitter<BlocDashboardState> emit,
+    BlocHomeEventCreatePurchase event,
+    Emitter<BlocHomeState> emit,
   ) async {
     emit(state.copyWith(estado: Status.loading));
     try {
@@ -181,7 +181,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
         newPurchase: nuevaCompra,
       );
 
-      add(BlocDashboardEventInitialize());
+      add(BlocHomeEventInitialize());
 
       emit(
         state.copyWith(estado: Status.success),
@@ -192,8 +192,8 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
   }
 
   Future<void> _onEditPurchase(
-    BlocDashboardEventEditPurchase event,
-    Emitter<BlocDashboardState> emit,
+    BlocHomeEventEditPurchase event,
+    Emitter<BlocHomeState> emit,
   ) async {
     emit(state.copyWith(estado: Status.loading));
     try {
@@ -213,7 +213,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
         newPurchase: nuevaCompra,
       );
 
-      add(BlocDashboardEventInitialize());
+      add(BlocHomeEventInitialize());
 
       emit(
         state.copyWith(estado: Status.success),
@@ -224,8 +224,8 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
   }
 
   Future<void> _onDeletePurchase(
-    BlocDashboardEventDeletePurchase event,
-    Emitter<BlocDashboardState> emit,
+    BlocHomeEventDeletePurchase event,
+    Emitter<BlocHomeState> emit,
   ) async {
     emit(state.copyWith(estado: Status.loading));
     try {
@@ -235,7 +235,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
         idUser: auth.currentUser?.uid ?? '',
         idPurchase: event.idPurchase,
       );
-      add(BlocDashboardEventInitialize());
+      add(BlocHomeEventInitialize());
       emit(
         state.copyWith(estado: Status.success),
       );

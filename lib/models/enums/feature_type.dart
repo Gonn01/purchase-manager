@@ -7,10 +7,10 @@ import 'package:purchase_manager/models/purchase.dart';
 /// Enumerator that contains the types of features that can be displayed
 /// {@endtemplate}
 enum FeatureType {
-  /// Tipo de feature dashboard
+  /// Tipo de feature home
   ///
-  /// Dashboard feature type
-  dashboard,
+  /// Home feature type
+  home,
 
   /// Tipo de feature de compras vigentes deudoras
   ///
@@ -43,7 +43,7 @@ enum FeatureType {
   String get name => switch (this) {
         FeatureType.currentDebtor || FeatureType.currentCreditor => 'Vigente',
         FeatureType.settledDebtor || FeatureType.settledCreditor => 'Historial',
-        FeatureType.dashboard => 'Dashboard',
+        FeatureType.home => 'Home',
         FeatureType.categories => 'Categoria',
       };
 
@@ -57,7 +57,7 @@ enum FeatureType {
         FeatureType.settledDebtor ||
         FeatureType.settledCreditor =>
           RutaSettledPurchases.name,
-        FeatureType.dashboard => RutaDashboard.name,
+        FeatureType.home => RutaHome.name,
         FeatureType.categories => RutaFinancialEntities.name,
       };
 

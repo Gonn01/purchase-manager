@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
-import 'package:purchase_manager/features/dashboard/widgets/dialogs/dialog_delete_financial_entity.dart';
+import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/home/widgets/dialogs/dialog_delete_financial_entity.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
 
 @RoutePage()
@@ -23,7 +23,7 @@ class PageFinancialEntities extends StatelessWidget {
     return showDialog(
       context: context,
       builder: (_) => BlocProvider.value(
-        value: context.read<BlocDashboard>(),
+        value: context.read<BlocHome>(),
         child: DialogDeleteFinancialEntity(financialEntity: e),
       ),
     );
@@ -32,7 +32,7 @@ class PageFinancialEntities extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: BlocBuilder<BlocDashboard, BlocDashboardState>(
+      child: BlocBuilder<BlocHome, BlocHomeState>(
         builder: (context, state) {
           return Padding(
             padding: const EdgeInsets.all(20),

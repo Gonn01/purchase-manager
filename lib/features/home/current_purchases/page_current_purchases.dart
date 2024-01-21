@@ -1,8 +1,8 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:purchase_manager/features/dashboard/current_purchases/view/view_creditor_current_purchases.dart';
-import 'package:purchase_manager/features/dashboard/current_purchases/view/view_debtor_current_purchases.dart';
+import 'package:purchase_manager/features/home/current_purchases/view/view_creditor_current_purchases.dart';
+import 'package:purchase_manager/features/home/current_purchases/view/view_debtor_current_purchases.dart';
 
 @RoutePage()
 

@@ -35,7 +35,7 @@ class InitialGuard extends AutoRouteGuard {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      return router.push<void>(const RutaDashboard());
+      return router.push<void>(const RutaHome());
     }
 
     return resolver.next();

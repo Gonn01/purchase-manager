@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/extensions/date_time.dart';
 import 'package:purchase_manager/extensions/double.dart';
 import 'package:purchase_manager/extensions/string.dart';
-import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
-import 'package:purchase_manager/features/dashboard/widgets/dialogs/dialog_edit_purchase.dart';
+import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/home/widgets/dialogs/dialog_edit_purchase.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
 import 'package:purchase_manager/models/purchase.dart';
 
@@ -24,7 +24,7 @@ class PurchaseElement extends StatelessWidget {
     return showDialog<void>(
       context: context,
       builder: (_) => BlocProvider.value(
-        value: context.read<BlocDashboard>(),
+        value: context.read<BlocHome>(),
         child: DialogEditPurchase(
           purchase: purchase,
           financialEntity: financialEntity,
@@ -121,8 +121,8 @@ class PurchaseElement extends StatelessWidget {
                     Row(
                       children: [
                         GestureDetector(
-                          onTap: () => context.read<BlocDashboard>().add(
-                                BlocDashboardEventModifyAmountOfQuotas(
+                          onTap: () => context.read<BlocHome>().add(
+                                BlocHomeEventModifyAmountOfQuotas(
                                   idPurchase: purchase.id,
                                   modificationType: ModificationType.increase,
                                   purchaseType: purchase.type,
@@ -136,8 +136,8 @@ class PurchaseElement extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         GestureDetector(
-                          onTap: () => context.read<BlocDashboard>().add(
-                                BlocDashboardEventModifyAmountOfQuotas(
+                          onTap: () => context.read<BlocHome>().add(
+                                BlocHomeEventModifyAmountOfQuotas(
                                   idPurchase: purchase.id,
                                   modificationType: ModificationType.decrease,
                                   purchaseType: purchase.type,
@@ -153,8 +153,8 @@ class PurchaseElement extends StatelessWidget {
                     )
                   else
                     GestureDetector(
-                      onTap: () => context.read<BlocDashboard>().add(
-                            BlocDashboardEventModifyAmountOfQuotas(
+                      onTap: () => context.read<BlocHome>().add(
+                            BlocHomeEventModifyAmountOfQuotas(
                               idPurchase: purchase.id,
                               modificationType: ModificationType.increase,
                               purchaseType: purchase.type,

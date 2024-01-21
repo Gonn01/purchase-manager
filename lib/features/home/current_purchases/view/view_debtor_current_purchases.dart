@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/extensions/double.dart';
-import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
-import 'package:purchase_manager/features/dashboard/widgets/financial_entity_element.dart';
+import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/home/widgets/financial_entity_element.dart';
 import 'package:purchase_manager/functions/total_amount.dart';
 import 'package:purchase_manager/functions/total_amount_per_quota.dart';
 import 'package:purchase_manager/models/enums/feature_type.dart';
@@ -10,16 +10,15 @@ import 'package:purchase_manager/models/enums/status.dart';
 
 /// {@template ViewDebtorCurrentPurchases}
 /// Vista de las compras vigentes deudoras
-///
 /// View of current debtor purchases
 /// {@endtemplate}
-class ViewCreditorCurrentPurchases extends StatelessWidget {
+class ViewDebtorCurrentPurchases extends StatelessWidget {
   /// {@macro ViewDebtorCurrentPurchases}
-  const ViewCreditorCurrentPurchases({super.key});
+  const ViewDebtorCurrentPurchases({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BlocDashboard, BlocDashboardState>(
+    return BlocBuilder<BlocHome, BlocHomeState>(
       builder: (context, state) {
         if (state.status == Status.loading) {
           return const Center(
@@ -33,10 +32,10 @@ class ViewCreditorCurrentPurchases extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                'Me deben en total: ${totalAmount(
+                'Total adeudado: ${totalAmount(
                   financialEntityList:
-                      state.listFinancialEntityStatusCurrentCreditor,
-                  financialEntityType: FeatureType.currentCreditor,
+                      state.listFinancialEntitiesStatusCurrentDebtor,
+                  financialEntityType: FeatureType.currentDebtor,
                   dollarValue: state.currency?.venta ?? 0,
                 ).formatAmount()}',
                 style: const TextStyle(
@@ -54,8 +53,8 @@ class ViewCreditorCurrentPurchases extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                'Total que me deben por mes: ${totalAmountPerQuota(
-                  categories: state.listFinancialEntityStatusCurrentCreditor,
+                'Total adeudado por mes: ${totalAmountPerQuota(
+                  categories: state.listFinancialEntitiesStatusCurrentDebtor,
                   dollarValue: state.currency?.venta ?? 0,
                 ).formatAmount()}',
                 style: const TextStyle(
@@ -72,17 +71,17 @@ class ViewCreditorCurrentPurchases extends StatelessWidget {
             ),
             Expanded(
               child: ListView(
-                children: state.listFinancialEntityStatusCurrentCreditor
+                children: state.listFinancialEntitiesStatusCurrentDebtor
                     .map(
-                      (categoria) => categoria.purchases.isNotEmpty
+                      (financialEntity) => financialEntity.purchases.isNotEmpty
                           ? Padding(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 15,
                                 vertical: 10,
                               ),
                               child: FinancialEntityElement(
-                                financialEntity: categoria,
-                                featureType: FeatureType.currentCreditor,
+                                financialEntity: financialEntity,
+                                featureType: FeatureType.currentDebtor,
                               ),
                             )
                           : Container(),

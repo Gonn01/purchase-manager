@@ -1,7 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
-import 'package:purchase_manager/features/dashboard/settled_purchases/view/view_creditor_settled_purchases.dart';
-import 'package:purchase_manager/features/dashboard/settled_purchases/view/view_debtor_settled_purchases.dart';
+import 'package:purchase_manager/features/home/settled_purchases/view/view_creditor_settled_purchases.dart';
+import 'package:purchase_manager/features/home/settled_purchases/view/view_debtor_settled_purchases.dart';
 
 @RoutePage()
 

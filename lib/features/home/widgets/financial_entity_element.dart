@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/extensions/string.dart';
-import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
-import 'package:purchase_manager/features/dashboard/widgets/purchase_element.dart';
+import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/home/widgets/purchase_element.dart';
 import 'package:purchase_manager/models/enums/feature_type.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
 import 'package:purchase_manager/models/purchase.dart';
@@ -52,9 +52,9 @@ class FinancialEntityElement extends StatelessWidget {
       collapsedIconColor: Colors.white,
       iconColor: Colors.white,
       children: <Widget>[
-        BlocBuilder<BlocDashboard, BlocDashboardState>(
+        BlocBuilder<BlocHome, BlocHomeState>(
           builder: (context, state) {
-            List<Purchase> listaCompras(BlocDashboardState state) {
+            List<Purchase> listaCompras(BlocHomeState state) {
               switch (featureType) {
                 case FeatureType.currentDebtor:
                   return state.listPurchaseStatusCurrentDebtor(financialEntity);

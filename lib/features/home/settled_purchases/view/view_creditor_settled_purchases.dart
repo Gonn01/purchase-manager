@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
-import 'package:purchase_manager/features/dashboard/widgets/financial_entity_element.dart';
+import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/home/widgets/financial_entity_element.dart';
 import 'package:purchase_manager/models/enums/feature_type.dart';
 
 /// {@template ViewCreditorSettledPurchases}
@@ -15,7 +15,7 @@ class ViewCreditorSettledPurchases extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: BlocBuilder<BlocDashboard, BlocDashboardState>(
+      child: BlocBuilder<BlocHome, BlocHomeState>(
         builder: (context, state) {
           return Column(
             children: state.listFinancialEntityStatusSettledCreditor

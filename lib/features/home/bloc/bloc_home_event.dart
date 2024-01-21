@@ -1,30 +1,30 @@
-part of 'bloc_dashboard.dart';
+part of 'bloc_home.dart';
 
 /// {@template BlocInicioEvento}
 /// Define los eventos que pueden ocurrir en la página de inicio.
 /// Defines the events that can occur on the home page.
 /// {@endtemplate}
-abstract class BlocDashboardEvento extends Equatable {
+abstract class BlocHomeEvento extends Equatable {
   /// {@macro BlocInicioEvento}
-  const BlocDashboardEvento();
+  const BlocHomeEvento();
 
   @override
   List<Object> get props => [];
 }
 
 /// {@template BlocInicioEventoInicializar}
-/// Inicializa la página de dashboard.
-/// Initialize the dashboard page.
+/// Inicializa la página de home.
+/// Initialize the home page.
 /// {@endtemplate}
-class BlocDashboardEventInitialize extends BlocDashboardEvento {}
+class BlocHomeEventInitialize extends BlocHomeEvento {}
 
-/// {@template BlocDashboardEventModifyAmountOfQuotas}
+/// {@template BlocHomeEventModifyAmountOfQuotas}
 /// Modifica la cantidad de cuotas de una compra.
 /// Modify the number of quotas of a purchase.
 /// {@endtemplate}
-class BlocDashboardEventModifyAmountOfQuotas extends BlocDashboardEvento {
-  ///{@macro BlocDashboardEventModifyAmountOfQuotas}
-  const BlocDashboardEventModifyAmountOfQuotas({
+class BlocHomeEventModifyAmountOfQuotas extends BlocHomeEvento {
+  ///{@macro BlocHomeEventModifyAmountOfQuotas}
+  const BlocHomeEventModifyAmountOfQuotas({
     required this.idPurchase,
     required this.modificationType,
     required this.purchaseType,
@@ -43,13 +43,13 @@ class BlocDashboardEventModifyAmountOfQuotas extends BlocDashboardEvento {
   final PurchaseType purchaseType;
 }
 
-/// {@template BlocDashboardEventCreateFinancialEntity}
+/// {@template BlocHomeEventCreateFinancialEntity}
 /// Crea una nueva categoría.
 /// Creates a new category.
 /// {@endtemplate}
-class BlocDashboardEventCreateFinancialEntity extends BlocDashboardEvento {
-  ///{@macro BlocDashboardEventCreateFinancialEntity}
-  const BlocDashboardEventCreateFinancialEntity({
+class BlocHomeEventCreateFinancialEntity extends BlocHomeEvento {
+  ///{@macro BlocHomeEventCreateFinancialEntity}
+  const BlocHomeEventCreateFinancialEntity({
     required this.financialEntityName,
   });
 
@@ -58,13 +58,13 @@ class BlocDashboardEventCreateFinancialEntity extends BlocDashboardEvento {
   final String financialEntityName;
 }
 
-/// {@template BlocDashboardEventDeleteFinancialEntity}
+/// {@template BlocHomeEventDeleteFinancialEntity}
 /// Elimina una categoría.
 /// Deletes a category.
 /// {@endtemplate}
-class BlocDashboardEventDeleteFinancialEntity extends BlocDashboardEvento {
-  ///{@macro BlocDashboardEventDeleteFinancialEntity}
-  const BlocDashboardEventDeleteFinancialEntity({
+class BlocHomeEventDeleteFinancialEntity extends BlocHomeEvento {
+  ///{@macro BlocHomeEventDeleteFinancialEntity}
+  const BlocHomeEventDeleteFinancialEntity({
     required this.idFinancialEntity,
   });
 
@@ -72,13 +72,13 @@ class BlocDashboardEventDeleteFinancialEntity extends BlocDashboardEvento {
   final String idFinancialEntity;
 }
 
-/// {@template BlocDashboardEventDeletePurchase}
+/// {@template BlocHomeEventDeletePurchase}
 /// Elimina una compra.
 /// Deletes a purchase.
 /// {@endtemplate}
-class BlocDashboardEventDeletePurchase extends BlocDashboardEvento {
-  ///{@macro BlocDashboardEventDeletePurchase}
-  const BlocDashboardEventDeletePurchase({
+class BlocHomeEventDeletePurchase extends BlocHomeEvento {
+  ///{@macro BlocHomeEventDeletePurchase}
+  const BlocHomeEventDeletePurchase({
     required this.idFinancialEntity,
     required this.idPurchase,
   });
@@ -92,13 +92,13 @@ class BlocDashboardEventDeletePurchase extends BlocDashboardEvento {
   final String idPurchase;
 }
 
-/// {@template BlocDashboardEventCreatePurchase}
+/// {@template BlocHomeEventCreatePurchase}
 /// Crea una nueva compra.
 /// Creates a new purchase.
 /// {@endtemplate}
-class BlocDashboardEventCreatePurchase extends BlocDashboardEvento {
-  ///{@macro BlocDashboardEventCreatePurchase}
-  const BlocDashboardEventCreatePurchase({
+class BlocHomeEventCreatePurchase extends BlocHomeEvento {
+  ///{@macro BlocHomeEventCreatePurchase}
+  const BlocHomeEventCreatePurchase({
     required this.productName,
     required this.totalAmount,
     required this.amountQuotas,
@@ -132,13 +132,13 @@ class BlocDashboardEventCreatePurchase extends BlocDashboardEvento {
   final CurrencyType currency;
 }
 
-/// {@template BlocDashboardEventEditPurchase}
+/// {@template BlocHomeEventEditPurchase}
 /// Edita una compra.
 /// Edit a purchase.
 /// {@endtemplate}
-class BlocDashboardEventEditPurchase extends BlocDashboardEvento {
-  ///{@macro BlocDashboardEventEditPurchase}
-  const BlocDashboardEventEditPurchase({
+class BlocHomeEventEditPurchase extends BlocHomeEvento {
+  ///{@macro BlocHomeEventEditPurchase}
+  const BlocHomeEventEditPurchase({
     required this.purchase,
     required this.productName,
     required this.amount,
