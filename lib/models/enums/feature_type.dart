@@ -2,12 +2,12 @@ import 'package:purchase_manager/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/models/purchase.dart';
 
 /// {@template FeatureType}
-/// Enumerador que contiene los tipos de caracteristicas que se pueden
+/// Enumerador que contiene los tipos de features que se pueden mostrar
 ///
-/// Enumerator that contains the types of features that can be
+/// Enumerator that contains the types of features that can be displayed
 /// {@endtemplate}
 enum FeatureType {
-  /// Tipo de caracteristica dashboard
+  /// Tipo de feature dashboard
   ///
   /// Dashboard feature type
   dashboard,
@@ -37,7 +37,7 @@ enum FeatureType {
   /// Categories feature type
   categories;
 
-  /// Devuelve el nombre del tipo de caracteristica
+  /// Devuelve el nombre del tipo de feature
   ///
   /// Returns the name of the feature type
   String get name => switch (this) {

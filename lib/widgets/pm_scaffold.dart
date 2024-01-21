@@ -18,7 +18,7 @@ class PMScaffold extends StatelessWidget {
     super.key,
   });
 
-  /// Tipo de caracteristica
+  /// Tipo de feature
   ///
   /// Type of feature
   final FeatureType type;

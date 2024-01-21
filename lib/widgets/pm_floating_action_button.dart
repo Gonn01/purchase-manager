@@ -16,7 +16,7 @@ class PMFloatingActionButton extends StatelessWidget {
     super.key,
   });
 
-  /// Muestra el dialogo para crear una compra
+  /// Muestra el dialog para crear una compra
   ///
   /// Show the dialog to create a purchase
   Future<void> _createPurchase({
@@ -32,7 +32,7 @@ class PMFloatingActionButton extends StatelessWidget {
     );
   }
 
-  /// Tipo de caracteristica
+  /// Tipo de feature
   final FeatureType type;
 
   @override

@@ -9,7 +9,13 @@ void main() async {
   runApp(const App());
 }
 
+/// {@template App}
+/// Aplicación principal
+///
+/// Main application
+/// {@endtemplate}
 class App extends StatelessWidget {
+  /// {@macro App}
   const App({super.key});
 
   @override

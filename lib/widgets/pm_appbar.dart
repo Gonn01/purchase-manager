@@ -26,7 +26,7 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  /// Tipo de caracteristica
+  /// Tipo de feature
   final FeatureType type;
 
   @override

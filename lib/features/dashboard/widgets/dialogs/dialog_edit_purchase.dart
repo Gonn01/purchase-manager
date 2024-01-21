@@ -11,7 +11,7 @@ import 'package:purchase_manager/widgets/pm_dialogs.dart';
 import 'package:purchase_manager/widgets/pm_textfields.dart';
 
 /// {@template DialogEditPurchase}
-/// Dialogo para editar una compra
+/// Dialog para editar una compra
 ///
 /// Dialog to edit a purchase
 /// {@endtemplate}

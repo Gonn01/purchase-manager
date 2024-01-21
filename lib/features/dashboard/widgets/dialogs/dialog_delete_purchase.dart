@@ -4,7 +4,7 @@ import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/widgets/pm_dialogs.dart';
 
 /// {@template DialogDeletePurchase}
-/// Dialogo para eliminar una compra
+/// Dialog para eliminar una compra
 ///
 /// Dialog to delete a purchase
 /// {@endtemplate}

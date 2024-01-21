@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:purchase_manager/widgets/pm_buttons.dart';
 
 /// {@template PMDialogs}
-/// Dialogo personalizado
+/// Dialog personalizado
 ///
 /// Custom dialog
 /// {@endtemplate}
@@ -25,7 +25,7 @@ class PMDialogs extends StatelessWidget {
     super.key,
   });
 
-  /// Dialogo de alerta solo muestra un boton de ok
+  /// Dialog de alerta solo muestra un boton de ok
   ///
   /// Alert dialog only shows an ok button
   factory PMDialogs.alert({
@@ -41,7 +41,7 @@ class PMDialogs extends StatelessWidget {
     );
   }
 
-  /// Dialogo de aviso que dice que la funcionalidad no esta disponible
+  /// Dialog de aviso que dice que la funcionalidad no esta disponible
   ///
   /// Warning dialog that says the functionality is not available
   factory PMDialogs.featNotAvailable({
@@ -65,7 +65,7 @@ class PMDialogs extends StatelessWidget {
     );
   }
 
-  /// Dialogo de confirmacion que muestra un boton de confirmar y otro de
+  /// Dialog de confirmacion que muestra un boton de confirmar y otro de
   /// cancelar
   ///
   /// Confirmation dialog that shows a confirm button and a cancel button

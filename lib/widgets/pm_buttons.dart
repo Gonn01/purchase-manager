@@ -21,25 +21,9 @@ class PMButtons extends StatelessWidget {
   ///
   /// Button that contains a text
   factory PMButtons.text({
-    /// Da funcionalidad al boton dependiendo de condicionales a cumplir.
-    ///
-    /// Gives functionality to the button depending on the conditionals to be
-    /// met.
     required bool isEnabled,
-
-    /// Funcion a realizarse accionando el boton.
-    ///
-    /// Function to be performed by pressing the button.
     required VoidCallback onTap,
-
-    /// Texto del boton
-    ///
-    /// Text of the button
     required String text,
-
-    /// Color de fondo del boton
-    ///
-    /// Button background color
     required Color backgroundColor,
   }) {
     return PMButtons(
@@ -59,20 +43,8 @@ class PMButtons extends StatelessWidget {
 
   /// Boton con borde que contiene un texto
   factory PMButtons.outlined({
-    /// Da funcionalidad al boton dependiendo de condicionales a cumplir.
-    ///
-    /// Gives functionality to the button depending on the conditionals to be
-    /// met.
     required bool isEnabled,
-
-    /// Funcion a realizarse accionando el boton.
-    ///
-    /// Function to be performed by pressing the button.
     required VoidCallback onTap,
-
-    /// Texto del boton
-    ///
-    /// Text of the button
     required String text,
   }) {
     return PMButtons(

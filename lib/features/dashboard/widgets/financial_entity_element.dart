@@ -25,7 +25,7 @@ class FinancialEntityElement extends StatelessWidget {
   /// Financial entity to show
   final FinancialEntity financialEntity;
 
-  /// Tipo de caracteristica a mostrar
+  /// Tipo de feature a mostrar
   ///
   /// Type of feature to show
   final FeatureType featureType;

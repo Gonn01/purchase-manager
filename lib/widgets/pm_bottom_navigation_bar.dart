@@ -15,7 +15,7 @@ class PMBottomNavigationBar extends StatelessWidget {
     super.key,
   });
 
-  /// Tipo de caracteristica
+  /// Tipo de feature
   final FeatureType type;
 
   @override

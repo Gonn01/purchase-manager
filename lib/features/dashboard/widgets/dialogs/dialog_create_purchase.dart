@@ -8,7 +8,7 @@ import 'package:purchase_manager/widgets/pm_dialogs.dart';
 import 'package:purchase_manager/widgets/pm_textfields.dart';
 
 /// {@template DialogCreatePurchase}
-/// Dialogo para crear una compra
+/// Dialog para crear una compra
 ///
 /// Dialog to create a purchase
 /// {@endtemplate}

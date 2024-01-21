@@ -5,7 +5,7 @@ import 'package:purchase_manager/models/financial_entity.dart';
 import 'package:purchase_manager/widgets/pm_dialogs.dart';
 
 /// {@template DialogDeleteFinancialEntity}
-/// Dialogo para eliminar una entidad financiera
+/// DialDialogogo para eliminar una entidad financiera
 ///
 /// Dialog to delete a financial entity
 /// {@endtemplate}

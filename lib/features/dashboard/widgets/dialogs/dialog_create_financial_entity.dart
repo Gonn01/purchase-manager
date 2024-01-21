@@ -6,7 +6,7 @@ import 'package:purchase_manager/widgets/pm_dialogs.dart';
 import 'package:purchase_manager/widgets/pm_textfields.dart';
 
 /// {@template DialogCreateFinancialEntity}
-/// Dialogo para crear una nueva [FinancialEntity]
+/// Dialog para crear una nueva [FinancialEntity]
 ///
 /// Dialog to create a new [FinancialEntity]
 /// {@endtemplate}
@@ -28,7 +28,7 @@ class _DialogCreateFinancialEntityState
   /// Controller of the textfield for the name of the organization
   final _controller = TextEditingController();
 
-  /// Muestra el dialogo para crear una nueva [FinancialEntity]
+  /// Muestra el dialog para crear una nueva [FinancialEntity]
   ///
   /// Shows the dialog to create a new [FinancialEntity]
   void _crearFinancialEntity({required String nombreCategoria}) {
