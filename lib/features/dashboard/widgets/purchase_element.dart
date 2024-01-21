@@ -69,7 +69,7 @@ class PurchaseElement extends StatelessWidget {
               children: [
                 Text(
                   purchase.type.isCurrent
-                      ? 'Total: ${purchase.totalAmount.formatAmount()}'
+                      ? 'Total: ${purchase.totalAmount.formatAmount()}${purchase.currency.name}'
                       : 'Fecha de finalización: ${DateFormat('dd/MM/yyyy').format(purchase.lastCuotaDate ?? purchase.creationDate)}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -88,7 +88,7 @@ class PurchaseElement extends StatelessWidget {
                 children: [
                   Text(
                     '${purchase.amountOfQuotas} '
-                    'cuotas de ${purchase.amountPerQuota.formatAmount()}',
+                    'cuotas de ${purchase.amountPerQuota.formatAmount()}${purchase.currency.name}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(

@@ -1,5 +1,6 @@
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/widgets/dialogs/dialog_delete_purchase.dart';
+import 'package:purchase_manager/models/enums/exchange_rate.dart';
 import 'package:purchase_manager/models/enums/purchase_type.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
 import 'package:purchase_manager/models/purchase.dart';
@@ -25,6 +26,7 @@ class DialogEditPurchase extends StatefulWidget {
 
 class _DialogEditPurchaseState extends State<DialogEditPurchase> {
   List<bool> _debtorOrCreditor = <bool>[true, false];
+  List<bool> _currency = <bool>[true, false];
 
   final _controllerProductName = TextEditingController();
 
@@ -47,6 +49,7 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
                 : !_debtorOrCreditor[0]
                     ? PurchaseType.settledDebtorPurchase
                     : PurchaseType.settledCreditorPurchase,
+            currency: _currency[0] ? Currency.pesoArgentino : Currency.usDollar,
           ),
         );
 
@@ -76,6 +79,10 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
     _debtorOrCreditor = [
       widget.purchase.type.isDebtor,
       !widget.purchase.type.isDebtor
+    ];
+    _currency = [
+      widget.purchase.currency == Currency.pesoArgentino,
+      !(widget.purchase.currency == Currency.pesoArgentino),
     ];
   }
 
@@ -166,11 +173,45 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
             onChanged: (value) => setState(() {}),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: PMTextFormFields.onlyNumbers(
-              controller: _controllerAmount,
-              hintText: 'Monto total',
-              onChanged: (value) => setState(() {}),
+            padding: const EdgeInsets.symmetric(
+              vertical: 10,
+            ),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 180,
+                  child: PMTextFormFields.onlyNumbers(
+                    controller: _controllerAmount,
+                    hintText: 'Monto total',
+                    onChanged: (value) => setState(() {}),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                ToggleButtons(
+                  direction: Axis.horizontal,
+                  onPressed: (int index) {
+                    setState(() {
+                      for (int i = 0; i < _currency.length; i++) {
+                        _currency[i] = i == index;
+                      }
+                    });
+                  },
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  selectedBorderColor: const Color(0xff02B4A3),
+                  selectedColor: const Color(0xff006F66),
+                  fillColor: const Color(0xff02B4A3).withOpacity(.3),
+                  color: Colors.grey,
+                  constraints: const BoxConstraints(
+                    minHeight: 40.0,
+                    minWidth: 40.0,
+                  ),
+                  isSelected: _currency,
+                  children: const [
+                    Text('ARS'),
+                    Text('USD'),
+                  ],
+                ),
+              ],
             ),
           ),
           PMTextFormFields.onlyNumbers(

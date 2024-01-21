@@ -57,12 +57,14 @@ class BlocDashboardEventCreatePurchase extends BlocDashboardEvento {
     required this.amountQuotas,
     required this.idFinancialEntity,
     required this.purchaseType,
+    required this.currency,
   });
   final String productName;
   final double totalAmount;
   final int amountQuotas;
   final String idFinancialEntity;
   final PurchaseType purchaseType;
+  final Currency currency;
 }
 
 class BlocDashboardEventEditPurchase extends BlocDashboardEvento {
@@ -73,6 +75,7 @@ class BlocDashboardEventEditPurchase extends BlocDashboardEvento {
     required this.amountOfQuotas,
     required this.idFinancialEntity,
     required this.purchaseType,
+    required this.currency,
   });
   final Purchase purchase;
   final String productName;
@@ -80,6 +83,7 @@ class BlocDashboardEventEditPurchase extends BlocDashboardEvento {
   final int amountOfQuotas;
   final String idFinancialEntity;
   final PurchaseType purchaseType;
+  final Currency currency;
 }
 
 enum ModificationType {

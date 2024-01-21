@@ -30,6 +30,7 @@ class ViewDebtorCurrentPurchases extends StatelessWidget {
                   categoriesList:
                       state.listFinancialEntitiesStatusCurrentDebtor,
                   financialEntityType: FeatureType.currentDebtor,
+                  dollarValue: state.coin?.venta ?? 0,
                 ).formatAmount()}',
                 style: const TextStyle(
                   fontSize: 16,
@@ -48,6 +49,7 @@ class ViewDebtorCurrentPurchases extends StatelessWidget {
               child: Text(
                 'Total adeudado por mes: ${totalAmountPerQuota(
                   categories: state.listFinancialEntitiesStatusCurrentDebtor,
+                  dollarValue: state.coin?.venta ?? 0,
                 ).formatAmount()}',
                 style: const TextStyle(
                   fontSize: 16,

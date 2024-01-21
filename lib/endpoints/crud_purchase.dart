@@ -24,6 +24,7 @@ Future<void> createCompra({
       'fechaCreacion': nuevaCompra.creationDate,
       'fechaFinalizacion': null,
       'fechaPrimeraCuota': null,
+      'currency': nuevaCompra.currency.value,
     });
 
     debugPrint('Compra registrada en Firestore.');
@@ -52,6 +53,7 @@ Future<void> updatePurchase({
       'producto': newPurchase.nameOfProduct,
       'montoPorCuota': newPurchase.amountPerQuota,
       'type': newPurchase.type.value,
+      'currency': newPurchase.currency.value,
     });
 
     debugPrint('Compra actualizada en Firestore.');

@@ -30,6 +30,7 @@ class ViewCreditorCurrentPurchases extends StatelessWidget {
                   categoriesList:
                       state.listFinancialEntityStatusCurrentCreditor,
                   financialEntityType: FeatureType.currentCreditor,
+                  dollarValue: state.coin?.venta ?? 0,
                 ).formatAmount()}',
                 style: const TextStyle(
                   fontSize: 16,
@@ -48,6 +49,7 @@ class ViewCreditorCurrentPurchases extends StatelessWidget {
               child: Text(
                 'Total que me deben por mes: ${totalAmountPerQuota(
                   categories: state.listFinancialEntityStatusCurrentCreditor,
+                  dollarValue: state.coin?.venta ?? 0,
                 ).formatAmount()}',
                 style: const TextStyle(
                   fontSize: 16,

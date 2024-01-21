@@ -1,4 +1,5 @@
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
+import 'package:purchase_manager/models/enums/exchange_rate.dart';
 import 'package:purchase_manager/models/enums/purchase_type.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
 import 'package:purchase_manager/widgets/pm_dialogs.dart';
@@ -17,7 +18,8 @@ class DialogCreatePurchase extends StatefulWidget {
 }
 
 class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
-  final List<bool> _selectedItems = <bool>[true, false];
+  final List<bool> _purchaseType = <bool>[true, false];
+  final List<bool> _currency = <bool>[true, false];
 
   final _controllerProductName = TextEditingController();
 
@@ -32,7 +34,8 @@ class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
             totalAmount: double.parse(_controllerAmount.text),
             amountQuotas: int.parse(_controllerQuotas.text),
             idFinancialEntity: idSelectedFinancialEntity ?? '',
-            purchaseType: _selectedItems[0]
+            currency: _currency[0] ? Currency.pesoArgentino : Currency.usDollar,
+            purchaseType: _purchaseType[0]
                 ? widget.current
                     ? PurchaseType.currentDebtorPurchase
                     : PurchaseType.settledDebtorPurchase
@@ -99,8 +102,8 @@ class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
             direction: Axis.horizontal,
             onPressed: (int index) {
               setState(() {
-                for (int i = 0; i < _selectedItems.length; i++) {
-                  _selectedItems[i] = i == index;
+                for (int i = 0; i < _purchaseType.length; i++) {
+                  _purchaseType[i] = i == index;
                 }
               });
             },
@@ -113,7 +116,7 @@ class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
               minHeight: 40.0,
               minWidth: 130.0,
             ),
-            isSelected: _selectedItems,
+            isSelected: _purchaseType,
             children: const [
               Text('Debo'),
               Text('Me deben'),
@@ -126,11 +129,45 @@ class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
             onChanged: (value) => setState(() {}),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: PMTextFormFields.onlyNumbers(
-              controller: _controllerAmount,
-              hintText: 'Monto total',
-              onChanged: (value) => setState(() {}),
+            padding: const EdgeInsets.symmetric(
+              vertical: 10,
+            ),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 180,
+                  child: PMTextFormFields.onlyNumbers(
+                    controller: _controllerAmount,
+                    hintText: 'Monto total',
+                    onChanged: (value) => setState(() {}),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                ToggleButtons(
+                  direction: Axis.horizontal,
+                  onPressed: (int index) {
+                    setState(() {
+                      for (int i = 0; i < _currency.length; i++) {
+                        _currency[i] = i == index;
+                      }
+                    });
+                  },
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  selectedBorderColor: const Color(0xff02B4A3),
+                  selectedColor: const Color(0xff006F66),
+                  fillColor: const Color(0xff02B4A3).withOpacity(.3),
+                  color: Colors.grey,
+                  constraints: const BoxConstraints(
+                    minHeight: 40.0,
+                    minWidth: 40.0,
+                  ),
+                  isSelected: _currency,
+                  children: const [
+                    Text('ARS'),
+                    Text('USD'),
+                  ],
+                ),
+              ],
             ),
           ),
           PMTextFormFields.onlyNumbers(

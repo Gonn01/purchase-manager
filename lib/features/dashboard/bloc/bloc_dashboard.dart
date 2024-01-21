@@ -3,6 +3,7 @@ import 'package:purchase_manager/endpoints/crud_financial_entity.dart';
 import 'package:purchase_manager/endpoints/crud_purchase.dart';
 import 'package:purchase_manager/endpoints/services/dolar.dart';
 import 'package:purchase_manager/models/coin.dart';
+import 'package:purchase_manager/models/enums/exchange_rate.dart';
 import 'package:purchase_manager/models/enums/purchase_type.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
 import 'package:purchase_manager/models/purchase.dart';
@@ -171,6 +172,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
         amountPerQuota: event.totalAmount / event.amountQuotas,
         nameOfProduct: event.productName,
         type: event.purchaseType,
+        currency: event.currency,
       );
 
       await createCompra(
@@ -202,7 +204,8 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
         ..totalAmount = event.amount
         ..nameOfProduct = event.productName
         ..type = event.purchaseType
-        ..amountPerQuota = event.amount / event.amountOfQuotas;
+        ..amountPerQuota = event.amount / event.amountOfQuotas
+        ..currency = event.currency;
 
       await updatePurchase(
         idUser: auth.currentUser?.uid ?? '',

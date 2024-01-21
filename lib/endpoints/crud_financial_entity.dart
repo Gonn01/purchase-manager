@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:purchase_manager/models/enums/exchange_rate.dart';
 import 'package:purchase_manager/models/enums/purchase_type.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
 import 'package:flutter/foundation.dart';
@@ -45,6 +46,7 @@ Future<List<FinancialEntity>> readFinancialEntities({
             compraDoc.data() as Map<String, dynamic>;
 
         return Purchase(
+          currency: Currency.type(compraData['currency']),
           id: compraDoc.id,
           amountOfQuotas: compraData['cantidadCuotas'],
           totalAmount: compraData['monto'],

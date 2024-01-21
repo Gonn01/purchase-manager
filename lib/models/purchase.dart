@@ -1,3 +1,4 @@
+import 'package:purchase_manager/models/enums/exchange_rate.dart';
 import 'package:purchase_manager/models/enums/purchase_type.dart';
 
 class Purchase {
@@ -9,6 +10,7 @@ class Purchase {
     required this.nameOfProduct,
     required this.type,
     required this.creationDate,
+    required this.currency,
     this.lastCuotaDate,
     this.firstQuotaDate,
   });
@@ -22,4 +24,5 @@ class Purchase {
   DateTime creationDate;
   DateTime? firstQuotaDate;
   DateTime? lastCuotaDate;
+  Currency currency;
 }
