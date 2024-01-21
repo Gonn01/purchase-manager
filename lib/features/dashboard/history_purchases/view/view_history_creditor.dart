@@ -1,8 +1,8 @@
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/widgets/financial_entity_element.dart';
-import 'package:purchase_manager/models/financial_entity_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:purchase_manager/models/financial_entity_type.dart';
 
 class ViewHistoryDebtor extends StatelessWidget {
   const ViewHistoryDebtor({super.key});

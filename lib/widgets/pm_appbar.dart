@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/widgets/dialogs/dialog_create_financial_entity.dart';
-import 'package:purchase_manager/models/feature_type.dart';
+import 'package:purchase_manager/models/enums/feature_type.dart';
 
 class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
   const PMAppbar({

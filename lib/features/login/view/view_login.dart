@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/features/login/bloc/bloc_login.dart';
 import 'package:purchase_manager/gen/assets.gen.dart';
-import 'package:purchase_manager/models/status.dart';
+import 'package:purchase_manager/models/enums/status.dart';
 
 class ViewLogin extends StatefulWidget {
   const ViewLogin({super.key});

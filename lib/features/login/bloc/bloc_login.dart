@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:purchase_manager/models/status.dart';
+import 'package:purchase_manager/models/enums/status.dart';
 
 part 'bloc_login_state.dart';
 part 'bloc_login_event.dart';

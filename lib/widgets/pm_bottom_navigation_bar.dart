@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:purchase_manager/auto_route/auto_route.gr.dart';
-import 'package:purchase_manager/models/feature_type.dart';
+import 'package:purchase_manager/models/enums/feature_type.dart';
 
 class PMBottomNavigationBar extends StatelessWidget {
   const PMBottomNavigationBar({

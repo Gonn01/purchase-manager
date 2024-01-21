@@ -2,8 +2,8 @@ import 'package:purchase_manager/extensions/string.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/widgets/purchase_element.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
-import 'package:purchase_manager/models/purchase.dart';
 import 'package:purchase_manager/models/financial_entity_type.dart';
+import 'package:purchase_manager/models/purchase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

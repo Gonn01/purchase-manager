@@ -3,10 +3,10 @@ import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/widgets/financial_entity_element.dart';
 import 'package:purchase_manager/functions/total_amount.dart';
 import 'package:purchase_manager/functions/total_amount_per_quota.dart';
-import 'package:purchase_manager/models/status.dart';
-import 'package:purchase_manager/models/financial_entity_type.dart';
+import 'package:purchase_manager/models/enums/status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:purchase_manager/models/financial_entity_type.dart';
 
 class ViewDebt extends StatelessWidget {
   const ViewDebt({super.key});
