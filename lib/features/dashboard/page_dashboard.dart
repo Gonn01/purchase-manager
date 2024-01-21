@@ -21,9 +21,9 @@ class PageDashboard extends StatelessWidget {
                   featureType.featureName == context.router.current.name),
               body: switch (context.router.current.name) {
                 RutaDashboard.name => content,
-                RutaCurrentPurchase.name => content,
-                RutaHistory.name => content,
-                RutaFinancialEntitys.name => content,
+                RutaCurrentPurchases.name => content,
+                RutaSettledPurchases.name => content,
+                RutaFinancialEntities.name => content,
                 _ => const SizedBox.shrink()
               });
         },

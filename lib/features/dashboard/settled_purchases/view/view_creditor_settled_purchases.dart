@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/models/enums/feature_type.dart';
 
-class ViewHistoryDebtor extends StatelessWidget {
-  const ViewHistoryDebtor({super.key});
+class ViewCreditorSettledPurchases extends StatelessWidget {
+  const ViewCreditorSettledPurchases({super.key});
 
   @override
   Widget build(BuildContext context) {

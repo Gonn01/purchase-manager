@@ -55,21 +55,21 @@ class PMDrawer extends StatelessWidget {
                   _DrawerButtons(
                     label: 'Comprsas Vigentes',
                     onTap: () {
-                      context.router.push(const RutaCurrentPurchase());
+                      context.router.push(const RutaCurrentPurchases());
                       Scaffold.of(context).closeDrawer();
                     },
                   ),
                   _DrawerButtons(
                     label: 'Historial de comprsas',
                     onTap: () {
-                      context.router.push(const RutaHistory());
+                      context.router.push(const RutaSettledPurchases());
                       Scaffold.of(context).closeDrawer();
                     },
                   ),
                   _DrawerButtons(
                     label: 'Categorias',
                     onTap: () {
-                      context.router.push(const RutaFinancialEntitys());
+                      context.router.push(const RutaFinancialEntities());
                       Scaffold.of(context).closeDrawer();
                     },
                   ),

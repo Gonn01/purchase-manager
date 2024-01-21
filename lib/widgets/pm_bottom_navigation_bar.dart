@@ -18,7 +18,7 @@ class PMBottomNavigationBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           InkWell(
-            onTap: () => context.router.push(const RutaCurrentPurchase()),
+            onTap: () => context.router.push(const RutaCurrentPurchases()),
             child: Column(
               children: [
                 Container(
@@ -50,7 +50,7 @@ class PMBottomNavigationBar extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () => context.router.push(const RutaHistory()),
+            onTap: () => context.router.push(const RutaSettledPurchases()),
             child: Column(
               children: [
                 Container(

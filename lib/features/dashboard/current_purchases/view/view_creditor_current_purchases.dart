@@ -8,8 +8,8 @@ import 'package:purchase_manager/models/enums/status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ViewDebtor extends StatelessWidget {
-  const ViewDebtor({super.key});
+class ViewCreditorCurrentPurchases extends StatelessWidget {
+  const ViewCreditorCurrentPurchases({super.key});
 
   @override
   Widget build(BuildContext context) {

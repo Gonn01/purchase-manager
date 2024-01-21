@@ -4,8 +4,8 @@ import 'package:purchase_manager/features/dashboard/settled_purchases/view/view_
 import 'package:flutter/material.dart';
 
 @RoutePage()
-class PageHistory extends StatelessWidget {
-  const PageHistory({
+class PageSettledPurchases extends StatelessWidget {
+  const PageSettledPurchases({
     super.key,
   });
 
@@ -13,8 +13,8 @@ class PageHistory extends StatelessWidget {
   Widget build(BuildContext context) {
     return const TabBarView(
       children: <Widget>[
-        ViewHistoryDebt(),
-        ViewHistoryDebtor(),
+        ViewDebtorSettledPurchases(),
+        ViewCreditorSettledPurchases(),
       ],
     );
   }

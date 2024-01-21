@@ -5,16 +5,16 @@ import 'package:purchase_manager/features/dashboard/current_purchases/view/view_
 import 'package:flutter/material.dart';
 
 @RoutePage()
-class PageCurrentPurchase extends StatelessWidget {
-  const PageCurrentPurchase({
+class PageCurrentPurchases extends StatelessWidget {
+  const PageCurrentPurchases({
     super.key,
   });
   @override
   Widget build(BuildContext context) {
     return const TabBarView(
       children: <Widget>[
-        ViewDebt(),
-        ViewDebtor(),
+        ViewDebtorCurrentPurchases(),
+        ViewCreditorCurrentPurchases(),
       ],
     );
   }

@@ -34,16 +34,16 @@ class AppRouter extends $AppRouter {
           guards: [authGuard],
           children: [
             AutoRoute(
-              page: RutaCurrentPurchase.page,
+              page: RutaCurrentPurchases.page,
               initial: true,
               path: 'current-purchases',
             ),
             AutoRoute(
-              page: RutaHistory.page,
-              path: 'purchases-history',
+              page: RutaSettledPurchases.page,
+              path: 'settled-purchases',
             ),
             AutoRoute(
-              page: RutaFinancialEntitys.page,
+              page: RutaFinancialEntities.page,
               path: 'financial_entities',
             ),
           ],

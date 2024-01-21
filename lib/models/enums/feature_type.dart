@@ -19,12 +19,12 @@ enum FeatureType {
   String get featureName => switch (this) {
         FeatureType.currentDebtor ||
         FeatureType.currentCreditor =>
-          RutaCurrentPurchase.name,
+          RutaCurrentPurchases.name,
         FeatureType.settledDebtor ||
         FeatureType.settledCreditor =>
-          RutaHistory.name,
+          RutaSettledPurchases.name,
         FeatureType.dashboard => RutaDashboard.name,
-        FeatureType.categories => RutaFinancialEntitys.name,
+        FeatureType.categories => RutaFinancialEntities.name,
       };
 
   bool getBooleanValue(FeatureType type, Purchase purchase) {
