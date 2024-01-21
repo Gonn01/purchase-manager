@@ -35,7 +35,7 @@ class PMFloatingActionButton extends StatelessWidget {
       ),
       onPressed: () => _createPurchase(
         context: context,
-        current: type == FeatureType.current,
+        current: !type.isSettled,
       ),
     );
   }

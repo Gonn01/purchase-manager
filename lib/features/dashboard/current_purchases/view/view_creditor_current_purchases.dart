@@ -3,10 +3,10 @@ import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/widgets/financial_entity_element.dart';
 import 'package:purchase_manager/functions/total_amount.dart';
 import 'package:purchase_manager/functions/total_amount_per_quota.dart';
+import 'package:purchase_manager/models/enums/feature_type.dart';
 import 'package:purchase_manager/models/enums/status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/models/financial_entity_type.dart';
 
 class ViewDebtor extends StatelessWidget {
   const ViewDebtor({super.key});
@@ -27,8 +27,9 @@ class ViewDebtor extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
                 'Me deben en total: ${totalAmount(
-                  categoriesList: state.listFinancialEntityStatusCurrentDebtor,
-                  financialEntityType: FinancialEntityType.currentCreditor,
+                  categoriesList:
+                      state.listFinancialEntityStatusCurrentCreditor,
+                  financialEntityType: FeatureType.currentCreditor,
                 ).formatAmount()}',
                 style: const TextStyle(
                   fontSize: 16,
@@ -46,7 +47,7 @@ class ViewDebtor extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
                 'Total que me deben por mes: ${totalAmountPerQuota(
-                  categories: state.listFinancialEntityStatusCurrentDebtor,
+                  categories: state.listFinancialEntityStatusCurrentCreditor,
                 ).formatAmount()}',
                 style: const TextStyle(
                   fontSize: 16,
@@ -62,7 +63,7 @@ class ViewDebtor extends StatelessWidget {
             ),
             Expanded(
               child: ListView(
-                children: state.listFinancialEntityStatusCurrentDebtor
+                children: state.listFinancialEntityStatusCurrentCreditor
                     .map(
                       (categoria) => categoria.purchases.isNotEmpty
                           ? Padding(
@@ -72,8 +73,7 @@ class ViewDebtor extends StatelessWidget {
                               ),
                               child: FinancialEntityElement(
                                 financialEntity: categoria,
-                                financialEntityType:
-                                    FinancialEntityType.currentCreditor,
+                                featureType: FeatureType.currentCreditor,
                               ),
                             )
                           : Container(),

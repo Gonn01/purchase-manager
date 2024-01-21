@@ -1,8 +1,8 @@
 import 'package:purchase_manager/extensions/string.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/widgets/purchase_element.dart';
+import 'package:purchase_manager/models/enums/feature_type.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
-import 'package:purchase_manager/models/financial_entity_type.dart';
 import 'package:purchase_manager/models/purchase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,11 +10,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class FinancialEntityElement extends StatelessWidget {
   const FinancialEntityElement({
     required this.financialEntity,
-    required this.financialEntityType,
+    required this.featureType,
     super.key,
   });
   final FinancialEntity financialEntity;
-  final FinancialEntityType financialEntityType;
+  final FeatureType featureType;
 
   @override
   Widget build(BuildContext context) {
@@ -41,15 +41,19 @@ class FinancialEntityElement extends StatelessWidget {
         BlocBuilder<BlocDashboard, BlocDashboardState>(
           builder: (context, state) {
             List<Purchase> listaCompras(BlocDashboardState state) {
-              switch (financialEntityType) {
-                case FinancialEntityType.currentDebtor:
-                  return state.listPurchaseStatusCurrentDebt(financialEntity);
-                case FinancialEntityType.currentCreditor:
+              switch (featureType) {
+                case FeatureType.currentDebtor:
                   return state.listPurchaseStatusCurrentDebtor(financialEntity);
-                case FinancialEntityType.settledDebtor:
-                  return state.listPurchaseStatusHistoryDebt(financialEntity);
-                case FinancialEntityType.settledCreditor:
+                case FeatureType.currentCreditor:
+                  return state
+                      .listPurchaseStatusCurrentCreditor(financialEntity);
+                case FeatureType.settledDebtor:
                   return state.listPurchaseStatusHistoryDebtor(financialEntity);
+                case FeatureType.settledCreditor:
+                  return state
+                      .listPurchaseStatusHistoryCreditor(financialEntity);
+                default:
+                  return [];
               }
             }
 

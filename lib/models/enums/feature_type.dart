@@ -1,21 +1,50 @@
 import 'package:purchase_manager/auto_route/auto_route.gr.dart';
+import 'package:purchase_manager/models/purchase.dart';
 
 enum FeatureType {
   dashboard,
-  current,
-  history,
+  currentDebtor,
+  currentCreditor,
+  settledDebtor,
+  settledCreditor,
   categories;
 
   String get name => switch (this) {
+        FeatureType.currentDebtor || FeatureType.currentCreditor => 'Vigente',
+        FeatureType.settledDebtor || FeatureType.settledCreditor => 'Historial',
         FeatureType.dashboard => 'Dashboard',
-        FeatureType.current => 'Vigente',
-        FeatureType.history => 'Historial',
         FeatureType.categories => 'Categoria',
       };
+
   String get featureName => switch (this) {
+        FeatureType.currentDebtor ||
+        FeatureType.currentCreditor =>
+          RutaCurrentPurchase.name,
+        FeatureType.settledDebtor ||
+        FeatureType.settledCreditor =>
+          RutaHistory.name,
         FeatureType.dashboard => RutaDashboard.name,
-        FeatureType.current => RutaCurrentPurchase.name,
-        FeatureType.history => RutaHistory.name,
         FeatureType.categories => RutaFinancialEntitys.name,
+      };
+
+  bool getBooleanValue(FeatureType type, Purchase purchase) {
+    switch (type) {
+      case FeatureType.currentDebtor:
+        return purchase.current && purchase.debt;
+      case FeatureType.currentCreditor:
+        return purchase.current && !purchase.debt;
+      case FeatureType.settledDebtor:
+        return !purchase.current && purchase.debt;
+      case FeatureType.settledCreditor:
+        return !purchase.current && !purchase.debt;
+      default:
+        return false;
+    }
+  }
+
+  bool get isSettled => switch (this) {
+        FeatureType.settledDebtor => true,
+        FeatureType.settledCreditor => true,
+        _ => false,
       };
 }

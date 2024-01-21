@@ -17,51 +17,51 @@ class BlocDashboardState extends Equatable {
 
   final Coin? coin;
 
-  List<FinancialEntity> get listFinancialEntitiesStatusCurrentDebt =>
+  List<FinancialEntity> get listFinancialEntitiesStatusCurrentDebtor =>
       financialEntityList
           .where((financialEntity) => financialEntity.purchases.any(
                 (purchase) => purchase.current && purchase.debt,
               ))
           .toList();
 
-  List<Purchase> listPurchaseStatusCurrentDebt(FinancialEntity categoria) =>
+  List<Purchase> listPurchaseStatusCurrentDebtor(FinancialEntity categoria) =>
       categoria.purchases
           .where((purchase) => purchase.current && purchase.debt)
           .toList();
 
-  List<FinancialEntity> get listFinancialEntityStatusCurrentDebtor =>
+  List<FinancialEntity> get listFinancialEntityStatusCurrentCreditor =>
       financialEntityList
           .where((financialEntity) => financialEntity.purchases.any(
                 (compra) => compra.current && !compra.debt,
               ))
           .toList();
 
-  List<Purchase> listPurchaseStatusCurrentDebtor(
+  List<Purchase> listPurchaseStatusCurrentCreditor(
           FinancialEntity financialEntity) =>
       financialEntity.purchases
           .where((purchase) => purchase.current && !purchase.debt)
           .toList();
 
-  List<FinancialEntity> get listFinancialEntityStatusHistoryDebt =>
+  List<FinancialEntity> get listFinancialEntityStatusHistoryDebtor =>
       financialEntityList
           .where((financialEntity) => financialEntity.purchases.any(
                 (purchase) => !purchase.current && purchase.debt,
               ))
           .toList();
 
-  List<Purchase> listPurchaseStatusHistoryDebt(FinancialEntity categoria) =>
+  List<Purchase> listPurchaseStatusHistoryDebtor(FinancialEntity categoria) =>
       categoria.purchases
           .where((compra) => !compra.current && compra.debt)
           .toList();
 
-  List<FinancialEntity> get listFinancialEntityStatusHistoryDebtor =>
+  List<FinancialEntity> get listFinancialEntityStatusHistoryCreditor =>
       financialEntityList
           .where((financialEntity) => financialEntity.purchases.any(
                 (purchase) => !purchase.current && !purchase.debt,
               ))
           .toList();
 
-  List<Purchase> listPurchaseStatusHistoryDebtor(FinancialEntity categoria) =>
+  List<Purchase> listPurchaseStatusHistoryCreditor(FinancialEntity categoria) =>
       categoria.purchases
           .where((compra) => !compra.current && !compra.debt)
           .toList();

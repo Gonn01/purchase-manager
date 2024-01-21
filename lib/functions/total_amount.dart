@@ -1,9 +1,9 @@
+import 'package:purchase_manager/models/enums/feature_type.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
-import 'package:purchase_manager/models/financial_entity_type.dart';
 
 double totalAmount({
   required List<FinancialEntity> categoriesList,
-  required FinancialEntityType financialEntityType,
+  required FeatureType financialEntityType,
 }) {
   return categoriesList.isEmpty
       ? 0
