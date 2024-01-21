@@ -8,11 +8,14 @@ class BlocDashboardState extends Equatable {
   const BlocDashboardState({
     this.financialEntityList = const [],
     this.status = Status.initial,
+    this.coin,
   });
 
   final List<FinancialEntity> financialEntityList;
 
   final Status status;
+
+  final Coin? coin;
 
   List<FinancialEntity> get listFinancialEntitiesStatusCurrentDebt =>
       financialEntityList
@@ -64,19 +67,22 @@ class BlocDashboardState extends Equatable {
           .toList();
 
   @override
-  List<Object> get props => [
+  List<dynamic> get props => [
         status,
         financialEntityList,
+        coin,
       ];
 
   BlocDashboardState copyWith({
     List<FinancialEntity>? listaCategorias,
     Status? estado,
     String? mensajeError,
+    Coin? coin,
   }) {
     return BlocDashboardState(
       financialEntityList: listaCategorias ?? financialEntityList,
       status: estado ?? status,
+      coin: coin ?? this.coin,
     );
   }
 }

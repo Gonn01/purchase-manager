@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:purchase_manager/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
-import 'package:purchase_manager/models/feature_type.dart';
+import 'package:purchase_manager/models/enums/feature_type.dart';
 import 'package:purchase_manager/widgets/pm_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +20,7 @@ class PageDashboard extends StatelessWidget {
               type: FeatureType.values.firstWhere((featureType) =>
                   featureType.featureName == context.router.current.name),
               body: switch (context.router.current.name) {
+                RutaDashboard.name => content,
                 RutaCurrentPurchase.name => content,
                 RutaHistory.name => content,
                 RutaFinancialEntitys.name => content,

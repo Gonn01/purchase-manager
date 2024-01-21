@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:purchase_manager/endpoints/crud_financial_entity.dart';
 import 'package:purchase_manager/endpoints/crud_purchase.dart';
+import 'package:purchase_manager/endpoints/services/dolar.dart';
+import 'package:purchase_manager/models/coin.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
 import 'package:purchase_manager/models/purchase.dart';
-import 'package:purchase_manager/models/status.dart';
+import 'package:purchase_manager/models/enums/status.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -36,9 +38,10 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
       final auth = FirebaseAuth.instance;
       final listaCategorias =
           await readFinancialEntities(idUser: auth.currentUser?.uid ?? '');
-
+      final dolar = await DolarService().getCoinData();
       emit(
         state.copyWith(
+          coin: dolar,
           estado: Status.success,
           listaCategorias: listaCategorias,
         ),
