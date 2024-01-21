@@ -4,7 +4,13 @@ import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/widgets/dialogs/dialog_create_financial_entity.dart';
 import 'package:purchase_manager/models/enums/feature_type.dart';
 
+/// {@template PMAppbar}
+/// Appbar de la aplicacion
+///
+/// Application appbar
+/// {@endtemplate}
 class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
+  /// {@macro PMAppbar}
   const PMAppbar({
     required this.type,
     super.key,
@@ -20,6 +26,7 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
+  /// Tipo de caracteristica
   final FeatureType type;
 
   @override

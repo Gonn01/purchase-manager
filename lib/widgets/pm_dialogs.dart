@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:purchase_manager/widgets/pm_buttons.dart';
 
-/// {@template EscuelasDialog}
+/// {@template PMDialogs}
+/// Dialogo personalizado
+///
+/// Custom dialog
 /// {@endtemplate}
 class PMDialogs extends StatelessWidget {
-  /// {@macro EscuelasDialog}
+  /// {@macro PMDialogs}
   const PMDialogs({
     required this.onTapConfirm,
     this.withCancelButton = false,
@@ -22,6 +25,9 @@ class PMDialogs extends StatelessWidget {
     super.key,
   });
 
+  /// Dialogo de alerta solo muestra un boton de ok
+  ///
+  /// Alert dialog only shows an ok button
   factory PMDialogs.alert({
     required VoidCallback onTap,
     required Widget content,
@@ -35,6 +41,9 @@ class PMDialogs extends StatelessWidget {
     );
   }
 
+  /// Dialogo de aviso que dice que la funcionalidad no esta disponible
+  ///
+  /// Warning dialog that says the functionality is not available
   factory PMDialogs.featNotAvailable({
     required BuildContext context,
   }) {
@@ -43,7 +52,8 @@ class PMDialogs extends StatelessWidget {
       title: 'Funcionalidad no disponible',
       content: const Center(
         child: Text(
-          'Esta funcionalidad no se encuentra disponible en esta versión de la aplicación',
+          'Esta funcionalidad no se encuentra disponible en esta versión de la '
+          'aplicación',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 16,
@@ -55,6 +65,10 @@ class PMDialogs extends StatelessWidget {
     );
   }
 
+  /// Dialogo de confirmacion que muestra un boton de confirmar y otro de
+  /// cancelar
+  ///
+  /// Confirmation dialog that shows a confirm button and a cancel button
   factory PMDialogs.actionRequest({
     required VoidCallback onTapConfirm,
     required Widget content,
@@ -72,45 +86,70 @@ class PMDialogs extends StatelessWidget {
     );
   }
 
-  /// Altura del dialogo por defecto en `300` (sin .ph) de [PMDialogs].
+  /// Altura del [PMDialogs].
+  ///
+  /// Height of the [PMDialogs].
   final double? height;
 
-  /// Ancho del dialogo (sin .pw) de [PMDialogs].
+  /// Ancho del [PMDialogs].
+  ///
+  /// Width of the [PMDialogs].
   final double? width;
 
-  /// Indica si quiere mostrar el Icono de cerrar en el dialogo
-  /// `(por defecto esta el .pop)`de [PMDialogs].
+  /// Indica si quiere mostrar el Icono de cerrar en el [PMDialogs].
+  ///
+  /// Indicates whether to show the close icon in the [PMDialogs].
   final bool withCloseIcon;
 
-  /// Indica si quiere mostrar con botón outline en el dialogo
-  /// `(por defecto esta el .pop)` de [PMDialogs].
+  /// Indica si quiere mostrar con botón outline en el [PMDialogs].
+  ///
+  /// Indicates whether to show with outline button in the [PMDialogs].
   final bool withOutlineButton;
 
-  /// Indica si quiere mostrar con botón de cancelar en el Dialog
-  /// `(por defecto esta el .pop)`de [PMDialogs].
+  /// Indica si quiere mostrar con botón de cancelar en el [PMDialogs].
+  ///
+  /// Indicates whether to show with cancel button in the [PMDialogs].
   final bool withCancelButton;
 
-  /// Callback para el botón de confirmar,este se ejecuta al presionar
-  /// el botón de [PMDialogs].
+  /// Callback para el botón de confirmar, este se ejecuta al presionar
+  /// el botón de confirmar.
+  ///
+  /// Callback for the confirm button, this is executed when pressing
   final void Function() onTapConfirm;
 
-  /// Titulo del dialogo de [PMDialogs].
+  /// Titulo del [PMDialogs].
+  ///
+  /// Title of [PMDialogs].
   final String? title;
 
-  /// Cuerpo/contenido del dialogo de [PMDialogs].
+  /// Contenido del [PMDialogs].
+  ///
+  /// Content of [PMDialogs].
   final Widget? content;
 
-  /// Titulo del botón de `Confirmar` de [PMDialogs].
+  /// Texto del botón de `Confirmar` de [PMDialogs].
+  ///
+  /// Text of the `Confirm` button of [PMDialogs].
   final String? confirmButtonText;
 
-  /// Titulo del botón de `Cancelar` o `Rechazar` de [PMDialogs].
+  /// Titulo del botón de `Cancelar` de [PMDialogs].
+  ///
+  /// Title of the `Cancel` button of [PMDialogs].
   final String? cancelButtonText;
 
-  /// Color de fondo del botón de `Cancelar` o `Rechazar` de [PMDialogs].
+  /// Color de fondo del botón de `Cancelar` de [PMDialogs].
+  ///
+  /// Background color of the `Cancel` button of [PMDialogs].
   final Color backgroundColorCancelButton;
 
+  /// Color de fondo del botón de `Confirmar` de [PMDialogs].
+  ///
+  /// Background color of the `Confirm` button of [PMDialogs].
   final Color backgroundColorConfirmButton;
 
+  /// Indica si el botón de `Confirmar` de [PMDialogs] está habilitado.
+  ///
+  /// Indicates whether the `Confirm` button of [PMDialogs] is enabled.
   final bool isEnabled;
 
   @override

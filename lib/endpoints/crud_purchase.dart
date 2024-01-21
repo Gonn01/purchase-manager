@@ -1,30 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:purchase_manager/models/purchase.dart';
 import 'package:flutter/material.dart';
+import 'package:purchase_manager/models/purchase.dart';
 
 final _firestore = FirebaseFirestore.instance;
-Future<void> createCompra({
-  required String usuarioId,
-  required String categoriaId,
-  required Purchase nuevaCompra,
+
+/// Crea una nueva [Purchase] en Firestore.
+/// Creates a new [Purchase] in Firestore.
+Future<void> createPurchase({
+  required String idUser,
+  required String idFinancialEntity,
+  required Purchase newPurchase,
 }) async {
   try {
     await _firestore
         .collection('usuarios')
-        .doc(usuarioId)
+        .doc(idUser)
         .collection('categorias')
-        .doc(categoriaId)
+        .doc(idFinancialEntity)
         .collection('compras')
         .add({
-      'cantidadCuotas': nuevaCompra.amountOfQuotas,
-      'monto': nuevaCompra.totalAmount,
-      'montoPorCuota': nuevaCompra.amountPerQuota,
-      'producto': nuevaCompra.nameOfProduct,
-      'type': nuevaCompra.type.value,
-      'fechaCreacion': nuevaCompra.creationDate,
+      'cantidadCuotas': newPurchase.amountOfQuotas,
+      'monto': newPurchase.totalAmount,
+      'montoPorCuota': newPurchase.amountPerQuota,
+      'producto': newPurchase.nameOfProduct,
+      'type': newPurchase.type.value,
+      'fechaCreacion': newPurchase.creationDate,
       'fechaFinalizacion': null,
       'fechaPrimeraCuota': null,
-      'currency': nuevaCompra.currency.value,
+      'currency': newPurchase.currency.value,
     });
 
     debugPrint('Compra registrada en Firestore.');
@@ -33,13 +36,15 @@ Future<void> createCompra({
   }
 }
 
+/// Actualiza una [Purchase] en Firestore.
+/// Updates a [Purchase] in Firestore.
 Future<void> updatePurchase({
   required String idUser,
   required String idFinancialEntity,
   required Purchase newPurchase,
 }) async {
   try {
-    DocumentReference compraRef = _firestore
+    final DocumentReference compraRef = _firestore
         .collection('usuarios')
         .doc(idUser)
         .collection('categorias')
@@ -62,19 +67,21 @@ Future<void> updatePurchase({
   }
 }
 
-Future<void> deleteCompra({
-  required String usuarioId,
-  required String categoriaId,
-  required String compraId,
+/// Elimina una [Purchase] de Firestore.
+/// Deletes a [Purchase] from Firestore.
+Future<void> deletePurchase({
+  required String idUser,
+  required String idFinancialEntity,
+  required String idPurchase,
 }) async {
   try {
     await _firestore
         .collection('usuarios')
-        .doc(usuarioId)
+        .doc(idUser)
         .collection('categorias')
-        .doc(categoriaId)
+        .doc(idFinancialEntity)
         .collection('compras')
-        .doc(compraId)
+        .doc(idPurchase)
         .delete();
 
     debugPrint('Compra eliminada de Firestore.');

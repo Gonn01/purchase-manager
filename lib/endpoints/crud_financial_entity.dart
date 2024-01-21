@@ -1,14 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:purchase_manager/models/enums/exchange_rate.dart';
+import 'package:flutter/foundation.dart';
+import 'package:purchase_manager/models/enums/currency_type.dart';
 import 'package:purchase_manager/models/enums/purchase_type.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
-import 'package:flutter/foundation.dart';
 import 'package:purchase_manager/models/purchase.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 // CRUD para Categorias
 
+/// Crea una nueva [FinancialEntity] en Firestore.
+/// Creates a new [FinancialEntity] in Firestore.
 Future<void> createFinancialEntity({
   required String financialEntityName,
   required String idUser,
@@ -28,45 +30,49 @@ Future<void> createFinancialEntity({
   }
 }
 
+/// Lee las [FinancialEntity]s de Firestore.
+/// Reads the [FinancialEntity]s from Firestore.
 Future<List<FinancialEntity>> readFinancialEntities({
   required String idUser,
 }) async {
   try {
-    QuerySnapshot querySnapshot = await _firestore
+    final QuerySnapshot querySnapshot = await _firestore
         .collection('usuarios')
         .doc(idUser)
         .collection('categorias')
         .get();
-    final list = Future.wait(querySnapshot.docs.map((doc) async {
-      QuerySnapshot purchase_managerSnapshot =
-          await doc.reference.collection('compras').get();
+    final list = Future.wait(
+      querySnapshot.docs.map((doc) async {
+        final QuerySnapshot purchaseManagersnapshot =
+            await doc.reference.collection('compras').get();
 
-      List<Purchase> purchases = purchase_managerSnapshot.docs.map((compraDoc) {
-        Map<String, dynamic> compraData =
-            compraDoc.data() as Map<String, dynamic>;
+        final purchases = purchaseManagersnapshot.docs.map((purchaseDoc) {
+          final purchaseData = purchaseDoc.data()! as Map<String, dynamic>;
 
-        return Purchase(
-          currency: Currency.type(compraData['currency']),
-          id: compraDoc.id,
-          amountOfQuotas: compraData['cantidadCuotas'],
-          totalAmount: compraData['monto'],
-          amountPerQuota: compraData['montoPorCuota'],
-          nameOfProduct: compraData['producto'],
-          type: PurchaseType.type(compraData['type']),
-          creationDate: compraData['fechaCreacion'].toDate(),
-          lastCuotaDate: compraData['FechaFinalizacion'] != null
-              ? compraData['FechaFinalizacion'].toDate()
-              : null,
+          return Purchase(
+            currency: CurrencyType.type(purchaseData['currency'] as int),
+            id: purchaseDoc.id,
+            amountOfQuotas: purchaseData['cantidadCuotas'] as int,
+            totalAmount: purchaseData['monto'] as double,
+            amountPerQuota: purchaseData['montoPorCuota'] as double,
+            nameOfProduct: purchaseData['producto'] as String,
+            type: PurchaseType.type(purchaseData['type'] as int),
+            creationDate: (purchaseData['fechaCreacion'] as Timestamp).toDate(),
+            lastCuotaDate:
+                (purchaseData['FechaFinalizacion'] as DateTime?) != null
+                    ? (purchaseData['FechaFinalizacion'] as DateTime)
+                    : null,
+          );
+        }).toList();
+
+        debugPrint('Éxito al leer las categorías');
+        return FinancialEntity(
+          id: doc.id,
+          name: doc['nombre'] as String,
+          purchases: purchases,
         );
-      }).toList();
-
-      debugPrint('Éxito al leer las categorías');
-      return FinancialEntity(
-        id: doc.id,
-        name: doc['nombre'],
-        purchases: purchases,
-      );
-    }).toList());
+      }).toList(),
+    );
     return list;
   } catch (e) {
     debugPrint('Error al leer las categorías: $e');
@@ -74,19 +80,21 @@ Future<List<FinancialEntity>> readFinancialEntities({
   }
 }
 
-Future<void> updateCategoria({
-  required String categoriaId,
-  required String nuevoNombre,
-  required String idUsuario,
+/// Actualiza una [FinancialEntity] en Firestore.
+/// Updates a [FinancialEntity] in Firestore.
+Future<void> updateFinancialEntity({
+  required String idFinancialEntity,
+  required String newName,
+  required String idUser,
 }) async {
   try {
     await _firestore
         .collection('usuarios')
-        .doc(idUsuario)
+        .doc(idUser)
         .collection('categorias')
-        .doc(categoriaId)
+        .doc(idFinancialEntity)
         .update({
-      'nombre': nuevoNombre,
+      'nombre': newName,
     });
     debugPrint('Categoría actualizada en Firestore.');
   } catch (e) {
@@ -94,7 +102,9 @@ Future<void> updateCategoria({
   }
 }
 
-Future<void> deleteCategoria({
+/// Elimina una [FinancialEntity] de Firestore.
+/// Deletes a [FinancialEntity] from Firestore.
+Future<void> deleteFinancialEntity({
   required String categoriaId,
   required String idUsuario,
 }) async {

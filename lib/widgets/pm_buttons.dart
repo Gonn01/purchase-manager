@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
-/// {@templates EscuelasBoton}
-/// Boton personalizado para utilizar
+/// {@templates PMButtons}
+/// Botones usados en la aplicacion
+///
+/// Buttons used in the application
 /// {@endtemplates}
 class PMButtons extends StatelessWidget {
-  /// {@macro EscuelasBoton}
+  /// {@macro PMButtons}
   const PMButtons({
     required this.isEnabled,
     required this.onTap,
@@ -15,23 +17,35 @@ class PMButtons extends StatelessWidget {
     super.key,
   });
 
+  /// Boton que contiene un texto
+  ///
+  /// Button that contains a text
   factory PMButtons.text({
     /// Da funcionalidad al boton dependiendo de condicionales a cumplir.
+    ///
+    /// Gives functionality to the button depending on the conditionals to be
+    /// met.
     required bool isEnabled,
 
     /// Funcion a realizarse accionando el boton.
+    ///
+    /// Function to be performed by pressing the button.
     required VoidCallback onTap,
 
-    /// Texto interno del boton.
+    /// Texto del boton
+    ///
+    /// Text of the button
     required String text,
 
-    /// Color de fondo del boton.
-    Color backgroundColor = Colors.green,
+    /// Color de fondo del boton
+    ///
+    /// Button background color
+    required Color backgroundColor,
   }) {
     return PMButtons(
       isEnabled: isEnabled,
-      onTap: onTap,
       backgroundColor: backgroundColor,
+      onTap: onTap,
       content: Text(
         text,
         style: const TextStyle(
@@ -43,14 +57,22 @@ class PMButtons extends StatelessWidget {
     );
   }
 
+  /// Boton con borde que contiene un texto
   factory PMButtons.outlined({
-    /// Funcion a realizarse accionando el boton.
-    required VoidCallback onTap,
-
     /// Da funcionalidad al boton dependiendo de condicionales a cumplir.
+    ///
+    /// Gives functionality to the button depending on the conditionals to be
+    /// met.
     required bool isEnabled,
 
-    /// Texto interno del boton
+    /// Funcion a realizarse accionando el boton.
+    ///
+    /// Function to be performed by pressing the button.
+    required VoidCallback onTap,
+
+    /// Texto del boton
+    ///
+    /// Text of the button
     required String text,
   }) {
     return PMButtons(
@@ -70,19 +92,33 @@ class PMButtons extends StatelessWidget {
   }
 
   /// Da funcionalidad al boton dependiendo de condicionales a cumplir.
+  ///
+  /// Gives functionality to the button depending on the conditionals to be
   final bool isEnabled;
 
-  /// Da diseño dependiendo si es outlined o fill.
+  /// Indica si el boton tiene borde
+  ///
+  /// Indicates if the button has a border
   final bool isOutlined;
 
-  /// Funcion al presionar el boton
+  /// Funcion a realizarse accionando el boton.
+  ///
+  /// Function to be performed by pressing the button.
   final VoidCallback? onTap;
 
-  /// Widget que va a contener el boton, puede ser un texto o texto e iconos
+  /// Contenido del boton
+  ///
+  /// Button content
   final Widget content;
 
+  /// Color de fondo del boton con borde
+  ///
+  /// Background color of the outlined button
   final Color backgroundColorOutlined;
 
+  /// Color de fondo del boton
+  ///
+  /// Button background color
   final Color backgroundColor;
 
   @override

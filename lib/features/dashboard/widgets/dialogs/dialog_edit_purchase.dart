@@ -1,23 +1,36 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/widgets/dialogs/dialog_delete_purchase.dart';
-import 'package:purchase_manager/models/enums/exchange_rate.dart';
+import 'package:purchase_manager/models/enums/currency_type.dart';
 import 'package:purchase_manager/models/enums/purchase_type.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
 import 'package:purchase_manager/models/purchase.dart';
 import 'package:purchase_manager/widgets/pm_buttons.dart';
 import 'package:purchase_manager/widgets/pm_dialogs.dart';
 import 'package:purchase_manager/widgets/pm_textfields.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
+/// {@template DialogEditPurchase}
+/// Dialogo para editar una compra
+///
+/// Dialog to edit a purchase
+/// {@endtemplate}
 class DialogEditPurchase extends StatefulWidget {
+  /// {@macro DialogEditPurchase}
   const DialogEditPurchase({
     required this.purchase,
     required this.financialEntity,
     super.key,
   });
 
+  /// Compra a editar
+  ///
+  /// Purchase to edit
   final Purchase purchase;
+
+  /// Entidad financiera a la que pertenece la compra
+  ///
+  /// Financial entity to which the purchase belongs
   final FinancialEntity financialEntity;
 
   @override
@@ -49,7 +62,9 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
                 : !_debtorOrCreditor[0]
                     ? PurchaseType.settledDebtorPurchase
                     : PurchaseType.settledCreditorPurchase,
-            currency: _currency[0] ? Currency.pesoArgentino : Currency.usDollar,
+            currency: _currency[0]
+                ? CurrencyType.pesoArgentino
+                : CurrencyType.usDollar,
           ),
         );
 
@@ -78,11 +93,11 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
     dropdownValue = widget.financialEntity.id;
     _debtorOrCreditor = [
       widget.purchase.type.isDebtor,
-      !widget.purchase.type.isDebtor
+      !widget.purchase.type.isDebtor,
     ];
     _currency = [
-      widget.purchase.currency == Currency.pesoArgentino,
-      !(widget.purchase.currency == Currency.pesoArgentino),
+      widget.purchase.currency == CurrencyType.pesoArgentino,
+      !(widget.purchase.currency == CurrencyType.pesoArgentino),
     ];
   }
 
@@ -104,7 +119,7 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
           dropdownValue != null &&
           dropdownValue != '' &&
           double.tryParse(_controllerAmount.text)?.round() != 0 &&
-          int.tryParse(_controllerQuotas.text)?.round() != 0,
+          int.tryParse(_controllerQuotas.text) != 0,
       onTapConfirm: _editPurchase,
       title: 'Editar compra',
       content: Column(
@@ -118,10 +133,10 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
           BlocBuilder<BlocDashboard, BlocDashboardState>(
             builder: (context, state) {
               return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
                   border: Border.all(color: const Color(0xff006F66)),
-                  borderRadius: BorderRadius.circular(8.0),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: DropdownButton<String>(
                   hint: const Text('Elegi Categoria'),
@@ -143,10 +158,9 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
           ),
           const SizedBox(height: 10),
           ToggleButtons(
-            direction: Axis.horizontal,
             onPressed: (int index) {
               setState(() {
-                for (int i = 0; i < _debtorOrCreditor.length; i++) {
+                for (var i = 0; i < _debtorOrCreditor.length; i++) {
                   _debtorOrCreditor[i] = i == index;
                 }
               });
@@ -157,8 +171,8 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
             fillColor: const Color(0xff02B4A3).withOpacity(.3),
             color: Colors.grey,
             constraints: const BoxConstraints(
-              minHeight: 40.0,
-              minWidth: 130.0,
+              minHeight: 40,
+              minWidth: 130,
             ),
             isSelected: _debtorOrCreditor,
             children: const [
@@ -188,10 +202,9 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
                 ),
                 const SizedBox(width: 10),
                 ToggleButtons(
-                  direction: Axis.horizontal,
                   onPressed: (int index) {
                     setState(() {
-                      for (int i = 0; i < _currency.length; i++) {
+                      for (var i = 0; i < _currency.length; i++) {
                         _currency[i] = i == index;
                       }
                     });
@@ -202,8 +215,8 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
                   fillColor: const Color(0xff02B4A3).withOpacity(.3),
                   color: Colors.grey,
                   constraints: const BoxConstraints(
-                    minHeight: 40.0,
-                    minWidth: 40.0,
+                    minHeight: 40,
+                    minWidth: 40,
                   ),
                   isSelected: _currency,
                   children: const [

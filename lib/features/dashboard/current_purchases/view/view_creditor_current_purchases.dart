@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/extensions/double.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/widgets/financial_entity_element.dart';
@@ -5,10 +7,14 @@ import 'package:purchase_manager/functions/total_amount.dart';
 import 'package:purchase_manager/functions/total_amount_per_quota.dart';
 import 'package:purchase_manager/models/enums/feature_type.dart';
 import 'package:purchase_manager/models/enums/status.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
+/// {@template ViewDebtorCurrentPurchases}
+/// Vista de las compras vigentes deudoras
+///
+/// View of current debtor purchases
+/// {@endtemplate}
 class ViewCreditorCurrentPurchases extends StatelessWidget {
+  /// {@macro ViewDebtorCurrentPurchases}
   const ViewCreditorCurrentPurchases({super.key});
 
   @override
@@ -17,9 +23,10 @@ class ViewCreditorCurrentPurchases extends StatelessWidget {
       builder: (context, state) {
         if (state.status == Status.loading) {
           return const Center(
-              child: CircularProgressIndicator(
-            color: Color(0xff02B3A3),
-          ));
+            child: CircularProgressIndicator(
+              color: Color(0xff02B3A3),
+            ),
+          );
         }
         return Column(
           children: [
@@ -27,10 +34,10 @@ class ViewCreditorCurrentPurchases extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
                 'Me deben en total: ${totalAmount(
-                  categoriesList:
+                  financialEntityList:
                       state.listFinancialEntityStatusCurrentCreditor,
                   financialEntityType: FeatureType.currentCreditor,
-                  dollarValue: state.coin?.venta ?? 0,
+                  dollarValue: state.currency?.venta ?? 0,
                 ).formatAmount()}',
                 style: const TextStyle(
                   fontSize: 16,
@@ -49,7 +56,7 @@ class ViewCreditorCurrentPurchases extends StatelessWidget {
               child: Text(
                 'Total que me deben por mes: ${totalAmountPerQuota(
                   categories: state.listFinancialEntityStatusCurrentCreditor,
-                  dollarValue: state.coin?.venta ?? 0,
+                  dollarValue: state.currency?.venta ?? 0,
                 ).formatAmount()}',
                 style: const TextStyle(
                   fontSize: 16,
@@ -82,7 +89,7 @@ class ViewCreditorCurrentPurchases extends StatelessWidget {
                     )
                     .toList(),
               ),
-            )
+            ),
           ],
         );
       },

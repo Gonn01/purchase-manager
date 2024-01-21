@@ -9,6 +9,8 @@ part 'bloc_login_event.dart';
 
 /// {@template BlocLogin}
 /// Bloc que maneja los estados y lógica de la pagina de 'Login'
+///
+/// Bloc that manages the states and logic of the 'Login' page
 /// {@endtemplate}
 class BlocLogin extends Bloc<BlocLoginEvent, BlocLoginState> {
   /// {@macro BlocLogin}
@@ -22,9 +24,9 @@ class BlocLogin extends Bloc<BlocLoginEvent, BlocLoginState> {
   ) async {
     emit(state.copyWith(status: Status.loading));
     try {
-      final FirebaseAuth auth = FirebaseAuth.instance;
+      final auth = FirebaseAuth.instance;
 
-      GoogleAuthProvider googleProvider = GoogleAuthProvider();
+      final googleProvider = GoogleAuthProvider();
 
       await auth.signInWithProvider(googleProvider);
 

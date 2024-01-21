@@ -3,12 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:purchase_manager/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/models/enums/feature_type.dart';
 
+/// {@template PMBottomNavigationBar}
+/// Barra de navegacion inferior
+///
+/// Bottom navigation bar
+/// {@endtemplate}
 class PMBottomNavigationBar extends StatelessWidget {
+  /// {@macro PMBottomNavigationBar}
   const PMBottomNavigationBar({
     required this.type,
     super.key,
   });
 
+  /// Tipo de caracteristica
   final FeatureType type;
 
   @override
@@ -29,7 +36,7 @@ class PMBottomNavigationBar extends StatelessWidget {
                         : const Color(0xff00B3A3),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8),
                     child: Icon(
                       Icons.shopping_cart_outlined,
                       color: type.isSettled ? Colors.grey : Colors.white,
@@ -45,7 +52,7 @@ class PMBottomNavigationBar extends StatelessWidget {
                       borderRadius: BorderRadius.circular(50),
                       color: const Color(0xff006F66),
                     ),
-                  )
+                  ),
               ],
             ),
           ),
@@ -61,7 +68,7 @@ class PMBottomNavigationBar extends StatelessWidget {
                         : Colors.transparent,
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8),
                     child: Icon(
                       Icons.history,
                       color: type.isSettled ? Colors.white : Colors.grey,
@@ -77,7 +84,7 @@ class PMBottomNavigationBar extends StatelessWidget {
                       borderRadius: BorderRadius.circular(50),
                       color: const Color(0xff006F66),
                     ),
-                  )
+                  ),
               ],
             ),
           ),

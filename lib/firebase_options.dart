@@ -2,7 +2,7 @@
 // ignore_for_file: lines_longer_than_80_chars, avoid_classes_with_only_static_members
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
-    show defaultTargetPlatform, kIsWeb, TargetPlatform;
+    show TargetPlatform, defaultTargetPlatform, kIsWeb;
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -15,6 +15,7 @@ import 'package:flutter/foundation.dart'
 /// );
 /// ```
 class DefaultFirebaseOptions {
+  /// Returns the [FirebaseOptions] for the current platform.
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       return web;
@@ -36,6 +37,7 @@ class DefaultFirebaseOptions {
           'DefaultFirebaseOptions have not been configured for linux - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
+      // ignore: no_default_cases
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
@@ -43,6 +45,7 @@ class DefaultFirebaseOptions {
     }
   }
 
+  /// Returns the [FirebaseOptions] for the web platform.
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyBxY64_ZUu9Nvbm8x2Stye0rN7opWQ1U8A',
     appId: '1:1033469084474:web:6623a9af18e071a764c603',
@@ -53,6 +56,7 @@ class DefaultFirebaseOptions {
     measurementId: 'G-LYYSTZSVHR',
   );
 
+  /// Returns the [FirebaseOptions] for the android platform.
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDCqO4F_YcVKNaj1oBdmfKzmWOM5pRBfLE',
     appId: '1:1033469084474:android:0ff82f545d98940764c603',
@@ -61,25 +65,31 @@ class DefaultFirebaseOptions {
     storageBucket: 'compras-3e47f.appspot.com',
   );
 
+  /// Returns the [FirebaseOptions] for the ios platform.
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDbKwHwWdgmwM3-Z150rWdalbc4XhvcjZI',
     appId: '1:1033469084474:ios:d67c8ba499f5128864c603',
     messagingSenderId: '1033469084474',
     projectId: 'compras-3e47f',
     storageBucket: 'compras-3e47f.appspot.com',
-    androidClientId: '1033469084474-6jlphiu259q9rj1bi4mt773bmgokhi4b.apps.googleusercontent.com',
-    iosClientId: '1033469084474-e749u4ldduv1shoojvqdtquef9tbe69c.apps.googleusercontent.com',
+    androidClientId:
+        '1033469084474-6jlphiu259q9rj1bi4mt773bmgokhi4b.apps.googleusercontent.com',
+    iosClientId:
+        '1033469084474-e749u4ldduv1shoojvqdtquef9tbe69c.apps.googleusercontent.com',
     iosBundleId: 'com.example.pruchaseManager',
   );
 
+  /// Returns the [FirebaseOptions] for the macos platform.
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyDbKwHwWdgmwM3-Z150rWdalbc4XhvcjZI',
     appId: '1:1033469084474:ios:10731cbba1af91e064c603',
     messagingSenderId: '1033469084474',
     projectId: 'compras-3e47f',
     storageBucket: 'compras-3e47f.appspot.com',
-    androidClientId: '1033469084474-6jlphiu259q9rj1bi4mt773bmgokhi4b.apps.googleusercontent.com',
-    iosClientId: '1033469084474-8550728r42vb01pckv2np4l62bb61vec.apps.googleusercontent.com',
+    androidClientId:
+        '1033469084474-6jlphiu259q9rj1bi4mt773bmgokhi4b.apps.googleusercontent.com',
+    iosClientId:
+        '1033469084474-8550728r42vb01pckv2np4l62bb61vec.apps.googleusercontent.com',
     iosBundleId: 'com.example.pruchaseManager.RunnerTests',
   );
 }

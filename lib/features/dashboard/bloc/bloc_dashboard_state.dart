@@ -1,71 +1,132 @@
 part of 'bloc_dashboard.dart';
 
-/// {@template BlocInicioEstado}
+/// {@template BlocDashboardState}
 /// Maneja los distintos estados y variables guardadas en los mismos
+///
+/// Manage the different states and variables saved in them
 /// {@endtemplate}
 class BlocDashboardState extends Equatable {
   /// {@macro BlocInicioEstado}
   const BlocDashboardState({
     this.financialEntityList = const [],
     this.status = Status.initial,
-    this.coin,
+    this.currency,
   });
 
+  /// Lista de entidades financieras.
+  ///
+  /// List of financial entities.
   final List<FinancialEntity> financialEntityList;
 
+  /// Estado de la página.
+  ///
+  /// Page status.
   final Status status;
 
-  final Coin? coin;
+  /// Moneda actual.
+  ///
+  /// Current currency.
+  final Currency? currency;
 
+  /// Lista de [FinancialEntity] que tienen compras de
+  /// [PurchaseType.currentDebtorPurchase]
+  ///
+  /// List of financial entities that have purchases of
+  /// [PurchaseType.currentDebtorPurchase]
   List<FinancialEntity> get listFinancialEntitiesStatusCurrentDebtor =>
       financialEntityList
-          .where((financialEntity) => financialEntity.purchases.any(
-                (purchase) => purchase.type.isCurrent && purchase.type.isDebtor,
-              ))
-          .toList();
-
-  List<Purchase> listPurchaseStatusCurrentDebtor(FinancialEntity categoria) =>
-      categoria.purchases
           .where(
-              (purchase) => purchase.type.isCurrent && purchase.type.isDebtor)
+            (financialEntity) => financialEntity.purchases.any(
+              (purchase) => purchase.type.isCurrent && purchase.type.isDebtor,
+            ),
+          )
           .toList();
 
-  List<FinancialEntity> get listFinancialEntityStatusCurrentCreditor =>
-      financialEntityList
-          .where((financialEntity) => financialEntity.purchases.any(
-                (compra) => compra.type.isCurrent && !compra.type.isDebtor,
-              ))
-          .toList();
-
-  List<Purchase> listPurchaseStatusCurrentCreditor(
-          FinancialEntity financialEntity) =>
+  /// Lista de [Purchase] que tiene la [FinancialEntity] de
+  /// [PurchaseType.currentDebtorPurchase].
+  ///
+  /// List of [Purchase] that the [FinancialEntity] has with
+  /// [PurchaseType.currentDebtorPurchase].
+  List<Purchase> listPurchaseStatusCurrentDebtor(
+    FinancialEntity financialEntity,
+  ) =>
       financialEntity.purchases
           .where(
-              (purchase) => purchase.type.isCurrent && !purchase.type.isDebtor)
+            (purchase) => purchase.type.isCurrent && purchase.type.isDebtor,
+          )
           .toList();
 
-  List<FinancialEntity> get listFinancialEntityStatusHistoryDebtor =>
+  /// Lista de [FinancialEntity] de que tienen compras de
+  /// [PurchaseType.currentCreditorPurchase]
+  /// List of financial entities that have purchases of
+  /// [PurchaseType.currentCreditorPurchase]
+  List<FinancialEntity> get listFinancialEntityStatusCurrentCreditor =>
       financialEntityList
-          .where((financialEntity) => financialEntity.purchases.any(
-                (purchase) =>
-                    !purchase.type.isCurrent && purchase.type.isDebtor,
-              ))
+          .where(
+            (financialEntity) => financialEntity.purchases.any(
+              (purchase) => purchase.type.isCurrent && !purchase.type.isDebtor,
+            ),
+          )
           .toList();
 
-  List<Purchase> listPurchaseStatusHistoryDebtor(FinancialEntity categoria) =>
+  /// Lista de [Purchase] que tiene la [FinancialEntity] de
+  /// [PurchaseType.currentCreditorPurchase].
+  ///
+  /// List of [Purchase] that the [FinancialEntity] has with
+  /// [PurchaseType.currentCreditorPurchase].
+  List<Purchase> listPurchaseStatusCurrentCreditor(
+    FinancialEntity financialEntity,
+  ) =>
+      financialEntity.purchases
+          .where(
+            (purchase) => purchase.type.isCurrent && !purchase.type.isDebtor,
+          )
+          .toList();
+
+  /// Lista de [FinancialEntity] que tienen compras de
+  /// [PurchaseType.settledDebtorPurchase]
+  ///
+  /// List of financial entities that have purchases of
+  /// [PurchaseType.settledDebtorPurchase]
+  List<FinancialEntity> get listFinancialEntityStatusSettledDebtor =>
+      financialEntityList
+          .where(
+            (financialEntity) => financialEntity.purchases.any(
+              (purchase) => !purchase.type.isCurrent && purchase.type.isDebtor,
+            ),
+          )
+          .toList();
+
+  /// Lista de [Purchase] que tiene la [FinancialEntity] de
+  /// [PurchaseType.settledDebtorPurchase].
+  ///
+  /// List of [Purchase] that the [FinancialEntity] has with
+  /// [PurchaseType.settledDebtorPurchase].
+  List<Purchase> listPurchaseStatusSettledDebtor(FinancialEntity categoria) =>
       categoria.purchases
           .where((compra) => !compra.type.isCurrent && compra.type.isDebtor)
           .toList();
 
-  List<FinancialEntity> get listFinancialEntityStatusHistoryCreditor =>
+  /// Lista de entidades financieras que tienen compras de
+  /// [PurchaseType.settledCreditorPurchase]
+  ///
+  /// List of financial entities that have purchases of
+  /// [PurchaseType.settledCreditorPurchase]
+  List<FinancialEntity> get listFinancialEntityStatusSettledCreditor =>
       financialEntityList
-          .where((financialEntity) => financialEntity.purchases.any(
-                (purchase) =>
-                    !purchase.type.isCurrent && !purchase.type.isDebtor,
-              ))
+          .where(
+            (financialEntity) => financialEntity.purchases.any(
+              (purchase) => !purchase.type.isCurrent && !purchase.type.isDebtor,
+            ),
+          )
           .toList();
 
-  List<Purchase> listPurchaseStatusHistoryCreditor(FinancialEntity categoria) =>
+  /// Lista de [Purchase] que tiene la [FinancialEntity] de
+  /// [PurchaseType.settledCreditorPurchase].
+  ///
+  /// List of [Purchase] that the [FinancialEntity] has with
+  /// [PurchaseType.settledCreditorPurchase].
+  List<Purchase> listPurchaseStatusSettledCreditor(FinancialEntity categoria) =>
       categoria.purchases
           .where((compra) => !compra.type.isCurrent && !compra.type.isDebtor)
           .toList();
@@ -74,19 +135,20 @@ class BlocDashboardState extends Equatable {
   List<dynamic> get props => [
         status,
         financialEntityList,
-        coin,
+        currency,
       ];
 
+  /// Copia el estado actual y lo modifica con los parámetros proporcionados.
+  /// Copy the current state and modify it with the provided parameters.
   BlocDashboardState copyWith({
     List<FinancialEntity>? listaCategorias,
     Status? estado,
-    String? mensajeError,
-    Coin? coin,
+    Currency? coin,
   }) {
     return BlocDashboardState(
       financialEntityList: listaCategorias ?? financialEntityList,
       status: estado ?? status,
-      coin: coin ?? this.coin,
+      currency: coin,
     );
   }
 }

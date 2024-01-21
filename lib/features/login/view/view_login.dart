@@ -6,7 +6,13 @@ import 'package:purchase_manager/features/login/bloc/bloc_login.dart';
 import 'package:purchase_manager/gen/assets.gen.dart';
 import 'package:purchase_manager/models/enums/status.dart';
 
+/// {@template ViewLogin}
+/// Pagina que contiene el login
+///
+/// Page that contains the login
+/// {@endtemplate}
 class ViewLogin extends StatefulWidget {
+  /// {@macro ViewLogin}
   const ViewLogin({super.key});
 
   @override
@@ -28,23 +34,24 @@ class _ViewLoginState extends State<ViewLogin> {
             onTap: () =>
                 context.read<BlocLogin>().add(BlocLoginEventInitialize()),
             child: Container(
-              width: 80.0,
-              height: 80.0,
+              width: 80,
+              height: 80,
               decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 10.0,
-                      offset: Offset(0, 5),
-                    ),
-                  ]),
+                shape: BoxShape.circle,
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 10,
+                    offset: Offset(0, 5),
+                  ),
+                ],
+              ),
               child: Center(
                 child: Image.asset(
                   Assets.images.logoGoogle.path,
-                  width: 80.0,
-                  height: 80.0,
+                  width: 80,
+                  height: 80,
                 ),
               ),
             ),

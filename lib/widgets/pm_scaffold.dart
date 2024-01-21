@@ -5,13 +5,27 @@ import 'package:purchase_manager/widgets/pm_bottom_navigation_bar.dart';
 import 'package:purchase_manager/widgets/pm_drawer.dart';
 import 'package:purchase_manager/widgets/pm_floating_action_button.dart';
 
+/// {@template PMScaffold}
+/// Plantilla de Scaffold para la aplicacion
+///
+/// Scaffold template for the application
+/// {@endtemplate}
 class PMScaffold extends StatelessWidget {
+  /// {@macro PMScaffold}
   const PMScaffold({
     required this.type,
     required this.body,
     super.key,
   });
+
+  /// Tipo de caracteristica
+  ///
+  /// Type of feature
   final FeatureType type;
+
+  /// Cuerpo del Scaffold
+  ///
+  /// Scaffold body
   final Widget body;
   @override
   Widget build(BuildContext context) {

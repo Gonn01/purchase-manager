@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:purchase_manager/constants/regex.dart';
 
-/// Textformfields base y variantes para uso en PRLab
+/// {@template PRTextFormField}
+/// Textformfields usados en la aplicacion
+///
+/// Textformfields used in the application
+/// {@endtemplate}
 class PMTextFormFields extends StatefulWidget {
+  /// {@macro PRTextFormField}
   const PMTextFormFields({
     required this.controller,
     this.prefixIcon,
@@ -20,34 +25,20 @@ class PMTextFormFields extends StatefulWidget {
     this.height,
     this.inputFormatters,
     this.maxLength,
-    this.cursorColor,
     this.decoration,
-    this.onTap,
     this.focusNode,
     super.key,
     this.borderColor,
   });
 
-  /// TFF utilizable para nombre y apellido.
-  /// Iconos a utilizar:
-  /// Name/Last name: Icons.person_outlined
-  /// Company: Icons.apartment
-  /// Company location: Icons.location_on_outlined
+  /// [PMTextFormFields] que solo permite letras
+  ///
+  /// [PMTextFormFields] that only allows letters
   factory PMTextFormFields.onlyLetters({
-    /// Controller de [PRTextFormField]
     required TextEditingController controller,
-
-    /// Texto interno
     required String hintText,
-
-    /// Icono izquierdo
     required IconData prefixIcon,
-
-    /// Funcion onChanged
     void Function(String)? onChanged,
-
-    /// usa el colores.tertiary para el texto del textfield
-    bool colorTerciario = false,
   }) {
     return PMTextFormFields(
       keyboardType: TextInputType.text,
@@ -67,17 +58,12 @@ class PMTextFormFields extends StatefulWidget {
     );
   }
 
-  /// TFF a utilizar en caso de necesitarse informacion numerica.
-  /// Contact: Icons.call_outlined
-  /// Birthdate: Icons.calendar_month_outlined
+  /// [PMTextFormFields] que solo permite numeros
+  ///
+  /// [PMTextFormFields] that only allows numbers
   factory PMTextFormFields.onlyNumbers({
-    /// Controller de [PRTextFormField]
     required TextEditingController controller,
-
-    /// Texto interno
     required String hintText,
-
-    /// Funcion onChanged
     void Function(String)? onChanged,
   }) {
     return PMTextFormFields(
@@ -95,24 +81,14 @@ class PMTextFormFields extends StatefulWidget {
     );
   }
 
-  /// TFF utilizable para nombres de empresas o ubicación en caso de una calle.
-  /// Iconos a utilizar:
-  /// Name/Last name: Icons.person_outlined
-  /// Company: Icons.apartment
-  /// Company location: Icons.location_on_outlined
+  /// [PMTextFormFields] que solo permite letras y numeros
+  ///
+  /// [PMTextFormFields] that only allows letters and numbers
   factory PMTextFormFields.lettersAndNumbers({
-    /// Controller de [PRTextFormField]
     required TextEditingController controller,
-
-    /// Texto interno
     required String hintText,
-
-    /// Icono izquierdo
-    IconData? prefixIcon,
-
-    /// Funcion onChanged
     void Function(String)? onChanged,
-    bool colorTerciario = false,
+    IconData? prefixIcon,
   }) {
     return PMTextFormFields(
       keyboardType: TextInputType.text,
@@ -134,22 +110,14 @@ class PMTextFormFields extends StatefulWidget {
     );
   }
 
-  /// TFF de una descripcion, pudiendo precisar la altura, cantidad de lineas.
+  /// [PMTextFormFields] que es expandible verticalmente con un maximo de lineas
+  ///
+  /// [PMTextFormFields] that is vertically expandable with a maximum of lines
   factory PMTextFormFields.description({
-    /// Controller de [PRTextFormField]
     required TextEditingController controller,
-
-    /// Funcion onChanged
     void Function(String)? onChanged,
-
-    /// Texto interno
     String? hintText,
-
-    /// Las lineas maximas que puede tomar el campo de texto
     int? maxLines,
-
-    /// usa el colores.tertiary para el texto del textfield
-    bool colorTerciario = false,
   }) {
     return PMTextFormFields(
       controller: controller,
@@ -165,21 +133,14 @@ class PMTextFormFields extends StatefulWidget {
     );
   }
 
-  /// TFF de email, con dos configuraciones, solo lectura o completable
+  /// [PMTextFormFields] que solo permite texto con formato de email
+  ///
+  /// [PMTextFormFields] that only allows email formatted text
   factory PMTextFormFields.email({
-    /// Controller de [PRTextFormField]
     required TextEditingController controller,
-
-    /// Define si el tff es readOnly.
-    bool soloLectura = false,
-
-    /// Funcion onChanged
     void Function(String)? onChanged,
-
-    /// Texto interno
     String? hintText,
-
-    /// Verifica el estado para definir el color del borde
+    bool soloLectura = false,
     bool esEstadoErroneo = false,
   }) {
     return PMTextFormFields(
@@ -201,17 +162,12 @@ class PMTextFormFields extends StatefulWidget {
     );
   }
 
+  /// Textfield para ingresar contraseñas
+  ///
+  /// Textfield to enter passwords
   factory PMTextFormFields.password({
-    /// Controller de [PRTextFormField]
     required TextEditingController controller,
-
-    /// Texto interno
     required String hintText,
-
-    /// Icono izquierdo
-    required IconData prefixIcon,
-
-    /// Funcion onChanged
     void Function(String)? onChanged,
     void Function()? onPress,
     bool esEstadoErroneo = false,
@@ -249,65 +205,97 @@ class PMTextFormFields extends StatefulWidget {
   }
 
   /// Controller de [PMTextFormFields]
+  ///
+  /// [PMTextFormFields] controller
   final TextEditingController controller;
 
-  /// Define si el tff es readOnly.
+  /// Define si el [PMTextFormFields] es readOnly.
+  ///
+  /// Defines if the [PMTextFormFields] is readOnly.
   final bool readOnly;
 
-  /// Define si los caracteres son ocultos
+  /// Define si el [PMTextFormFields] es obscureText.
+  ///
+  /// Defines if the [PMTextFormFields] is obscureText.
   final bool obscureText;
 
-  /// Texto interno
+  /// Texto a modo de placeholder
+  ///
+  /// Placeholder text
   final String? hintText;
 
   /// Icono izquierdo
+  ///
+  /// Left icon
   final IconData? prefixIcon;
 
   /// Icono derecho
+  ///
+  /// Right icon
   final Widget? suffixIcon;
 
-  /// Color de icono izquierdo
+  /// Color del icono izquierdo
+  ///
+  /// Left icon color
   final Color? prefixIconColor;
 
   /// Tipo de teclado
+  ///
+  /// Keyboard type
   final TextInputType? keyboardType;
 
-  /// Validators para cada textformfield
+  /// Funcion de validacion
+  ///
+  /// Validation function
   final String? Function(String? value)? validator;
 
   /// Funcion onChanged
+  ///
+  /// onChanged function
   final void Function(String)? onChanged;
 
   /// Ancho del campo de texto.
+  ///
+  /// Width of the text field.
   final double? width;
 
   /// Alto del campo de texto.
+  ///
+  /// Height of the text field.
   final double? height;
 
-  /// Formateadores de texto para ponerle restricciones a el usuario
+  /// Formateadores de texto para ponerle restricciones al usuario
   /// sobre que tipo de caracteres puede completar en el campo de texto.
+  ///
+  /// Text formatters to restrict the user on what type of characters can be
+  /// completed in the text field.
   final List<TextInputFormatter>? inputFormatters;
 
-  /// Máximo de caracteres a poner
+  /// Maximo de caracteres a poner
+  ///
+  /// Maximum characters to put
   final int? maxLength;
 
-  /// color del cursor al estar escribiendo
-  final Color? cursorColor;
-
   /// Decoración del textfield
+  ///
+  /// Textfield decoration
   final InputDecoration? decoration;
-
-  /// Al Apretar el Campo ejecuta esta Accion.
-  final void Function()? onTap;
 
   /// Un objeto que puede ser utilizado por un Stateful widget para obtener
   /// el foco del teclado y manejar eventos del teclado.
+  ///
+  /// An object that can be used by a Stateful widget to obtain the focus of
+  /// the keyboard and handle keyboard events.
   final FocusNode? focusNode;
 
   /// Las lineas maximas que puede tomar el campo de texto
+  ///
+  /// The maximum lines that the text field can take
   final int maxLines;
 
   /// Color utilizado para marcar error en el borde del textfield
+  ///
+  /// Color used to mark error in the border of the textfield
   final Color? borderColor;
 
   @override
@@ -321,7 +309,6 @@ class _PMTextFormFieldsState extends State<PMTextFormFields> {
       width: widget.width,
       height: widget.height,
       child: TextFormField(
-        onTap: widget.onTap,
         maxLines: widget.maxLines,
         obscureText: widget.obscureText,
         maxLength: widget.maxLength,

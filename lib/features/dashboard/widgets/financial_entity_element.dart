@@ -1,19 +1,33 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/extensions/string.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/widgets/purchase_element.dart';
 import 'package:purchase_manager/models/enums/feature_type.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
 import 'package:purchase_manager/models/purchase.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
+/// {@template FinancialEntityElement}
+/// Elemento que muestra los datos de una [FinancialEntity]
+///
+/// Element that shows the data of a [FinancialEntity]
+/// {@endtemplate}
 class FinancialEntityElement extends StatelessWidget {
+  /// {@macro FinancialEntityElement}
   const FinancialEntityElement({
     required this.financialEntity,
     required this.featureType,
     super.key,
   });
+
+  /// Entidad financiera a mostrar
+  ///
+  /// Financial entity to show
   final FinancialEntity financialEntity;
+
+  /// Tipo de caracteristica a mostrar
+  ///
+  /// Type of feature to show
   final FeatureType featureType;
 
   @override
@@ -48,10 +62,11 @@ class FinancialEntityElement extends StatelessWidget {
                   return state
                       .listPurchaseStatusCurrentCreditor(financialEntity);
                 case FeatureType.settledDebtor:
-                  return state.listPurchaseStatusHistoryDebtor(financialEntity);
+                  return state.listPurchaseStatusSettledDebtor(financialEntity);
                 case FeatureType.settledCreditor:
                   return state
-                      .listPurchaseStatusHistoryCreditor(financialEntity);
+                      .listPurchaseStatusSettledCreditor(financialEntity);
+                // ignore: no_default_cases
                 default:
                   return [];
               }
@@ -60,17 +75,18 @@ class FinancialEntityElement extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: listaCompras(state)
-                    .map((purchase) => PurchaseElement(
-                          purchase: purchase,
-                          financialEntity: financialEntity,
-                        ))
+                    .map(
+                      (purchase) => PurchaseElement(
+                        purchase: purchase,
+                        financialEntity: financialEntity,
+                      ),
+                    )
                     .toList(),
               ),
             );
           },
-        )
+        ),
       ],
     );
   }

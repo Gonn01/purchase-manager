@@ -5,7 +5,14 @@ import 'package:purchase_manager/features/login/bloc/bloc_login.dart';
 import 'package:purchase_manager/features/login/view/view_login.dart';
 
 @RoutePage()
+
+/// {@template PageLogin}
+/// Pagina que contiene el login
+///
+/// Page that contains the login
+/// {@endtemplate}
 class PageLogin extends StatefulWidget {
+  /// {@macro PageLogin}
   const PageLogin({super.key});
 
   @override

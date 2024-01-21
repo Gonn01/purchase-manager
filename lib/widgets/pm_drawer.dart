@@ -5,7 +5,13 @@ import 'package:purchase_manager/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/gen/assets.gen.dart';
 import 'package:purchase_manager/widgets/pm_buttons.dart';
 
+/// {@template PMDrawer}
+/// Drawer que contiene las opciones de navegación
+///
+/// Drawer that contains navigation options
+/// {@endtemplate}
 class PMDrawer extends StatelessWidget {
+  /// {@macro PMDrawer}
   const PMDrawer({
     super.key,
   });
@@ -36,13 +42,14 @@ class PMDrawer extends StatelessWidget {
                 child: Column(
                   children: [
                     ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: Image.network(
-                          auth.currentUser?.photoURL ?? '',
-                          errorBuilder: (context, error, stackTrace) =>
-                              Image.asset(Assets.images.user.path),
-                        )),
-                    Text(auth.currentUser?.email ?? '')
+                      borderRadius: BorderRadius.circular(50),
+                      child: Image.network(
+                        auth.currentUser?.photoURL ?? '',
+                        errorBuilder: (context, error, stackTrace) =>
+                            Image.asset(Assets.images.user.path),
+                      ),
+                    ),
+                    Text(auth.currentUser?.email ?? ''),
                   ],
                 ),
               ),

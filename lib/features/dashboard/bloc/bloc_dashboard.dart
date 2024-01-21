@@ -1,18 +1,18 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:purchase_manager/endpoints/crud_financial_entity.dart';
 import 'package:purchase_manager/endpoints/crud_purchase.dart';
 import 'package:purchase_manager/endpoints/services/dolar.dart';
-import 'package:purchase_manager/models/coin.dart';
-import 'package:purchase_manager/models/enums/exchange_rate.dart';
+import 'package:purchase_manager/models/currency.dart';
+import 'package:purchase_manager/models/enums/currency_type.dart';
 import 'package:purchase_manager/models/enums/purchase_type.dart';
+import 'package:purchase_manager/models/enums/status.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
 import 'package:purchase_manager/models/purchase.dart';
-import 'package:purchase_manager/models/enums/status.dart';
-import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-part 'bloc_dashboard_state.dart';
 part 'bloc_dashboard_event.dart';
+part 'bloc_dashboard_state.dart';
 
 /// {@template BlocInicio}
 /// Bloc que maneja los estados y lógica de la pagina de 'Login'
@@ -40,7 +40,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
       final auth = FirebaseAuth.instance;
       final listaCategorias =
           await readFinancialEntities(idUser: auth.currentUser?.uid ?? '');
-      final dolar = await DolarService().getCoinData();
+      final dolar = await DolarService().getDollarData();
       emit(
         state.copyWith(
           coin: dolar,
@@ -49,7 +49,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
         ),
       );
     } catch (e) {
-      emit(state.copyWith(mensajeError: e.toString(), estado: Status.error));
+      emit(state.copyWith(estado: Status.error));
     }
   }
 
@@ -60,21 +60,21 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
     emit(state.copyWith(estado: Status.loading));
     try {
       final auth = FirebaseAuth.instance;
+
       final listaCategorias =
           List<FinancialEntity>.from(state.financialEntityList);
 
-      // Busca la categoría que contiene la compra con la ID proporcionada
       final categoriaModificada = listaCategorias.firstWhere(
         (categoria) =>
             categoria.purchases.any((compra) => compra.id == event.idPurchase),
       );
 
-      // Modifica la cantidad de cuotas directamente en la compra dentro de la categoría
       final compraAModificar = categoriaModificada.purchases.firstWhere(
         (compra) => compra.id == event.idPurchase,
       );
+
       if (event.modificationType == ModificationType.increase) {
-        updatePurchase(
+        await updatePurchase(
           idUser: auth.currentUser?.uid ?? '',
           idFinancialEntity: categoriaModificada.id,
           newPurchase: compraAModificar
@@ -87,13 +87,13 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
         );
       } else {
         if (compraAModificar.amountOfQuotas > 1) {
-          updatePurchase(
+          await updatePurchase(
             idUser: auth.currentUser?.uid ?? '',
             idFinancialEntity: categoriaModificada.id,
             newPurchase: compraAModificar..amountOfQuotas -= 1,
           );
         } else {
-          updatePurchase(
+          await updatePurchase(
             idUser: auth.currentUser?.uid ?? '',
             idFinancialEntity: categoriaModificada.id,
             newPurchase: compraAModificar
@@ -112,7 +112,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
         ),
       );
     } catch (e) {
-      emit(state.copyWith(mensajeError: e.toString(), estado: Status.error));
+      emit(state.copyWith(estado: Status.error));
     }
   }
 
@@ -132,7 +132,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
         state.copyWith(estado: Status.success),
       );
     } catch (e) {
-      emit(state.copyWith(mensajeError: e.toString(), estado: Status.error));
+      emit(state.copyWith(estado: Status.error));
     }
   }
 
@@ -143,7 +143,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
     emit(state.copyWith(estado: Status.loading));
     try {
       final auth = FirebaseAuth.instance;
-      await deleteCategoria(
+      await deleteFinancialEntity(
         categoriaId: event.idFinancialEntity,
         idUsuario: auth.currentUser?.uid ?? '',
       );
@@ -152,7 +152,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
         state.copyWith(estado: Status.success),
       );
     } catch (e) {
-      emit(state.copyWith(mensajeError: e.toString(), estado: Status.error));
+      emit(state.copyWith(estado: Status.error));
     }
   }
 
@@ -175,10 +175,10 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
         currency: event.currency,
       );
 
-      await createCompra(
-        usuarioId: auth.currentUser?.uid ?? '',
-        categoriaId: event.idFinancialEntity,
-        nuevaCompra: nuevaCompra,
+      await createPurchase(
+        idUser: auth.currentUser?.uid ?? '',
+        idFinancialEntity: event.idFinancialEntity,
+        newPurchase: nuevaCompra,
       );
 
       add(BlocDashboardEventInitialize());
@@ -187,7 +187,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
         state.copyWith(estado: Status.success),
       );
     } catch (e) {
-      emit(state.copyWith(mensajeError: e.toString(), estado: Status.error));
+      emit(state.copyWith(estado: Status.error));
     }
   }
 
@@ -219,7 +219,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
         state.copyWith(estado: Status.success),
       );
     } catch (e) {
-      emit(state.copyWith(mensajeError: e.toString(), estado: Status.error));
+      emit(state.copyWith(estado: Status.error));
     }
   }
 
@@ -230,17 +230,17 @@ class BlocDashboard extends Bloc<BlocDashboardEvento, BlocDashboardState> {
     emit(state.copyWith(estado: Status.loading));
     try {
       final auth = FirebaseAuth.instance;
-      await deleteCompra(
-        categoriaId: event.idFinancialEntity,
-        usuarioId: auth.currentUser?.uid ?? '',
-        compraId: event.idPurchase,
+      await deletePurchase(
+        idFinancialEntity: event.idFinancialEntity,
+        idUser: auth.currentUser?.uid ?? '',
+        idPurchase: event.idPurchase,
       );
       add(BlocDashboardEventInitialize());
       emit(
         state.copyWith(estado: Status.success),
       );
     } catch (e) {
-      emit(state.copyWith(mensajeError: e.toString(), estado: Status.error));
+      emit(state.copyWith(estado: Status.error));
     }
   }
 }
