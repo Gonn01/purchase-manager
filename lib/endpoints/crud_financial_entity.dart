@@ -49,7 +49,16 @@ Future<List<FinancialEntity>> readFinancialEntities({
 
         final purchases = purchaseManagersnapshot.docs.map((purchaseDoc) {
           final purchaseData = purchaseDoc.data()! as Map<String, dynamic>;
+          DateTime? lastCuotaDate;
 
+          if (purchaseData['fechaFinalizacion'] != null) {
+            if (purchaseData['fechaFinalizacion'] is Timestamp) {
+              lastCuotaDate =
+                  (purchaseData['fechaFinalizacion'] as Timestamp).toDate();
+            } else if (purchaseData['fechaFinalizacion'] is DateTime) {
+              lastCuotaDate = purchaseData['fechaFinalizacion'] as DateTime;
+            }
+          }
           return Purchase(
             currency: CurrencyType.type(purchaseData['currency'] as int),
             id: purchaseDoc.id,
@@ -59,10 +68,7 @@ Future<List<FinancialEntity>> readFinancialEntities({
             nameOfProduct: purchaseData['producto'] as String,
             type: PurchaseType.type(purchaseData['type'] as int),
             creationDate: (purchaseData['fechaCreacion'] as Timestamp).toDate(),
-            lastCuotaDate:
-                (purchaseData['FechaFinalizacion'] as DateTime?) != null
-                    ? (purchaseData['FechaFinalizacion'] as DateTime)
-                    : null,
+            lastCuotaDate: lastCuotaDate,
             logs: (purchaseData['logs'] as List<dynamic>).cast<String>(),
           );
         }).toList();

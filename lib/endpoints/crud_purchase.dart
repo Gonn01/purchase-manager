@@ -62,6 +62,7 @@ Future<void> updatePurchase({
       'type': newPurchase.type.value,
       'currency': newPurchase.currency.value,
       'logs': newPurchase.logs,
+      'fechaFinalizacion': newPurchase.lastCuotaDate,
     });
 
     debugPrint('Compra actualizada en Firestore.');

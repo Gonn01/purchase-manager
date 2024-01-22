@@ -41,34 +41,43 @@ class ViewFinancialEntitiesList extends StatelessWidget {
             child: Column(
               children: state.listFinancialEntity
                   .map(
-                    (financialEntity) => Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            context.read<BlocFinancialEntities>().add(
-                                  BlocFinancialEntitiesEventSelectFinancialEntity(
-                                    financialEntity: financialEntity,
-                                  ),
-                                );
-                            context.router.push(
-                              const RutaFinancialEntityDetails(),
+                    (financialEntity) => GestureDetector(
+                      onTap: () {
+                        context.read<BlocFinancialEntities>().add(
+                              BlocFinancialEntitiesEventSelectFinancialEntity(
+                                financialEntity: financialEntity,
+                              ),
                             );
-                          },
-                          child: Text(financialEntity.name),
+                        context.router.push(
+                          const RutaFinancialEntityDetails(),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              financialEntity.name,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () => _dialogDeleteFinancialEntity(
+                                context,
+                                financialEntity,
+                              ),
+                              child: const Icon(
+                                Icons.delete_forever_outlined,
+                                size: 25,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ],
                         ),
-                        GestureDetector(
-                          onTap: () => _dialogDeleteFinancialEntity(
-                            context,
-                            financialEntity,
-                          ),
-                          child: const Icon(
-                            Icons.delete,
-                            size: 20,
-                            color: Colors.red,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   )
                   .toList(),

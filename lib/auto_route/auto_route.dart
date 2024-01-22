@@ -24,7 +24,6 @@ class AppRouter extends $AppRouter {
   List<AutoRoute> get routes => [
         AutoRoute(
           page: RutaLogin.page,
-          initial: true,
           path: '/login',
           guards: [initialGuard],
         ),
@@ -48,6 +47,7 @@ class AppRouter extends $AppRouter {
           page: RutaFinancialEntities.page,
           path: '/financial_entities',
           guards: [authGuard],
+          initial: true,
           children: [
             AutoRoute(
               page: RutaFinancialEntitiesList.page,

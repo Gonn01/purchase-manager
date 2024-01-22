@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:purchase_manager/endpoints/crud_financial_entity.dart';
 import 'package:purchase_manager/endpoints/crud_purchase.dart';
 import 'package:purchase_manager/endpoints/services/dolar.dart';
+import 'package:purchase_manager/extensions/date_time.dart';
 import 'package:purchase_manager/models/currency.dart';
 import 'package:purchase_manager/models/enums/currency_type.dart';
 import 'package:purchase_manager/models/enums/purchase_type.dart';
@@ -88,7 +89,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
           idUser: auth.currentUser?.uid ?? '',
           idFinancialEntity: categoriaModificada.id,
           idPurchase: compraAModificar.id,
-          newLog: 'Se agregó una cuota.${DateTime.now()}',
+          newLog: 'Se agregó una cuota.${DateTime.now().formatWithHour}',
         );
       } else {
         if (compraAModificar.amountOfQuotas > 1) {
@@ -101,7 +102,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
             idUser: auth.currentUser?.uid ?? '',
             idFinancialEntity: categoriaModificada.id,
             idPurchase: compraAModificar.id,
-            newLog: 'Se bajo una cuota.${DateTime.now()}',
+            newLog: 'Se bajo una cuota.${DateTime.now().formatWithHour}',
           );
         } else {
           await updatePurchase(
@@ -118,7 +119,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
             idUser: auth.currentUser?.uid ?? '',
             idFinancialEntity: categoriaModificada.id,
             idPurchase: compraAModificar.id,
-            newLog: 'Se pago la ultima cuota. ${DateTime.now()}',
+            newLog: 'Se pago la ultima cuota. ${DateTime.now().formatWithHour}',
           );
         }
       }
