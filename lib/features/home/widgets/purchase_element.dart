@@ -86,7 +86,7 @@ class PurchaseElement extends StatelessWidget {
                       ? 'Total: ${purchase.totalAmount.formatAmount()}'
                           '${purchase.currency.name}'
                       : 'Fecha de finalización: '
-                          '${purchase.lastCuotaDate!.format}',
+                          '${purchase.lastCuotaDate?.format}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(

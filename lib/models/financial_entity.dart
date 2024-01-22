@@ -11,6 +11,7 @@ class FinancialEntity {
     required this.id,
     required this.name,
     required this.purchases,
+    required this.logs,
   });
 
   /// id de la entidad financiera
@@ -27,4 +28,9 @@ class FinancialEntity {
   ///
   /// Purchases of the financial entity
   final List<Purchase> purchases;
+
+  /// Logs de la entidad financiera
+  ///
+  /// Logs of the financial entity
+  final List<String> logs;
 }

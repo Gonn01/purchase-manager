@@ -28,6 +28,7 @@ Future<void> createPurchase({
       'fechaFinalizacion': null,
       'fechaPrimeraCuota': null,
       'currency': newPurchase.currency.value,
+      'logs': <String>['Se creó la compra. ${DateTime.now()}}'],
     });
 
     debugPrint('Compra registrada en Firestore.');
@@ -37,6 +38,7 @@ Future<void> createPurchase({
 }
 
 /// Actualiza una [Purchase] en Firestore.
+///
 /// Updates a [Purchase] in Firestore.
 Future<void> updatePurchase({
   required String idUser,
@@ -59,6 +61,7 @@ Future<void> updatePurchase({
       'montoPorCuota': newPurchase.amountPerQuota,
       'type': newPurchase.type.value,
       'currency': newPurchase.currency.value,
+      'logs': newPurchase.logs,
     });
 
     debugPrint('Compra actualizada en Firestore.');
@@ -87,5 +90,38 @@ Future<void> deletePurchase({
     debugPrint('Compra eliminada de Firestore.');
   } catch (e) {
     debugPrint('Error al eliminar la compra: $e');
+  }
+}
+
+/// Añade un log a una [Purchase] en Firestore.
+///
+/// Adds a log to a [Purchase] in Firestore.
+Future<void> updatePurchaseLogs({
+  required String idUser,
+  required String idFinancialEntity,
+  required String idPurchase,
+  required String newLog,
+}) async {
+  try {
+    final DocumentReference compraRef = _firestore
+        .collection('usuarios')
+        .doc(idUser)
+        .collection('categorias')
+        .doc(idFinancialEntity)
+        .collection('compras')
+        .doc(idPurchase);
+    final purchaseSnapshot = await compraRef.get();
+
+    final purchaseData = purchaseSnapshot.data()! as Map<String, dynamic>;
+
+    final logs = (purchaseData['logs'] as List<dynamic>).cast<String>()
+      ..add(newLog);
+
+    await compraRef.update({
+      'logs': logs,
+    });
+    debugPrint('Logs añadidos en Firestore.');
+  } catch (e) {
+    debugPrint('Error al añadir los logs: $e');
   }
 }

@@ -42,9 +42,21 @@ class AppRouter extends $AppRouter {
               page: RutaSettledPurchases.page,
               path: 'settled-purchases',
             ),
+          ],
+        ),
+        AutoRoute(
+          page: RutaFinancialEntities.page,
+          path: '/financial_entities',
+          guards: [authGuard],
+          children: [
             AutoRoute(
-              page: RutaFinancialEntities.page,
-              path: 'financial_entities',
+              page: RutaFinancialEntitiesList.page,
+              initial: true,
+              path: 'list',
+            ),
+            AutoRoute(
+              page: RutaFinancialEntityDetails.page,
+              path: 'details',
             ),
           ],
         ),

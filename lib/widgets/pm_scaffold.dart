@@ -36,7 +36,7 @@ class PMScaffold extends StatelessWidget {
         drawer: const PMDrawer(),
         appBar: PMAppbar(type: type),
         floatingActionButton: PMFloatingActionButton(type: type),
-        bottomNavigationBar: type != FeatureType.categories
+        bottomNavigationBar: type != FeatureType.financialEntities
             ? PMBottomNavigationBar(
                 type: type,
               )

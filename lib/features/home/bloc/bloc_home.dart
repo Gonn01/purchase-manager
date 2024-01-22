@@ -57,7 +57,6 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     BlocHomeEventModifyAmountOfQuotas event,
     Emitter<BlocHomeState> emit,
   ) async {
-    emit(state.copyWith(estado: Status.loading));
     try {
       final auth = FirebaseAuth.instance;
 
@@ -85,12 +84,24 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
                     ? PurchaseType.currentDebtorPurchase
                     : PurchaseType.currentCreditorPurchase,
         );
+        await updatePurchaseLogs(
+          idUser: auth.currentUser?.uid ?? '',
+          idFinancialEntity: categoriaModificada.id,
+          idPurchase: compraAModificar.id,
+          newLog: 'Se agregó una cuota.${DateTime.now()}',
+        );
       } else {
         if (compraAModificar.amountOfQuotas > 1) {
           await updatePurchase(
             idUser: auth.currentUser?.uid ?? '',
             idFinancialEntity: categoriaModificada.id,
             newPurchase: compraAModificar..amountOfQuotas -= 1,
+          );
+          await updatePurchaseLogs(
+            idUser: auth.currentUser?.uid ?? '',
+            idFinancialEntity: categoriaModificada.id,
+            idPurchase: compraAModificar.id,
+            newLog: 'Se bajo una cuota.${DateTime.now()}',
           );
         } else {
           await updatePurchase(
@@ -103,8 +114,15 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
               ..amountOfQuotas -= 1
               ..lastCuotaDate = DateTime.now(),
           );
+          await updatePurchaseLogs(
+            idUser: auth.currentUser?.uid ?? '',
+            idFinancialEntity: categoriaModificada.id,
+            idPurchase: compraAModificar.id,
+            newLog: 'Se pago la ultima cuota. ${DateTime.now()}',
+          );
         }
       }
+      add(BlocHomeEventInitialize());
       emit(
         state.copyWith(
           estado: Status.success,
@@ -173,6 +191,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
         nameOfProduct: event.productName,
         type: event.purchaseType,
         currency: event.currency,
+        logs: ['Se creó la compra. ${DateTime.now()}'],
       );
 
       await createPurchase(
@@ -211,6 +230,13 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
         idUser: auth.currentUser?.uid ?? '',
         idFinancialEntity: event.idFinancialEntity,
         newPurchase: nuevaCompra,
+      );
+
+      await updatePurchaseLogs(
+        idUser: auth.currentUser?.uid ?? '',
+        idFinancialEntity: event.idFinancialEntity,
+        idPurchase: nuevaCompra.id,
+        newLog: 'Se edito la compra ${DateTime.now()}',
       );
 
       add(BlocHomeEventInitialize());

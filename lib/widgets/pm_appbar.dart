@@ -30,7 +30,14 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
   final FeatureType type;
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 80);
+  Size get preferredSize => Size.fromHeight(
+        kToolbarHeight +
+            (type != FeatureType.financialEntities &&
+                    type != FeatureType.financialEntityDetails &&
+                    type != FeatureType.financialEntitiesList
+                ? 80
+                : 0),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -54,19 +61,24 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 20),
-          child: GestureDetector(
-            onTap: () => _createFinancialEntity(context),
-            child: const Icon(
-              Icons.add,
-              size: 30,
-              color: Colors.white,
+        if (type != FeatureType.financialEntities &&
+            type != FeatureType.financialEntityDetails &&
+            type != FeatureType.financialEntitiesList)
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: GestureDetector(
+              onTap: () => _createFinancialEntity(context),
+              child: const Icon(
+                Icons.add,
+                size: 30,
+                color: Colors.white,
+              ),
             ),
           ),
-        ),
       ],
-      bottom: type != FeatureType.categories
+      bottom: type != FeatureType.financialEntities &&
+              type != FeatureType.financialEntityDetails &&
+              type != FeatureType.financialEntitiesList
           ? const TabBar(
               indicatorWeight: 5,
               indicatorColor: Colors.white,

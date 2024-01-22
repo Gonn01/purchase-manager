@@ -17,8 +17,8 @@ class Purchase {
     required this.type,
     required this.creationDate,
     required this.currency,
+    required this.logs,
     this.lastCuotaDate,
-    this.firstQuotaDate,
   });
 
   /// id de la compra
@@ -54,12 +54,7 @@ class Purchase {
   /// Fecha de creacion de la compra
   ///
   /// Creation date of the purchase
-  DateTime creationDate;
-
-  /// Fecha de pago de la primera cuota
-  ///
-  /// Payment date of the first quota
-  DateTime? firstQuotaDate;
+  final DateTime creationDate;
 
   /// Fecha de pago de la ultima cuota
   ///
@@ -68,4 +63,9 @@ class Purchase {
 
   /// Tipo de moneda
   CurrencyType currency;
+
+  /// Logs de la entidad financiera
+  ///
+  /// Logs of the financial entity
+  final List<String> logs;
 }

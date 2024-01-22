@@ -22,6 +22,7 @@ Future<void> createFinancialEntity({
         .collection('categorias')
         .add({
       'nombre': financialEntityName,
+      'logs': <String>['Se creó la categoría. ${DateTime.now()}}'],
     });
 
     debugPrint('Categoría registrada en Firestore.');
@@ -62,6 +63,7 @@ Future<List<FinancialEntity>> readFinancialEntities({
                 (purchaseData['FechaFinalizacion'] as DateTime?) != null
                     ? (purchaseData['FechaFinalizacion'] as DateTime)
                     : null,
+            logs: (purchaseData['logs'] as List<dynamic>).cast<String>(),
           );
         }).toList();
 
@@ -70,6 +72,7 @@ Future<List<FinancialEntity>> readFinancialEntities({
           id: doc.id,
           name: doc['nombre'] as String,
           purchases: purchases,
+          logs: (doc['logs'] as List<dynamic>).cast<String>(),
         );
       }).toList(),
     );
@@ -84,8 +87,9 @@ Future<List<FinancialEntity>> readFinancialEntities({
 /// Updates a [FinancialEntity] in Firestore.
 Future<void> updateFinancialEntity({
   required String idFinancialEntity,
-  required String newName,
   required String idUser,
+  required String newName,
+  required List<String> newLogs,
 }) async {
   try {
     await _firestore
@@ -95,6 +99,7 @@ Future<void> updateFinancialEntity({
         .doc(idFinancialEntity)
         .update({
       'nombre': newName,
+      'logs': newLogs,
     });
     debugPrint('Categoría actualizada en Firestore.');
   } catch (e) {

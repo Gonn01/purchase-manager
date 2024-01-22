@@ -1,4 +1,5 @@
 import 'package:purchase_manager/auto_route/auto_route.gr.dart';
+import 'package:purchase_manager/models/financial_entity.dart';
 import 'package:purchase_manager/models/purchase.dart';
 
 /// {@template FeatureType}
@@ -35,7 +36,17 @@ enum FeatureType {
   /// Tipo de feature de categorias
   ///
   /// Categories feature type
-  categories;
+  financialEntities,
+
+  /// Tipo de feature lista de [FinancialEntity]
+  ///
+  /// [FinancialEntity] list feature type
+  financialEntitiesList,
+
+  /// Tipo de feature detalles de [FinancialEntity]
+  ///
+  /// [FinancialEntity] details feature type
+  financialEntityDetails;
 
   /// Devuelve el nombre del tipo de feature
   ///
@@ -44,7 +55,10 @@ enum FeatureType {
         FeatureType.currentDebtor || FeatureType.currentCreditor => 'Vigente',
         FeatureType.settledDebtor || FeatureType.settledCreditor => 'Historial',
         FeatureType.home => 'Home',
-        FeatureType.categories => 'Categoria',
+        FeatureType.financialEntities ||
+        FeatureType.financialEntitiesList =>
+          'Categorias',
+        FeatureType.financialEntityDetails => 'Categoria',
       };
 
   /// Devuelve el nombre de la feature segun el tipo de ruta
@@ -58,7 +72,9 @@ enum FeatureType {
         FeatureType.settledCreditor =>
           RutaSettledPurchases.name,
         FeatureType.home => RutaHome.name,
-        FeatureType.categories => RutaFinancialEntities.name,
+        FeatureType.financialEntities => RutaFinancialEntities.name,
+        FeatureType.financialEntitiesList => RutaFinancialEntitiesList.name,
+        FeatureType.financialEntityDetails => RutaFinancialEntityDetails.name,
       };
 
   /// Devuelve un valor booleano segun el tipo de feature y la compra
