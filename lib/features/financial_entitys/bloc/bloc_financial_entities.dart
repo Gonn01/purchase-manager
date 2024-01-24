@@ -83,7 +83,7 @@ class BlocFinancialEntities
       final auth = FirebaseAuth.instance;
 
       await deleteFinancialEntity(
-        categoriaId: event.idFinancialEntity,
+        idFinancialEntity: event.idFinancialEntity,
         idUsuario: auth.currentUser?.uid ?? '',
       );
 

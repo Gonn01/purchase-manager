@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/models/purchase.dart';
 import 'package:purchase_manager/widgets/pm_dialogs.dart';
 
 /// {@template DialogDeletePurchase}
@@ -11,15 +12,15 @@ import 'package:purchase_manager/widgets/pm_dialogs.dart';
 class DialogDeletePurchase extends StatelessWidget {
   /// {@macro DialogDeletePurchase}
   const DialogDeletePurchase({
-    required this.idPurchase,
+    required this.purchase,
     required this.idFinancialEntity,
     super.key,
   });
 
-  /// Id de la compra a eliminar
+  /// Compra a eliminar
   ///
-  /// Id of the purchase to delete
-  final String idPurchase;
+  /// purchase to delete
+  final Purchase purchase;
 
   /// Id de la entidad financiera a la que pertenece la compra
   ///
@@ -32,7 +33,7 @@ class DialogDeletePurchase extends StatelessWidget {
       onTapConfirm: () {
         context.read<BlocHome>().add(
               BlocHomeEventDeletePurchase(
-                idPurchase: idPurchase,
+                purchase: purchase,
                 idFinancialEntity: idFinancialEntity,
               ),
             );

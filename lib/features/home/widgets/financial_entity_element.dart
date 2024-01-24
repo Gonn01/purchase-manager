@@ -54,7 +54,7 @@ class FinancialEntityElement extends StatelessWidget {
       children: <Widget>[
         BlocBuilder<BlocHome, BlocHomeState>(
           builder: (context, state) {
-            List<Purchase> listaCompras(BlocHomeState state) {
+            List<Purchase> purchaseList(BlocHomeState state) {
               switch (featureType) {
                 case FeatureType.currentDebtor:
                   return state.listPurchaseStatusCurrentDebtor(financialEntity);
@@ -75,7 +75,7 @@ class FinancialEntityElement extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
-                children: listaCompras(state)
+                children: purchaseList(state)
                     .map(
                       (purchase) => PurchaseElement(
                         purchase: purchase,

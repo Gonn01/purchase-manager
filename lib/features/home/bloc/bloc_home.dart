@@ -39,14 +39,14 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     emit(state.copyWith(estado: Status.loading));
     try {
       final auth = FirebaseAuth.instance;
-      final listaCategorias =
+      final listFinancialeEntity =
           await readFinancialEntities(idUser: auth.currentUser?.uid ?? '');
       final dolar = await DolarService().getDollarData();
       emit(
         state.copyWith(
           coin: dolar,
           estado: Status.success,
-          listaCategorias: listaCategorias,
+          financialEntityList: listFinancialeEntity,
         ),
       );
     } catch (e) {
@@ -61,65 +61,77 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     try {
       final auth = FirebaseAuth.instance;
 
-      final listaCategorias =
+      final listFinancialEntity =
           List<FinancialEntity>.from(state.financialEntityList);
 
-      final categoriaModificada = listaCategorias.firstWhere(
-        (categoria) =>
-            categoria.purchases.any((compra) => compra.id == event.idPurchase),
+      final financialEntityModified = listFinancialEntity.firstWhere(
+        (financialEntity) => financialEntity.purchases
+            .any((compra) => compra.id == event.idPurchase),
       );
 
-      final compraAModificar = categoriaModificada.purchases.firstWhere(
+      final compraAModificar = financialEntityModified.purchases.firstWhere(
         (compra) => compra.id == event.idPurchase,
       );
 
       if (event.modificationType == ModificationType.increase) {
-        await updatePurchase(
-          idUser: auth.currentUser?.uid ?? '',
-          idFinancialEntity: categoriaModificada.id,
-          newPurchase: compraAModificar
-            ..amountOfQuotas += 1
-            ..type = event.purchaseType.isCurrent
-                ? event.purchaseType
-                : event.purchaseType == PurchaseType.settledDebtorPurchase
-                    ? PurchaseType.currentDebtorPurchase
-                    : PurchaseType.currentCreditorPurchase,
-        );
-        await updatePurchaseLogs(
-          idUser: auth.currentUser?.uid ?? '',
-          idFinancialEntity: categoriaModificada.id,
-          idPurchase: compraAModificar.id,
-          newLog: 'Se agregó una cuota.${DateTime.now().formatWithHour}',
-        );
+        await Future.wait([
+          updatePurchase(
+            idUser: auth.currentUser?.uid ?? '',
+            idFinancialEntity: financialEntityModified.id,
+            newPurchase: compraAModificar
+              ..amountOfQuotas += 1
+              ..type = event.purchaseType.isCurrent
+                  ? event.purchaseType
+                  : event.purchaseType == PurchaseType.settledDebtorPurchase
+                      ? PurchaseType.currentDebtorPurchase
+                      : PurchaseType.currentCreditorPurchase,
+          ),
+          updatePurchaseLogs(
+            idUser: auth.currentUser?.uid ?? '',
+            idFinancialEntity: financialEntityModified.id,
+            idPurchase: compraAModificar.id,
+            newLog: 'Se agregó una cuota.${DateTime.now().formatWithHour}',
+          ),
+        ]);
       } else {
         if (compraAModificar.amountOfQuotas > 1) {
-          await updatePurchase(
-            idUser: auth.currentUser?.uid ?? '',
-            idFinancialEntity: categoriaModificada.id,
-            newPurchase: compraAModificar..amountOfQuotas -= 1,
-          );
-          await updatePurchaseLogs(
-            idUser: auth.currentUser?.uid ?? '',
-            idFinancialEntity: categoriaModificada.id,
-            idPurchase: compraAModificar.id,
-            newLog: 'Se bajo una cuota.${DateTime.now().formatWithHour}',
+          await Future.wait(
+            [
+              updatePurchase(
+                idUser: auth.currentUser?.uid ?? '',
+                idFinancialEntity: financialEntityModified.id,
+                newPurchase: compraAModificar..amountOfQuotas -= 1,
+              ),
+              updatePurchaseLogs(
+                idUser: auth.currentUser?.uid ?? '',
+                idFinancialEntity: financialEntityModified.id,
+                idPurchase: compraAModificar.id,
+                newLog: 'Se bajo una cuota.${DateTime.now().formatWithHour}',
+              ),
+            ],
           );
         } else {
-          await updatePurchase(
-            idUser: auth.currentUser?.uid ?? '',
-            idFinancialEntity: categoriaModificada.id,
-            newPurchase: compraAModificar
-              ..type = event.purchaseType == PurchaseType.currentDebtorPurchase
-                  ? PurchaseType.settledDebtorPurchase
-                  : PurchaseType.settledCreditorPurchase
-              ..amountOfQuotas -= 1
-              ..lastCuotaDate = DateTime.now(),
-          );
-          await updatePurchaseLogs(
-            idUser: auth.currentUser?.uid ?? '',
-            idFinancialEntity: categoriaModificada.id,
-            idPurchase: compraAModificar.id,
-            newLog: 'Se pago la ultima cuota. ${DateTime.now().formatWithHour}',
+          await Future.wait(
+            [
+              updatePurchase(
+                idUser: auth.currentUser?.uid ?? '',
+                idFinancialEntity: financialEntityModified.id,
+                newPurchase: compraAModificar
+                  ..type =
+                      event.purchaseType == PurchaseType.currentDebtorPurchase
+                          ? PurchaseType.settledDebtorPurchase
+                          : PurchaseType.settledCreditorPurchase
+                  ..amountOfQuotas -= 1
+                  ..lastCuotaDate = DateTime.now(),
+              ),
+              updatePurchaseLogs(
+                idUser: auth.currentUser?.uid ?? '',
+                idFinancialEntity: financialEntityModified.id,
+                idPurchase: compraAModificar.id,
+                newLog:
+                    'Se pago la ultima cuota. ${DateTime.now().formatWithHour}',
+              ),
+            ],
           );
         }
       }
@@ -127,7 +139,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
       emit(
         state.copyWith(
           estado: Status.success,
-          listaCategorias: listaCategorias,
+          financialEntityList: listFinancialEntity,
         ),
       );
     } catch (e) {
@@ -142,11 +154,14 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     emit(state.copyWith(estado: Status.loading));
     try {
       final auth = FirebaseAuth.instance;
+
       await createFinancialEntity(
         financialEntityName: event.financialEntityName,
         idUser: auth.currentUser?.uid ?? '',
       );
+
       add(BlocHomeEventInitialize());
+
       emit(
         state.copyWith(estado: Status.success),
       );
@@ -162,11 +177,14 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     emit(state.copyWith(estado: Status.loading));
     try {
       final auth = FirebaseAuth.instance;
+
       await deleteFinancialEntity(
-        categoriaId: event.idFinancialEntity,
+        idFinancialEntity: event.idFinancialEntity,
         idUsuario: auth.currentUser?.uid ?? '',
       );
+
       add(BlocHomeEventInitialize());
+
       emit(
         state.copyWith(estado: Status.success),
       );
@@ -192,13 +210,23 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
         nameOfProduct: event.productName,
         type: event.purchaseType,
         currency: event.currency,
-        logs: ['Se creó la compra. ${DateTime.now()}'],
+        logs: ['Se creó la compra. ${DateTime.now().formatWithHour}'],
       );
 
-      await createPurchase(
-        idUser: auth.currentUser?.uid ?? '',
-        idFinancialEntity: event.idFinancialEntity,
-        newPurchase: nuevaCompra,
+      await Future.wait(
+        [
+          createPurchase(
+            idUser: auth.currentUser?.uid ?? '',
+            idFinancialEntity: event.idFinancialEntity,
+            newPurchase: nuevaCompra,
+          ),
+          updateFinancialEntityLogs(
+            idUser: auth.currentUser?.uid ?? '',
+            idFinancialEntity: event.idFinancialEntity,
+            newLog: 'Se creo una compra ${event.productName} '
+                '${DateTime.now().formatWithHour}',
+          ),
+        ],
       );
 
       add(BlocHomeEventInitialize());
@@ -227,18 +255,19 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
         ..amountPerQuota = event.amount / event.amountOfQuotas
         ..currency = event.currency;
 
-      await updatePurchase(
-        idUser: auth.currentUser?.uid ?? '',
-        idFinancialEntity: event.idFinancialEntity,
-        newPurchase: nuevaCompra,
-      );
-
-      await updatePurchaseLogs(
-        idUser: auth.currentUser?.uid ?? '',
-        idFinancialEntity: event.idFinancialEntity,
-        idPurchase: nuevaCompra.id,
-        newLog: 'Se edito la compra ${DateTime.now()}',
-      );
+      await Future.wait([
+        updatePurchase(
+          idUser: auth.currentUser?.uid ?? '',
+          idFinancialEntity: event.idFinancialEntity,
+          newPurchase: nuevaCompra,
+        ),
+        updatePurchaseLogs(
+          idUser: auth.currentUser?.uid ?? '',
+          idFinancialEntity: event.idFinancialEntity,
+          idPurchase: nuevaCompra.id,
+          newLog: 'Se edito la compra ${DateTime.now().formatWithHour}',
+        ),
+      ]);
 
       add(BlocHomeEventInitialize());
 
@@ -257,10 +286,20 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     emit(state.copyWith(estado: Status.loading));
     try {
       final auth = FirebaseAuth.instance;
-      await deletePurchase(
-        idFinancialEntity: event.idFinancialEntity,
-        idUser: auth.currentUser?.uid ?? '',
-        idPurchase: event.idPurchase,
+      await Future.wait(
+        [
+          deletePurchase(
+            idFinancialEntity: event.idFinancialEntity,
+            idUser: auth.currentUser?.uid ?? '',
+            idPurchase: event.purchase.id,
+          ),
+          updateFinancialEntityLogs(
+            idUser: auth.currentUser?.uid ?? '',
+            idFinancialEntity: event.idFinancialEntity,
+            newLog: 'Se eliminó la compra ${event.purchase.nameOfProduct} '
+                'en la entidad ${DateTime.now().formatWithHour}',
+          ),
+        ],
       );
       add(BlocHomeEventInitialize());
       emit(

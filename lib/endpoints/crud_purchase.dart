@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:purchase_manager/extensions/date_time.dart';
 import 'package:purchase_manager/models/purchase.dart';
 
 final _firestore = FirebaseFirestore.instance;
@@ -28,7 +29,7 @@ Future<void> createPurchase({
       'fechaFinalizacion': null,
       'fechaPrimeraCuota': null,
       'currency': newPurchase.currency.value,
-      'logs': <String>['Se creó la compra. ${DateTime.now()}}'],
+      'logs': <String>['Se creó la compra. ${DateTime.now().formatWithHour}}'],
     });
 
     debugPrint('Compra registrada en Firestore.');

@@ -102,8 +102,10 @@ class BlocHomeState extends Equatable {
   ///
   /// List of [Purchase] that the [FinancialEntity] has with
   /// [PurchaseType.settledDebtorPurchase].
-  List<Purchase> listPurchaseStatusSettledDebtor(FinancialEntity categoria) =>
-      categoria.purchases
+  List<Purchase> listPurchaseStatusSettledDebtor(
+    FinancialEntity financialEntity,
+  ) =>
+      financialEntity.purchases
           .where((compra) => !compra.type.isCurrent && compra.type.isDebtor)
           .toList();
 
@@ -126,8 +128,10 @@ class BlocHomeState extends Equatable {
   ///
   /// List of [Purchase] that the [FinancialEntity] has with
   /// [PurchaseType.settledCreditorPurchase].
-  List<Purchase> listPurchaseStatusSettledCreditor(FinancialEntity categoria) =>
-      categoria.purchases
+  List<Purchase> listPurchaseStatusSettledCreditor(
+    FinancialEntity financialEntity,
+  ) =>
+      financialEntity.purchases
           .where((compra) => !compra.type.isCurrent && !compra.type.isDebtor)
           .toList();
 
@@ -141,12 +145,12 @@ class BlocHomeState extends Equatable {
   /// Copia el estado actual y lo modifica con los parámetros proporcionados.
   /// Copy the current state and modify it with the provided parameters.
   BlocHomeState copyWith({
-    List<FinancialEntity>? listaCategorias,
+    List<FinancialEntity>? financialEntityList,
     Status? estado,
     Currency? coin,
   }) {
     return BlocHomeState(
-      financialEntityList: listaCategorias ?? financialEntityList,
+      financialEntityList: financialEntityList ?? this.financialEntityList,
       status: estado ?? status,
       currency: coin,
     );

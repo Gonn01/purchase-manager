@@ -55,7 +55,8 @@ class ViewCreditorCurrentPurchases extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
                 'Total que me deben por mes: ${totalAmountPerQuota(
-                  categories: state.listFinancialEntityStatusCurrentCreditor,
+                  financialEntities:
+                      state.listFinancialEntityStatusCurrentCreditor,
                   dollarValue: state.currency?.venta ?? 0,
                 ).formatAmount()}',
                 style: const TextStyle(
@@ -74,14 +75,14 @@ class ViewCreditorCurrentPurchases extends StatelessWidget {
               child: ListView(
                 children: state.listFinancialEntityStatusCurrentCreditor
                     .map(
-                      (categoria) => categoria.purchases.isNotEmpty
+                      (financialEntity) => financialEntity.purchases.isNotEmpty
                           ? Padding(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 15,
                                 vertical: 10,
                               ),
                               child: FinancialEntityElement(
-                                financialEntity: categoria,
+                                financialEntity: financialEntity,
                                 featureType: FeatureType.currentCreditor,
                               ),
                             )

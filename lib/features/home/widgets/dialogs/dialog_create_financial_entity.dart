@@ -31,7 +31,7 @@ class _DialogCreateFinancialEntityState
   /// Muestra el dialog para crear una nueva [FinancialEntity]
   ///
   /// Shows the dialog to create a new [FinancialEntity]
-  void _crearFinancialEntity({required String nombreCategoria}) {
+  void _crearFinancialEntity() {
     if (_controller.text.isNotEmpty) {
       context.read<BlocHome>().add(
             BlocHomeEventCreateFinancialEntity(
@@ -52,14 +52,12 @@ class _DialogCreateFinancialEntityState
   Widget build(BuildContext context) {
     return PMDialogs.actionRequest(
       isEnabled: _controller.text.isNotEmpty,
-      onTapConfirm: () => _crearFinancialEntity(
-        nombreCategoria: _controller.text,
-      ),
-      title: 'Crear categoria',
+      onTapConfirm: _crearFinancialEntity,
+      title: 'Crear entidad financiera',
       content: PMTextFormFields.lettersAndNumbers(
         onChanged: (value) => setState(() => _controller.text = value),
         controller: _controller,
-        hintText: 'Nombre de la categoria',
+        hintText: 'Nombre de la entidad financiera',
       ),
     );
   }

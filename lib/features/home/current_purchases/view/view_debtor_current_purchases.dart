@@ -54,7 +54,8 @@ class ViewDebtorCurrentPurchases extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
                 'Total adeudado por mes: ${totalAmountPerQuota(
-                  categories: state.listFinancialEntitiesStatusCurrentDebtor,
+                  financialEntities:
+                      state.listFinancialEntitiesStatusCurrentDebtor,
                   dollarValue: state.currency?.venta ?? 0,
                 ).formatAmount()}',
                 style: const TextStyle(

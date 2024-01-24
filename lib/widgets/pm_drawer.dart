@@ -60,21 +60,14 @@ class PMDrawer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _DrawerButtons(
-                    label: 'Comprsas Vigentes',
+                    label: 'Home',
                     onTap: () {
-                      context.router.push(const RutaCurrentPurchases());
+                      context.router.push(const RutaHome());
                       Scaffold.of(context).closeDrawer();
                     },
                   ),
                   _DrawerButtons(
-                    label: 'Historial de comprsas',
-                    onTap: () {
-                      context.router.push(const RutaSettledPurchases());
-                      Scaffold.of(context).closeDrawer();
-                    },
-                  ),
-                  _DrawerButtons(
-                    label: 'Categorias',
+                    label: 'Entidades financieras',
                     onTap: () {
                       context.router.push(const RutaFinancialEntities());
                       Scaffold.of(context).closeDrawer();

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:purchase_manager/extensions/date_time.dart';
 import 'package:purchase_manager/models/enums/currency_type.dart';
 import 'package:purchase_manager/models/enums/purchase_type.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
@@ -7,9 +8,12 @@ import 'package:purchase_manager/models/purchase.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-// CRUD para Categorias
+/// CRUD para FinancialEntity
+///
+/// CRUD for FinancialEntity
 
 /// Crea una nueva [FinancialEntity] en Firestore.
+///
 /// Creates a new [FinancialEntity] in Firestore.
 Future<void> createFinancialEntity({
   required String financialEntityName,
@@ -22,7 +26,9 @@ Future<void> createFinancialEntity({
         .collection('categorias')
         .add({
       'nombre': financialEntityName,
-      'logs': <String>['Se creó la categoría. ${DateTime.now()}}'],
+      'logs': <String>[
+        'Se creó $financialEntityName. ${DateTime.now().formatWithHour}',
+      ],
     });
 
     debugPrint('Categoría registrada en Firestore.');
@@ -116,7 +122,7 @@ Future<void> updateFinancialEntity({
 /// Elimina una [FinancialEntity] de Firestore.
 /// Deletes a [FinancialEntity] from Firestore.
 Future<void> deleteFinancialEntity({
-  required String categoriaId,
+  required String idFinancialEntity,
   required String idUsuario,
 }) async {
   try {
@@ -124,10 +130,41 @@ Future<void> deleteFinancialEntity({
         .collection('usuarios')
         .doc(idUsuario)
         .collection('categorias')
-        .doc(categoriaId)
+        .doc(idFinancialEntity)
         .delete();
     debugPrint('Categoría eliminada de Firestore.');
   } catch (e) {
     debugPrint('Error al eliminar la categoría: $e');
+  }
+}
+
+/// Añade un log a una [FinancialEntity] en Firestore.
+///
+/// Adds a log to a [FinancialEntity] in Firestore.
+Future<void> updateFinancialEntityLogs({
+  required String idUser,
+  required String idFinancialEntity,
+  required String newLog,
+}) async {
+  try {
+    final DocumentReference financialEntityRef = _firestore
+        .collection('usuarios')
+        .doc(idUser)
+        .collection('categorias')
+        .doc(idFinancialEntity);
+    final purchaseSnapshot = await financialEntityRef.get();
+
+    final financialEntityData =
+        purchaseSnapshot.data()! as Map<String, dynamic>;
+
+    final logs = (financialEntityData['logs'] as List<dynamic>).cast<String>()
+      ..add(newLog);
+
+    await financialEntityRef.update({
+      'logs': logs,
+    });
+    debugPrint('Logs añadidos en Firestore.');
+  } catch (e) {
+    debugPrint('Error al añadir los logs: $e');
   }
 }

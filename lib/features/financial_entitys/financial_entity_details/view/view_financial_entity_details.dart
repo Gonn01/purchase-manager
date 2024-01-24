@@ -59,9 +59,17 @@ class ViewFinancialEntityDetails extends StatelessWidget {
             ),
             ExpansionTile(
               title: const Text('Logs'),
-              children:
-                  state.financialEntitySelected?.logs.map(Text.new).toList() ??
-                      [],
+              childrenPadding: const EdgeInsets.symmetric(horizontal: 10),
+              expandedCrossAxisAlignment: CrossAxisAlignment.start,
+              children: state.financialEntitySelected?.logs
+                      .map(
+                        (e) => Text(
+                          '- $e',
+                          textAlign: TextAlign.start,
+                        ),
+                      )
+                      .toList() ??
+                  [],
             ),
           ],
         );

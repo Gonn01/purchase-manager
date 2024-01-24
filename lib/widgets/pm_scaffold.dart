@@ -35,7 +35,11 @@ class PMScaffold extends StatelessWidget {
         backgroundColor: const Color(0xfff2f2f2),
         drawer: const PMDrawer(),
         appBar: PMAppbar(type: type),
-        floatingActionButton: PMFloatingActionButton(type: type),
+        floatingActionButton: type != FeatureType.financialEntities &&
+                type != FeatureType.financialEntitiesList &&
+                type != FeatureType.financialEntityDetails
+            ? PMFloatingActionButton(type: type)
+            : null,
         bottomNavigationBar: type != FeatureType.financialEntities &&
                 type != FeatureType.financialEntitiesList &&
                 type != FeatureType.financialEntityDetails

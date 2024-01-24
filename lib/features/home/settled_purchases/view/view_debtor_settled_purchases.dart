@@ -21,14 +21,14 @@ class ViewDebtorSettledPurchases extends StatelessWidget {
           return Column(
             children: state.listFinancialEntityStatusSettledDebtor
                 .map(
-                  (categoria) => categoria.purchases.isNotEmpty
+                  (financialEntity) => financialEntity.purchases.isNotEmpty
                       ? Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 15,
                             vertical: 10,
                           ),
                           child: FinancialEntityElement(
-                            financialEntity: categoria,
+                            financialEntity: financialEntity,
                             featureType: FeatureType.settledDebtor,
                           ),
                         )

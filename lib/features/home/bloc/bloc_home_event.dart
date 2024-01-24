@@ -80,7 +80,7 @@ class BlocHomeEventDeletePurchase extends BlocHomeEvento {
   ///{@macro BlocHomeEventDeletePurchase}
   const BlocHomeEventDeletePurchase({
     required this.idFinancialEntity,
-    required this.idPurchase,
+    required this.purchase,
   });
 
   /// ID de la categoría a la que pertenece la compra.
@@ -89,7 +89,7 @@ class BlocHomeEventDeletePurchase extends BlocHomeEvento {
 
   /// ID de la compra a eliminar.
   /// ID of the purchase to delete.
-  final String idPurchase;
+  final Purchase purchase;
 }
 
 /// {@template BlocHomeEventCreatePurchase}

@@ -77,7 +77,7 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
       builder: (_) => BlocProvider.value(
         value: context.read<BlocHome>(),
         child: DialogDeletePurchase(
-          idPurchase: widget.purchase.id,
+          purchase: widget.purchase,
           idFinancialEntity: widget.financialEntity.id,
         ),
       ),
@@ -139,7 +139,7 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: DropdownButton<String>(
-                  hint: const Text('Elegi Categoria'),
+                  hint: const Text('Elegi una entidad financiera'),
                   value: dropdownValue,
                   elevation: 16,
                   style: const TextStyle(color: Color(0xff02B4A3)),

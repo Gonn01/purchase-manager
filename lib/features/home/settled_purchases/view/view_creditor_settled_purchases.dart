@@ -20,14 +20,14 @@ class ViewCreditorSettledPurchases extends StatelessWidget {
           return Column(
             children: state.listFinancialEntityStatusSettledCreditor
                 .map(
-                  (categoria) => categoria.purchases.isNotEmpty
+                  (financialEntity) => financialEntity.purchases.isNotEmpty
                       ? Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 15,
                             vertical: 10,
                           ),
                           child: FinancialEntityElement(
-                            financialEntity: categoria,
+                            financialEntity: financialEntity,
                             featureType: FeatureType.settledCreditor,
                           ),
                         )

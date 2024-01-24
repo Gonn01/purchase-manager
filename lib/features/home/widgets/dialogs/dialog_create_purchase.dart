@@ -92,7 +92,7 @@ class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: DropdownButton<String>(
-                  hint: const Text('Elegi Categoria'),
+                  hint: const Text('Elegi una entidad financiera'),
                   value: idSelectedFinancialEntity,
                   elevation: 16,
                   style: const TextStyle(color: Color(0xff02B4A3)),

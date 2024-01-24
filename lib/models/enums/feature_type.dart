@@ -33,9 +33,9 @@ enum FeatureType {
   /// Settled creditor purchases feature type
   settledCreditor,
 
-  /// Tipo de feature de categorias
+  /// Tipo de feature de entidades financieras
   ///
-  /// Categories feature type
+  /// Financial entities feature type
   financialEntities,
 
   /// Tipo de feature lista de [FinancialEntity]
@@ -57,8 +57,8 @@ enum FeatureType {
         FeatureType.home => 'Home',
         FeatureType.financialEntities ||
         FeatureType.financialEntitiesList =>
-          'Categorias',
-        FeatureType.financialEntityDetails => 'Categoria',
+          'Lista de entidades einancieras',
+        FeatureType.financialEntityDetails => 'Entidades financiera',
       };
 
   /// Devuelve el nombre de la feature segun el tipo de ruta
