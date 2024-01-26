@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:purchase_manager/extensions/date_time.dart';
+import 'package:purchase_manager/models/enums/currency_type.dart';
+import 'package:purchase_manager/models/enums/purchase_type.dart';
 import 'package:purchase_manager/models/purchase.dart';
 
 final _firestore = FirebaseFirestore.instance;
@@ -125,5 +127,39 @@ Future<void> updatePurchaseLogs({
     debugPrint('Logs añadidos en Firestore.');
   } catch (e) {
     debugPrint('Error al añadir los logs: $e');
+  }
+}
+
+Future<Purchase?> getPurchaseById({required String id}) async {
+  try {
+    final purchaseSnapshot =
+        await _firestore.collection('compras').doc(id).get();
+    DateTime? lastCuotaDate;
+    if (purchaseSnapshot.exists) {
+      if (purchaseSnapshot['fechaFinalizacion'] != null) {
+        if (purchaseSnapshot['fechaFinalizacion'] is Timestamp) {
+          lastCuotaDate =
+              (purchaseSnapshot['fechaFinalizacion'] as Timestamp).toDate();
+        } else if (purchaseSnapshot['fechaFinalizacion'] is DateTime) {
+          lastCuotaDate = purchaseSnapshot['fechaFinalizacion'] as DateTime;
+        }
+      }
+    }
+    final purchase = Purchase(
+      currency: CurrencyType.type(purchaseSnapshot['currency'] as int),
+      id: purchaseSnapshot.id,
+      amountOfQuotas: purchaseSnapshot['cantidadCuotas'] as int,
+      totalAmount: purchaseSnapshot['monto'] as double,
+      amountPerQuota: purchaseSnapshot['montoPorCuota'] as double,
+      nameOfProduct: purchaseSnapshot['producto'] as String,
+      type: PurchaseType.type(purchaseSnapshot['type'] as int),
+      creationDate: (purchaseSnapshot['fechaCreacion'] as Timestamp).toDate(),
+      lastCuotaDate: lastCuotaDate,
+      logs: (purchaseSnapshot['logs'] as List<dynamic>).cast<String>(),
+    );
+    return purchase;
+  } catch (e) {
+    debugPrint('Error retrieving purchase: $e');
+    return null;
   }
 }

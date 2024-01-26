@@ -31,6 +31,7 @@ class AppRouter extends $AppRouter {
           page: RutaHome.page,
           path: '/home',
           guards: [authGuard],
+          initial: true,
           children: [
             AutoRoute(
               page: RutaCurrentPurchases.page,
@@ -45,9 +46,8 @@ class AppRouter extends $AppRouter {
         ),
         AutoRoute(
           page: RutaFinancialEntities.page,
-          path: '/financial_entities',
+          path: '/financial-entities',
           guards: [authGuard],
-          initial: true,
           children: [
             AutoRoute(
               page: RutaFinancialEntitiesList.page,
@@ -59,6 +59,11 @@ class AppRouter extends $AppRouter {
               path: 'details',
             ),
           ],
+        ),
+        AutoRoute(
+          page: RutaPurchaseDetails.page,
+          path: '/purchase-details',
+          guards: [authGuard],
         ),
       ];
 }

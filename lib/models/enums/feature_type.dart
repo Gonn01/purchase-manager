@@ -46,7 +46,9 @@ enum FeatureType {
   /// Tipo de feature detalles de [FinancialEntity]
   ///
   /// [FinancialEntity] details feature type
-  financialEntityDetails;
+  financialEntityDetails,
+
+  purchaseDetails;
 
   /// Devuelve el nombre del tipo de feature
   ///
@@ -59,6 +61,7 @@ enum FeatureType {
         FeatureType.financialEntitiesList =>
           'Lista de entidades einancieras',
         FeatureType.financialEntityDetails => 'Entidades financiera',
+        FeatureType.purchaseDetails => 'Detalles de la compra',
       };
 
   /// Devuelve el nombre de la feature segun el tipo de ruta
@@ -75,6 +78,7 @@ enum FeatureType {
         FeatureType.financialEntities => RutaFinancialEntities.name,
         FeatureType.financialEntitiesList => RutaFinancialEntitiesList.name,
         FeatureType.financialEntityDetails => RutaFinancialEntityDetails.name,
+        FeatureType.purchaseDetails => RutaPurchaseDetails.name,
       };
 
   /// Devuelve un valor booleano segun el tipo de feature y la compra
