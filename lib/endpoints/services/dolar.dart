@@ -1,5 +1,5 @@
-import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:purchase_manager/models/currency.dart';
 
 /// {@template DolarService}
@@ -18,20 +18,20 @@ class DolarService {
 
       if (response.statusCode == 200) {
         if (response.data != null) {
-          log('Response data: ${response.data}');
+          debugPrint('Response data: ${response.data}');
 
           // Explicitly cast response.data to Map<String, dynamic>
           final responseData = response.data!;
 
           return Currency.fromJson(responseData);
         } else {
-          log('Empty response body');
+          debugPrint('Empty response body');
         }
       } else {
-        log('Request failed with status code: ${response.statusCode}');
+        debugPrint('Request failed with status code: ${response.statusCode}');
       }
     } catch (e) {
-      log('Error occurred: $e');
+      debugPrint('Error occurred: $e');
     }
     return null;
   }

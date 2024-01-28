@@ -97,39 +97,6 @@ Future<void> deletePurchase({
   }
 }
 
-/// Añade un log a una [Purchase] en Firestore.
-///
-/// Adds a log to a [Purchase] in Firestore.
-Future<void> updatePurchaseLogs({
-  required String idUser,
-  required String idFinancialEntity,
-  required String idPurchase,
-  required String newLog,
-}) async {
-  try {
-    final DocumentReference compraRef = _firestore
-        .collection('usuarios')
-        .doc(idUser)
-        .collection('categorias')
-        .doc(idFinancialEntity)
-        .collection('compras')
-        .doc(idPurchase);
-    final purchaseSnapshot = await compraRef.get();
-
-    final purchaseData = purchaseSnapshot.data()! as Map<String, dynamic>;
-
-    final logs = (purchaseData['logs'] as List<dynamic>).cast<String>()
-      ..add(newLog);
-
-    await compraRef.update({
-      'logs': logs,
-    });
-    debugPrint('Logs añadidos en Firestore.');
-  } catch (e) {
-    debugPrint('Error al añadir los logs: $e');
-  }
-}
-
 Future<Purchase?> getPurchaseById({required String id}) async {
   try {
     final purchaseSnapshot =

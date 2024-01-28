@@ -137,34 +137,3 @@ Future<void> deleteFinancialEntity({
     debugPrint('Error al eliminar la categoría: $e');
   }
 }
-
-/// Añade un log a una [FinancialEntity] en Firestore.
-///
-/// Adds a log to a [FinancialEntity] in Firestore.
-Future<void> updateFinancialEntityLogs({
-  required String idUser,
-  required String idFinancialEntity,
-  required String newLog,
-}) async {
-  try {
-    final DocumentReference financialEntityRef = _firestore
-        .collection('usuarios')
-        .doc(idUser)
-        .collection('categorias')
-        .doc(idFinancialEntity);
-    final purchaseSnapshot = await financialEntityRef.get();
-
-    final financialEntityData =
-        purchaseSnapshot.data()! as Map<String, dynamic>;
-
-    final logs = (financialEntityData['logs'] as List<dynamic>).cast<String>()
-      ..add(newLog);
-
-    await financialEntityRef.update({
-      'logs': logs,
-    });
-    debugPrint('Logs añadidos en Firestore.');
-  } catch (e) {
-    debugPrint('Error al añadir los logs: $e');
-  }
-}
