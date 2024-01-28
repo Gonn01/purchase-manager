@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/gen/assets.gen.dart';
+import 'package:purchase_manager/widgets/drawer/bloc/bloc_drawer.dart';
 import 'package:purchase_manager/widgets/pm_buttons.dart';
 
 /// {@template PMDrawer}
@@ -84,8 +86,10 @@ class PMDrawer extends StatelessWidget {
                   text: 'Cerrar sesión',
                   backgroundColor: Colors.redAccent,
                   isEnabled: true,
-                  onTap: () async {
-                    await auth.signOut();
+                  onTap: () {
+                    context.read<BlocDrawer>().add(
+                          const BlocDrawerEventSignOut(),
+                        );
                     context.router.push(const RutaLogin());
                   },
                 ),

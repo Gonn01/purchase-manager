@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/purchase_details/bloc/bloc_purchase_details.dart';
 
+/// {@template ViewPurchaseDetails}
+/// Vista que contiene los detalles de una compra
+///
+/// View that contains the details of a purchase
+/// {@endtemplate}
 class ViewPurchaseDetails extends StatelessWidget {
+  /// {@macro ViewPurchaseDetails}
   const ViewPurchaseDetails({super.key});
 
   @override

@@ -21,10 +21,16 @@ class BlocPurchaseDetailsEventInitialize extends BlocPurchaseDetailsEvent {
   /// {@macro BlocPurchaseDetailsEventInitialize}
   const BlocPurchaseDetailsEventInitialize({
     required this.idPurchase,
+    required this.idFinancialEntity,
   });
 
   /// Id de la compra
   ///
   /// Purchase id
   final String idPurchase;
+
+  /// Id de la entidad financiera
+  ///
+  /// Financial entity id
+  final String idFinancialEntity;
 }

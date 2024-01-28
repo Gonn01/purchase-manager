@@ -24,7 +24,8 @@ class BlocPurchaseDetails
     emit(state.copyWith(estado: Status.loading));
     try {
       final purchase = await getPurchaseById(
-        id: event.idPurchase,
+        purchaseId: event.idPurchase,
+        financialEntityId: event.idFinancialEntity,
       );
 
       emit(

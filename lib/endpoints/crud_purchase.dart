@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:purchase_manager/extensions/date_time.dart';
 import 'package:purchase_manager/models/enums/currency_type.dart';
@@ -97,36 +98,49 @@ Future<void> deletePurchase({
   }
 }
 
-Future<Purchase?> getPurchaseById({required String id}) async {
+/// Obtiene una [Purchase] de Firestore por su ID.
+///
+/// Gets a [Purchase] from Firestore by its ID.
+Future<Purchase?> getPurchaseById({
+  required String financialEntityId,
+  required String purchaseId,
+}) async {
   try {
-    final purchaseSnapshot =
-        await _firestore.collection('compras').doc(id).get();
-    DateTime? lastCuotaDate;
-    if (purchaseSnapshot.exists) {
-      if (purchaseSnapshot['fechaFinalizacion'] != null) {
-        if (purchaseSnapshot['fechaFinalizacion'] is Timestamp) {
-          lastCuotaDate =
-              (purchaseSnapshot['fechaFinalizacion'] as Timestamp).toDate();
-        } else if (purchaseSnapshot['fechaFinalizacion'] is DateTime) {
-          lastCuotaDate = purchaseSnapshot['fechaFinalizacion'] as DateTime;
-        }
-      }
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+
+    final querySnapshot = await _firestore
+        .collection('usuarios')
+        .doc(userId)
+        .collection('categorias')
+        .doc(financialEntityId)
+        .collection('compras')
+        .doc(purchaseId)
+        .get();
+
+    if (querySnapshot.exists) {
+      final compraData = querySnapshot.data()!;
+
+      final compra = Purchase(
+        id: querySnapshot.id,
+        amountOfQuotas: compraData['cantidadCuotas'] as int,
+        totalAmount: compraData['monto'] as double,
+        amountPerQuota: compraData['montoPorCuota'] as double,
+        nameOfProduct: compraData['producto'] as String,
+        type: PurchaseType.type(compraData['type'] as int),
+        creationDate: (compraData['fechaCreacion'] as Timestamp).toDate(),
+        lastCuotaDate:
+            (compraData['fechaFinalizacion'] as Timestamp?)?.toDate(),
+        currency: CurrencyType.type(compraData['currency'] as int),
+        logs: List<String>.from(compraData['logs'] as List<dynamic>),
+      );
+
+      return compra;
+    } else {
+      debugPrint('La compra con ID $purchaseId no existe.');
+      return null;
     }
-    final purchase = Purchase(
-      currency: CurrencyType.type(purchaseSnapshot['currency'] as int),
-      id: purchaseSnapshot.id,
-      amountOfQuotas: purchaseSnapshot['cantidadCuotas'] as int,
-      totalAmount: purchaseSnapshot['monto'] as double,
-      amountPerQuota: purchaseSnapshot['montoPorCuota'] as double,
-      nameOfProduct: purchaseSnapshot['producto'] as String,
-      type: PurchaseType.type(purchaseSnapshot['type'] as int),
-      creationDate: (purchaseSnapshot['fechaCreacion'] as Timestamp).toDate(),
-      lastCuotaDate: lastCuotaDate,
-      logs: (purchaseSnapshot['logs'] as List<dynamic>).cast<String>(),
-    );
-    return purchase;
   } catch (e) {
-    debugPrint('Error retrieving purchase: $e');
+    debugPrint('Error al obtener la compra: $e');
     return null;
   }
 }

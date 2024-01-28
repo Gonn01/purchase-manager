@@ -40,6 +40,8 @@ class ViewFinancialEntityDetails extends StatelessWidget {
                           onTap: () => context.router.push(
                             RutaPurchaseDetails(
                               idPurchase: e.id,
+                              idFinancialEntity:
+                                  state.financialEntitySelected?.id ?? '',
                             ),
                           ),
                           child: Padding(

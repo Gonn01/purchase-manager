@@ -19,6 +19,10 @@ class FinancialEntityElement extends StatelessWidget {
     required this.featureType,
     super.key,
   });
+
+  /// Lista de compras a mostrar dependiendo del tipo de feature
+  ///
+  /// List of purchases to show depending on the type of feature
   List<Purchase> purchaseList(BlocHomeState state) {
     switch (featureType) {
       case FeatureType.currentDebtor:

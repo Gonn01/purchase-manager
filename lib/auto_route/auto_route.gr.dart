@@ -70,11 +70,14 @@ abstract class $AppRouter extends _i9.RootStackRouter {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<RutaPurchaseDetailsArgs>(
           orElse: () => RutaPurchaseDetailsArgs(
-              idPurchase: pathParams.getString('idPurchase')));
+                idPurchase: pathParams.getString('idPurchase'),
+                idFinancialEntity: pathParams.getString('idFinancialEntity'),
+              ));
       return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i7.PagePurchaseDetails(
           idPurchase: args.idPurchase,
+          idFinancialEntity: args.idFinancialEntity,
           key: args.key,
         ),
       );
@@ -177,15 +180,20 @@ class RutaLogin extends _i9.PageRouteInfo<void> {
 class RutaPurchaseDetails extends _i9.PageRouteInfo<RutaPurchaseDetailsArgs> {
   RutaPurchaseDetails({
     required String idPurchase,
+    required String idFinancialEntity,
     _i10.Key? key,
     List<_i9.PageRouteInfo>? children,
   }) : super(
           RutaPurchaseDetails.name,
           args: RutaPurchaseDetailsArgs(
             idPurchase: idPurchase,
+            idFinancialEntity: idFinancialEntity,
             key: key,
           ),
-          rawPathParams: {'idPurchase': idPurchase},
+          rawPathParams: {
+            'idPurchase': idPurchase,
+            'idFinancialEntity': idFinancialEntity,
+          },
           initialChildren: children,
         );
 
@@ -198,16 +206,19 @@ class RutaPurchaseDetails extends _i9.PageRouteInfo<RutaPurchaseDetailsArgs> {
 class RutaPurchaseDetailsArgs {
   const RutaPurchaseDetailsArgs({
     required this.idPurchase,
+    required this.idFinancialEntity,
     this.key,
   });
 
   final String idPurchase;
 
+  final String idFinancialEntity;
+
   final _i10.Key? key;
 
   @override
   String toString() {
-    return 'RutaPurchaseDetailsArgs{idPurchase: $idPurchase, key: $key}';
+    return 'RutaPurchaseDetailsArgs{idPurchase: $idPurchase, idFinancialEntity: $idFinancialEntity, key: $key}';
   }
 }
 

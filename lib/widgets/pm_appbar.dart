@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
@@ -34,7 +35,8 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
         kToolbarHeight +
             (type != FeatureType.financialEntities &&
                     type != FeatureType.financialEntityDetails &&
-                    type != FeatureType.financialEntitiesList
+                    type != FeatureType.financialEntitiesList &&
+                    type != FeatureType.purchaseDetails
                 ? 80
                 : 0),
       );
@@ -52,14 +54,24 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
           color: Colors.white,
         ),
       ),
-      leading: IconButton(
-        onPressed: () => Scaffold.of(context).openDrawer(),
-        icon: const Icon(
-          Icons.menu,
-          size: 30,
-          color: Colors.white,
-        ),
-      ),
+      leading: (type != FeatureType.financialEntityDetails &&
+              type != FeatureType.purchaseDetails)
+          ? IconButton(
+              onPressed: () => Scaffold.of(context).openDrawer(),
+              icon: const Icon(
+                Icons.menu,
+                size: 30,
+                color: Colors.white,
+              ),
+            )
+          : IconButton(
+              onPressed: () => context.router.back(),
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                size: 20,
+                color: Colors.white,
+              ),
+            ),
       actions: [
         if (type != FeatureType.financialEntities &&
             type != FeatureType.financialEntityDetails &&
@@ -78,7 +90,8 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
       ],
       bottom: type != FeatureType.financialEntities &&
               type != FeatureType.financialEntityDetails &&
-              type != FeatureType.financialEntitiesList
+              type != FeatureType.financialEntitiesList &&
+              type != FeatureType.purchaseDetails
           ? const TabBar(
               indicatorWeight: 5,
               indicatorColor: Colors.white,

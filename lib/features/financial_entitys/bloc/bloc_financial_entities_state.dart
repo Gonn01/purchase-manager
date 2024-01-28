@@ -17,6 +17,10 @@ class BlocFinancialEntitiesState extends Equatable {
   ///
   /// List of financial entities.
   final List<FinancialEntity> listFinancialEntity;
+
+  /// Entidad financiera seleccionada.
+  ///
+  /// Selected financial entity.
   final FinancialEntity? financialEntitySelected;
 
   /// Estado de la página.

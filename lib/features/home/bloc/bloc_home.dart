@@ -34,6 +34,9 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     add(BlocHomeEventInitialize());
   }
 
+  /// Instancia de FirebaseAuth
+  ///
+  /// FirebaseAuth instance
   final auth = FirebaseAuth.instance;
 
   Future<void> _onInitialize(

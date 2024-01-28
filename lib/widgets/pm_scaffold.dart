@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:purchase_manager/models/enums/feature_type.dart';
+import 'package:purchase_manager/widgets/drawer/pm_drawer.dart';
 import 'package:purchase_manager/widgets/pm_appbar.dart';
 import 'package:purchase_manager/widgets/pm_bottom_navigation_bar.dart';
-import 'package:purchase_manager/widgets/pm_drawer.dart';
 import 'package:purchase_manager/widgets/pm_floating_action_button.dart';
 
 /// {@template PMScaffold}

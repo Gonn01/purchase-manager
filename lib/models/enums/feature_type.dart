@@ -48,6 +48,9 @@ enum FeatureType {
   /// [FinancialEntity] details feature type
   financialEntityDetails,
 
+  /// Tipo de feature detalles de [Purchase]
+  ///
+  /// [Purchase] details feature type
   purchaseDetails;
 
   /// Devuelve el nombre del tipo de feature
