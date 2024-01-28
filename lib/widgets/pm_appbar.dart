@@ -75,7 +75,8 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         if (type != FeatureType.financialEntities &&
             type != FeatureType.financialEntityDetails &&
-            type != FeatureType.financialEntitiesList)
+            type != FeatureType.financialEntitiesList &&
+            type != FeatureType.purchaseDetails)
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: GestureDetector(

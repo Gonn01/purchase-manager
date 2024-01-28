@@ -37,12 +37,14 @@ class PMScaffold extends StatelessWidget {
         appBar: PMAppbar(type: type),
         floatingActionButton: type != FeatureType.financialEntities &&
                 type != FeatureType.financialEntitiesList &&
-                type != FeatureType.financialEntityDetails
+                type != FeatureType.financialEntityDetails &&
+                type != FeatureType.purchaseDetails
             ? PMFloatingActionButton(type: type)
             : null,
         bottomNavigationBar: type != FeatureType.financialEntities &&
                 type != FeatureType.financialEntitiesList &&
-                type != FeatureType.financialEntityDetails
+                type != FeatureType.financialEntityDetails &&
+                type != FeatureType.purchaseDetails
             ? PMBottomNavigationBar(
                 type: type,
               )
