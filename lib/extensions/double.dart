@@ -15,13 +15,4 @@ extension FormatearDoubleExtension on double {
     ).format(this);
     return formattedNumber;
   }
-
-  /// Formatea el monto en formato de moneda
-  /// Formats the amount in currency format
-  String formatearMonto2() {
-    final formattedNumber = NumberFormat.currency(
-      decimalDigits: 0,
-    ).format(this);
-    return formattedNumber;
-  }
 }

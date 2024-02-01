@@ -50,9 +50,12 @@ class ViewFinancialEntityDetails extends StatelessWidget {
                               children: [
                                 Text(
                                   '- ${e.nameOfProduct.capitalize}',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
+                                    decoration: e.type.isCurrent
+                                        ? null
+                                        : TextDecoration.lineThrough,
                                   ),
                                 ),
                                 const SizedBox(width: 8),

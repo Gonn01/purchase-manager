@@ -29,6 +29,7 @@ class DialogCreatePurchase extends StatefulWidget {
 
 class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
   final List<bool> _purchaseType = <bool>[true, false];
+
   final List<bool> _currency = <bool>[true, false];
 
   final _controllerProductName = TextEditingController();
@@ -37,22 +38,22 @@ class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
 
   final _controllerAmount = TextEditingController();
 
-  void _createPurchase() {
+  void _createPurchase({required FinancialEntity financialEntity}) {
     context.read<BlocHome>().add(
           BlocHomeEventCreatePurchase(
             productName: _controllerProductName.text,
             totalAmount: double.parse(_controllerAmount.text),
             amountQuotas: int.parse(_controllerQuotas.text),
-            idFinancialEntity: idSelectedFinancialEntity ?? '',
+            financialEntity: financialEntity,
             currency: _currency[0]
                 ? CurrencyType.pesoArgentino
                 : CurrencyType.usDollar,
-            purchaseType: _purchaseType[0]
-                ? widget.current
+            purchaseType: widget.current
+                ? _purchaseType[0]
                     ? PurchaseType.currentDebtorPurchase
-                    : PurchaseType.settledDebtorPurchase
-                : !widget.current
-                    ? PurchaseType.currentCreditorPurchase
+                    : PurchaseType.currentCreditorPurchase
+                : _purchaseType[0]
+                    ? PurchaseType.settledDebtorPurchase
                     : PurchaseType.settledCreditorPurchase,
           ),
         );
@@ -71,21 +72,26 @@ class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
 
   @override
   Widget build(BuildContext context) {
-    return PMDialogs.actionRequest(
-      isEnabled: _controllerQuotas.text.isNotEmpty &&
-          _controllerAmount.text.isNotEmpty &&
-          _controllerProductName.text.isNotEmpty &&
-          idSelectedFinancialEntity != null &&
-          idSelectedFinancialEntity != '' &&
-          double.tryParse(_controllerAmount.text)?.round() != 0 &&
-          int.tryParse(_controllerQuotas.text) != 0,
-      onTapConfirm: _createPurchase,
-      title: 'Crear compra',
-      content: Column(
-        children: [
-          BlocBuilder<BlocHome, BlocHomeState>(
-            builder: (context, state) {
-              return Container(
+    return BlocBuilder<BlocHome, BlocHomeState>(
+      builder: (context, state) {
+        return PMDialogs.actionRequest(
+          isEnabled: _controllerQuotas.text.isNotEmpty &&
+              _controllerAmount.text.isNotEmpty &&
+              _controllerProductName.text.isNotEmpty &&
+              idSelectedFinancialEntity != null &&
+              idSelectedFinancialEntity != '' &&
+              double.tryParse(_controllerAmount.text)?.round() != 0 &&
+              int.tryParse(_controllerQuotas.text) != 0,
+          onTapConfirm: () => _createPurchase(
+            financialEntity: state.financialEntityList.firstWhere(
+              (financialEntity) =>
+                  financialEntity.id == idSelectedFinancialEntity,
+            ),
+          ),
+          title: 'Crear compra',
+          content: Column(
+            children: [
+              Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
                   border: Border.all(color: const Color(0xff006F66)),
@@ -106,87 +112,87 @@ class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
                     );
                   }).toList(),
                 ),
-              );
-            },
-          ),
-          const SizedBox(height: 10),
-          ToggleButtons(
-            onPressed: (int index) {
-              setState(() {
-                for (var i = 0; i < _purchaseType.length; i++) {
-                  _purchaseType[i] = i == index;
-                }
-              });
-            },
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
-            selectedBorderColor: const Color(0xff02B4A3),
-            selectedColor: const Color(0xff006F66),
-            fillColor: const Color(0xff02B4A3).withOpacity(.3),
-            color: Colors.grey,
-            constraints: const BoxConstraints(
-              minHeight: 40,
-              minWidth: 130,
-            ),
-            isSelected: _purchaseType,
-            children: const [
-              Text('Debo'),
-              Text('Me deben'),
-            ],
-          ),
-          const SizedBox(height: 10),
-          PMTextFormFields.lettersAndNumbers(
-            controller: _controllerProductName,
-            hintText: 'Producto',
-            onChanged: (value) => setState(() {}),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10,
-            ),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 180,
-                  child: PMTextFormFields.onlyNumbers(
-                    controller: _controllerAmount,
-                    hintText: 'Monto total',
-                    onChanged: (value) => setState(() {}),
-                  ),
+              ),
+              const SizedBox(height: 10),
+              ToggleButtons(
+                onPressed: (int index) {
+                  setState(() {
+                    for (var i = 0; i < _purchaseType.length; i++) {
+                      _purchaseType[i] = i == index;
+                    }
+                  });
+                },
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                selectedBorderColor: const Color(0xff02B4A3),
+                selectedColor: const Color(0xff006F66),
+                fillColor: const Color(0xff02B4A3).withOpacity(.3),
+                color: Colors.grey,
+                constraints: const BoxConstraints(
+                  minHeight: 40,
+                  minWidth: 130,
                 ),
-                const SizedBox(width: 10),
-                ToggleButtons(
-                  onPressed: (int index) {
-                    setState(() {
-                      for (var i = 0; i < _currency.length; i++) {
-                        _currency[i] = i == index;
-                      }
-                    });
-                  },
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  selectedBorderColor: const Color(0xff02B4A3),
-                  selectedColor: const Color(0xff006F66),
-                  fillColor: const Color(0xff02B4A3).withOpacity(.3),
-                  color: Colors.grey,
-                  constraints: const BoxConstraints(
-                    minHeight: 40,
-                    minWidth: 40,
-                  ),
-                  isSelected: _currency,
-                  children: const [
-                    Text('ARS'),
-                    Text('USD'),
+                isSelected: _purchaseType,
+                children: const [
+                  Text('Debo'),
+                  Text('Me deben'),
+                ],
+              ),
+              const SizedBox(height: 10),
+              PMTextFormFields.lettersAndNumbers(
+                controller: _controllerProductName,
+                hintText: 'Producto',
+                onChanged: (value) => setState(() {}),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                ),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 180,
+                      child: PMTextFormFields.onlyNumbers(
+                        controller: _controllerAmount,
+                        hintText: 'Monto total',
+                        onChanged: (value) => setState(() {}),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    ToggleButtons(
+                      onPressed: (int index) {
+                        setState(() {
+                          for (var i = 0; i < _currency.length; i++) {
+                            _currency[i] = i == index;
+                          }
+                        });
+                      },
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      selectedBorderColor: const Color(0xff02B4A3),
+                      selectedColor: const Color(0xff006F66),
+                      fillColor: const Color(0xff02B4A3).withOpacity(.3),
+                      color: Colors.grey,
+                      constraints: const BoxConstraints(
+                        minHeight: 40,
+                        minWidth: 40,
+                      ),
+                      isSelected: _currency,
+                      children: const [
+                        Text('ARS'),
+                        Text('USD'),
+                      ],
+                    ),
                   ],
                 ),
-              ],
-            ),
+              ),
+              PMTextFormFields.onlyNumbers(
+                controller: _controllerQuotas,
+                hintText: 'Cantidad de cuotas',
+                onChanged: (value) => setState(() {}),
+              ),
+            ],
           ),
-          PMTextFormFields.onlyNumbers(
-            controller: _controllerQuotas,
-            hintText: 'Cantidad de cuotas',
-            onChanged: (value) => setState(() {}),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

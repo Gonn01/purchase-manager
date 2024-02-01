@@ -102,7 +102,7 @@ class BlocHomeEventCreatePurchase extends BlocHomeEvento {
     required this.productName,
     required this.totalAmount,
     required this.amountQuotas,
-    required this.idFinancialEntity,
+    required this.financialEntity,
     required this.purchaseType,
     required this.currency,
   });
@@ -121,7 +121,7 @@ class BlocHomeEventCreatePurchase extends BlocHomeEvento {
 
   /// ID de la categoría a la que pertenece la compra.
   /// ID of the category to which the purchase belongs.
-  final String idFinancialEntity;
+  final FinancialEntity financialEntity;
 
   /// Tipo de compra.
   /// Type of purchase.

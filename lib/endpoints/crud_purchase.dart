@@ -32,7 +32,7 @@ Future<void> createPurchase({
       'fechaFinalizacion': null,
       'fechaPrimeraCuota': null,
       'currency': newPurchase.currency.value,
-      'logs': <String>['Se creó la compra. ${DateTime.now().formatWithHour}}'],
+      'logs': <String>['Se creó la compra. ${DateTime.now().formatWithHour}'],
     });
 
     debugPrint('Compra registrada en Firestore.');

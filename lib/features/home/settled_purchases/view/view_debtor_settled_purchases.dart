@@ -15,29 +15,27 @@ class ViewDebtorSettledPurchases extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: BlocBuilder<BlocHome, BlocHomeState>(
-        builder: (context, state) {
-          return Column(
-            children: state.listFinancialEntityStatusSettledDebtor
-                .map(
-                  (financialEntity) => financialEntity.purchases.isNotEmpty
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 15,
-                            vertical: 10,
-                          ),
-                          child: FinancialEntityElement(
-                            financialEntity: financialEntity,
-                            featureType: FeatureType.settledDebtor,
-                          ),
-                        )
-                      : Container(),
-                )
-                .toList(),
-          );
-        },
-      ),
+    return BlocBuilder<BlocHome, BlocHomeState>(
+      builder: (context, state) {
+        return ListView(
+          children: state.listFinancialEntityStatusSettledDebtor
+              .map(
+                (financialEntity) => financialEntity.purchases.isNotEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 10,
+                        ),
+                        child: FinancialEntityElement(
+                          financialEntity: financialEntity,
+                          featureType: FeatureType.settledDebtor,
+                        ),
+                      )
+                    : Container(),
+              )
+              .toList(),
+        );
+      },
     );
   }
 }

@@ -71,7 +71,7 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
     Navigator.pop(context);
   }
 
-  Future<void> _confirmDeletePurchase(BuildContext context) {
+  Future<void> _deletePurchase(BuildContext context) {
     return showDialog(
       context: context,
       builder: (_) => BlocProvider.value(
@@ -125,7 +125,10 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
       content: Column(
         children: [
           PMButtons.text(
-            onTap: () => _confirmDeletePurchase(context),
+            onTap: () {
+              Navigator.pop(context);
+              _deletePurchase(context);
+            },
             backgroundColor: Colors.redAccent,
             text: 'Eliminar compra',
             isEnabled: true,

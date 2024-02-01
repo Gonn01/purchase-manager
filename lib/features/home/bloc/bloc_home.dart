@@ -213,18 +213,19 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
       unawaited(
         createPurchase(
           idUser: auth.currentUser?.uid ?? '',
-          idFinancialEntity: event.idFinancialEntity,
+          idFinancialEntity: event.financialEntity.id,
           newPurchase: nuevaCompra,
         ),
       );
       final financialEntityModified = state.financialEntityList.firstWhere(
-        (financialEntity) => financialEntity.id == event.idFinancialEntity,
+        (financialEntity) => financialEntity.id == event.financialEntity.id,
       );
       final newList = List<FinancialEntity>.from(state.financialEntityList)
+        ..removeWhere((element) => element.id == event.financialEntity.id)
         ..add(
           FinancialEntity(
-            id: event.idFinancialEntity,
-            name: event.productName,
+            id: event.financialEntity.id,
+            name: event.financialEntity.name,
             purchases: financialEntityModified.purchases..add(nuevaCompra),
             logs: financialEntityModified.logs
               ..add('Se creó la compra ${event.productName}. '
@@ -304,9 +305,26 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
         ),
       );
 
+      final list = List<FinancialEntity>.from(state.financialEntityList);
+
+      final financialEntityModified = list.firstWhere(
+        (financialEntity) => financialEntity.id == event.idFinancialEntity,
+      );
+
       final newList = List<FinancialEntity>.from(state.financialEntityList)
         ..removeWhere(
-          (financialEntity) => financialEntity.id == event.idFinancialEntity,
+          (financialEntity) => financialEntity.id == financialEntityModified.id,
+        )
+        ..add(
+          FinancialEntity(
+            id: financialEntityModified.id,
+            name: financialEntityModified.name,
+            purchases: financialEntityModified.purchases
+              ..removeWhere((purchase) => purchase.id == event.purchase.id),
+            logs: financialEntityModified.logs
+              ..add('Se eliminó la compra ${event.purchase.nameOfProduct}. '
+                  '${DateTime.now().formatWithHour}'),
+          ),
         );
 
       emit(

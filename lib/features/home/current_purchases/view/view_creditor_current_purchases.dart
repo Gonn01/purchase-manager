@@ -72,7 +72,7 @@ class ViewCreditorCurrentPurchases extends StatelessWidget {
               color: Color(0xff02B3A3),
             ),
             Expanded(
-              child: Column(
+              child: ListView(
                 children: state.listFinancialEntityStatusCurrentCreditor
                     .map(
                       (financialEntity) => financialEntity.purchases.isNotEmpty

@@ -43,7 +43,7 @@ class DialogDeletePurchase extends StatelessWidget {
       content: const Text(
           '¿Estas seguro de eliminar esta compra? Se eliminara toda su '
           'informacion'),
-      title: 'Eliminar Compra',
+      title: 'Eliminar Compra: ${purchase.nameOfProduct}',
       isEnabled: true,
     );
   }
