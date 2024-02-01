@@ -37,7 +37,7 @@ class BlocHomeState extends Equatable {
       financialEntityList
           .where(
             (financialEntity) => financialEntity.purchases.any(
-              (purchase) => purchase.type.isCurrent && purchase.type.isDebtor,
+              (purchase) => purchase.type == PurchaseType.currentDebtorPurchase,
             ),
           )
           .toList();
@@ -52,7 +52,7 @@ class BlocHomeState extends Equatable {
   ) =>
       financialEntity.purchases
           .where(
-            (purchase) => purchase.type.isCurrent && purchase.type.isDebtor,
+            (purchase) => purchase.type == PurchaseType.currentDebtorPurchase,
           )
           .toList();
 
@@ -64,7 +64,8 @@ class BlocHomeState extends Equatable {
       financialEntityList
           .where(
             (financialEntity) => financialEntity.purchases.any(
-              (purchase) => purchase.type.isCurrent && !purchase.type.isDebtor,
+              (purchase) =>
+                  purchase.type == PurchaseType.currentCreditorPurchase,
             ),
           )
           .toList();
@@ -79,7 +80,7 @@ class BlocHomeState extends Equatable {
   ) =>
       financialEntity.purchases
           .where(
-            (purchase) => purchase.type.isCurrent && !purchase.type.isDebtor,
+            (purchase) => purchase.type == PurchaseType.currentCreditorPurchase,
           )
           .toList();
 
@@ -92,7 +93,7 @@ class BlocHomeState extends Equatable {
       financialEntityList
           .where(
             (financialEntity) => financialEntity.purchases.any(
-              (purchase) => !purchase.type.isCurrent && purchase.type.isDebtor,
+              (purchase) => purchase.type == PurchaseType.settledDebtorPurchase,
             ),
           )
           .toList();
@@ -106,7 +107,8 @@ class BlocHomeState extends Equatable {
     FinancialEntity financialEntity,
   ) =>
       financialEntity.purchases
-          .where((compra) => !compra.type.isCurrent && compra.type.isDebtor)
+          .where(
+              (purchase) => purchase.type == PurchaseType.settledDebtorPurchase)
           .toList();
 
   /// Lista de entidades financieras que tienen compras de
@@ -118,7 +120,8 @@ class BlocHomeState extends Equatable {
       financialEntityList
           .where(
             (financialEntity) => financialEntity.purchases.any(
-              (purchase) => !purchase.type.isCurrent && !purchase.type.isDebtor,
+              (purchase) =>
+                  purchase.type == PurchaseType.settledCreditorPurchase,
             ),
           )
           .toList();
@@ -132,7 +135,9 @@ class BlocHomeState extends Equatable {
     FinancialEntity financialEntity,
   ) =>
       financialEntity.purchases
-          .where((compra) => !compra.type.isCurrent && !compra.type.isDebtor)
+          .where(
+            (purchase) => purchase.type == PurchaseType.settledCreditorPurchase,
+          )
           .toList();
 
   @override

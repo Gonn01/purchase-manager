@@ -1,3 +1,4 @@
+import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/models/enums/currency_type.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
 import 'package:purchase_manager/models/purchase.dart';
@@ -10,12 +11,13 @@ import 'package:purchase_manager/models/purchase.dart';
 double totalAmountPerQuota({
   required List<FinancialEntity> financialEntities,
   required int dollarValue,
+  required BlocHomeState state,
 }) {
   // ignore: omit_local_variable_types
   double totalAmountPerQuota = 0;
 
   for (final category in financialEntities) {
-    for (final purchase in category.purchases) {
+    for (final purchase in state.listPurchaseStatusCurrentDebtor(category)) {
       totalAmountPerQuota += (purchase.currency == CurrencyType.usDollar
           ? purchase.amountPerQuota * dollarValue
           : purchase.amountPerQuota);

@@ -55,6 +55,7 @@ class ViewCreditorCurrentPurchases extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
                 'Total que me deben por mes: ${totalAmountPerQuota(
+                  state: state,
                   financialEntities:
                       state.listFinancialEntityStatusCurrentCreditor,
                   dollarValue: state.currency?.venta ?? 0,
