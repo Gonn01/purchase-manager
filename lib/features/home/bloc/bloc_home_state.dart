@@ -108,7 +108,8 @@ class BlocHomeState extends Equatable {
   ) =>
       financialEntity.purchases
           .where(
-              (purchase) => purchase.type == PurchaseType.settledDebtorPurchase)
+            (purchase) => purchase.type == PurchaseType.settledDebtorPurchase,
+          )
           .toList();
 
   /// Lista de entidades financieras que tienen compras de
@@ -139,6 +140,16 @@ class BlocHomeState extends Equatable {
             (purchase) => purchase.type == PurchaseType.settledCreditorPurchase,
           )
           .toList();
+
+  /// Calcula el total de la suma de una cuota de las compras deudoras actuales.
+  ///
+  /// Calculate the total of the sum of a quota of the current debtor purchases.
+  double totalAmountPerMonth({required List<Purchase> purchases}) {
+    return purchases.fold<double>(
+      0,
+      (previousValue, purchase) => previousValue + purchase.amountPerQuota,
+    );
+  }
 
   @override
   List<dynamic> get props => [
