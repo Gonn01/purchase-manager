@@ -3,16 +3,15 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:purchase_manager/endpoints/crud_financial_entity.dart';
-import 'package:purchase_manager/endpoints/crud_purchase.dart';
-import 'package:purchase_manager/endpoints/services/dolar.dart';
-import 'package:purchase_manager/extensions/date_time.dart';
-import 'package:purchase_manager/models/currency.dart';
-import 'package:purchase_manager/models/enums/currency_type.dart';
-import 'package:purchase_manager/models/enums/purchase_type.dart';
-import 'package:purchase_manager/models/enums/status.dart';
-import 'package:purchase_manager/models/financial_entity.dart';
-import 'package:purchase_manager/models/purchase.dart';
+import 'package:purchase_manager/utilities/extensions/date_time.dart';
+import 'package:purchase_manager/utilities/models/currency.dart';
+import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
+import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
+import 'package:purchase_manager/utilities/models/enums/status.dart';
+import 'package:purchase_manager/utilities/models/financial_entity.dart';
+import 'package:purchase_manager/utilities/models/purchase.dart';
+import 'package:purchase_manager/utilities/services/dolar.dart';
+import 'package:purchase_manager/utilities/services/firebase_service.dart';
 
 part 'bloc_home_event.dart';
 part 'bloc_home_state.dart';
@@ -39,14 +38,16 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
   /// FirebaseAuth instance
   final auth = FirebaseAuth.instance;
 
+  final _firebaseService = FirebaseService();
+
   Future<void> _onInitialize(
     BlocHomeEventInitialize event,
     Emitter<BlocHomeState> emit,
   ) async {
     emit(state.copyWith(estado: Status.loading));
     try {
-      final listFinancialeEntity =
-          await readFinancialEntities(idUser: auth.currentUser?.uid ?? '');
+      final listFinancialeEntity = await _firebaseService.readFinancialEntities(
+          idUser: auth.currentUser?.uid ?? '');
 
       final dolar = await DolarService().getDollarData();
 
@@ -96,7 +97,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
           ..logs.add(newLog);
 
         unawaited(
-          updatePurchase(
+          _firebaseService.updatePurchase(
             idUser: auth.currentUser?.uid ?? '',
             idFinancialEntity: financialEntityModified.id,
             newPurchase: purchaseToModify,
@@ -111,7 +112,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
             );
 
           unawaited(
-            updatePurchase(
+            _firebaseService.updatePurchase(
               idUser: auth.currentUser?.uid ?? '',
               idFinancialEntity: financialEntityModified.id,
               newPurchase: purchaseToModify,
@@ -129,7 +130,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
             );
 
           unawaited(
-            updatePurchase(
+            _firebaseService.updatePurchase(
               idUser: auth.currentUser?.uid ?? '',
               idFinancialEntity: financialEntityModified.id,
               newPurchase: purchaseToModify,
@@ -158,7 +159,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
   ) async {
     emit(state.copyWith(estado: Status.loading));
     try {
-      await createFinancialEntity(
+      await _firebaseService.createFinancialEntity(
         financialEntityName: event.financialEntityName,
         idUser: auth.currentUser?.uid ?? '',
       );
@@ -179,7 +180,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
   ) async {
     emit(state.copyWith(estado: Status.loading));
     try {
-      await deleteFinancialEntity(
+      await _firebaseService.deleteFinancialEntity(
         idFinancialEntity: event.idFinancialEntity,
         idUsuario: auth.currentUser?.uid ?? '',
       );
@@ -211,7 +212,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
       );
 
       unawaited(
-        createPurchase(
+        _firebaseService.createPurchase(
           idUser: auth.currentUser?.uid ?? '',
           idFinancialEntity: event.financialEntity.id,
           newPurchase: nuevaCompra,
@@ -259,7 +260,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
         ..logs.add('Se editó la compra. ${DateTime.now().formatWithHour}');
 
       unawaited(
-        updatePurchase(
+        _firebaseService.updatePurchase(
           idUser: auth.currentUser?.uid ?? '',
           idFinancialEntity: event.idFinancialEntity,
           newPurchase: nuevaCompra,
@@ -298,7 +299,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
   ) async {
     try {
       unawaited(
-        deletePurchase(
+        _firebaseService.deletePurchase(
           idFinancialEntity: event.idFinancialEntity,
           idUser: auth.currentUser?.uid ?? '',
           idPurchase: event.purchase.id,

@@ -1,0 +1,712 @@
+{
+  "@@locale": "en",
+  "pageIdentificationEnterYourCode": "Enter the code",
+  "@pageIdentificationEnterYourCode": {
+    "description": ""
+  },
+  "pageIdentificationEnterTheCompanyCode": "Enter the company code\nassigned to you",
+  "@pageIdentificationEnterTheCompanyCode": {
+    "description": ""
+  },
+  "pageLoginAskForLocationWhenInUsePermission": "Lightdata app collects location data to enable positioning of packages and possible routing of deliveries even when the app is closed or not in use.",
+  "@pageLoginAskForLocationWhenInUsePermission": {
+    "description": ""
+  },
+  "pageLoginAskForLocationAlwaysPermission": "Lightdata is an application that will collect the cell phone location in the background to offer a better work tool. This way, the position of the package will be known at all times.",
+  "@pageLoginAskForLocationAlwaysPermission": {
+    "description": ""
+  },
+  "pageHomeTitle": "Shipments from ",
+  "@pageHomeTitle": {
+    "description": ""
+  },
+  "pageHomeOptionPackagesToDeliver": "Packages\nto deliver",
+  "@pageHomeOptionPackagesToDeliver": {
+    "description": ""
+  },
+  "pageHomeOptionAsignPackages": "Asign\npackages",
+  "@pageHomeOptionAsignPackages": {
+    "description": ""
+  },
+  "pageHomeOptionPackagesOnTheWay": "Asigned\npackages",
+  "@pageHomeOptionPackagesOnTheWay": {
+    "description": ""
+  },
+  "pageHomeOptionDeliveredPackages": "Delivered\npackages",
+  "@pageHomeOptionDeliveredPackages": {
+    "description": ""
+  },
+  "pageHomeOptionPendingPackages": "Pending\npackages",
+  "@pageHomeOptionPendingPackages": {
+    "description": ""
+  },
+  "pageHomeStartRoute": "Start Route",
+  "@pageHomeStartRoute": {
+    "description": ""
+  },
+  "pageQrMenuTitle": "Select a QR reader",
+  "@pageQrMenuTitle": {
+    "description": ""
+  },
+  "pageQrMenuOptionToProcessingPlant": "To processing plant",
+  "@pageQrMenuOptionToProcessingPlant": {
+    "description": ""
+  },
+  "pageQrMenuOptionCollect": "Collect",
+  "@pageQrMenuOptionCollect": {
+    "description": ""
+  },
+  "pageQrScanSuccess": "Success scanning QR",
+  "@pageQrScanSuccess": {
+    "description": ""
+  },
+  "pageQrMenuOptionReadQr": "Read QR",
+  "@pageQrMenuOptionReadQr": {
+    "description": ""
+  },
+  "pageQrMenuOptionAssign": "Assign",
+  "@pageQrMenuOptionAssign": {
+    "description": ""
+  },
+  "pageQrMenuOptionCrossDocking": "Cross Docking",
+  "@pageQrMenuOptionCrossDocking": {
+    "description": ""
+  },
+  "pageQrMenuOptionShipmentInformation": "Shipment information",
+  "@pageQrMenuOptionShipmentInformation": {
+    "description": ""
+  },
+  "pageQrMenuOptionEnterFlex": "Enter flex",
+  "@pageQrMenuOptionEnterFlex": {
+    "description": ""
+  },
+  "pageQrCollectOptionCollectedFrom": "Retired from {clientName}",
+  "@pageQrCollectOptionCollectedFrom": {
+    "description": "",
+    "placeholders": {
+      "clientName": {
+        "type": "String"
+      }
+    }
+  },
+  "pageQrRetiredTodayByMe": "Retired today by me",
+  "@pageQrRetiredTodayByMe": {
+    "description": ""
+  },
+  "pageQrReadNow": "Read now",
+  "@pageQrReadNow": {
+    "description": ""
+  },
+  "pageQrScanTheQR": "Scan the QR",
+  "@pageQrScanTheQR": {
+    "description": ""
+  },
+  "pageQrToEnterToday": "To enter today",
+  "@pageQrToEnterToday": {
+    "description": ""
+  },
+  "pageQrMissingFromTheEntranceFloorToday": "Missing from the entrance floor today",
+  "@pageQrMissingFromTheEntranceFloorToday": {
+    "description": ""
+  },
+  "pageQrToTheCustomersProcessingPlantToday": "To the customer's processing plant today",
+  "@pageQrToTheCustomersProcessingPlantToday": {
+    "description": ""
+  },
+  "pageQrToPlantTodayForMeOnTheDay": "To plant today for me on the day",
+  "@pageQrToPlantTodayForMeOnTheDay": {
+    "description": ""
+  },
+  "pageQrToProcessingPlantNow": "To processing plant now",
+  "@pageQrToProcessingPlantNow": {
+    "description": ""
+  },
+  "pageQrDeliveryArea": "Delivery area",
+  "@pageQrDeliveryArea": {
+    "description": ""
+  },
+  "pageQrReadQRDni": "Read QR DNI",
+  "@pageQrReadQRDni": {
+    "description": ""
+  },
+  "pageQrSaveVisit": "Save visit",
+  "@pageQrSaveVisit": {
+    "description": ""
+  },
+  "pageQrSelfAssign": "Self-assign",
+  "@pageQrSelfAssign": {
+    "description": ""
+  },
+  "pageFiltersApplyFilters": "Apply filters",
+  "@pageFiltersApplyFilters": {
+    "description": ""
+  },
+  "pageFiltersCleanFilters": "Clean filters",
+  "@pageFiltersCleanFilters": {
+    "description": ""
+  },
+  "pageFiltersRecipientName": "Recipient name",
+  "@pageFiltersRecipientName": {
+    "description": ""
+  },
+  "pageFiltersClientName": "Client name",
+  "@pageFiltersClientName": {
+    "description": ""
+  },
+  "pageShipmentProductsOrderedAmount": "Orderer amount",
+  "@pageShipmentProducts": {
+    "description": ""
+  },
+  "pageShipmentProductsLastReading": "Last reading",
+  "@pageShipmentProductsLastReading": {
+    "description": ""
+  },
+  "pageShipmentAssignmentAmountOfShipmentsAssignedToday": "Shipments assigned today",
+  "@pageShipmentAssignmentAmountOfShipmentsAssignedToday": {
+    "description": ""
+  },
+  "pageShipmentAssignmentChooseADriver": "Choose a driver",
+  "@pageShipmentAssignmentChooseADriver": {
+    "description": ""
+  },
+  "pageMapsGenerateRoutes": "Generate routes",
+  "@pageMapsGenerateRoutes": {
+    "description": ""
+  },
+  "pageMapsGeolocate": "Geolocate",
+  "@pageMapsGeolocate": {
+    "description": ""
+  },
+  "pageMapsCardDataItemNumberOfShipmentsGeolocated": "Total of shipments geolocated",
+  "@pageMapsCardDataItemNumberOfShipmentsGeolocated": {
+    "description": ""
+  },
+  "pageMapsCardDataItemNumberOfShipmentsWithoutGeolocation": "Total of shipments without geolocation",
+  "@pageMapsCardDataItemNumberOfShipmentsWithoutGeolocation": {
+    "description": ""
+  },
+  "pageMapsCardDataItemDistanceInKm": "Distance in kilometers",
+  "@pageMapsCardDataItemDistanceInKm": {
+    "description": ""
+  },
+  "pageMapsCardDataItemDistanceTime": "Distance time",
+  "@pageMapsCardDataItemDistanceTime": {
+    "description": ""
+  },
+  "pageMapsDeposit": "Deposit",
+  "@pageMapsDeposit": {
+    "description": ""
+  },
+  "pageMapsLastShipment": "Last shipment",
+  "@pageMapsLastShipment": {
+    "description": ""
+  },
+  "pageMapsMyCurrentLocation": "My current location",
+  "@pageMapsMyCurrentLocation": {
+    "description": ""
+  },
+  "pageMapsShipmentsWithoutGeolocate": "Shipments without geolocate",
+  "@pageMapsShipmentsWithoutGeolocate": {
+    "description": ""
+  },
+  "pageMapsAlertYouHaveToSelectAShipment": "You have to select one of the shipments to generate the route.",
+  "@pageMapsAlertYouHaveToSelectAShipment": {
+    "description": ""
+  },
+  "pageMapsAvoidHighways": "Avoid highways",
+  "@pageMapsAvoidHighways": {
+    "description": ""
+  },
+  "pageMapsAvoidTollways": "Avoid tollways",
+  "@pageMapsAvoidTollways": {
+    "description": ""
+  },
+  "pageMapsChooseWhereToFinish": "Choose where to finish",
+  "@pageMapsChooseWhereToFinish": {
+    "description": ""
+  },
+  "pageMapsChooseWhereToStart": "Choose where to start",
+  "@pageMapsChooseWhereToStart": {
+    "description": ""
+  },
+  "pageMapsSelectALocation": "Select a location",
+  "@pageMapsSelectALocation": {
+    "description": ""
+  },
+  "pageProfileForgetSession": "Forget session",
+  "@pageProfileForgetSession": {
+    "description": ""
+  },
+  "pageProfileProfilePicture": "Profile picture",
+  "@pageProfileProfilePicture": {
+    "description": ""
+  },
+  "pageProfileDeletePictureConfirmation": "Are you sure you want to delete this picture?",
+  "@pageProfileDeletePictureConfirmation": {
+    "description": ""
+  },
+  "pageProfileIntegrationsLinks": "Integrations links",
+  "@pageProfileIntegrationsLinks": {
+    "description": ""
+  },
+  "pageRegisterVisitAddObservations": "Add observations",
+  "@pageRegisterVisitAddObservations": {
+    "description": ""
+  },
+  "pageRegisterVisitDNIOfTheRecipient": "Recipient's DNI",
+  "@pageRegisterVisitDNIOfTheRecipient": {
+    "description": ""
+  },
+  "pageRegisterVisitNameOfTheRecipient": "Name of the recipient",
+  "@pageRegisterVisitNameOfTheRecipient": {
+    "description": ""
+  },
+  "pageRegisterVisitRegisterVisit": "Register visit",
+  "@pageRegisterVisitRegisterVisit": {
+    "description": ""
+  },
+  "pageShipmentInformationWithoutObservations": "Without observations",
+  "@pageShipmentInformationWithoutObservations": {
+    "description": ""
+  },
+  "pageShipmentInformationIdShipment": "Shipment ID ML",
+  "@pageShipmentInformationIdShipment": {
+    "description": ""
+  },
+  "pageShipmentInformationIdSale": "Sale ID ML",
+  "@pageShipmentInformationIdSale": {
+    "description": ""
+  },
+  "pageShipmentInformationTotalToClaim": "Total to claim",
+  "@pageShipmentInformationTotalToClaim": {
+    "description": ""
+  },
+  "pageShipmentInformationWhoRecibeTheShipment": "Package recipient is the buyer",
+  "@pageShipmentInformationWhoRecibeTheShipment": {
+    "description": ""
+  },
+  "pageShipmentListTotalShipments": "Packages viewed in total",
+  "@pageShipmentListTotalShipments": {
+    "description": ""
+  },
+  "pageShipmentListNoShipmentsAvailable": "No shipments available",
+  "@pageShipmentListNoShipmentsAvailable": {
+    "description": ""
+  },
+  "pageShipmentListTheShipmentDoesntHavePhoneNumber": "This shipment does not have a phone number assigned.",
+  "@pageShipmentListTheShipmentDoesntHavePhoneNumber": {
+    "description": ""
+  },
+  "pageShipmentListShipmentProximoAEntregar": "Next to deliver",
+  "@pageShipmentListShipmentProximoAEntregar": {
+    "description": ""
+  },
+  "pageAccountsSellerId": "Seller Id",
+  "@pageAccountsSellerId": {
+    "description": ""
+  },
+  "pageSettlementsNoSettlements": "No settlements available",
+  "@pageSettlementsNoSettlements": {
+    "description": ""
+  },
+  "pageSettlementsShipmentAddress": "Shipment address",
+  "@pageSettlementsShipmentAddress": {
+    "description": ""
+  },
+  "bottomNavigationBarOptionHome": "Home",
+  "@bottomNavigationBarOptionHome": {
+    "description": ""
+  },
+  "bottomNavigationBarOptionShipments": "Shipments",
+  "@bottomNavigationBarOptionShipments": {
+    "description": ""
+  },
+  "bottomNavigationBarOptionQR": "QR",
+  "@bottomNavigationBarOptionQR": {
+    "description": ""
+  },
+  "bottomNavigationBarOptionMaps": "Maps",
+  "@bottomNavigationBarOptionMaps": {
+    "description": ""
+  },
+  "bottomNavigationBarOptionProfile": "Profile",
+  "@bottomNavigationBarOptionProfile": {
+    "description": ""
+  },
+  "bottomNavigationBarOptionSettings": "Settings",
+  "@bottomNavigationBarOptionSettings": {
+    "description": ""
+  },
+  "bottomNavigationBarOptionMySettlements": "My settlements",
+  "@bottomNavigationBarOptionMySettlements": {
+    "description": ""
+  },
+  "bottomNavigationBarOptionLogout": "Logout",
+  "@bottomNavigationBarOptionLogout": {
+    "description": ""
+  },
+  "stateCollected": "Collected",
+  "@stateCollected": {
+    "description": ""
+  },
+  "stateAtProcessingPlant": "At processing plant",
+  "@stateAtProcessingPlant": {
+    "description": ""
+  },
+  "stateOnTheWay": "On the way",
+  "@stateOnTheWay": {
+    "description": ""
+  },
+  "stateReturningToProcessingPlant": "Returning To Processing Plant",
+  "@stateReturningToProcessingPlant": {
+    "description": ""
+  },
+  "stateDelivered": "Delivered",
+  "@stateDelivered": {
+    "description": ""
+  },
+  "stateNobody": "Nobody",
+  "@stateNobody": {
+    "description": ""
+  },
+  "stateToBeCollected": "To be collected",
+  "@stateToBeCollected": {
+    "description": ""
+  },
+  "stateCanceled": "Canceled",
+  "@stateCanceled": {
+    "description": ""
+  },
+  "stateDeliveredSecondVisit": "Delivered second visit",
+  "@stateDeliveredSecondVisit": {
+    "description": ""
+  },
+  "stateNobodySecondVisit": "Nobody second visit",
+  "@stateNobodySecondVisit": {
+    "description": ""
+  },
+  "stateOnTheWaySecondVisit": "On the way second visit",
+  "@stateOnTheWaySecondVisit": {
+    "description": ""
+  },
+  "stateOnTheWayRescheduled": "On the way rescheduled",
+  "@stateOnTheWayRescheduled": {
+    "description": ""
+  },
+  "stateNotDelivered": "Not delivered",
+  "@stateNotDelivered": {
+    "description": ""
+  },
+  "stateReturnedToClient": "Returned to client",
+  "@stateReturnedToClient": {
+    "description": ""
+  },
+  "stateRejectedByClient": "Rejected by client",
+  "@stateRejectedByClient": {
+    "description": ""
+  },
+  "languageSpanish": "Spanish",
+  "@languageSpanish": {
+    "description": ""
+  },
+  "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": ""
+  },
+  "languagePortuguese": "Portuguese",
+  "@languagePortuguese": {
+    "description": ""
+  },
+  "commonUser": "User",
+  "@commonUser": {
+    "description": ""
+  },
+  "commonFilter": "Filter",
+  "@commonFilter": {
+    "description": ""
+  },
+  "commonLogin": "Login",
+  "@commonLogin": {
+    "description": ""
+  },
+  "commonToday": "Today",
+  "@commonToday": {
+    "description": ""
+  },
+  "commonClose": "Close",
+  "@commonClose": {
+    "description": ""
+  },
+  "commonGenerate": "Generate",
+  "@commonGenerate": {
+    "description": ""
+  },
+  "commonId": "Id",
+  "@commonId": {
+    "description": ""
+  },
+  "commonUbication": "Location",
+  "@commonUbication": {
+    "description": ""
+  },
+  "commonSaveImage": "Save Image",
+  "@commonSaveImage": {
+    "description": ""
+  },
+  "commonAddImage": "Add Image",
+  "@commonAddImage": {
+    "description": ""
+  },
+  "commonDeleteImage": "Delete Image",
+  "@commonDeleteImage": {
+    "description": ""
+  },
+  "commonSave": "Save",
+  "@commonSave": {
+    "description": ""
+  },
+  "commonUserName": "User name",
+  "@commonUserName": {
+    "description": ""
+  },
+  "commonContact": "Contact",
+  "@commonContact": {
+    "description": ""
+  },
+  "commonEmail": "Email",
+  "@commonEmail": {
+    "description": ""
+  },
+  "commonCompany": "Company",
+  "@commonCompany": {
+    "description": ""
+  },
+  "commonAccept": "Accept",
+  "@commonAccept": {
+    "description": ""
+  },
+  "commonDriver": "Driver",
+  "@commonDriver": {
+    "description": ""
+  },
+  "commonDelete": "Delete",
+  "@commonDelete": {
+    "description": ""
+  },
+  "commonLoad": "Load",
+  "@commonLoad": {
+    "description": ""
+  },
+  "commonHome": "Home",
+  "@commonHome": {
+    "description": ""
+  },
+  "commonCamera": "Camera",
+  "@commonCamera": {
+    "description": ""
+  },
+  "commonGallery": "Gallery",
+  "@commonGallery": {
+    "description": ""
+  },
+  "commonHistory": "History",
+  "@commonHistory": {
+    "description": ""
+  },
+  "commonState": "State",
+  "@commonState": {
+    "description": ""
+  },
+  "commonStates": "States",
+  "@commonStates": {
+    "description": ""
+  },
+  "commonLocation": "Location",
+  "@commonLocation": {
+    "description": ""
+  },
+  "commonAddress": "Address",
+  "@commonAddress": {
+    "description": ""
+  },
+  "commonDate": "Date",
+  "@commonDate": {
+    "description": ""
+  },
+  "commonDateFrom": "Date from",
+  "@commonDateFrom": {
+    "description": ""
+  },
+  "commonDateTo": "Date to",
+  "@commonDateTo": {
+    "description": ""
+  },
+  "commonObservations": "Observations",
+  "@commonObservations": {
+    "description": ""
+  },
+  "commonClient": "Client",
+  "@commonClient": {
+    "description": ""
+  },
+  "commonTotal": "Total",
+  "@commonTotal": {
+    "description": ""
+  },
+  "commonTracking": "Tracking",
+  "@commonTracking": {
+    "description": ""
+  },
+  "commonSettlements": "Settlements",
+  "@commonSettlements": {
+    "description": ""
+  },
+  "commonSelectADate": "Select a date",
+  "@commonSelectADate": {
+    "description": ""
+  },
+  "commonPersonalData": "Personal data",
+  "@commonPersonalData": {
+    "description": ""
+  },
+  "commonMyData": "My data",
+  "@commonMyData": {
+    "description": ""
+  },
+  "commonOn": "On",
+  "@commonOn": {
+    "description": ""
+  },
+  "commonOff": "Off",
+  "@commonOff": {
+    "description": ""
+  },
+  "commonAssign": "Assign",
+  "@commonAssign": {
+    "description": ""
+  },
+  "commonSKU": "SKU",
+  "@commonSKU": {
+    "description": ""
+  },
+  "commonVariation": "Variación",
+  "@commonVariation": {
+    "description": ""
+  },
+  "commonSource": "Source",
+  "@commonSource": {
+    "description": ""
+  },
+  "commonImportant": "Important",
+  "@commonImportant": {
+    "description": ""
+  },
+  "commonIncorrectCode": "Incorrect code",
+  "@commonIncorrectCode": {
+    "description": ""
+  },
+  "commonBack": "Back",
+  "@commonBack": {
+    "description": ""
+  },
+  "commonHouse": "House",
+  "@commonHouse": {
+    "description": ""
+  },
+  "commonSelect": "Select",
+  "@commonSelect": {
+    "description": ""
+  },
+  "commonSync": "Sync",
+  "@commonSync": {
+    "description": ""
+  },
+  "commonWithoutSync": "Unsynced",
+  "@commonWithoutSync": {
+    "description": ""
+  },
+  "commonNumber": "Number",
+  "@commonNumber": {
+    "description": ""
+  },
+  "commonAdd": "Add",
+  "@commonAdd": {
+    "description": ""
+  },
+  "commonCancel": "Cancel",
+  "@commonCancel": {
+    "description": ""
+  },
+  "commonSaved": "Saved",
+  "@commonSaved": {
+    "description": ""
+  },
+  "commonFeatNotAvailableTitle": "Feature not available",
+  "@commonFeatNotAvailableTitle": {
+    "description": ""
+  },
+  "commonFeatNotAvailableDescription": "This feature is not available in this version of the app.",
+  "@commonFeatNotAvailableDescription": {
+    "description": ""
+  },
+  "commonInformationSavedSuccessfully": "Your information has been saved successfully",
+  "@commonInformationSavedSuccessfully": {
+    "description": ""
+  },
+  "commonOops": "Oops",
+  "@commonOops": {
+    "description": ""
+  },
+  "commonNoMovements": "No movements to show",
+  "@commonNoMovements": {
+    "description": ""
+  },
+  "commonCP": "CP",
+  "@commonCP": {
+    "description": ""
+  },
+  "commonAccounts": "Accounts",
+  "@commonAccounts": {
+    "description": ""
+  },
+  "commonHi": "Hi",
+  "@commonHi": {
+    "description": ""
+  },
+  "commonConfirm": "Confirm",
+  "@commonConfirm": {
+    "description": ""
+  },
+  "commonOk": "Ok",
+  "@commonOk": {
+    "description": ""
+  },
+  "commonAdmitted": "Admitted",
+  "@commonAdmitted": {
+    "description": ""
+  },
+  "commonSeconds": "Seconds",
+  "@commonSeconds": {
+    "description": ""
+  },
+  "commonError": "Error",
+  "@commonError": {
+    "description": ""
+  },
+  "commonIUnderstand": "I understand",
+  "@commonIUnderstand": {
+    "description": ""
+  },
+  "commonPassword": "Password",
+  "@commonPassword": {
+    "description": ""
+  },
+  "commonOf": "of",
+  "@commonOf": {
+    "description": ""
+  },
+  "commonErrorText": "An error has occurred, please try deleting the cache and logging in again. If the problem persists, please contact support.",
+  "@commonErrorText": {
+    "description": ""
+  }
+}

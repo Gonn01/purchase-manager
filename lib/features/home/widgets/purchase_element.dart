@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/extensions/date_time.dart';
-import 'package:purchase_manager/extensions/double.dart';
-import 'package:purchase_manager/extensions/string.dart';
+import 'package:purchase_manager/utilities/extensions/date_time.dart';
+import 'package:purchase_manager/utilities/extensions/double.dart';
+import 'package:purchase_manager/utilities/extensions/string.dart';
 import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/features/home/widgets/dialogs/dialog_edit_purchase.dart';
-import 'package:purchase_manager/models/financial_entity.dart';
-import 'package:purchase_manager/models/purchase.dart';
+import 'package:purchase_manager/utilities/models/financial_entity.dart';
+import 'package:purchase_manager/utilities/models/purchase.dart';
 
 /// {@template PurchaseElement}
 /// Elemento que muestra la información de una compra

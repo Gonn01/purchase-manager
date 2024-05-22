@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
-import 'package:purchase_manager/models/financial_entity.dart';
-import 'package:purchase_manager/widgets/pm_dialogs.dart';
-import 'package:purchase_manager/widgets/pm_textfields.dart';
+import 'package:purchase_manager/utilities/models/financial_entity.dart';
+import 'package:purchase_manager/utilities/widgets/pm_dialogs.dart';
+import 'package:purchase_manager/utilities/widgets/pm_textfields.dart';
 
 /// {@template DialogCreateFinancialEntity}
 /// Dialog para crear una nueva [FinancialEntity]

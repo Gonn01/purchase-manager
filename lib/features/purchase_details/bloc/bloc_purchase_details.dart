@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:purchase_manager/endpoints/crud_purchase.dart';
-import 'package:purchase_manager/models/enums/status.dart';
-import 'package:purchase_manager/models/purchase.dart';
+import 'package:purchase_manager/utilities/models/enums/status.dart';
+import 'package:purchase_manager/utilities/models/purchase.dart';
+import 'package:purchase_manager/utilities/services/firebase_service.dart';
 
 part 'bloc_purchase_details_event.dart';
 part 'bloc_purchase_details_state.dart';
@@ -16,6 +16,7 @@ class BlocPurchaseDetails
   BlocPurchaseDetails() : super(const BlocPurchaseDetailsState()) {
     on<BlocPurchaseDetailsEventInitialize>(_onInitialize);
   }
+  final _firebaseService = FirebaseService();
 
   Future<void> _onInitialize(
     BlocPurchaseDetailsEventInitialize event,
@@ -23,7 +24,7 @@ class BlocPurchaseDetails
   ) async {
     emit(state.copyWith(estado: Status.loading));
     try {
-      final purchase = await getPurchaseById(
+      final purchase = await _firebaseService.getPurchaseById(
         purchaseId: event.idPurchase,
         financialEntityId: event.idFinancialEntity,
       );

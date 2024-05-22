@@ -1,0 +1,712 @@
+{
+  "@@locale": "es",
+  "pageIdentificationEnterYourCode": "Ingrese el còdigo",
+  "@pageIdentificationEnterYourCode": {
+    "description": ""
+  },
+  "pageIdentificationEnterTheCompanyCode": "Ingrese el código de empresa que le\nhan asignado",
+  "@pageIdentificationEnterTheCompanyCode": {
+    "description": ""
+  },
+  "pageLoginAskForLocationWhenInUsePermission": "Lightdata es una aplicación que recopila datos de ubicación para habilitar el posicionamiento de los paquetes y el armado de rutas posibles de las entregas, incluso cuando la aplicación está cerrada o no está en uso.",
+  "@pageLoginAskForLocationWhenInUsePermission": {
+    "description": ""
+  },
+  "pageLoginAskForLocationAlwaysPermission": "Lightdata es una aplicación que recolectará la ubicación del celular en segundo plano para ofrecer una mejor herramienta de trabajo. De esta manera, se sabrá la posición del paquete en todo momento.",
+  "@pageLoginAskForLocationAlwaysPermission": {
+    "description": ""
+  },
+  "pageHomeTitle": "Paquetes de ",
+  "@pageHomeTitle": {
+    "description": ""
+  },
+  "pageHomeOptionPackagesToDeliver": "Paquetes\na entregar",
+  "@pageHomeOptionPackagesToDeliver": {
+    "description": ""
+  },
+  "pageHomeOptionAsignPackages": "Paquetes\nasignados",
+  "@pageHomeOptionAsignPackages": {
+    "description": ""
+  },
+  "pageHomeOptionPackagesOnTheWay": "Paquetes\nen camino",
+  "@pageHomeOptionPackagesOnTheWay": {
+    "description": ""
+  },
+  "pageHomeOptionDeliveredPackages": "Paquetes\nentregados",
+  "@pageHomeOptionDeliveredPackages": {
+    "description": ""
+  },
+  "pageHomeOptionPendingPackages": "Paquetes\npendientes",
+  "@pageHomeOptionPendingPackages": {
+    "description": ""
+  },
+  "pageHomeStartRoute": "Comenzar Ruta",
+  "@pageHomeStartRoute": {
+    "description": ""
+  },
+  "pageQrScanSuccess": "Carga realizada con éxito",
+  "@pageQrScanSuccess": {
+    "description": ""
+  },
+  "pageQrMenuTitle": "Selecciona un lector de QR",
+  "@pageQrMenuTitle": {
+    "description": ""
+  },
+  "pageQrMenuOptionToProcessingPlant": "A planta",
+  "@pageQrMenuOptionToProcessingPlant": {
+    "description": ""
+  },
+  "pageQrMenuOptionCollect": "Colecta",
+  "@pageQrMenuOptionCollect": {
+    "description": ""
+  },
+  "pageQrMenuOptionReadQr": "Leer QR",
+  "@pageQrMenuOptionReadQr": {
+    "description": ""
+  },
+  "pageQrMenuOptionAssign": "Asignaciòn",
+  "@pageQrMenuOptionAssign": {
+    "description": ""
+  },
+  "pageQrMenuOptionCrossDocking": "Cross Docking",
+  "@pageQrMenuOptionCrossDocking": {
+    "description": ""
+  },
+  "pageQrMenuOptionShipmentInformation": "Información del envìo",
+  "@pageQrMenuOptionShipmentInformation": {
+    "description": ""
+  },
+  "pageQrMenuOptionEnterFlex": "Ingresar flex",
+  "@pageQrMenuOptionEnterFlex": {
+    "description": ""
+  },
+  "pageQrRetiredTodayByMe": "Retirados hoy por mi",
+  "@pageQrRetiredTodayByMe": {
+    "description": ""
+  },
+  "pageQrCollectOptionCollectedFrom": "Retirados de {clientName}",
+  "@pageQrCollectOptionCollectedFrom": {
+    "description": "",
+    "placeholders": {
+      "clientName": {
+        "type": "String"
+      }
+    }
+  },
+  "pageQrReadNow": "Leidos ahora",
+  "@pageQrReadNow": {
+    "description": ""
+  },
+  "pageQrScanTheQR": "Escanea el QR",
+  "@pageQrScanTheQR": {
+    "description": ""
+  },
+  "pageQrToEnterToday": "A ingresar hoy",
+  "@pageQrToEnterToday": {
+    "description": ""
+  },
+  "pageQrMissingFromTheEntranceFloorToday": "Faltantes a planta  de ingreso hoy",
+  "@pageQrMissingFromTheEntranceFloorToday": {
+    "description": ""
+  },
+  "pageQrToTheCustomersProcessingPlantToday": "A planta hoy del cliente",
+  "@pageQrToTheCustomersProcessingPlantToday": {
+    "description": ""
+  },
+  "pageQrToPlantTodayForMeOnTheDay": "A planta hoy por mí en el día",
+  "@pageQrToPlantTodayForMeOnTheDay": {
+    "description": ""
+  },
+  "pageQrToProcessingPlantNow": "A planta ahora",
+  "@pageQrToProcessingPlantNow": {
+    "description": ""
+  },
+  "pageQrDeliveryArea": "Zona de entrega",
+  "@pageQrDeliveryArea": {
+    "description": ""
+  },
+  "pageQrReadQRDni": "Leer QR DNI",
+  "@pageQrReadQRDni": {
+    "description": ""
+  },
+  "pageQrSaveVisit": "Guardar visita",
+  "@pageQrSaveVisit": {
+    "description": ""
+  },
+  "pageQrSelfAssign": "Auto-asignar",
+  "@pageQrSelfAssign": {
+    "description": ""
+  },
+  "pageFiltersApplyFilters": "Aplicar filtros",
+  "@pageFiltersApplyFilters": {
+    "description": ""
+  },
+  "pageFiltersCleanFilters": "Limpiar filtros",
+  "@pageFiltersCleanFilters": {
+    "description": ""
+  },
+  "pageFiltersRecipientName": "Nombre Destinatario",
+  "@pageFiltersRecipientName": {
+    "description": ""
+  },
+  "pageFiltersClientName": "Nombre cliente",
+  "@pageFiltersClientName": {
+    "description": ""
+  },
+  "pageShipmentProductsOrderedAmount": "Cantidad pedida",
+  "@pageShipmentProducts": {
+    "description": ""
+  },
+  "pageShipmentProductsLastReading": "Última lectura",
+  "@pageShipmentProductsLastReading": {
+    "description": ""
+  },
+  "pageShipmentAssignmentAmountOfShipmentsAssignedToday": "Paquetes asignados hoy",
+  "@pageShipmentAssignmentAmountOfShipmentsAssignedToday": {
+    "description": ""
+  },
+  "pageShipmentAssignmentChooseADriver": "Elegir un chofer",
+  "@pageShipmentAssignmentChooseADriver": {
+    "description": ""
+  },
+  "pageMapsGenerateRoutes": "Generar rutas",
+  "@pageMapsGenerateRoutes": {
+    "description": ""
+  },
+  "pageMapsGeolocate": "Geolocalizar",
+  "@pageMapsGeolocate": {
+    "description": ""
+  },
+  "pageMapsCardDataItemNumberOfShipmentsGeolocated": "Total de paquetes geolocalizados",
+  "@pageMapsCardDataItemNumberOfShipmentsGeolocated": {
+    "description": ""
+  },
+  "pageMapsCardDataItemNumberOfShipmentsWithoutGeolocation": "Total de paquetes sin geolocalizar",
+  "@pageMapsCardDataItemNumberOfShipmentsWithoutGeolocation": {
+    "description": ""
+  },
+  "pageMapsCardDataItemDistanceInKm": "Cantidad de kilometros",
+  "@pageMapsCardDataItemDistanceInKm": {
+    "description": ""
+  },
+  "pageMapsCardDataItemDistanceTime": "Tiempo de distancia",
+  "@pageMapsCardDataItemDistanceTime": {
+    "description": ""
+  },
+  "pageMapsDeposit": "Deposito",
+  "@pageMapsDeposit": {
+    "description": ""
+  },
+  "pageMapsLastShipment": "Último envío",
+  "@pageMapsLastShipment": {
+    "description": ""
+  },
+  "pageMapsMyCurrentLocation": "Mi ubicación actual",
+  "@pageMapsMyCurrentLocation": {
+    "description": ""
+  },
+  "pageMapsShipmentsWithoutGeolocate": "Hay envios sin geolocalizar",
+  "@pageMapsShipmentsWithoutGeolocate": {
+    "description": ""
+  },
+  "pageMapsAlertYouHaveToSelectAShipment": "Tenes que seleccionar uno de los envíos para generar la ruta.",
+  "@pageMapsAlertYouHaveToSelectAShipment": {
+    "description": ""
+  },
+  "pageMapsAvoidHighways": "Evitar autopistas",
+  "@pageMapsAvoidHighways": {
+    "description": ""
+  },
+  "pageMapsAvoidTollways": "Evitar peajes",
+  "@pageMapsAvoidTollways": {
+    "description": ""
+  },
+  "pageMapsChooseWhereToFinish": "Elegir donde finalizar",
+  "@pageMapsChooseWhereToFinish": {
+    "description": ""
+  },
+  "pageMapsChooseWhereToStart": "Elegir donde comenzar",
+  "@pageMapsChooseWhereToStart": {
+    "description": ""
+  },
+  "pageMapsSelectALocation": "Tenes que seleccionar un punto en el mapa",
+  "@pageMapsSelectALocation": {
+    "description": ""
+  },
+  "pageProfileForgetSession": "Olvidar todo",
+  "@pageProfileForgetSession": {
+    "description": ""
+  },
+  "pageProfileProfilePicture": "Foto de perfil",
+  "@pageProfileProfilePicture": {
+    "description": ""
+  },
+  "pageProfileDeletePictureConfirmation": "¿Estás seguro de que queres eliminar esta foto?",
+  "@pageProfileDeletePictureConfirmation": {
+    "description": ""
+  },
+  "pageProfileIntegrationsLinks": "Links integraciones",
+  "@pageProfileIntegrationsLinks": {
+    "description": ""
+  },
+  "pageRegisterVisitAddObservations": "Agregar observaciones",
+  "@pageRegisterVisitAddObservations": {
+    "description": ""
+  },
+  "pageRegisterVisitDNIOfTheRecipient": "DNI Recibe",
+  "@pageRegisterVisitDNIOfTheRecipient": {
+    "description": ""
+  },
+  "pageRegisterVisitNameOfTheRecipient": "Nombre quien recibe",
+  "@pageRegisterVisitNameOfTheRecipient": {
+    "description": ""
+  },
+  "pageRegisterVisitRegisterVisit": "Registrar Visita",
+  "@pageRegisterVisitRegisterVisit": {
+    "description": ""
+  },
+  "pageShipmentInformationWithoutObservations": "Sin observaciones",
+  "@pageShipmentInformationWithoutObservations": {
+    "description": ""
+  },
+  "pageShipmentInformationIdShipment": "ID envio ML",
+  "@pageShipmentInformationIdShipment": {
+    "description": ""
+  },
+  "pageShipmentInformationIdSale": "ID venta ML",
+  "@pageShipmentInformationIdSale": {
+    "description": ""
+  },
+  "pageShipmentInformationTotalToClaim": "Total a cobrar",
+  "@pageShipmentInformationTotalToClaim": {
+    "description": ""
+  },
+  "pageShipmentInformationWhoRecibeTheShipment": "Recibe el paquete titular de la compra",
+  "@pageShipmentInformationWhoRecibeTheShipment": {
+    "description": ""
+  },
+  "pageShipmentListTotalShipments": "Total paquetes visualizados",
+  "@pageShipmentListTotalShipments": {
+    "description": ""
+  },
+  "pageShipmentListNoShipmentsAvailable": "No hay paquetes disponibles",
+  "@pageShipmentListNoShipmentsAvailable": {
+    "description": ""
+  },
+  "pageShipmentListTheShipmentDoesntHavePhoneNumber": "Este envio no tiene un numero de telefono asignado",
+  "@pageShipmentListTheShipmentDoesntHavePhoneNumber": {
+    "description": ""
+  },
+  "pageShipmentListShipmentProximoAEntregar": "Próximo a entregar",
+  "@pageShipmentListShipmentProximoAEntregar": {
+    "description": ""
+  },
+  "pageAccountsSellerId": "Seller Id",
+  "@pageAccountsSellerId": {
+    "description": ""
+  },
+  "pageSettlementsNoSettlements": "No hay liquidaciones disponibles",
+  "@pageSettlementsNoSettlements": {
+    "description": ""
+  },
+  "pageSettlementsShipmentAddress": "Dirección envío",
+  "@pageSettlementsShipmentAddress": {
+    "description": ""
+  },
+  "bottomNavigationBarOptionHome": "Inicio",
+  "@bottomNavigationBarOptionHome": {
+    "description": ""
+  },
+  "bottomNavigationBarOptionShipments": "Paquetes",
+  "@bottomNavigationBarOptionShipments": {
+    "description": ""
+  },
+  "bottomNavigationBarOptionQR": "QR",
+  "@bottomNavigationBarOptionQR": {
+    "description": ""
+  },
+  "bottomNavigationBarOptionMaps": "Mapas",
+  "@bottomNavigationBarOptionMaps": {
+    "description": ""
+  },
+  "bottomNavigationBarOptionProfile": "Perfil",
+  "@bottomNavigationBarOptionProfile": {
+    "description": ""
+  },
+  "bottomNavigationBarOptionSettings": "Configuraciòn",
+  "@bottomNavigationBarOptionSettings": {
+    "description": ""
+  },
+  "bottomNavigationBarOptionMySettlements": "Mis liquidaciones",
+  "@bottomNavigationBarOptionMySettlements": {
+    "description": ""
+  },
+  "bottomNavigationBarOptionLogout": "Cerrar sesiòn",
+  "@bottomNavigationBarOptionLogout": {
+    "description": ""
+  },
+  "stateCollected": "Retirado",
+  "@stateCollected": {
+    "description": ""
+  },
+  "stateAtProcessingPlant": "En planta de procesamiento",
+  "@stateAtProcessingPlant": {
+    "description": ""
+  },
+  "stateOnTheWay": "En camino",
+  "@stateOnTheWay": {
+    "description": ""
+  },
+  "stateReturningToProcessingPlant": "Volviendo a la planta de procesamiento",
+  "@stateReturningToProcessingPlant": {
+    "description": ""
+  },
+  "stateDelivered": "Entregado",
+  "@stateDelivered": {
+    "description": ""
+  },
+  "stateNobody": "Nadie en casa",
+  "@stateNobody": {
+    "description": ""
+  },
+  "stateToBeCollected": "A retirar",
+  "@stateToBeCollected": {
+    "description": ""
+  },
+  "stateCanceled": "Cancelado",
+  "@stateCanceled": {
+    "description": ""
+  },
+  "stateDeliveredSecondVisit": "Entregado 2da visita",
+  "@stateDeliveredSecondVisit": {
+    "description": ""
+  },
+  "stateNobodySecondVisit": "Nadie en casa 2da visita",
+  "@stateNobodySecondVisit": {
+    "description": ""
+  },
+  "stateOnTheWaySecondVisit": "En camino 2da visita",
+  "@stateOnTheWaySecondVisit": {
+    "description": ""
+  },
+  "stateOnTheWayRescheduled": "En camino reprogramado",
+  "@stateOnTheWayRescheduled": {
+    "description": ""
+  },
+  "stateNotDelivered": "No entregado",
+  "@stateNotDelivered": {
+    "description": ""
+  },
+  "stateReturnedToClient": "Devuelto al cliente",
+  "@stateReturnedToClient": {
+    "description": ""
+  },
+  "stateRejectedByClient": "Rechazado por el comprador",
+  "@stateRejectedByClient": {
+    "description": ""
+  },
+  "languageSpanish": "Español",
+  "@languageSpanish": {
+    "description": ""
+  },
+  "languageEnglish": "Inglés",
+  "@languageEnglish": {
+    "description": ""
+  },
+  "languagePortuguese": "Portugues",
+  "@languagePortuguese": {
+    "description": ""
+  },
+  "commonUser": "Usuario",
+  "@commonUser": {
+    "description": ""
+  },
+  "commonFilter": "Filtrar",
+  "@commonFilter": {
+    "description": ""
+  },
+  "commonLogin": "Ingresar",
+  "@commonLogin": {
+    "description": ""
+  },
+  "commonToday": "Hoy",
+  "@commonToday": {
+    "description": ""
+  },
+  "commonClose": "Cerrar",
+  "@commonClose": {
+    "description": ""
+  },
+  "commonGenerate": "Generar",
+  "@commonGenerate": {
+    "description": ""
+  },
+  "commonId": "Id",
+  "@commonId": {
+    "description": ""
+  },
+  "commonUbication": "Ubicación",
+  "@commonUbication": {
+    "description": ""
+  },
+  "commonSaveImage": "Cargar imagen",
+  "@commonSaveImage": {
+    "description": ""
+  },
+  "commonAddImage": "Agregar imagen",
+  "@commonAddImage": {
+    "description": ""
+  },
+  "commonDeleteImage": "Eliminar imagen",
+  "@commonDeleteImage": {
+    "description": ""
+  },
+  "commonSave": "Guardar",
+  "@commonSave": {
+    "description": ""
+  },
+  "commonUserName": "Nombre de usuario",
+  "@commonUserName": {
+    "description": ""
+  },
+  "commonContact": "Contacto",
+  "@commonContact": {
+    "description": ""
+  },
+  "commonEmail": "Email",
+  "@commonEmail": {
+    "description": ""
+  },
+  "commonCompany": "Empresa",
+  "@commonCompany": {
+    "description": ""
+  },
+  "commonAccept": "Aceptar",
+  "@commonAccept": {
+    "description": ""
+  },
+  "commonDriver": "Chofer",
+  "@commonDriver": {
+    "description": ""
+  },
+  "commonDelete": "Eliminar",
+  "@commonDelete": {
+    "description": ""
+  },
+  "commonLoad": "Cargar",
+  "@commonLoad": {
+    "description": ""
+  },
+  "commonHome": "Inicio",
+  "@commonHome": {
+    "description": ""
+  },
+  "commonCamera": "Cámara",
+  "@commonCamera": {
+    "description": ""
+  },
+  "commonGallery": "Galería",
+  "@commonGallery": {
+    "description": ""
+  },
+  "commonHistory": "Historial",
+  "@commonHistory": {
+    "description": ""
+  },
+  "commonState": "Estado",
+  "@commonState": {
+    "description": ""
+  },
+  "commonStates": "Estados",
+  "@commonStates": {
+    "description": ""
+  },
+  "commonLocation": "Localidad",
+  "@commonLocation": {
+    "description": ""
+  },
+  "commonAddress": "Dirección",
+  "@commonAddress": {
+    "description": ""
+  },
+  "commonDate": "Fecha",
+  "@commonDate": {
+    "description": ""
+  },
+  "commonDateFrom": "Fecha desde",
+  "@commonDateFrom": {
+    "description": ""
+  },
+  "commonDateTo": "Fecha hasta",
+  "@commonDateTo": {
+    "description": ""
+  },
+  "commonObservations": "Observaciones",
+  "@commonObservations": {
+    "description": ""
+  },
+  "commonClient": "Cliente",
+  "@commonClient": {
+    "description": ""
+  },
+  "commonTotal": "Total",
+  "@commonTotal": {
+    "description": ""
+  },
+  "commonTracking": "Seguimiento",
+  "@commonTracking": {
+    "description": ""
+  },
+  "commonSettlements": "Liquidaciones",
+  "@commonSettlements": {
+    "description": ""
+  },
+  "commonSelectADate": "Selecciona una fecha",
+  "@commonSelectADate": {
+    "description": ""
+  },
+  "commonPersonalData": "Datos personales",
+  "@commonPersonalData": {
+    "description": ""
+  },
+  "commonMyData": "Mis datos",
+  "@commonMyData": {
+    "description": ""
+  },
+  "commonOn": "On",
+  "@commonOn": {
+    "description": ""
+  },
+  "commonOff": "Off",
+  "@commonOff": {
+    "description": ""
+  },
+  "commonAssign": "Asignar",
+  "@commonAssign": {
+    "description": ""
+  },
+  "commonSKU": "SKU",
+  "@commonSKU": {
+    "description": ""
+  },
+  "commonVariation": "Variation",
+  "@commonVariation": {
+    "description": ""
+  },
+  "commonSource": "Origen",
+  "@commonSource": {
+    "description": ""
+  },
+  "commonImportant": "Importante",
+  "@commonImportant": {
+    "description": ""
+  },
+  "commonIncorrectCode": "Código incorrecto",
+  "@commonIncorrectCode": {
+    "description": ""
+  },
+  "commonBack": "Volver",
+  "@commonBack": {
+    "description": ""
+  },
+  "commonHouse": "Casa",
+  "@commonHouse": {
+    "description": ""
+  },
+  "commonSelect": "Seleccionar",
+  "@commonSelect": {
+    "description": ""
+  },
+  "commonSync": "Sincronizado",
+  "@commonSync": {
+    "description": ""
+  },
+  "commonWithoutSync": "No sincronizado",
+  "@commonWithoutSync": {
+    "description": ""
+  },
+  "commonNumber": "Número",
+  "@commonNumber": {
+    "description": ""
+  },
+  "commonAdd": "Agregar",
+  "@commonAdd": {
+    "description": ""
+  },
+  "commonCancel": "Cancelar",
+  "@commonCancel": {
+    "description": ""
+  },
+  "commonSaved": "Guardado",
+  "@commonSaved": {
+    "description": ""
+  },
+  "commonFeatNotAvailableTitle": "Funcionalidad no disponible",
+  "@commonFeatNotAvailableTitle": {
+    "description": ""
+  },
+  "commonFeatNotAvailableDescription": "Esta funcionalidad no se encuentra disponible en esta versión de la aplicación",
+  "@commonFeatNotAvailableDescription": {
+    "description": ""
+  },
+  "commonInformationSavedSuccessfully": "Su información se ha guardado correctamente",
+  "@commonInformationSavedSuccessfully": {
+    "description": ""
+  },
+  "commonOops": "Ups",
+  "@commonOops": {
+    "description": ""
+  },
+  "commonNoMovements": "No hay movimientos",
+  "@commonNoMovements": {
+    "description": ""
+  },
+  "commonCP": "CP",
+  "@commonCP": {
+    "description": ""
+  },
+  "commonAccounts": "Cuentas",
+  "@commonAccounts": {
+    "description": ""
+  },
+  "commonHi": "Hola",
+  "@commonHi": {
+    "description": ""
+  },
+  "commonConfirm": "Confirmar",
+  "@commonConfirm": {
+    "description": ""
+  },
+  "commonOk": "Ok",
+  "@commonOk": {
+    "description": ""
+  },
+  "commonAdmitted": "Ingresados",
+  "@commonAdmitted": {
+    "description": ""
+  },
+  "commonSeconds": "Segundos",
+  "@commonSeconds": {
+    "description": ""
+  },
+  "commonError": "Error",
+  "@commonError": {
+    "description": ""
+  },
+  "commonIUnderstand": "Entiendo",
+  "@commonIUnderstand": {
+    "description": ""
+  },
+  "commonPassword": "Contraseña",
+  "@commonPassword": {
+    "description": ""
+  },
+  "commonOf": "de",
+  "@commonOf": {
+    "description": ""
+  },
+  "commonErrorText": "Ha ocurrido un error, intente eliminando el cache de la aplicación y iniciando sesión nuevamente, si el problema persiste contacte a soporte.",
+  "@commonErrorText": {
+    "description": ""
+  }
+}

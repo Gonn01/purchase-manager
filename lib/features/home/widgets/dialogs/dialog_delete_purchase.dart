@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
-import 'package:purchase_manager/models/purchase.dart';
-import 'package:purchase_manager/widgets/pm_dialogs.dart';
+import 'package:purchase_manager/utilities/models/purchase.dart';
+import 'package:purchase_manager/utilities/widgets/pm_dialogs.dart';
 
 /// {@template DialogDeletePurchase}
 /// Dialog para eliminar una compra

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/purchase_details/bloc/bloc_purchase_details.dart';
-import 'package:purchase_manager/features/purchase_details/view/view_purchase.dart';
-import 'package:purchase_manager/models/enums/feature_type.dart';
-import 'package:purchase_manager/widgets/pm_scaffold.dart';
+import 'package:purchase_manager/features/purchase_details/views/view_purchase.dart';
+import 'package:purchase_manager/utilities/models/enums/feature_type.dart';
+import 'package:purchase_manager/utilities/widgets/pm_scaffold.dart';
 
 /// {@template PagePurchaseDetails}
 /// Pagina de detalles de una compra

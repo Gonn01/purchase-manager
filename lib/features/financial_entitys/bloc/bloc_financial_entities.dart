@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:purchase_manager/endpoints/crud_financial_entity.dart';
-import 'package:purchase_manager/models/enums/status.dart';
-import 'package:purchase_manager/models/financial_entity.dart';
+import 'package:purchase_manager/utilities/models/enums/status.dart';
+import 'package:purchase_manager/utilities/models/financial_entity.dart';
+import 'package:purchase_manager/utilities/services/firebase_service.dart';
 
 part 'bloc_financial_entities_event.dart';
 part 'bloc_financial_entities_state.dart';
@@ -28,7 +28,7 @@ class BlocFinancialEntities
 
     add(BlocFinancialEntitiesEventInitialize());
   }
-
+  final _firebaseService = FirebaseService();
   Future<void> _onInitialize(
     BlocFinancialEntitiesEventInitialize event,
     Emitter<BlocFinancialEntitiesState> emit,
@@ -37,8 +37,9 @@ class BlocFinancialEntities
     try {
       final auth = FirebaseAuth.instance;
 
-      final listFinancialEntitys =
-          await readFinancialEntities(idUser: auth.currentUser?.uid ?? '');
+      final listFinancialEntitys = await _firebaseService.readFinancialEntities(
+        idUser: auth.currentUser?.uid ?? '',
+      );
 
       emit(
         state.copyWith(
@@ -59,7 +60,7 @@ class BlocFinancialEntities
     try {
       final auth = FirebaseAuth.instance;
 
-      await createFinancialEntity(
+      await _firebaseService.createFinancialEntity(
         financialEntityName: event.financialEntityName,
         idUser: auth.currentUser?.uid ?? '',
       );
@@ -82,7 +83,7 @@ class BlocFinancialEntities
     try {
       final auth = FirebaseAuth.instance;
 
-      await deleteFinancialEntity(
+      await _firebaseService.deleteFinancialEntity(
         idFinancialEntity: event.idFinancialEntity,
         idUsuario: auth.currentUser?.uid ?? '',
       );

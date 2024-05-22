@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/financial_entitys/bloc/bloc_financial_entities.dart';
-import 'package:purchase_manager/models/financial_entity.dart';
-import 'package:purchase_manager/widgets/pm_dialogs.dart';
+import 'package:purchase_manager/utilities/models/financial_entity.dart';
+import 'package:purchase_manager/utilities/widgets/pm_dialogs.dart';
 
 /// {@template DialogDeleteFinancialEntity}
 /// DialDialogogo para eliminar una entidad financiera
