@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-/// {@templates PMButtons}
+/// {@template PMButtons}
 /// Botones usados en la aplicacion
 ///
 /// Buttons used in the application
-/// {@endtemplates}
+/// {@endtemplate}
 class PMButtons extends StatelessWidget {
   /// {@macro PMButtons}
   const PMButtons({

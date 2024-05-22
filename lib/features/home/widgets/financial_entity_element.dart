@@ -1,6 +1,5 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/extensions/string.dart';
@@ -10,7 +9,7 @@ import 'package:purchase_manager/gen/assets.gen.dart';
 import 'package:purchase_manager/models/enums/feature_type.dart';
 import 'package:purchase_manager/models/financial_entity.dart';
 import 'package:purchase_manager/models/purchase.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 
 /// {@template FinancialEntityElement}
 /// Elemento que muestra los datos de una [FinancialEntity]
@@ -75,8 +74,6 @@ class FinancialEntityElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth = FirebaseAuth.instance;
-
     return BlocBuilder<BlocHome, BlocHomeState>(
       builder: (context, state) {
         return ExpansionTile(
@@ -126,11 +123,10 @@ class FinancialEntityElement extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () async => launchUrl(
-                      Uri.parse(
-                        'https://wa.me/${auth.currentUser?.phoneNumber}?text=${generateText(financialEntityName: financialEntity.name, purchases: purchaseList(state))}'
-                            .replaceAll(' ', '%20'),
-                      ),
+                    onTap: () => _onShareWithResult(
+                      context,
+                      financialEntity.name,
+                      purchaseList(state),
                     ),
                     child: Image.asset(
                       Assets.icons.whatsapp.path,
@@ -144,6 +140,40 @@ class FinancialEntityElement extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  Future<void> _onShareWithResult(
+    BuildContext context,
+    String financialEntityName,
+    List<Purchase> purchases,
+  ) async {
+    final box = context.findRenderObject() as RenderBox?;
+
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    ShareResult shareResult;
+
+    shareResult = await Share.share(
+      generateText(
+        financialEntityName: financialEntityName,
+        purchases: purchases,
+      ),
+      sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+    );
+    scaffoldMessenger.showSnackBar(getResultSnackBar(shareResult));
+  }
+
+  SnackBar getResultSnackBar(ShareResult result) {
+    return SnackBar(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Share result: ${result.status}'),
+          if (result.status == ShareResultStatus.success)
+            Text('Shared to: ${result.raw}'),
+        ],
+      ),
     );
   }
 }
