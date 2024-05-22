@@ -47,7 +47,8 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     emit(state.copyWith(estado: Status.loading));
     try {
       final listFinancialeEntity = await _firebaseService.readFinancialEntities(
-          idUser: auth.currentUser?.uid ?? '');
+        idUser: auth.currentUser?.uid ?? '',
+      );
 
       final dolar = await DolarService().getDollarData();
 

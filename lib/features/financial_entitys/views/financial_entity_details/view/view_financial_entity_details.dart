@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
-import 'package:purchase_manager/utilities/extensions/string.dart';
 import 'package:purchase_manager/features/financial_entitys/bloc/bloc_financial_entities.dart';
+import 'package:purchase_manager/utilities/extensions/string.dart';
 
 /// {@template ViewFinancialEntityDetails}
 /// Pagina que contiene los detalles de una entidad financiera
@@ -21,7 +21,7 @@ class ViewFinancialEntityDetails extends StatelessWidget {
     return BlocBuilder<BlocFinancialEntities, BlocFinancialEntitiesState>(
       builder: (context, state) {
         final fe = state.financialEntitySelected;
-        return Column(
+        return ListView(
           children: [
             Text(
               'Nombre: ${fe?.name ?? ''}',

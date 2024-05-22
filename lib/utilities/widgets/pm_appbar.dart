@@ -65,7 +65,7 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
               ),
             )
           : IconButton(
-              onPressed: () => context.router.back(),
+              onPressed: () => context.router.pop(),
               icon: const Icon(
                 Icons.arrow_back_ios,
                 size: 20,

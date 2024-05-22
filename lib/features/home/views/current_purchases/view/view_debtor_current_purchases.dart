@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/features/home/widgets/financial_entity_element.dart';
+import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/functions/total_amount.dart';
 import 'package:purchase_manager/utilities/functions/total_amount_per_quota.dart';
 import 'package:purchase_manager/utilities/models/enums/feature_type.dart';

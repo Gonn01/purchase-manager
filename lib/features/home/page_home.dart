@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/utilities/models/enums/feature_type.dart';
-import 'package:purchase_manager/utilities/widgets/drawer/bloc/bloc_drawer.dart';
 import 'package:purchase_manager/utilities/widgets/pm_scaffold.dart';
 
 @RoutePage()
@@ -20,15 +19,8 @@ class PageHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => BlocHome(),
-        ),
-        BlocProvider(
-          create: (context) => BlocDrawer(),
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => BlocHome(),
       child: AutoRouter(
         builder: (context, content) {
           return PMScaffold(
