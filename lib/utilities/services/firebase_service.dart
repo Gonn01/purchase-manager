@@ -39,6 +39,19 @@ class FirebaseService {
         'logs': <String>['Se creó la compra. ${DateTime.now().formatWithHour}'],
       });
 
+      await _firestore
+          .collection('usuarios')
+          .doc(idUser)
+          .collection('categorias')
+          .doc(idFinancialEntity)
+          .update({
+        'logs': FieldValue.arrayUnion(
+          <String>[
+            'Se creó la compra ${newPurchase.nameOfProduct}. ${DateTime.now().formatWithHour}',
+          ],
+        ),
+      });
+
       debugPrint('Compra registrada en Firestore.');
     } catch (e) {
       debugPrint('Error al registrar la compra: $e');
@@ -96,6 +109,18 @@ class FirebaseService {
           .doc(idPurchase)
           .delete();
 
+      await _firestore
+          .collection('usuarios')
+          .doc(idUser)
+          .collection('categorias')
+          .doc(idFinancialEntity)
+          .update({
+        'logs': FieldValue.arrayUnion(
+          <String>[
+            'Se elimino la compra $idPurchase. ${DateTime.now().formatWithHour}',
+          ],
+        ),
+      });
       debugPrint('Compra eliminada de Firestore.');
     } catch (e) {
       debugPrint('Error al eliminar la compra: $e');

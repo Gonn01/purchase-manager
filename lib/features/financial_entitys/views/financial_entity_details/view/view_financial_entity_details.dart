@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/features/financial_entitys/bloc/bloc_financial_entities.dart';
+import 'package:purchase_manager/utilities/extensions/date_time.dart';
 import 'package:purchase_manager/utilities/extensions/string.dart';
 
 /// {@template ViewFinancialEntityDetails}
@@ -21,6 +22,11 @@ class ViewFinancialEntityDetails extends StatelessWidget {
     return BlocBuilder<BlocFinancialEntities, BlocFinancialEntitiesState>(
       builder: (context, state) {
         final fe = state.financialEntitySelected;
+        final purchases = state.financialEntitySelected?.purchases ?? [];
+        final ordenadas = purchases
+          ..sort(
+            (a, b) => a.creationDate.compareTo(b.creationDate),
+          );
         return ListView(
           shrinkWrap: true,
           children: [
@@ -35,19 +41,22 @@ class ViewFinancialEntityDetails extends StatelessWidget {
               title: const Text('Compras'),
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
               expandedAlignment: Alignment.centerLeft,
-              children: state.financialEntitySelected?.purchases
-                      .map(
-                        (e) => GestureDetector(
-                          onTap: () => context.router.push(
-                            RutaPurchaseDetails(
-                              idPurchase: e.id,
-                              idFinancialEntity:
-                                  state.financialEntitySelected?.id ?? '',
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Row(
+              children: ordenadas
+                  .map(
+                    (e) => GestureDetector(
+                      onTap: () => context.router.push(
+                        RutaPurchaseDetails(
+                          idPurchase: e.id,
+                          idFinancialEntity:
+                              state.financialEntitySelected?.id ?? '',
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
                               children: [
                                 Text(
                                   '- ${e.nameOfProduct.capitalize}',
@@ -66,11 +75,19 @@ class ViewFinancialEntityDetails extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          ),
+                            Text(
+                              e.creationDate.formatWithHour,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
                         ),
-                      )
-                      .toList() ??
-                  [],
+                      ),
+                    ),
+                  )
+                  .toList(),
             ),
             ExpansionTile(
               title: const Text('Logs'),
