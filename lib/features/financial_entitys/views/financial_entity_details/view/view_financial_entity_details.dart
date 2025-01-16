@@ -22,6 +22,7 @@ class ViewFinancialEntityDetails extends StatelessWidget {
       builder: (context, state) {
         final fe = state.financialEntitySelected;
         return ListView(
+          shrinkWrap: true,
           children: [
             Text(
               'Nombre: ${fe?.name ?? ''}',
