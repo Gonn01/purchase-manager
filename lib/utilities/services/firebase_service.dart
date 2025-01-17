@@ -11,6 +11,60 @@ class FirebaseService {
   final _firestore = FirebaseFirestore.instance;
 
   final userId = FirebaseAuth.instance.currentUser!.uid;
+  Future<void> asd() async {
+    try {
+      // Obtiene todos los usuarios
+      final usersSnapshot = await _firestore.collection('usuarios').get();
+
+      if (usersSnapshot.docs.isEmpty) {
+        print('No se encontraron usuarios.');
+        return;
+      }
+
+      for (var userDoc in usersSnapshot.docs) {
+        print('Usuario ID: ${userDoc.id}, Data: ${userDoc.data()}');
+
+        // Accede a la colección "categorias" de cada usuario
+        final categoriasSnapshot =
+            await userDoc.reference.collection('categorias').get();
+
+        if (categoriasSnapshot.docs.isEmpty) {
+          print('No se encontraron categorías para el usuario ${userDoc.id}.');
+          continue;
+        }
+
+        for (var categoriaDoc in categoriasSnapshot.docs) {
+          print(
+              'Categoría ID: ${categoriaDoc.id}, Data: ${categoriaDoc.data()}');
+
+          // Accede a la colección "compras" de cada categoría
+          final comprasSnapshot =
+              await categoriaDoc.reference.collection('compras').get();
+
+          if (comprasSnapshot.docs.isEmpty) {
+            print(
+                'No se encontraron compras para la categoría ${categoriaDoc.id}.');
+            continue;
+          }
+
+          for (var compraDoc in comprasSnapshot.docs) {
+            print('Compra ID: ${compraDoc.id}, Data: ${compraDoc.data()}');
+
+            // Revisa si el campo "cuotasPagadas" no existe
+            if (!compraDoc.data().containsKey('cuotasPagadas')) {
+              // Actualiza la compra con "cuotasPagadas" establecido en 0
+              await compraDoc.reference.update({'cuotasPagadas': 0});
+              print('Actualizado cuotasPagadas en compra: ${compraDoc.id}');
+            }
+          }
+        }
+      }
+
+      print('Actualización completa.');
+    } catch (e) {
+      print('Error al actualizar las compras: $e');
+    }
+  }
 
   /// Crea una nueva [Purchase] en Firestore.
   /// Creates a new [Purchase] in Firestore.
@@ -150,6 +204,7 @@ class FirebaseService {
         final compra = Purchase(
           id: querySnapshot.id,
           amountOfQuotas: compraData['cantidadCuotas'] as int,
+          quotasPayed: compraData['cuotasPagadas'] as int,
           totalAmount: compraData['monto'] as double,
           amountPerQuota: compraData['montoPorCuota'] as double,
           nameOfProduct: compraData['producto'] as String,
@@ -226,6 +281,7 @@ class FirebaseService {
               currency: CurrencyType.type(purchaseData['currency'] as int),
               id: purchaseDoc.id,
               amountOfQuotas: purchaseData['cantidadCuotas'] as int,
+              quotasPayed: purchaseData['cuotasPagadas'] as int,
               totalAmount: purchaseData['monto'] as double,
               amountPerQuota: purchaseData['montoPorCuota'] as double,
               nameOfProduct: purchaseData['producto'] as String,

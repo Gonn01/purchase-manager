@@ -53,7 +53,8 @@ class FinancialEntityElement extends StatelessWidget {
     final buffer = StringBuffer()..write('$financialEntityName: \n');
     for (final purchase in purchases) {
       buffer.write(
-        '${purchase.nameOfProduct}: \$${purchase.amountPerQuota.toStringAsFixed(2)}\n',
+        '${purchase.nameOfProduct}: \$${purchase.amountPerQuota.toStringAsFixed(2)}\n'
+        'Cuota ${purchase.quotasPayed}/${purchase.amountOfQuotas}\n',
       );
     }
     buffer.write(

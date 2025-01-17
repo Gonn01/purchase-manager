@@ -18,6 +18,7 @@ class Purchase {
     required this.creationDate,
     required this.currency,
     required this.logs,
+    required this.quotasPayed,
     this.lastCuotaDate,
   });
 
@@ -30,6 +31,11 @@ class Purchase {
   ///
   /// Number of quotas of the purchase
   int amountOfQuotas;
+
+  /// Cuotas pagadas de la compra
+  ///
+  /// Payed quotas of the purchase
+  int quotasPayed;
 
   /// Monto total de la compra
   ///

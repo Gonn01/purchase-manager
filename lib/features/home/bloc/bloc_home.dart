@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:purchase_manager/utilities/extensions/date_time.dart';
@@ -46,6 +47,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
   ) async {
     emit(state.copyWith(estado: Status.loading));
     try {
+      await _firebaseService.asd();
       final listFinancialeEntity = await _firebaseService.readFinancialEntities(
         idUser: auth.currentUser?.uid ?? '',
       );
@@ -89,7 +91,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
       if (event.modificationType == ModificationType.increase) {
         final newLog = 'Se agregó una cuota.${DateTime.now().formatWithHour}';
         purchaseToModify
-          ..amountOfQuotas += 1
+          ..quotasPayed -= 1
           ..type = event.purchaseType.isCurrent
               ? event.purchaseType
               : event.purchaseType == PurchaseType.settledDebtorPurchase
@@ -105,9 +107,9 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
           ),
         );
       } else {
-        if (purchaseToModify.amountOfQuotas > 1) {
+        if (purchaseToModify.quotasPayed <= purchaseToModify.amountOfQuotas) {
           purchaseToModify
-            ..amountOfQuotas -= 1
+            ..quotasPayed += 1
             ..logs.add(
               'Se bajo una cuota.${DateTime.now().formatWithHour}',
             );
@@ -124,7 +126,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
             ..type = event.purchaseType == PurchaseType.currentDebtorPurchase
                 ? PurchaseType.settledDebtorPurchase
                 : PurchaseType.settledCreditorPurchase
-            ..amountOfQuotas -= 1
+            ..quotasPayed += 1
             ..lastCuotaDate = DateTime.now()
             ..logs.add(
               'Se pago la ultima cuota. ${DateTime.now().formatWithHour}',
@@ -204,6 +206,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
         creationDate: DateTime.now(),
         id: DateTime.now().toString(),
         amountOfQuotas: event.amountQuotas,
+        quotasPayed: 0,
         totalAmount: event.totalAmount,
         amountPerQuota: event.totalAmount / event.amountQuotas,
         nameOfProduct: event.productName,
