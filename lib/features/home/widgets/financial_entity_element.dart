@@ -24,25 +24,6 @@ class FinancialEntityElement extends StatelessWidget {
     super.key,
   });
 
-  /// Lista de compras a mostrar dependiendo del tipo de feature
-  ///
-  /// List of purchases to show depending on the type of feature
-  List<Purchase> purchaseList(BlocHomeState state) {
-    switch (featureType) {
-      case FeatureType.currentDebtor:
-        return state.listPurchaseStatusCurrentDebtor(financialEntity);
-      case FeatureType.currentCreditor:
-        return state.listPurchaseStatusCurrentCreditor(financialEntity);
-      case FeatureType.settledDebtor:
-        return state.listPurchaseStatusSettledDebtor(financialEntity);
-      case FeatureType.settledCreditor:
-        return state.listPurchaseStatusSettledCreditor(financialEntity);
-      // ignore: no_default_cases
-      default:
-        return [];
-    }
-  }
-
   /// Genera el texto a enviar por whatsapp
   ///
   /// Generates the text to send by whatsapp
@@ -68,19 +49,21 @@ class FinancialEntityElement extends StatelessWidget {
   /// Financial entity to show
   final FinancialEntity financialEntity;
 
-  /// Tipo de feature a mostrar
-  ///
-  /// Type of feature to show
+  /// Tipo de característica
   final FeatureType featureType;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BlocHome, BlocHomeState>(
       builder: (context, state) {
+        var lista = <Purchase>[];
+        if (featureType == FeatureType.settled) {
+          lista = state.listPurchaseStatusSettled(financialEntity);
+        } else {
+          lista = state.listPurchaseStatusCurrent(financialEntity);
+        }
         return ExpansionTile(
-          collapsedBackgroundColor: featureType == FeatureType.currentDebtor
-              ? const Color(0xff02B3A3)
-              : const Color(0xff006255),
+          collapsedBackgroundColor: const Color(0xff02B3A3),
           title: Text(
             financialEntity.name.capitalize,
             style: const TextStyle(
@@ -102,12 +85,11 @@ class FinancialEntityElement extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
-                children: purchaseList(state)
+                children: lista
                     .map(
                       (purchase) => PurchaseElement(
                         purchase: purchase,
                         financialEntity: financialEntity,
-                        featureType: featureType,
                       ),
                     )
                     .toList(),
@@ -119,7 +101,7 @@ class FinancialEntityElement extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Total de este mes \$${state.totalAmountPerMonth(purchases: state.listPurchaseStatusCurrentDebtor(financialEntity)).toStringAsFixed(2)}',
+                    'Total de este mes \$${state.totalAmountPerMonth(purchases: lista).toStringAsFixed(2)}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -131,7 +113,7 @@ class FinancialEntityElement extends StatelessWidget {
                       _onShareWithResult(
                         context,
                         financialEntity.name,
-                        purchaseList(state),
+                        lista,
                       );
                     },
                     child: Image.asset(
@@ -167,30 +149,12 @@ class FinancialEntityElement extends StatelessWidget {
   ) async {
     final box = context.findRenderObject() as RenderBox?;
 
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
-    ShareResult shareResult;
-
-    shareResult = await Share.share(
+    await Share.share(
       generateText(
         financialEntityName: financialEntityName,
         purchases: purchases,
       ),
       sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
-    );
-    scaffoldMessenger.showSnackBar(getResultSnackBar(shareResult));
-  }
-
-  SnackBar getResultSnackBar(ShareResult result) {
-    return SnackBar(
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Share result: ${result.status}'),
-          if (result.status == ShareResultStatus.success)
-            Text('Shared to: ${result.raw}'),
-        ],
-      ),
     );
   }
 }

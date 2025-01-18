@@ -31,7 +31,7 @@ class PMBottomNavigationBar extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    color: type.isSettled
+                    color: type == FeatureType.settled
                         ? Colors.transparent
                         : const Color(0xff00B3A3),
                   ),
@@ -39,11 +39,13 @@ class PMBottomNavigationBar extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     child: Icon(
                       Icons.shopping_cart_outlined,
-                      color: type.isSettled ? Colors.grey : Colors.white,
+                      color: type == FeatureType.settled
+                          ? Colors.grey
+                          : Colors.white,
                     ),
                   ),
                 ),
-                if (!type.isSettled)
+                if (type != FeatureType.settled)
                   Container(
                     margin: const EdgeInsets.only(top: 5),
                     width: 30,
@@ -63,7 +65,7 @@ class PMBottomNavigationBar extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    color: type.isSettled
+                    color: type == FeatureType.settled
                         ? const Color(0xff00B3A3)
                         : Colors.transparent,
                   ),
@@ -71,11 +73,13 @@ class PMBottomNavigationBar extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     child: Icon(
                       Icons.history,
-                      color: type.isSettled ? Colors.white : Colors.grey,
+                      color: type == FeatureType.settled
+                          ? Colors.white
+                          : Colors.grey,
                     ),
                   ),
                 ),
-                if (type.isSettled)
+                if (type == FeatureType.settled)
                   Container(
                     margin: const EdgeInsets.only(top: 5),
                     width: 30,

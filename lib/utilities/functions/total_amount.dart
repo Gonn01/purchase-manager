@@ -1,5 +1,5 @@
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
-import 'package:purchase_manager/utilities/models/enums/feature_type.dart';
+import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
 
@@ -10,25 +10,28 @@ import 'package:purchase_manager/utilities/models/purchase.dart';
 /// [FinancialEntity].
 double totalAmount({
   required List<FinancialEntity> financialEntityList,
-  required FeatureType financialEntityType,
   required int dollarValue,
 }) {
-  return financialEntityList.isEmpty
-      ? 0
-      : financialEntityList
-          .expand((category) => category.purchases)
-          .where(
-            (purchases) => financialEntityType.getBooleanValue(
-              financialEntityType,
-              purchases,
-            ),
-          )
-          .fold<double>(
-            0,
-            (accumulated, purchase) =>
-                accumulated +
-                (purchase.currency == CurrencyType.usDollar
-                    ? purchase.totalAmount * dollarValue
-                    : purchase.totalAmount),
-          );
+  var monto = 0.0;
+  final purchases =
+      financialEntityList.expand((category) => category.purchases);
+
+  for (final purchase in purchases) {
+    if (purchase.type == PurchaseType.currentDebtorPurchase) {
+      final amount = purchase.amountOfQuotas * purchase.amountPerQuota;
+      if (purchase.currency == CurrencyType.usDollar) {
+        monto += amount * dollarValue;
+      } else {
+        monto += amount;
+      }
+    } else if (purchase.type == PurchaseType.currentCreditorPurchase) {
+      final amount = purchase.amountOfQuotas * purchase.amountPerQuota;
+      if (purchase.currency == CurrencyType.usDollar) {
+        monto -= amount * dollarValue;
+      } else {
+        monto -= amount;
+      }
+    }
+  }
+  return monto;
 }

@@ -4,3 +4,5 @@ agregar si el usuario pago el mes completo
 en vez de total adeudado por mes que diga el mes que debe
 
 eliminar seccion de me deben y ponerla en otro color
+
+cuando elimino tareas se rompe

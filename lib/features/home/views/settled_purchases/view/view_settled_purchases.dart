@@ -4,21 +4,20 @@ import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/features/home/widgets/financial_entity_element.dart';
 import 'package:purchase_manager/utilities/models/enums/feature_type.dart';
 
-/// {@template ViewDebtorSettledPurchases}
-/// Vista de las compras liquidadas deudoras
-///
-/// View of settled debtor purchases
+/// {@template ViewCreditorSettledPurchases}
+/// Vista de las compras liquidadas acreedoras
+/// View of settled creditor purchases
 /// {@endtemplate}
-class ViewDebtorSettledPurchases extends StatelessWidget {
-  /// {@macro ViewDebtorSettledPurchases}
-  const ViewDebtorSettledPurchases({super.key});
+class ViewCreditorSettledPurchases extends StatelessWidget {
+  /// {@macro ViewCreditorSettledPurchases}
+  const ViewCreditorSettledPurchases({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BlocHome, BlocHomeState>(
       builder: (context, state) {
         return ListView(
-          children: state.listFinancialEntityStatusSettledDebtor
+          children: state.listFinancialEntityStatusSettled
               .map(
                 (financialEntity) => financialEntity.purchases.isNotEmpty
                     ? Padding(
@@ -28,7 +27,7 @@ class ViewDebtorSettledPurchases extends StatelessWidget {
                         ),
                         child: FinancialEntityElement(
                           financialEntity: financialEntity,
-                          featureType: FeatureType.settledDebtor,
+                          featureType: FeatureType.settled,
                         ),
                       )
                     : Container(),

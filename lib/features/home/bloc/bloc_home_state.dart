@@ -33,40 +33,12 @@ class BlocHomeState extends Equatable {
   ///
   /// List of financial entities that have purchases of
   /// [PurchaseType.currentDebtorPurchase]
-  List<FinancialEntity> get listFinancialEntitiesStatusCurrentDebtor =>
-      financialEntityList
-          .where(
-            (financialEntity) => financialEntity.purchases.any(
-              (purchase) => purchase.type == PurchaseType.currentDebtorPurchase,
-            ),
-          )
-          .toList();
-
-  /// Lista de [Purchase] que tiene la [FinancialEntity] de
-  /// [PurchaseType.currentDebtorPurchase].
-  ///
-  /// List of [Purchase] that the [FinancialEntity] has with
-  /// [PurchaseType.currentDebtorPurchase].
-  List<Purchase> listPurchaseStatusCurrentDebtor(
-    FinancialEntity financialEntity,
-  ) =>
-      financialEntity.purchases
-          .where(
-            (purchase) =>
-                purchase.type == PurchaseType.currentDebtorPurchase ||
-                purchase.type == PurchaseType.currentCreditorPurchase,
-          )
-          .toList();
-
-  /// Lista de [FinancialEntity] de que tienen compras de
-  /// [PurchaseType.currentCreditorPurchase]
-  /// List of financial entities that have purchases of
-  /// [PurchaseType.currentCreditorPurchase]
-  List<FinancialEntity> get listFinancialEntityStatusCurrentCreditor =>
+  List<FinancialEntity> get listFinancialEntitiesStatusCurrent =>
       financialEntityList
           .where(
             (financialEntity) => financialEntity.purchases.any(
               (purchase) =>
+                  purchase.type == PurchaseType.currentDebtorPurchase ||
                   purchase.type == PurchaseType.currentCreditorPurchase,
             ),
           )
@@ -77,12 +49,14 @@ class BlocHomeState extends Equatable {
   ///
   /// List of [Purchase] that the [FinancialEntity] has with
   /// [PurchaseType.currentCreditorPurchase].
-  List<Purchase> listPurchaseStatusCurrentCreditor(
+  List<Purchase> listPurchaseStatusCurrent(
     FinancialEntity financialEntity,
   ) =>
       financialEntity.purchases
           .where(
-            (purchase) => purchase.type == PurchaseType.currentCreditorPurchase,
+            (purchase) =>
+                purchase.type == PurchaseType.currentCreditorPurchase ||
+                purchase.type == PurchaseType.currentDebtorPurchase,
           )
           .toList();
 
@@ -91,55 +65,30 @@ class BlocHomeState extends Equatable {
   ///
   /// List of financial entities that have purchases of
   /// [PurchaseType.settledDebtorPurchase]
-  List<FinancialEntity> get listFinancialEntityStatusSettledDebtor =>
-      financialEntityList
-          .where(
-            (financialEntity) => financialEntity.purchases.any(
-              (purchase) => purchase.type == PurchaseType.settledDebtorPurchase,
-            ),
-          )
-          .toList();
-
-  /// Lista de [Purchase] que tiene la [FinancialEntity] de
-  /// [PurchaseType.settledDebtorPurchase].
-  ///
-  /// List of [Purchase] that the [FinancialEntity] has with
-  /// [PurchaseType.settledDebtorPurchase].
-  List<Purchase> listPurchaseStatusSettledDebtor(
-    FinancialEntity financialEntity,
-  ) =>
-      financialEntity.purchases
-          .where(
-            (purchase) => purchase.type == PurchaseType.settledDebtorPurchase,
-          )
-          .toList();
-
-  /// Lista de entidades financieras que tienen compras de
-  /// [PurchaseType.settledCreditorPurchase]
-  ///
-  /// List of financial entities that have purchases of
-  /// [PurchaseType.settledCreditorPurchase]
-  List<FinancialEntity> get listFinancialEntityStatusSettledCreditor =>
+  List<FinancialEntity> get listFinancialEntityStatusSettled =>
       financialEntityList
           .where(
             (financialEntity) => financialEntity.purchases.any(
               (purchase) =>
+                  purchase.type == PurchaseType.settledDebtorPurchase ||
                   purchase.type == PurchaseType.settledCreditorPurchase,
             ),
           )
           .toList();
 
   /// Lista de [Purchase] que tiene la [FinancialEntity] de
-  /// [PurchaseType.settledCreditorPurchase].
+  /// [PurchaseType.settledDebtorPurchase].
   ///
   /// List of [Purchase] that the [FinancialEntity] has with
-  /// [PurchaseType.settledCreditorPurchase].
-  List<Purchase> listPurchaseStatusSettledCreditor(
+  /// [PurchaseType.settledDebtorPurchase].
+  List<Purchase> listPurchaseStatusSettled(
     FinancialEntity financialEntity,
   ) =>
       financialEntity.purchases
           .where(
-            (purchase) => purchase.type == PurchaseType.settledCreditorPurchase,
+            (purchase) =>
+                purchase.type == PurchaseType.settledDebtorPurchase ||
+                purchase.type == PurchaseType.settledCreditorPurchase,
           )
           .toList();
 

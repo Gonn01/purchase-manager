@@ -37,7 +37,7 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
                     type != FeatureType.financialEntityDetails &&
                     type != FeatureType.financialEntitiesList &&
                     type != FeatureType.purchaseDetails
-                ? 80
+                ? 0
                 : 0),
       );
 
@@ -65,7 +65,7 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
               ),
             )
           : IconButton(
-              onPressed: () => context.router.pop(),
+              onPressed: () => context.router.maybePop(),
               icon: const Icon(
                 Icons.arrow_back_ios,
                 size: 20,
@@ -89,38 +89,6 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
       ],
-      bottom: type != FeatureType.financialEntities &&
-              type != FeatureType.financialEntityDetails &&
-              type != FeatureType.financialEntitiesList &&
-              type != FeatureType.purchaseDetails
-          ? const TabBar(
-              indicatorWeight: 5,
-              indicatorColor: Colors.white,
-              labelColor: Colors.white,
-              tabs: [
-                Tab(
-                  icon: Icon(Icons.money_off),
-                  child: Text(
-                    'Debo 🥲',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                Tab(
-                  icon: Icon(Icons.monetization_on),
-                  child: Text(
-                    'Me deben 😀',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            )
-          : null,
     );
   }
 }

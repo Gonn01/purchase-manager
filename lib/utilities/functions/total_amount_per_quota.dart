@@ -1,5 +1,6 @@
 import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
+import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
 
@@ -13,16 +14,25 @@ double totalAmountPerQuota({
   required int dollarValue,
   required BlocHomeState state,
 }) {
-  // ignore: omit_local_variable_types
-  double totalAmountPerQuota = 0;
+  var monto = 0.0;
+  final purchases = financialEntities.expand((category) => category.purchases);
 
-  for (final category in financialEntities) {
-    for (final purchase in state.listPurchaseStatusCurrentDebtor(category)) {
-      totalAmountPerQuota += (purchase.currency == CurrencyType.usDollar
-          ? purchase.amountPerQuota * dollarValue
-          : purchase.amountPerQuota);
+  for (final purchase in purchases) {
+    if (purchase.type == PurchaseType.currentDebtorPurchase) {
+      final amount = purchase.amountPerQuota;
+      if (purchase.currency == CurrencyType.usDollar) {
+        monto += amount * dollarValue;
+      } else {
+        monto += amount;
+      }
+    } else if (purchase.type == PurchaseType.currentCreditorPurchase) {
+      final amount = purchase.amountPerQuota;
+      if (purchase.currency == CurrencyType.usDollar) {
+        monto -= amount * dollarValue;
+      } else {
+        monto -= amount;
+      }
     }
   }
-
-  return totalAmountPerQuota;
+  return monto;
 }

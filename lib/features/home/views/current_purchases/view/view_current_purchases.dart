@@ -10,12 +10,11 @@ import 'package:purchase_manager/utilities/models/enums/status.dart';
 
 /// {@template ViewDebtorCurrentPurchases}
 /// Vista de las compras vigentes deudoras
-///
 /// View of current debtor purchases
 /// {@endtemplate}
-class ViewCreditorCurrentPurchases extends StatelessWidget {
+class ViewCurrentPurchases extends StatelessWidget {
   /// {@macro ViewDebtorCurrentPurchases}
-  const ViewCreditorCurrentPurchases({super.key});
+  const ViewCurrentPurchases({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +32,8 @@ class ViewCreditorCurrentPurchases extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                'Me deben en total: ${totalAmount(
-                  financialEntityList:
-                      state.listFinancialEntityStatusCurrentCreditor,
-                  financialEntityType: FeatureType.currentCreditor,
+                'Total adeudado: ${totalAmount(
+                  financialEntityList: state.listFinancialEntitiesStatusCurrent,
                   dollarValue: state.currency?.venta ?? 0,
                 ).formatAmount()}',
                 style: const TextStyle(
@@ -54,10 +51,9 @@ class ViewCreditorCurrentPurchases extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                'Total que me deben por mes: ${totalAmountPerQuota(
+                'Total adeudado por mes: ${totalAmountPerQuota(
                   state: state,
-                  financialEntities:
-                      state.listFinancialEntityStatusCurrentCreditor,
+                  financialEntities: state.listFinancialEntitiesStatusCurrent,
                   dollarValue: state.currency?.venta ?? 0,
                 ).formatAmount()}',
                 style: const TextStyle(
@@ -74,7 +70,7 @@ class ViewCreditorCurrentPurchases extends StatelessWidget {
             ),
             Expanded(
               child: ListView(
-                children: state.listFinancialEntityStatusCurrentCreditor
+                children: state.listFinancialEntitiesStatusCurrent
                     .map(
                       (financialEntity) => financialEntity.purchases.isNotEmpty
                           ? Padding(
@@ -84,7 +80,7 @@ class ViewCreditorCurrentPurchases extends StatelessWidget {
                               ),
                               child: FinancialEntityElement(
                                 financialEntity: financialEntity,
-                                featureType: FeatureType.currentCreditor,
+                                featureType: FeatureType.current,
                               ),
                             )
                           : Container(),

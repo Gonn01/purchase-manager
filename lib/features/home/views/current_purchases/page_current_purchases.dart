@@ -1,7 +1,6 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
-import 'package:purchase_manager/features/home/views/current_purchases/view/view_creditor_current_purchases.dart';
-import 'package:purchase_manager/features/home/views/current_purchases/view/view_debtor_current_purchases.dart';
+import 'package:purchase_manager/features/home/views/current_purchases/view/view_current_purchases.dart';
 
 @RoutePage()
 
@@ -16,11 +15,6 @@ class PageCurrentPurchases extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return const TabBarView(
-      children: <Widget>[
-        ViewDebtorCurrentPurchases(),
-        ViewCreditorCurrentPurchases(),
-      ],
-    );
+    return const ViewCurrentPurchases();
   }
 }

@@ -5,7 +5,7 @@ import 'package:purchase_manager/features/home/widgets/dialogs/dialog_edit_purch
 import 'package:purchase_manager/utilities/extensions/date_time.dart';
 import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/extensions/string.dart';
-import 'package:purchase_manager/utilities/models/enums/feature_type.dart';
+import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
 
@@ -18,7 +18,6 @@ class PurchaseElement extends StatelessWidget {
   const PurchaseElement({
     required this.purchase,
     required this.financialEntity,
-    required this.featureType,
     super.key,
   });
 
@@ -43,14 +42,12 @@ class PurchaseElement extends StatelessWidget {
   /// Financial entity to which the purchase belongs
   final FinancialEntity financialEntity;
 
-  final FeatureType featureType;
-
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
-        color: featureType == FeatureType.currentCreditor
+        color: purchase.type == PurchaseType.currentCreditorPurchase
             ? const Color(0xff02B3A3)
             : const Color(0xffFF6B6B),
         borderRadius: BorderRadius.circular(10),
@@ -124,7 +121,8 @@ class PurchaseElement extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Cuotas a pagar ${purchase.amountOfQuotas - purchase.quotasPayed} ',
+                  'Cuotas a pagar '
+                  '${purchase.amountOfQuotas - purchase.quotasPayed} ',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

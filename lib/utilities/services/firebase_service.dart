@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, lines_longer_than_80_chars
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,18 +9,25 @@ import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
 
+/// {@template FirebaseService}
+/// Servicio de Firebase
+/// Firebase service
+/// {@endtemplate}
 class FirebaseService {
   final _firestore = FirebaseFirestore.instance;
 
+  /// ID del usuario actual
   final userId = FirebaseAuth.instance.currentUser!.uid;
+
+  /// Actualiza las compras en Firestore.
   Future<void> asd() async {
     try {
       // Obtiene todos los usuarios
-      final usersSnapshot = await _firestore.collection('usuarios').doc(userId);
+      final usersSnapshot = _firestore.collection('usuarios').doc(userId);
 
       final categorias = await usersSnapshot.collection('categorias').get();
 
-      for (var categoriaDoc in categorias.docs) {
+      for (final categoriaDoc in categorias.docs) {
         print('Categoría ID: ${categoriaDoc.id}, Data: ${categoriaDoc.data()}');
 
         // Accede a la colección "compras" de cada categoría
@@ -27,11 +36,12 @@ class FirebaseService {
 
         if (comprasSnapshot.docs.isEmpty) {
           print(
-              'No se encontraron compras para la categoría ${categoriaDoc.id}.');
+            'No se encontraron compras para la categoría ${categoriaDoc.id}.',
+          );
           continue;
         }
 
-        for (var compraDoc in comprasSnapshot.docs) {
+        for (final compraDoc in comprasSnapshot.docs) {
           print('Compra ID: ${compraDoc.id}, Data: ${compraDoc.data()}');
 
           // Revisa si el campo "cuotasPagadas" no existe
@@ -210,6 +220,7 @@ class FirebaseService {
     }
   }
 
+  /// Crea una nueva [FinancialEntity] en Firestore.
   Future<void> createFinancialEntity({
     required String financialEntityName,
     required String idUser,
