@@ -14,48 +14,31 @@ class FirebaseService {
   Future<void> asd() async {
     try {
       // Obtiene todos los usuarios
-      final usersSnapshot = await _firestore.collection('usuarios').get();
+      final usersSnapshot = await _firestore.collection('usuarios').doc(userId);
 
-      if (usersSnapshot.docs.isEmpty) {
-        print('No se encontraron usuarios.');
-        return;
-      }
+      final categorias = await usersSnapshot.collection('categorias').get();
 
-      for (var userDoc in usersSnapshot.docs) {
-        print('Usuario ID: ${userDoc.id}, Data: ${userDoc.data()}');
+      for (var categoriaDoc in categorias.docs) {
+        print('Categoría ID: ${categoriaDoc.id}, Data: ${categoriaDoc.data()}');
 
-        // Accede a la colección "categorias" de cada usuario
-        final categoriasSnapshot =
-            await userDoc.reference.collection('categorias').get();
+        // Accede a la colección "compras" de cada categoría
+        final comprasSnapshot =
+            await categoriaDoc.reference.collection('compras').get();
 
-        if (categoriasSnapshot.docs.isEmpty) {
-          print('No se encontraron categorías para el usuario ${userDoc.id}.');
+        if (comprasSnapshot.docs.isEmpty) {
+          print(
+              'No se encontraron compras para la categoría ${categoriaDoc.id}.');
           continue;
         }
 
-        for (var categoriaDoc in categoriasSnapshot.docs) {
-          print(
-              'Categoría ID: ${categoriaDoc.id}, Data: ${categoriaDoc.data()}');
+        for (var compraDoc in comprasSnapshot.docs) {
+          print('Compra ID: ${compraDoc.id}, Data: ${compraDoc.data()}');
 
-          // Accede a la colección "compras" de cada categoría
-          final comprasSnapshot =
-              await categoriaDoc.reference.collection('compras').get();
-
-          if (comprasSnapshot.docs.isEmpty) {
-            print(
-                'No se encontraron compras para la categoría ${categoriaDoc.id}.');
-            continue;
-          }
-
-          for (var compraDoc in comprasSnapshot.docs) {
-            print('Compra ID: ${compraDoc.id}, Data: ${compraDoc.data()}');
-
-            // Revisa si el campo "cuotasPagadas" no existe
-            if (!compraDoc.data().containsKey('cuotasPagadas')) {
-              // Actualiza la compra con "cuotasPagadas" establecido en 0
-              await compraDoc.reference.update({'cuotasPagadas': 0});
-              print('Actualizado cuotasPagadas en compra: ${compraDoc.id}');
-            }
+          // Revisa si el campo "cuotasPagadas" no existe
+          if (!compraDoc.data().containsKey('cuotasPagadas')) {
+            // Actualiza la compra con "cuotasPagadas" establecido en 0
+            await compraDoc.reference.update({'cuotasPagadas': 0});
+            print('Actualizado cuotasPagadas en compra: ${compraDoc.id}');
           }
         }
       }

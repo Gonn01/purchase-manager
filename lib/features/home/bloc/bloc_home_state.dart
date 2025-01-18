@@ -52,7 +52,9 @@ class BlocHomeState extends Equatable {
   ) =>
       financialEntity.purchases
           .where(
-            (purchase) => purchase.type == PurchaseType.currentDebtorPurchase,
+            (purchase) =>
+                purchase.type == PurchaseType.currentDebtorPurchase ||
+                purchase.type == PurchaseType.currentCreditorPurchase,
           )
           .toList();
 

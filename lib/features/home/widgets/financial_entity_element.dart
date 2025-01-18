@@ -54,11 +54,11 @@ class FinancialEntityElement extends StatelessWidget {
     for (final purchase in purchases) {
       buffer.write(
         '${purchase.nameOfProduct}: \$${purchase.amountPerQuota.toStringAsFixed(2)}\n'
-        'Cuota ${purchase.quotasPayed}/${purchase.amountOfQuotas}\n',
+        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n',
       );
     }
     buffer.write(
-      'Total: \$${purchases.fold<double>(0, (previousValue, element) => previousValue + element.amountPerQuota)}',
+      'Total: \$${purchases.fold<double>(0, (previousValue, element) => previousValue + element.amountPerQuota).toStringAsFixed(2)}',
     );
     return buffer.toString();
   }
@@ -78,7 +78,9 @@ class FinancialEntityElement extends StatelessWidget {
     return BlocBuilder<BlocHome, BlocHomeState>(
       builder: (context, state) {
         return ExpansionTile(
-          collapsedBackgroundColor: const Color(0xff02B3A3),
+          collapsedBackgroundColor: featureType == FeatureType.currentDebtor
+              ? const Color(0xff02B3A3)
+              : const Color(0xff006255),
           title: Text(
             financialEntity.name.capitalize,
             style: const TextStyle(
@@ -105,6 +107,7 @@ class FinancialEntityElement extends StatelessWidget {
                       (purchase) => PurchaseElement(
                         purchase: purchase,
                         financialEntity: financialEntity,
+                        featureType: featureType,
                       ),
                     )
                     .toList(),
@@ -124,11 +127,13 @@ class FinancialEntityElement extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => _onShareWithResult(
-                      context,
-                      financialEntity.name,
-                      purchaseList(state),
-                    ),
+                    onTap: () {
+                      _onShareWithResult(
+                        context,
+                        financialEntity.name,
+                        purchaseList(state),
+                      );
+                    },
                     child: Image.asset(
                       Assets.icons.whatsapp.path,
                       width: 25,
@@ -136,6 +141,17 @@ class FinancialEntityElement extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: GestureDetector(
+                onTap: () {
+                  // context.read<BlocHome>().add(BlocHomeEventPayMonth(purchase: '', idFinancialEntity: ''));
+                },
+                child: const Text(
+                  'Pagar este mes',
+                ),
               ),
             ),
           ],

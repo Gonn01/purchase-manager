@@ -177,6 +177,27 @@ class BlocHomeEventEditPurchase extends BlocHomeEvento {
   final CurrencyType currency;
 }
 
+/// {@template BlocHomeEventoPayMonth}
+/// Paga una cuota de una compra.
+/// Pay a quota of a purchase.
+/// {@endtemplate}
+class BlocHomeEventPayMonth extends BlocHomeEvento {
+  ///{@macro BlocHomeEventoPayMonth}
+  const BlocHomeEventPayMonth({
+    required this.purchase,
+    required this.idFinancialEntity,
+  });
+
+  /// Compra a la que se le pagará una cuota.
+  /// Purchase to which a quota will be paid.
+  final Purchase purchase;
+
+  /// ID de la categoría a la que pertenece la compra.
+  ///
+  /// ID of the category to which the purchase belongs.
+  final String idFinancialEntity;
+}
+
 /// {@template ModificationType}
 /// Tipo de modificación a realizar.
 /// Type of modification to perform.

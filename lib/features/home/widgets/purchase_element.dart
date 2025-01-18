@@ -5,6 +5,7 @@ import 'package:purchase_manager/features/home/widgets/dialogs/dialog_edit_purch
 import 'package:purchase_manager/utilities/extensions/date_time.dart';
 import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/extensions/string.dart';
+import 'package:purchase_manager/utilities/models/enums/feature_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
 
@@ -17,6 +18,7 @@ class PurchaseElement extends StatelessWidget {
   const PurchaseElement({
     required this.purchase,
     required this.financialEntity,
+    required this.featureType,
     super.key,
   });
 
@@ -41,12 +43,16 @@ class PurchaseElement extends StatelessWidget {
   /// Financial entity to which the purchase belongs
   final FinancialEntity financialEntity;
 
+  final FeatureType featureType;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
-        color: const Color(0xff02B3A3),
+        color: featureType == FeatureType.currentCreditor
+            ? const Color(0xff02B3A3)
+            : const Color(0xffFF6B6B),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
@@ -97,77 +103,92 @@ class PurchaseElement extends StatelessWidget {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '${purchase.amountOfQuotas} '
-                    'cuotas de ${purchase.amountPerQuota.formatAmount()}'
-                    '${purchase.currency.name}',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '${purchase.amountOfQuotas} '
+                  'cuotas de ${purchase.amountPerQuota.formatAmount()}'
+                  '${purchase.currency.name}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Cuotas a pagar ${purchase.amountOfQuotas - purchase.quotasPayed} ',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    decoration: !purchase.type.isCurrent
+                        ? TextDecoration.lineThrough
+                        : null,
+                  ),
+                ),
+                if (purchase.type.isCurrent)
+                  Row(
+                    children: [
+                      // GestureDetector(
+                      //   onTap: () => context.read<BlocHome>().add(
+                      //         BlocHomeEventModifyAmountOfQuotas(
+                      //           idPurchase: purchase.id,
+                      //           modificationType: ModificationType.increase,
+                      //           purchaseType: purchase.type,
+                      //         ),
+                      //       ),
+                      //   child: const Icon(
+                      //     Icons.keyboard_double_arrow_up_sharp,
+                      //     size: 25,
+                      //     color: Colors.white,
+                      //   ),
+                      // ),
+                      // const SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () => context.read<BlocHome>().add(
+                              BlocHomeEventModifyAmountOfQuotas(
+                                idPurchase: purchase.id,
+                                modificationType: ModificationType.decrease,
+                                purchaseType: purchase.type,
+                              ),
+                            ),
+                        child: const Text(
+                          'Pagar cuota',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                else
+                  GestureDetector(
+                    onTap: () => context.read<BlocHome>().add(
+                          BlocHomeEventModifyAmountOfQuotas(
+                            idPurchase: purchase.id,
+                            modificationType: ModificationType.increase,
+                            purchaseType: purchase.type,
+                          ),
+                        ),
+                    child: const Icon(
+                      Icons.restore,
+                      size: 25,
                       color: Colors.white,
-                      decoration: !purchase.type.isCurrent
-                          ? TextDecoration.lineThrough
-                          : null,
                     ),
                   ),
-                  if (purchase.type.isCurrent)
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () => context.read<BlocHome>().add(
-                                BlocHomeEventModifyAmountOfQuotas(
-                                  idPurchase: purchase.id,
-                                  modificationType: ModificationType.increase,
-                                  purchaseType: purchase.type,
-                                ),
-                              ),
-                          child: const Icon(
-                            Icons.keyboard_double_arrow_up_sharp,
-                            size: 25,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        GestureDetector(
-                          onTap: () => context.read<BlocHome>().add(
-                                BlocHomeEventModifyAmountOfQuotas(
-                                  idPurchase: purchase.id,
-                                  modificationType: ModificationType.decrease,
-                                  purchaseType: purchase.type,
-                                ),
-                              ),
-                          child: const Icon(
-                            Icons.keyboard_double_arrow_down_sharp,
-                            size: 25,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    )
-                  else
-                    GestureDetector(
-                      onTap: () => context.read<BlocHome>().add(
-                            BlocHomeEventModifyAmountOfQuotas(
-                              idPurchase: purchase.id,
-                              modificationType: ModificationType.increase,
-                              purchaseType: purchase.type,
-                            ),
-                          ),
-                      child: const Icon(
-                        Icons.restore,
-                        size: 25,
-                        color: Colors.white,
-                      ),
-                    ),
-                ],
-              ),
+              ],
             ),
           ],
         ),
