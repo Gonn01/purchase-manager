@@ -18,7 +18,8 @@ double totalAmount({
 
   for (final purchase in purchases) {
     if (purchase.type == PurchaseType.currentDebtorPurchase) {
-      final amount = purchase.amountOfQuotas * purchase.amountPerQuota;
+      final amount = (purchase.amountOfQuotas - purchase.quotasPayed) *
+          purchase.amountPerQuota;
       if (purchase.currency == CurrencyType.usDollar) {
         monto += amount * dollarValue;
       } else {

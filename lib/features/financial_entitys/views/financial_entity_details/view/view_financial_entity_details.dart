@@ -46,7 +46,7 @@ class ViewFinancialEntityDetails extends StatelessWidget {
                     (e) => GestureDetector(
                       onTap: () => context.router.push(
                         RutaPurchaseDetails(
-                          idPurchase: e.id,
+                          idPurchase: e.id ?? '',
                           idFinancialEntity:
                               state.financialEntitySelected?.id ?? '',
                         ),

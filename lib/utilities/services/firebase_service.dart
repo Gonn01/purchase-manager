@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:purchase_manager/utilities/extensions/date_time.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
@@ -131,7 +132,8 @@ class FirebaseService {
         'type': newPurchase.type.value,
         'currency': newPurchase.currency.value,
         'logs': newPurchase.logs,
-        'fechaFinalizacion': newPurchase.lastCuotaDate,
+        'cuotasPagadas': newPurchase.quotasPayed,
+        'fechaFinalizacion': newPurchase.lastQuotaDate,
       });
 
       debugPrint('Compra actualizada en Firestore.');
@@ -204,8 +206,7 @@ class FirebaseService {
           nameOfProduct: compraData['producto'] as String,
           type: PurchaseType.type(compraData['type'] as int),
           creationDate: (compraData['fechaCreacion'] as Timestamp).toDate(),
-          lastCuotaDate:
-              (compraData['fechaFinalizacion'] as Timestamp?)?.toDate(),
+          lastQuotaDate: compraData['fechaFinalizacion'] as String?,
           currency: CurrencyType.type(compraData['currency'] as int),
           logs: List<String>.from(compraData['logs'] as List<dynamic>),
         );
@@ -222,16 +223,17 @@ class FirebaseService {
   }
 
   /// Crea una nueva [FinancialEntity] en Firestore.
-  Future<void> createFinancialEntity({
+  Future<FinancialEntity> createFinancialEntity({
     required String financialEntityName,
     required String idUser,
   }) async {
     try {
-      await _firestore
+      final categories = _firestore
           .collection('usuarios')
           .doc(idUser)
-          .collection('categorias')
-          .add({
+          .collection('categorias');
+
+      final newCategory = await categories.add({
         'nombre': financialEntityName,
         'logs': <String>[
           'Se creó $financialEntityName. ${DateTime.now().formatWithHour}',
@@ -239,8 +241,16 @@ class FirebaseService {
       });
 
       debugPrint('Categoría registrada en Firestore.');
+      return FinancialEntity(
+        id: newCategory.id,
+        name: financialEntityName,
+        purchases: [],
+        logs: <String>[
+          'Se creó $financialEntityName. ${DateTime.now().formatWithHour}',
+        ],
+      );
     } catch (e) {
-      debugPrint('Error al registrar la categoría: $e');
+      throw Exception('Error al registrar la categoría: $e');
     }
   }
 
@@ -262,14 +272,13 @@ class FirebaseService {
 
           final purchases = purchaseManagersnapshot.docs.map((purchaseDoc) {
             final purchaseData = purchaseDoc.data()! as Map<String, dynamic>;
-            DateTime? lastCuotaDate;
+            String? lastQuotaDate;
 
             if (purchaseData['fechaFinalizacion'] != null) {
               if (purchaseData['fechaFinalizacion'] is Timestamp) {
-                lastCuotaDate =
-                    (purchaseData['fechaFinalizacion'] as Timestamp).toDate();
+                lastQuotaDate = purchaseData['fechaFinalizacion'] as String;
               } else if (purchaseData['fechaFinalizacion'] is DateTime) {
-                lastCuotaDate = purchaseData['fechaFinalizacion'] as DateTime;
+                lastQuotaDate = purchaseData['fechaFinalizacion'] as String;
               }
             }
             return Purchase(
@@ -283,7 +292,7 @@ class FirebaseService {
               type: PurchaseType.type(purchaseData['type'] as int),
               creationDate:
                   (purchaseData['fechaCreacion'] as Timestamp).toDate(),
-              lastCuotaDate: lastCuotaDate,
+              lastQuotaDate: lastQuotaDate,
               logs: (purchaseData['logs'] as List<dynamic>).cast<String>(),
             );
           }).toList();

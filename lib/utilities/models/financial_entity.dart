@@ -33,4 +33,18 @@ class FinancialEntity {
   ///
   /// Logs of the financial entity
   final List<String> logs;
+
+  FinancialEntity copyWith({
+    String? id,
+    String? name,
+    List<Purchase>? purchases,
+    List<String>? logs,
+  }) {
+    return FinancialEntity(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      purchases: purchases ?? this.purchases,
+      logs: logs ?? this.logs,
+    );
+  }
 }

@@ -9,7 +9,6 @@ import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 class Purchase {
   /// {@macro Purchase}
   Purchase({
-    required this.id,
     required this.amountOfQuotas,
     required this.totalAmount,
     required this.amountPerQuota,
@@ -19,13 +18,15 @@ class Purchase {
     required this.currency,
     required this.logs,
     required this.quotasPayed,
-    this.lastCuotaDate,
+    this.id,
+    this.lastQuotaDate,
+    this.firstQuotaDate,
   });
 
   /// id de la compra
   ///
   /// id of the purchase
-  final String id;
+  String? id;
 
   /// Cantidad de cuotas de la compra
   ///
@@ -65,7 +66,12 @@ class Purchase {
   /// Fecha de pago de la ultima cuota
   ///
   /// Payment date of the last quota
-  DateTime? lastCuotaDate;
+  String? lastQuotaDate;
+
+  /// Fecha de pago de la primera cuota
+  ///
+  /// Payment date of the first quota
+  String? firstQuotaDate;
 
   /// Tipo de moneda
   CurrencyType currency;
@@ -74,4 +80,34 @@ class Purchase {
   ///
   /// Logs of the financial entity
   final List<String> logs;
+
+  Purchase copyWith({
+    String? id,
+    int? amountOfQuotas,
+    int? quotasPayed,
+    double? totalAmount,
+    double? amountPerQuota,
+    String? nameOfProduct,
+    PurchaseType? type,
+    DateTime? creationDate,
+    String? lastQuotaDate,
+    String? firstQuotaDate,
+    CurrencyType? currency,
+    List<String>? logs,
+  }) {
+    return Purchase(
+      id: id ?? this.id,
+      amountOfQuotas: amountOfQuotas ?? this.amountOfQuotas,
+      quotasPayed: quotasPayed ?? this.quotasPayed,
+      totalAmount: totalAmount ?? this.totalAmount,
+      amountPerQuota: amountPerQuota ?? this.amountPerQuota,
+      nameOfProduct: nameOfProduct ?? this.nameOfProduct,
+      type: type ?? this.type,
+      creationDate: creationDate ?? this.creationDate,
+      lastQuotaDate: lastQuotaDate ?? this.lastQuotaDate,
+      firstQuotaDate: firstQuotaDate ?? this.firstQuotaDate,
+      currency: currency ?? this.currency,
+      logs: logs ?? this.logs,
+    );
+  }
 }

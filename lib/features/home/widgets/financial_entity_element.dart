@@ -1,7 +1,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/features/home/widgets/purchase_element.dart';
@@ -142,7 +141,8 @@ class FinancialEntityElement extends StatelessWidget {
                       (purchase) => PurchaseElement(
                         purchase: purchase,
                         financialEntity: financialEntity,
-                        isLoading: state.purchaseLoadingId == purchase.id,
+                        isLoading: state.purchaseLoadingId == purchase.id &&
+                            state.purchaseLoadingId != null,
                       ),
                     )
                     .toList(),

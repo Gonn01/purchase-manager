@@ -19,11 +19,10 @@ class BlocHomeEventInitialize extends BlocHomeEvento {}
 /// Modifica la cantidad de cuotas de una compra.
 /// Modify the number of quotas of a purchase.
 /// {@endtemplate}
-class BlocHomeEventModifyAmountOfQuotas extends BlocHomeEvento {
+class BlocHomeEventIncreaseAmountOfQuotas extends BlocHomeEvento {
   ///{@macro BlocHomeEventModifyAmountOfQuotas}
-  const BlocHomeEventModifyAmountOfQuotas({
+  const BlocHomeEventIncreaseAmountOfQuotas({
     required this.idPurchase,
-    required this.modificationType,
     required this.purchaseType,
   });
 
@@ -31,9 +30,25 @@ class BlocHomeEventModifyAmountOfQuotas extends BlocHomeEvento {
   /// ID of the purchase to modify.
   final String idPurchase;
 
-  /// Tipo de modificación a realizar.
-  /// Type of modification to perform.
-  final ModificationType modificationType;
+  /// Tipo de compra a modificar.
+  /// Type of purchase to modify.
+  final PurchaseType purchaseType;
+}
+
+/// {@template BlocHomeEventPayQuota}
+/// Modifica la cantidad de cuotas de una compra.
+/// Modify the number of quotas of a purchase.
+/// {@endtemplate}
+class BlocHomeEventPayQuota extends BlocHomeEvento {
+  ///{@macro BlocHomeEventPayQuota}
+  const BlocHomeEventPayQuota({
+    required this.idPurchase,
+    required this.purchaseType,
+  });
+
+  /// ID de la compra a modificar.
+  /// ID of the purchase to modify.
+  final String idPurchase;
 
   /// Tipo de compra a modificar.
   /// Type of purchase to modify.
@@ -188,18 +203,4 @@ class BlocHomeEventPayMonth extends BlocHomeEvento {
   ///
   /// ID of the category to which the purchase belongs.
   final List<Purchase> purchaseList;
-}
-
-/// {@template ModificationType}
-/// Tipo de modificación a realizar.
-/// Type of modification to perform.
-/// {@endtemplate}
-enum ModificationType {
-  /// Disminuye la cantidad de cuotas.
-  /// Decreases the number of quotas.
-  decrease,
-
-  /// Aumenta la cantidad de cuotas.
-  /// Increases the number of quotas.
-  increase,
 }
