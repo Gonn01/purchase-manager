@@ -5,13 +5,26 @@ part of 'bloc_financial_entities.dart';
 ///
 /// Manage the different states and variables saved in them
 /// {@endtemplate}
-class BlocFinancialEntitiesState extends Equatable {
+class BlocFinancialEntitiesState {
   /// {@macro BlocInicioEstado}
-  const BlocFinancialEntitiesState({
+  const BlocFinancialEntitiesState._({
     this.financialEntitySelected,
     this.listFinancialEntity = const [],
-    this.status = Status.initial,
   });
+
+  /// Estado previo.
+  ///
+  /// Previous state.
+  BlocFinancialEntitiesState.from(
+    BlocFinancialEntitiesState previousState, {
+    List<FinancialEntity>? listFinancialEntity,
+    FinancialEntity? financialEntitySelected,
+  }) : this._(
+          listFinancialEntity:
+              listFinancialEntity ?? previousState.listFinancialEntity,
+          financialEntitySelected:
+              financialEntitySelected ?? previousState.financialEntitySelected,
+        );
 
   /// Lista de entidades financieras.
   ///
@@ -22,31 +35,46 @@ class BlocFinancialEntitiesState extends Equatable {
   ///
   /// Selected financial entity.
   final FinancialEntity? financialEntitySelected;
+}
 
-  /// Estado de la página.
-  ///
-  /// Page status.
-  final Status status;
+/// {@template BlocFinancialEntitiesStateInitial}
+/// Initial state of the home bloc.
+/// {@endtemplate}
+class BlocFinancialEntitiesStateInitial extends BlocFinancialEntitiesState {
+  /// {@macro BlocFinancialEntitiesStateInitial}
+  BlocFinancialEntitiesStateInitial() : super._();
+}
 
-  @override
-  List<dynamic> get props => [
-        status,
-        listFinancialEntity,
-        financialEntitySelected,
-      ];
+/// {@template BlocFinancialEntitiesStateLoading}
+/// State when the home is loading.
+/// {@endtemplate}
+class BlocFinancialEntitiesStateLoading extends BlocFinancialEntitiesState {
+  /// {@macro BlocFinancialEntitiesStateLoading}
+  BlocFinancialEntitiesStateLoading.from(super.previusState) : super.from();
+}
 
-  /// Copia el estado actual y lo modifica con los parámetros proporcionados.
-  /// Copy the current state and modify it with the provided parameters.
-  BlocFinancialEntitiesState copyWith({
-    List<FinancialEntity>? listFinancialEntities,
-    Status? estado,
-    FinancialEntity? financialEntitySelected,
-  }) {
-    return BlocFinancialEntitiesState(
-      listFinancialEntity: listFinancialEntities ?? listFinancialEntity,
-      status: estado ?? status,
-      financialEntitySelected:
-          financialEntitySelected ?? this.financialEntitySelected,
-    );
-  }
+/// {@template BlocFinancialEntitiesStateSuccess}
+/// State when the home is loaded successfully.
+/// {@endtemplate}
+class BlocFinancialEntitiesStateSuccess extends BlocFinancialEntitiesState {
+  /// {@macro BlocFinancialEntitiesStateSuccess}
+  BlocFinancialEntitiesStateSuccess.from(
+    super.previusState, {
+    super.financialEntitySelected,
+    super.listFinancialEntity,
+  }) : super.from();
+}
+
+/// {@template BlocFinancialEntitiesStateError}
+/// State when the home has an error.
+/// {@endtemplate}
+class BlocFinancialEntitiesStateError extends BlocFinancialEntitiesState {
+  /// {@macro BlocFinancialEntitiesStateError}
+  BlocFinancialEntitiesStateError.from(
+    super.previusState, {
+    required this.error,
+  }) : super.from();
+
+  /// Error message.
+  final String error;
 }

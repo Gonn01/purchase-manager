@@ -5,30 +5,50 @@ part of 'bloc_drawer.dart';
 ///
 /// Manage the different states and variables saved in them
 /// {@endtemplate}
-class BlocDrawerState extends Equatable {
+class BlocDrawerState {
   /// {@macro BlocDrawerState}
   const BlocDrawerState({
-    this.status = Status.initial,
+    this.nada = false,
   });
 
   /// Estado de la página.
   ///
   /// Page status.
-  final Status status;
+  final bool nada;
+}
 
-  @override
-  List<dynamic> get props => [
-        status,
-      ];
+/// {@template BlocDrawerStateInitial}
+/// Initial state of the home bloc.
+/// {@endtemplate}
 
-  /// Copia el estado actual y lo modifica con los parámetros proporcionados.
-  /// Copy the current state and modify it with the provided parameters.
-  BlocDrawerState copyWith({
-    Status? estado,
-    Purchase? purchase,
-  }) {
-    return BlocDrawerState(
-      status: estado ?? status,
-    );
-  }
+class BlocDrawerStateInitial extends BlocDrawerState {
+  /// {@macro BlocDrawerStateInitial}
+  BlocDrawerStateInitial() : super(nada: false);
+}
+
+/// {@template BlocDrawerStateLoading}
+/// State when the home is loading.
+/// {@endtemplate}
+class BlocDrawerStateLoading extends BlocDrawerState {
+  /// {@macro BlocDrawerStateLoading}
+  BlocDrawerStateLoading.from(BlocDrawerState previousState)
+      : super(nada: previousState.nada);
+}
+
+/// {@template BlocDrawerStateSuccess}
+/// State when the home is loaded successfully.
+/// {@endtemplate}
+class BlocDrawerStateSuccess extends BlocDrawerState {
+  /// {@macro BlocDrawerStateSuccess}
+  BlocDrawerStateSuccess.from(BlocDrawerState previousState)
+      : super(nada: previousState.nada);
+}
+
+/// {@template BlocDrawerStateError}
+/// State when the home has an error.
+/// {@endtemplate}
+class BlocDrawerStateError extends BlocDrawerState {
+  /// {@macro BlocDrawerStateError}
+  BlocDrawerStateError.from(BlocDrawerState previousState)
+      : super(nada: previousState.nada);
 }

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/gen/assets.gen.dart';
-import 'package:purchase_manager/utilities/models/enums/status.dart';
 import 'package:purchase_manager/utilities/widgets/drawer/bloc/bloc_drawer.dart';
 import 'package:purchase_manager/utilities/widgets/pm_buttons.dart';
 
@@ -25,7 +24,7 @@ class PMDrawer extends StatelessWidget {
 
     return BlocListener<BlocDrawer, BlocDrawerState>(
       listener: (context, state) {
-        if (state.status == Status.success) {
+        if (state is BlocDrawerStateSuccess) {
           context.router.replace(const RutaLogin());
         }
       },

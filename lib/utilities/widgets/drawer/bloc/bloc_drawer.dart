@@ -1,8 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:purchase_manager/utilities/models/enums/status.dart';
-import 'package:purchase_manager/utilities/models/purchase.dart';
 
 part 'bloc_drawer_event.dart';
 part 'bloc_drawer_state.dart';
@@ -25,12 +22,12 @@ class BlocDrawer extends Bloc<BlocDrawerEvent, BlocDrawerState> {
     BlocDrawerEventSignOut event,
     Emitter<BlocDrawerState> emit,
   ) async {
-    emit(state.copyWith(estado: Status.loading));
+    emit(BlocDrawerStateLoading.from(state));
     try {
       await auth.signOut();
-      emit(state.copyWith(estado: Status.success));
+      emit(BlocDrawerStateSuccess.from(state));
     } catch (e) {
-      emit(state.copyWith(estado: Status.error));
+      emit(BlocDrawerStateError.from(state));
     }
   }
 }

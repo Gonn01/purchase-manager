@@ -1,6 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:purchase_manager/utilities/models/enums/status.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
 import 'package:purchase_manager/utilities/services/firebase_service.dart';
 
@@ -13,7 +11,7 @@ part 'bloc_purchase_details_state.dart';
 class BlocPurchaseDetails
     extends Bloc<BlocPurchaseDetailsEvent, BlocPurchaseDetailsState> {
   /// {@macro BlocInicio}
-  BlocPurchaseDetails() : super(const BlocPurchaseDetailsState()) {
+  BlocPurchaseDetails() : super(BlocPurchaseDetailsStateInitial()) {
     on<BlocPurchaseDetailsEventInitialize>(_onInitialize);
   }
   final _firebaseService = FirebaseService();
@@ -22,7 +20,7 @@ class BlocPurchaseDetails
     BlocPurchaseDetailsEventInitialize event,
     Emitter<BlocPurchaseDetailsState> emit,
   ) async {
-    emit(state.copyWith(estado: Status.loading));
+    emit(BlocPurchaseDetailsStateLoading.from(state));
     try {
       final purchase = await _firebaseService.getPurchaseById(
         purchaseId: event.idPurchase,
@@ -30,13 +28,13 @@ class BlocPurchaseDetails
       );
 
       emit(
-        state.copyWith(
-          estado: Status.success,
+        BlocPurchaseDetailsStateSuccess.from(
+          state,
           purchase: purchase,
         ),
       );
     } catch (e) {
-      emit(state.copyWith(estado: Status.error));
+      emit(BlocPurchaseDetailsStateError.from(state));
     }
   }
 }

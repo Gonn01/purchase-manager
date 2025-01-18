@@ -1,13 +1,11 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:purchase_manager/utilities/extensions/date_time.dart';
 import 'package:purchase_manager/utilities/models/currency.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
-import 'package:purchase_manager/utilities/models/enums/status.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
 import 'package:purchase_manager/utilities/services/dolar.dart';
@@ -21,7 +19,7 @@ part 'bloc_home_state.dart';
 /// {@endtemplate}
 class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
   /// {@macro BlocInicio}
-  BlocHome() : super(const BlocHomeState()) {
+  BlocHome() : super(BlocHomeStateInitial()) {
     on<BlocHomeEventInitialize>(_onInitialize);
     on<BlocHomeEventModifyAmountOfQuotas>(_onModifyAmountOfQuotas);
     on<BlocHomeEventCreateFinancialEntity>(_onCreateFinancialEntity);
@@ -29,6 +27,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     on<BlocHomeEventCreatePurchase>(_onCreatePurchase);
     on<BlocHomeEventEditPurchase>(_onEditPurchase);
     on<BlocHomeEventDeletePurchase>(_onDeletePurchase);
+    on<BlocHomeEventPayMonth>(_onPayMonth);
 
     add(BlocHomeEventInitialize());
   }
@@ -44,9 +43,9 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     BlocHomeEventInitialize event,
     Emitter<BlocHomeState> emit,
   ) async {
-    emit(state.copyWith(estado: Status.loading));
+    emit(BlocHomeStateLoading.from(state));
     try {
-      await _firebaseService.asd();
+      // await _firebaseService.asd();
       final listFinancialeEntity = await _firebaseService.readFinancialEntities(
         idUser: auth.currentUser?.uid ?? '',
       );
@@ -54,14 +53,14 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
       final dolar = await DolarService().getDollarData();
 
       emit(
-        state.copyWith(
-          coin: dolar,
-          estado: Status.success,
+        BlocHomeStateSuccess.from(
+          state,
+          currency: dolar,
           financialEntityList: listFinancialeEntity,
         ),
       );
     } catch (e) {
-      emit(state.copyWith(estado: Status.error));
+      emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
 
@@ -70,8 +69,9 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     Emitter<BlocHomeState> emit,
   ) async {
     emit(
-      state.copyWith(
-        estado: Status.initial,
+      BlocHomeStateLoadingPurchase.from(
+        state,
+        purchaseLoadingId: event.idPurchase,
       ),
     );
     try {
@@ -98,27 +98,23 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
                   : PurchaseType.currentCreditorPurchase
           ..logs.add(newLog);
 
-        unawaited(
-          _firebaseService.updatePurchase(
-            idUser: auth.currentUser?.uid ?? '',
-            idFinancialEntity: financialEntityModified.id,
-            newPurchase: purchaseToModify,
-          ),
+        await _firebaseService.updatePurchase(
+          idUser: auth.currentUser?.uid ?? '',
+          idFinancialEntity: financialEntityModified.id,
+          newPurchase: purchaseToModify,
         );
       } else {
-        if (purchaseToModify.quotasPayed <= purchaseToModify.amountOfQuotas) {
+        if (purchaseToModify.quotasPayed < purchaseToModify.amountOfQuotas) {
           purchaseToModify
             ..quotasPayed += 1
             ..logs.add(
-              'Se bajo una cuota.${DateTime.now().formatWithHour}',
+              'Se pago una cuota.${DateTime.now().formatWithHour}',
             );
 
-          unawaited(
-            _firebaseService.updatePurchase(
-              idUser: auth.currentUser?.uid ?? '',
-              idFinancialEntity: financialEntityModified.id,
-              newPurchase: purchaseToModify,
-            ),
+          await _firebaseService.updatePurchase(
+            idUser: auth.currentUser?.uid ?? '',
+            idFinancialEntity: financialEntityModified.id,
+            newPurchase: purchaseToModify,
           );
         } else {
           purchaseToModify
@@ -131,12 +127,10 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
               'Se pago la ultima cuota. ${DateTime.now().formatWithHour}',
             );
 
-          unawaited(
-            _firebaseService.updatePurchase(
-              idUser: auth.currentUser?.uid ?? '',
-              idFinancialEntity: financialEntityModified.id,
-              newPurchase: purchaseToModify,
-            ),
+          await _firebaseService.updatePurchase(
+            idUser: auth.currentUser?.uid ?? '',
+            idFinancialEntity: financialEntityModified.id,
+            newPurchase: purchaseToModify,
           );
         }
       }
@@ -145,13 +139,14 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
       listFinancialEntity[index] = financialEntityModified;
 
       emit(
-        state.copyWith(
-          estado: Status.success,
+        BlocHomeStateSuccess.from(
+          state,
           financialEntityList: listFinancialEntity,
+          deleteSelectedShipmentId: true,
         ),
       );
     } catch (e) {
-      emit(state.copyWith(estado: Status.error));
+      emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
 
@@ -159,7 +154,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     BlocHomeEventCreateFinancialEntity event,
     Emitter<BlocHomeState> emit,
   ) async {
-    emit(state.copyWith(estado: Status.loading));
+    emit(BlocHomeStateLoading.from(state));
     try {
       await _firebaseService.createFinancialEntity(
         financialEntityName: event.financialEntityName,
@@ -168,11 +163,9 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
 
       add(BlocHomeEventInitialize());
 
-      emit(
-        state.copyWith(estado: Status.success),
-      );
+      emit(BlocHomeStateSuccess.from(state));
     } catch (e) {
-      emit(state.copyWith(estado: Status.error));
+      emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
 
@@ -180,18 +173,16 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     BlocHomeEventDeleteFinancialEntity event,
     Emitter<BlocHomeState> emit,
   ) async {
-    emit(state.copyWith(estado: Status.loading));
+    emit(BlocHomeStateLoading.from(state));
     try {
       await _firebaseService.deleteFinancialEntity(
         idFinancialEntity: event.idFinancialEntity,
         idUsuario: auth.currentUser?.uid ?? '',
       );
 
-      emit(
-        state.copyWith(estado: Status.success),
-      );
+      emit(BlocHomeStateSuccess.from(state));
     } catch (e) {
-      emit(state.copyWith(estado: Status.error));
+      emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
 
@@ -199,7 +190,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     BlocHomeEventCreatePurchase event,
     Emitter<BlocHomeState> emit,
   ) async {
-    emit(state.copyWith(estado: Status.loading));
+    emit(BlocHomeStateLoading.from(state));
     try {
       final nuevaCompra = Purchase(
         creationDate: DateTime.now(),
@@ -236,14 +227,9 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
                   '${DateTime.now().formatWithHour}'),
           ),
         );
-      emit(
-        state.copyWith(
-          estado: Status.success,
-          financialEntityList: newList,
-        ),
-      );
+      emit(BlocHomeStateSuccess.from(state, financialEntityList: newList));
     } catch (e) {
-      emit(state.copyWith(estado: Status.error));
+      emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
 
@@ -251,7 +237,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     BlocHomeEventEditPurchase event,
     Emitter<BlocHomeState> emit,
   ) async {
-    emit(state.copyWith(estado: Status.loading));
+    emit(BlocHomeStateLoading.from(state));
     try {
       final nuevaCompra = event.purchase
         ..amountOfQuotas = event.amountOfQuotas
@@ -286,13 +272,13 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
       listFinancialEntity[index] = financialEntityModified;
 
       emit(
-        state.copyWith(
-          estado: Status.success,
+        BlocHomeStateSuccess.from(
+          state,
           financialEntityList: listFinancialEntity,
         ),
       );
     } catch (e) {
-      emit(state.copyWith(estado: Status.error));
+      emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
 
@@ -300,6 +286,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     BlocHomeEventDeletePurchase event,
     Emitter<BlocHomeState> emit,
   ) async {
+    emit(BlocHomeStateLoading.from(state));
     try {
       unawaited(
         _firebaseService.deletePurchase(
@@ -331,14 +318,74 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
           ),
         );
 
+      emit(BlocHomeStateSuccess.from(state, financialEntityList: newList));
+    } catch (e) {
+      emit(BlocHomeStateError.from(state, error: e.toString()));
+    }
+  }
+
+  Future<void> _onPayMonth(
+    BlocHomeEventPayMonth event,
+    Emitter<BlocHomeState> emit,
+  ) async {
+    emit(BlocHomeStateLoading.from(state));
+    try {
+      final list = List<FinancialEntity>.from(state.financialEntityList);
+
+      final financialEntityModified = list.firstWhere(
+        (financialEntity) => financialEntity.purchases.any(
+          (compra) => event.purchaseList.any(
+            (element) => element.id == compra.id,
+          ),
+        ),
+      );
+
+      final newList = List<FinancialEntity>.from(state.financialEntityList)
+        ..removeWhere(
+          (financialEntity) => financialEntity.id == financialEntityModified.id,
+        );
+
+      final newPurchases = financialEntityModified.purchases.map(
+        (purchase) {
+          final p = event.purchaseList.contains(purchase)
+              ? (purchase
+                ..quotasPayed = purchase.quotasPayed + 1
+                ..lastCuotaDate = DateTime.now()
+                ..logs.add(
+                  'Se pago una cuota.${DateTime.now().formatWithHour}',
+                ))
+              : purchase;
+          unawaited(
+            _firebaseService.updatePurchase(
+              idUser: auth.currentUser?.uid ?? '',
+              idFinancialEntity: financialEntityModified.id,
+              newPurchase: p,
+            ),
+          );
+          return p;
+        },
+      ).toList();
+
+      final newFinancialEntity = FinancialEntity(
+        id: financialEntityModified.id,
+        name: financialEntityModified.name,
+        purchases: newPurchases,
+        logs: financialEntityModified.logs
+          ..add(
+            'Se pagaron todas las cuotas. ${DateTime.now().formatWithHour}',
+          ),
+      );
+
+      newList.add(newFinancialEntity);
+
       emit(
-        state.copyWith(
-          estado: Status.success,
+        BlocHomeStateSuccess.from(
+          state,
           financialEntityList: newList,
         ),
       );
     } catch (e) {
-      emit(state.copyWith(estado: Status.error));
+      emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
 }

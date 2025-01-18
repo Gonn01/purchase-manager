@@ -1,7 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:purchase_manager/utilities/models/enums/status.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/services/firebase_service.dart';
 
@@ -14,7 +12,7 @@ part 'bloc_financial_entities_state.dart';
 class BlocFinancialEntities
     extends Bloc<BlocFinancialEntitiesEvento, BlocFinancialEntitiesState> {
   /// {@macro BlocInicio}
-  BlocFinancialEntities() : super(const BlocFinancialEntitiesState()) {
+  BlocFinancialEntities() : super(BlocFinancialEntitiesStateInitial()) {
     on<BlocFinancialEntitiesEventInitialize>(_onInitialize);
     on<BlocFinancialEntitiesEventSelectFinancialEntity>(
       _onSelectFinancialEntity,
@@ -33,7 +31,7 @@ class BlocFinancialEntities
     BlocFinancialEntitiesEventInitialize event,
     Emitter<BlocFinancialEntitiesState> emit,
   ) async {
-    emit(state.copyWith(estado: Status.loading));
+    emit(BlocFinancialEntitiesStateLoading.from(state));
     try {
       final auth = FirebaseAuth.instance;
 
@@ -42,13 +40,13 @@ class BlocFinancialEntities
       );
 
       emit(
-        state.copyWith(
-          estado: Status.success,
-          listFinancialEntities: listFinancialEntitys,
+        BlocFinancialEntitiesStateSuccess.from(
+          state,
+          listFinancialEntity: listFinancialEntitys,
         ),
       );
     } catch (e) {
-      emit(state.copyWith(estado: Status.error));
+      emit(BlocFinancialEntitiesStateError.from(state, error: e.toString()));
     }
   }
 
@@ -56,7 +54,7 @@ class BlocFinancialEntities
     BlocFinancialEntitiesEventCreateFinancialEntity event,
     Emitter<BlocFinancialEntitiesState> emit,
   ) async {
-    emit(state.copyWith(estado: Status.loading));
+    emit(BlocFinancialEntitiesStateLoading.from(state));
     try {
       final auth = FirebaseAuth.instance;
 
@@ -67,11 +65,9 @@ class BlocFinancialEntities
 
       add(BlocFinancialEntitiesEventInitialize());
 
-      emit(
-        state.copyWith(estado: Status.success),
-      );
+      emit(BlocFinancialEntitiesStateSuccess.from(state));
     } catch (e) {
-      emit(state.copyWith(estado: Status.error));
+      emit(BlocFinancialEntitiesStateError.from(state, error: e.toString()));
     }
   }
 
@@ -79,7 +75,7 @@ class BlocFinancialEntities
     BlocFinancialEntitiesEventDeleteFinancialEntity event,
     Emitter<BlocFinancialEntitiesState> emit,
   ) async {
-    emit(state.copyWith(estado: Status.loading));
+    emit(BlocFinancialEntitiesStateLoading.from(state));
     try {
       final auth = FirebaseAuth.instance;
 
@@ -90,11 +86,9 @@ class BlocFinancialEntities
 
       add(BlocFinancialEntitiesEventInitialize());
 
-      emit(
-        state.copyWith(estado: Status.success),
-      );
+      emit(BlocFinancialEntitiesStateSuccess.from(state));
     } catch (e) {
-      emit(state.copyWith(estado: Status.error));
+      emit(BlocFinancialEntitiesStateError.from(state, error: e.toString()));
     }
   }
 
@@ -103,6 +97,11 @@ class BlocFinancialEntities
     Emitter<BlocFinancialEntitiesState> emit,
   ) {
     add(BlocFinancialEntitiesEventInitialize());
-    emit(state.copyWith(financialEntitySelected: event.financialEntity));
+    emit(
+      BlocFinancialEntitiesStateSuccess.from(
+        state,
+        financialEntitySelected: event.financialEntity,
+      ),
+    );
   }
 }

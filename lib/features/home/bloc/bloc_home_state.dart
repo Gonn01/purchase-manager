@@ -5,28 +5,42 @@ part of 'bloc_home.dart';
 ///
 /// Manage the different states and variables saved in them
 /// {@endtemplate}
-class BlocHomeState extends Equatable {
+class BlocHomeState {
   /// {@macro BlocInicioEstado}
-  const BlocHomeState({
+  const BlocHomeState._({
     this.financialEntityList = const [],
-    this.status = Status.initial,
     this.currency,
+    this.purchaseLoadingId,
   });
+
+  /// Estado previo.
+  BlocHomeState.from(
+    BlocHomeState previousState, {
+    List<FinancialEntity>? financialEntityList,
+    Currency? currency,
+    String? purchaseLoadingId,
+    bool deleteSelectedShipmentId = false,
+  }) : this._(
+          financialEntityList:
+              financialEntityList ?? previousState.financialEntityList,
+          currency: currency ?? previousState.currency,
+          purchaseLoadingId: deleteSelectedShipmentId
+              ? null
+              : purchaseLoadingId ?? previousState.purchaseLoadingId,
+        );
 
   /// Lista de entidades financieras.
   ///
   /// List of financial entities.
   final List<FinancialEntity> financialEntityList;
 
-  /// Estado de la página.
-  ///
-  /// Page status.
-  final Status status;
-
   /// Moneda actual.
   ///
   /// Current currency.
   final Currency? currency;
+
+  /// Id de la compra que se está cargando.
+  final String? purchaseLoadingId;
 
   /// Lista de [FinancialEntity] que tienen compras de
   /// [PurchaseType.currentDebtorPurchase]
@@ -91,35 +105,58 @@ class BlocHomeState extends Equatable {
                 purchase.type == PurchaseType.settledCreditorPurchase,
           )
           .toList();
+}
 
-  /// Calcula el total de la suma de una cuota de las compras deudoras actuales.
-  ///
-  /// Calculate the total of the sum of a quota of the current debtor purchases.
-  double totalAmountPerMonth({required List<Purchase> purchases}) {
-    return purchases.fold<double>(
-      0,
-      (previousValue, purchase) => previousValue + purchase.amountPerQuota,
-    );
-  }
+/// {@template BlocHomeStateInitial}
+/// Initial state of the home bloc.
+/// {@endtemplate}
+class BlocHomeStateInitial extends BlocHomeState {
+  /// {@macro BlocHomeStateInitial}
+  BlocHomeStateInitial() : super._();
+}
 
-  @override
-  List<dynamic> get props => [
-        status,
-        financialEntityList,
-        currency,
-      ];
+/// {@template BlocHomeStateLoading}
+/// State when the home is loading.
+/// {@endtemplate}
+class BlocHomeStateLoading extends BlocHomeState {
+  /// {@macro BlocHomeStateLoading}
+  BlocHomeStateLoading.from(super.previusState) : super.from();
+}
 
-  /// Copia el estado actual y lo modifica con los parámetros proporcionados.
-  /// Copy the current state and modify it with the provided parameters.
-  BlocHomeState copyWith({
-    List<FinancialEntity>? financialEntityList,
-    Status? estado,
-    Currency? coin,
-  }) {
-    return BlocHomeState(
-      financialEntityList: financialEntityList ?? this.financialEntityList,
-      status: estado ?? status,
-      currency: coin,
-    );
-  }
+/// {@template BlocHomeStateLoading}
+/// State when the home is loading.
+/// {@endtemplate}
+class BlocHomeStateLoadingPurchase extends BlocHomeState {
+  /// {@macro BlocHomeStateLoading}
+  BlocHomeStateLoadingPurchase.from(
+    super.previusState, {
+    super.purchaseLoadingId,
+  }) : super.from();
+}
+
+/// {@template BlocHomeStateSuccess}
+/// State when the home is loaded successfully.
+/// {@endtemplate}
+class BlocHomeStateSuccess extends BlocHomeState {
+  /// {@macro BlocHomeStateSuccess}
+  BlocHomeStateSuccess.from(
+    super.previusState, {
+    super.financialEntityList,
+    super.currency,
+    super.deleteSelectedShipmentId,
+  }) : super.from();
+}
+
+/// {@template BlocHomeStateError}
+/// State when the home has an error.
+/// {@endtemplate}
+class BlocHomeStateError extends BlocHomeState {
+  /// {@macro BlocHomeStateError}
+  BlocHomeStateError.from(
+    super.previusState, {
+    required this.error,
+  }) : super.from();
+
+  /// Error message.
+  final String error;
 }

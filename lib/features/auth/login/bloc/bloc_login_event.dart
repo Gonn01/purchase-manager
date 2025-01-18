@@ -5,12 +5,9 @@ part of 'bloc_login.dart';
 ///
 /// Define the events that can occur on the Login page.
 /// {@endtemplate}
-abstract class BlocLoginEvent extends Equatable {
+abstract class BlocLoginEvent {
   /// {@macro BlocLoginEvento}
   const BlocLoginEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
 /// {@template BlocLoginEventoInicializar}

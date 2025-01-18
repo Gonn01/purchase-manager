@@ -5,39 +5,57 @@ part of 'bloc_login.dart';
 ///
 /// Manage the different states and variables saved in them
 /// {@endtemplate}
-class BlocLoginState extends Equatable {
+class BlocLoginState {
   /// {@macro BlocLoginEstado}
-  const BlocLoginState({
-    this.status = Status.initial,
+  const BlocLoginState._({
     this.errorMessage,
   });
 
-  /// Estado de la página.
-  ///
-  /// Page status.
-  final Status status;
+  /// Estado previo.
+  BlocLoginState.from(
+    BlocLoginState? previusState, {
+    String? errorMessage,
+  }) : this._(
+          errorMessage: errorMessage ?? previusState?.errorMessage,
+        );
 
   /// Mensaje de error en caso de que haya ocurrido un error.
   ///
   /// Error message in case an error has occurred.
   final String? errorMessage;
+}
 
-  @override
-  List<dynamic> get props => [
-        status,
-        errorMessage,
-      ];
+/// {@template BlocLoginStateInitial}
+/// Initial state of the home bloc.
+/// {@endtemplate}
+class BlocLoginStateInitial extends BlocLoginState {
+  /// {@macro BlocLoginStateInitial}
+  BlocLoginStateInitial() : super._();
+}
 
-  /// Copia el estado actual y lo modifica con los valores pasados por parametro
-  ///
-  /// Copy the current state and modify it with the values ​​passed by parameter
-  BlocLoginState copyWith({
-    Status? status,
-    String? errorMessage,
-  }) {
-    return BlocLoginState(
-      status: status ?? this.status,
-      errorMessage: errorMessage ?? this.errorMessage,
-    );
-  }
+/// {@template BlocLoginStateLoading}
+/// State when the home is loading.
+/// {@endtemplate}
+class BlocLoginStateLoading extends BlocLoginState {
+  /// {@macro BlocLoginStateLoading}
+  BlocLoginStateLoading.from(super.previusState) : super.from();
+}
+
+/// {@template BlocLoginStateSuccess}
+/// State when the home is loaded successfully.
+/// {@endtemplate}
+class BlocLoginStateSuccess extends BlocLoginState {
+  /// {@macro BlocLoginStateSuccess}
+  BlocLoginStateSuccess.from(super.previusState) : super.from();
+}
+
+/// {@template BlocLoginStateError}
+/// State when the home has an error.
+/// {@endtemplate}
+class BlocLoginStateError extends BlocLoginState {
+  /// {@macro BlocLoginStateError}
+  BlocLoginStateError.from(
+    super.previusState, {
+    super.errorMessage,
+  }) : super.from();
 }

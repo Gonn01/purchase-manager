@@ -4,9 +4,8 @@ import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/features/home/widgets/financial_entity_element.dart';
 import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/functions/total_amount.dart';
-import 'package:purchase_manager/utilities/functions/total_amount_per_quota.dart';
+import 'package:purchase_manager/utilities/functions/total_amount_per_month.dart';
 import 'package:purchase_manager/utilities/models/enums/feature_type.dart';
-import 'package:purchase_manager/utilities/models/enums/status.dart';
 
 /// {@template ViewDebtorCurrentPurchases}
 /// Vista de las compras vigentes deudoras
@@ -20,7 +19,7 @@ class ViewCurrentPurchases extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<BlocHome, BlocHomeState>(
       builder: (context, state) {
-        if (state.status == Status.loading) {
+        if (state is BlocHomeStateLoading) {
           return const Center(
             child: CircularProgressIndicator(
               color: Color(0xff02B3A3),
@@ -51,7 +50,7 @@ class ViewCurrentPurchases extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                'Total adeudado por mes: ${totalAmountPerQuota(
+                'Total adeudado por mes: ${totalAmountPerMonth(
                   state: state,
                   financialEntities: state.listFinancialEntitiesStatusCurrent,
                   dollarValue: state.currency?.venta ?? 0,

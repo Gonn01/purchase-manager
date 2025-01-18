@@ -1,7 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:purchase_manager/utilities/models/enums/status.dart';
 
 part 'bloc_login_state.dart';
 part 'bloc_login_event.dart';
@@ -13,7 +11,7 @@ part 'bloc_login_event.dart';
 /// {@endtemplate}
 class BlocLogin extends Bloc<BlocLoginEvent, BlocLoginState> {
   /// {@macro BlocLogin}
-  BlocLogin() : super(const BlocLoginState()) {
+  BlocLogin() : super(BlocLoginStateInitial()) {
     on<BlocLoginEventLogin>(_onInitialize);
   }
 
@@ -21,7 +19,7 @@ class BlocLogin extends Bloc<BlocLoginEvent, BlocLoginState> {
     BlocLoginEventLogin event,
     Emitter<BlocLoginState> emit,
   ) async {
-    emit(state.copyWith(status: Status.loading));
+    emit(BlocLoginStateLoading.from(state));
     try {
       final auth = FirebaseAuth.instance;
 
@@ -29,15 +27,11 @@ class BlocLogin extends Bloc<BlocLoginEvent, BlocLoginState> {
 
       await auth.signInWithProvider(googleProvider);
 
-      emit(
-        state.copyWith(
-          status: Status.success,
-        ),
-      );
+      emit(BlocLoginStateSuccess.from(state));
     } catch (e) {
       emit(
-        state.copyWith(
-          status: Status.error,
+        BlocLoginStateError.from(
+          state,
           errorMessage: 'Error al iniciar sesión con Google: $e',
         ),
       );

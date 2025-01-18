@@ -5,12 +5,9 @@ part of 'bloc_drawer.dart';
 ///
 /// Defines the events that can occur in the drawer.
 /// {@endtemplate}
-abstract class BlocDrawerEvent extends Equatable {
+abstract class BlocDrawerEvent {
   /// {@macro BlocDrawerEvent}
   const BlocDrawerEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
 /// {@template BlocDrawerEventSignOut}

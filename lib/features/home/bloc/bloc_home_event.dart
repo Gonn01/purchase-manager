@@ -4,12 +4,9 @@ part of 'bloc_home.dart';
 /// Define los eventos que pueden ocurrir en la página de inicio.
 /// Defines the events that can occur on the home page.
 /// {@endtemplate}
-abstract class BlocHomeEvento extends Equatable {
+abstract class BlocHomeEvento {
   /// {@macro BlocInicioEvento}
   const BlocHomeEvento();
-
-  @override
-  List<Object> get props => [];
 }
 
 /// {@template BlocInicioEventoInicializar}
@@ -184,18 +181,13 @@ class BlocHomeEventEditPurchase extends BlocHomeEvento {
 class BlocHomeEventPayMonth extends BlocHomeEvento {
   ///{@macro BlocHomeEventoPayMonth}
   const BlocHomeEventPayMonth({
-    required this.purchase,
-    required this.idFinancialEntity,
+    required this.purchaseList,
   });
-
-  /// Compra a la que se le pagará una cuota.
-  /// Purchase to which a quota will be paid.
-  final Purchase purchase;
 
   /// ID de la categoría a la que pertenece la compra.
   ///
   /// ID of the category to which the purchase belongs.
-  final String idFinancialEntity;
+  final List<Purchase> purchaseList;
 }
 
 /// {@template ModificationType}

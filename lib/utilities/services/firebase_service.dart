@@ -82,6 +82,7 @@ class FirebaseService {
         'fechaCreacion': newPurchase.creationDate,
         'fechaFinalizacion': null,
         'fechaPrimeraCuota': null,
+        'cuotasPagadas': 0,
         'currency': newPurchase.currency.value,
         'logs': <String>['Se creó la compra. ${DateTime.now().formatWithHour}'],
       });

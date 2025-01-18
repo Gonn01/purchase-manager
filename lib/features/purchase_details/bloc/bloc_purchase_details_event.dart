@@ -4,12 +4,9 @@ part of 'bloc_purchase_details.dart';
 /// Define los eventos que pueden ocurrir en la página de inicio.
 /// Defines the events that can occur on the home page.
 /// {@endtemplate}
-abstract class BlocPurchaseDetailsEvent extends Equatable {
+abstract class BlocPurchaseDetailsEvent {
   /// {@macro BlocPurchaseDetailsEvent}
   const BlocPurchaseDetailsEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
 /// {@template BlocFinancialEntitiesEventInitialize}

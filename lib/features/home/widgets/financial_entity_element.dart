@@ -1,12 +1,16 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/features/home/widgets/purchase_element.dart';
 import 'package:purchase_manager/gen/assets.gen.dart';
 import 'package:purchase_manager/utilities/extensions/string.dart';
+import 'package:purchase_manager/utilities/functions/total_amount_per_financial_entity.dart';
+import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/feature_type.dart';
+import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
 import 'package:share_plus/share_plus.dart';
@@ -30,17 +34,65 @@ class FinancialEntityElement extends StatelessWidget {
   String generateText({
     required String financialEntityName,
     required List<Purchase> purchases,
+    required String total,
+    required int dollarValue,
   }) {
-    final buffer = StringBuffer()..write('$financialEntityName: \n');
-    for (final purchase in purchases) {
+    final purchasesCreditor = purchases.where(
+      (purchase) => purchase.type == PurchaseType.currentCreditorPurchase,
+    );
+
+    final purchasesDebtor = purchases.where(
+      (purchase) => purchase.type == PurchaseType.currentDebtorPurchase,
+    );
+
+    final thereIsPurchasesInDollars = purchasesCreditor.any(
+          (purchase) => purchase.currency == CurrencyType.usDollar,
+        ) ||
+        purchasesDebtor.any(
+          (purchase) => purchase.currency == CurrencyType.usDollar,
+        );
+
+    final totalCreditor = purchasesCreditor.fold<double>(
+      0,
+      (previousValue, purchase) =>
+          previousValue +
+          (purchase.currency == CurrencyType.usDollar
+              ? purchase.amountPerQuota * dollarValue
+              : purchase.amountPerQuota),
+    );
+
+    final totalDebtor = purchasesDebtor.fold<double>(
+      0,
+      (previousValue, purchase) =>
+          previousValue +
+          (purchase.currency == CurrencyType.usDollar
+              ? purchase.amountPerQuota * dollarValue
+              : purchase.amountPerQuota),
+    );
+
+    final buffer = StringBuffer()
+      ..write('$financialEntityName: \n\n')
+      ..write('Te debo:\n\n');
+    for (final purchase in purchasesDebtor) {
       buffer.write(
-        '${purchase.nameOfProduct}: \$${purchase.amountPerQuota.toStringAsFixed(2)}\n'
-        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n',
+        '${purchase.nameOfProduct}: \$${purchase.amountPerQuota.toStringAsFixed(2)} ${purchase.currency.name}\n'
+        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
       );
     }
-    buffer.write(
-      'Total: \$${purchases.fold<double>(0, (previousValue, element) => previousValue + element.amountPerQuota).toStringAsFixed(2)}',
-    );
+    buffer.write('Me debes:\n\n');
+
+    for (final purchase in purchasesCreditor) {
+      buffer.write(
+        '${purchase.nameOfProduct}: \$${purchase.amountPerQuota.toStringAsFixed(2)} ${purchase.currency.name}\n'
+        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+      );
+    }
+
+    buffer
+      ..write(thereIsPurchasesInDollars ? 'Dolar: \$$dollarValue\n\n' : '')
+      ..write(
+        'Total: \$$total (${totalDebtor.toStringAsFixed(2)} - ${totalCreditor.toStringAsFixed(2)})',
+      );
     return buffer.toString();
   }
 
@@ -90,6 +142,7 @@ class FinancialEntityElement extends StatelessWidget {
                       (purchase) => PurchaseElement(
                         purchase: purchase,
                         financialEntity: financialEntity,
+                        isLoading: state.purchaseLoadingId == purchase.id,
                       ),
                     )
                     .toList(),
@@ -101,7 +154,10 @@ class FinancialEntityElement extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Total de este mes \$${state.totalAmountPerMonth(purchases: lista).toStringAsFixed(2)}',
+                    'Total de este mes \$${totalAmountPerFinancialEntity(
+                      purchases: lista,
+                      dollarValue: state.currency?.venta ?? 0,
+                    ).toStringAsFixed(2)}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -114,6 +170,11 @@ class FinancialEntityElement extends StatelessWidget {
                         context,
                         financialEntity.name,
                         lista,
+                        totalAmountPerFinancialEntity(
+                          purchases: lista,
+                          dollarValue: state.currency?.venta ?? 0,
+                        ).toStringAsFixed(2),
+                        state.currency?.venta ?? 0,
                       );
                     },
                     child: Image.asset(
@@ -129,7 +190,9 @@ class FinancialEntityElement extends StatelessWidget {
               padding: const EdgeInsets.all(12),
               child: GestureDetector(
                 onTap: () {
-                  // context.read<BlocHome>().add(BlocHomeEventPayMonth(purchase: '', idFinancialEntity: ''));
+                  context
+                      .read<BlocHome>()
+                      .add(BlocHomeEventPayMonth(purchaseList: lista));
                 },
                 child: const Text(
                   'Pagar este mes',
@@ -146,13 +209,27 @@ class FinancialEntityElement extends StatelessWidget {
     BuildContext context,
     String financialEntityName,
     List<Purchase> purchases,
+    String total,
+    int dollarValue,
   ) async {
     final box = context.findRenderObject() as RenderBox?;
+    // await Clipboard.setData(
+    //   ClipboardData(
+    //     text: generateText(
+    //       financialEntityName: financialEntityName,
+    //       purchases: purchases,
+    //       total: total,
+    //       dollarValue: dollarValue,
+    //     ),
+    //   ),
+    // );
 
     await Share.share(
       generateText(
         financialEntityName: financialEntityName,
         purchases: purchases,
+        total: total,
+        dollarValue: dollarValue,
       ),
       sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
     );

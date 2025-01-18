@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/features/auth/login/bloc/bloc_login.dart';
 import 'package:purchase_manager/gen/assets.gen.dart';
-import 'package:purchase_manager/utilities/models/enums/status.dart';
 
 /// {@template ViewLogin}
 /// Pagina que contiene el login
@@ -24,10 +23,10 @@ class _ViewLoginState extends State<ViewLogin> {
   Widget build(BuildContext context) {
     return BlocListener<BlocLogin, BlocLoginState>(
       listener: (context, state) {
-        if (state.status == Status.success) {
+        if (state is BlocLoginStateSuccess) {
           context.router.replace(const RutaHome());
         }
-        if (state.status == Status.error) {
+        if (state is BlocLoginStateError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.errorMessage ?? ''),

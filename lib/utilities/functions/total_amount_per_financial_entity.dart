@@ -1,4 +1,3 @@
-import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
@@ -9,13 +8,11 @@ import 'package:purchase_manager/utilities/models/purchase.dart';
 ///
 /// Calculates the total amount per quota of all the [Purchase] of a list of
 /// [FinancialEntity].
-double totalAmountPerQuota({
-  required List<FinancialEntity> financialEntities,
+double totalAmountPerFinancialEntity({
   required int dollarValue,
-  required BlocHomeState state,
+  required List<Purchase> purchases,
 }) {
   var monto = 0.0;
-  final purchases = financialEntities.expand((category) => category.purchases);
 
   for (final purchase in purchases) {
     if (purchase.type == PurchaseType.currentDebtorPurchase) {

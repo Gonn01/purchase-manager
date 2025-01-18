@@ -5,38 +5,57 @@ part of 'bloc_purchase_details.dart';
 ///
 /// Manage the different states and variables saved in them
 /// {@endtemplate}
-class BlocPurchaseDetailsState extends Equatable {
+class BlocPurchaseDetailsState {
   /// {@macro BlocPurchaseDetailsState}
-  const BlocPurchaseDetailsState({
-    this.status = Status.initial,
+  const BlocPurchaseDetailsState._({
     this.purchase,
   });
 
-  /// Estado de la página.
+  /// Estado previo.
   ///
-  /// Page status.
-  final Status status;
+  /// Previous state.
+  BlocPurchaseDetailsState.from(
+    BlocPurchaseDetailsState previousState, {
+    Purchase? purchase,
+  }) : this._(
+          purchase: purchase ?? previousState.purchase,
+        );
 
   /// Compra
   ///
   /// Purchase
   final Purchase? purchase;
+}
 
-  @override
-  List<dynamic> get props => [
-        status,
-        purchase,
-      ];
+/// {@template BlocPurchaseDetailsStateInitial}
+/// Initial state of the home bloc.
+/// {@endtemplate}
+class BlocPurchaseDetailsStateInitial extends BlocPurchaseDetailsState {
+  /// {@macro BlocPurchaseDetailsStateInitial}
+  BlocPurchaseDetailsStateInitial() : super._();
+}
 
-  /// Copia el estado actual y lo modifica con los parámetros proporcionados.
-  /// Copy the current state and modify it with the provided parameters.
-  BlocPurchaseDetailsState copyWith({
-    Status? estado,
-    Purchase? purchase,
-  }) {
-    return BlocPurchaseDetailsState(
-      status: estado ?? status,
-      purchase: purchase ?? this.purchase,
-    );
-  }
+/// {@template BlocPurchaseDetailsStateLoading}
+/// State when the home is loading.
+/// {@endtemplate}
+class BlocPurchaseDetailsStateLoading extends BlocPurchaseDetailsState {
+  /// {@macro BlocPurchaseDetailsStateLoading}
+  BlocPurchaseDetailsStateLoading.from(super.previusState) : super.from();
+}
+
+/// {@template BlocPurchaseDetailsStateSuccess}
+/// State when the home is loaded successfully.
+/// {@endtemplate}
+class BlocPurchaseDetailsStateSuccess extends BlocPurchaseDetailsState {
+  /// {@macro BlocPurchaseDetailsStateSuccess}
+  BlocPurchaseDetailsStateSuccess.from(super.previusState, {super.purchase})
+      : super.from();
+}
+
+/// {@template BlocPurchaseDetailsStateError}
+/// State when the home has an error.
+/// {@endtemplate}
+class BlocPurchaseDetailsStateError extends BlocPurchaseDetailsState {
+  /// {@macro BlocPurchaseDetailsStateError}
+  BlocPurchaseDetailsStateError.from(super.previusState) : super.from();
 }
