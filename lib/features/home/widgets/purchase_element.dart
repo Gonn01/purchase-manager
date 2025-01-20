@@ -85,28 +85,29 @@ class PurchaseElement extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                Checkbox(
-                                  value: purchase.ignored,
-                                  onChanged: (value) {
-                                    context.read<BlocHome>().add(
-                                          BlocHomeEventAlternateIgnorePurchase(
-                                            purchaseId: purchase.id ?? '',
-                                          ),
-                                        );
-                                  },
-                                ),
-                                const Text(
-                                  'ignorar',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
+                            if (purchase.type.isCurrent)
+                              Row(
+                                children: [
+                                  Checkbox(
+                                    value: purchase.ignored,
+                                    onChanged: (value) {
+                                      context.read<BlocHome>().add(
+                                            BlocHomeEventAlternateIgnorePurchase(
+                                              purchaseId: purchase.id ?? '',
+                                            ),
+                                          );
+                                    },
                                   ),
-                                ),
-                              ],
-                            ),
+                                  const Text(
+                                    'ignorar',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             Text(
                               purchase.nameOfProduct.capitalize,
                               maxLines: 1,
