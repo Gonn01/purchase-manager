@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/features/home/widgets/purchase_element.dart';
 import 'package:purchase_manager/gen/assets.gen.dart';
+import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/extensions/string.dart';
 import 'package:purchase_manager/utilities/functions/total_amount_per_financial_entity.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
@@ -72,14 +73,14 @@ class FinancialEntityElement extends StatelessWidget {
       ..write('Te debo:\n\n');
     for (final purchase in purchasesDebtor) {
       buffer.write(
-        '${purchase.nameOfProduct}: \$${purchase.amountPerQuota.toStringAsFixed(2)} ${purchase.currency.name}\nCuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+        '${purchase.nameOfProduct}: \$${purchase.amountPerQuota.formatAmount} ${purchase.currency.name}\nCuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
       );
     }
     buffer.write('Me debes:\n\n');
 
     for (final purchase in purchasesCreditor) {
       buffer.write(
-        '${purchase.nameOfProduct}: \$${purchase.amountPerQuota.toStringAsFixed(2)} ${purchase.currency.name}\nCuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+        '${purchase.nameOfProduct}: \$${purchase.amountPerQuota.formatAmount} ${purchase.currency.name}\nCuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
       );
     }
 
@@ -87,8 +88,8 @@ class FinancialEntityElement extends StatelessWidget {
       ..write(thereIsPurchasesInDollars ? 'Dolar: \$$dollarValue\n\n' : '')
       ..write(
         '${total.isNegative ? 'Me debes en' : 'Te debo en'} total: \$'
-        '${total.toStringAsFixed(2)} (${totalDebtor.toStringAsFixed(2)} - '
-        '${totalCreditor.toStringAsFixed(2)})',
+        '${total.formatAmount} (${totalDebtor.formatAmount} - '
+        '${totalCreditor.formatAmount})',
       );
     return buffer.toString();
   }
@@ -111,6 +112,10 @@ class FinancialEntityElement extends StatelessWidget {
         } else {
           lista = state.listPurchaseStatusCurrent(financialEntity);
         }
+        final total = totalAmountPerFinancialEntity(
+          purchases: lista,
+          dollarValue: state.currency?.venta ?? 0,
+        );
         return ExpansionTile(
           collapsedBackgroundColor: const Color(0xff02B3A3),
           title: Text(
@@ -151,10 +156,8 @@ class FinancialEntityElement extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Total de este mes \$${totalAmountPerFinancialEntity(
-                        purchases: lista,
-                        dollarValue: state.currency?.venta ?? 0,
-                      ).toStringAsFixed(2)}',
+                      // ignore: lines_longer_than_80_chars asd
+                      '${total.isNegative ? 'Me debe en' : 'Le debo en'} total \$${(total.isNegative ? total * -1 : total).formatAmount}',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -196,10 +199,7 @@ class FinancialEntityElement extends StatelessWidget {
                       context,
                       financialEntity.name,
                       lista,
-                      totalAmountPerFinancialEntity(
-                        purchases: lista,
-                        dollarValue: state.currency?.venta ?? 0,
-                      ),
+                      total,
                       state.currency?.venta ?? 0,
                     );
                   },

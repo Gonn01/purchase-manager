@@ -17,7 +17,8 @@ double totalAmountPerMonth({
   var monto = 0.0;
   final purchases = financialEntities.expand((category) => category.purchases);
 
-  for (final purchase in purchases) {
+  final ps = purchases.where((p) => !p.ignored);
+  for (final purchase in ps) {
     if (purchase.type == PurchaseType.currentDebtorPurchase) {
       final amount = purchase.amountPerQuota;
       if (purchase.currency == CurrencyType.usDollar) {

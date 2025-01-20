@@ -17,16 +17,22 @@ class Purchase {
     required this.creationDate,
     required this.currency,
     required this.logs,
-    required this.quotasPayed,
     this.id,
     this.lastQuotaDate,
     this.firstQuotaDate,
+    this.ignored = false,
+    this.quotasPayed = 0,
   });
 
   /// id de la compra
   ///
   /// id of the purchase
   String? id;
+
+  /// Indica si la compra fue ignorada
+  ///
+  /// Indicates if the purchase was ignored
+  bool ignored;
 
   /// Cantidad de cuotas de la compra
   ///
@@ -97,6 +103,7 @@ class Purchase {
     String? firstQuotaDate,
     CurrencyType? currency,
     List<String>? logs,
+    bool? ignored,
   }) {
     return Purchase(
       id: id ?? this.id,
@@ -111,6 +118,7 @@ class Purchase {
       firstQuotaDate: firstQuotaDate ?? this.firstQuotaDate,
       currency: currency ?? this.currency,
       logs: logs ?? this.logs,
+      ignored: ignored ?? this.ignored,
     );
   }
 }

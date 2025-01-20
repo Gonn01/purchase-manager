@@ -68,7 +68,7 @@ class FirebaseService {
   }
 
   /// Actualiza las compras en Firestore.
-  Future<void> crearValorCuotasPagadas() async {
+  Future<void> crearValorCuotasPagadasYIgnored() async {
     try {
       // Obtiene todos los usuarios
       final usersSnapshot = _firestore.collection('usuarios').doc(userId);
@@ -99,6 +99,11 @@ class FirebaseService {
             // Actualiza la compra con "cuotasPagadas" establecido en 0
             await compraDoc.reference.update({'cuotasPagadas': 0});
             debugPrint('Actualizado cuotasPagadas en compra: ${compraDoc.id}');
+          }
+          if (!compraDoc.data().containsKey('ignored')) {
+            // Actualiza la compra con "cuotasPagadas" establecido en 0
+            await compraDoc.reference.update({'ignored': false});
+            debugPrint('Actualizado ignored en compra: ${compraDoc.id}');
           }
         }
       }
@@ -135,6 +140,7 @@ class FirebaseService {
         'cuotasPagadas': 0,
         'currency': newPurchase.currency.value,
         'logs': <String>['Se creó la compra. ${DateTime.now().formatWithHour}'],
+        'ignored': false,
       });
 
       await _firestore
@@ -188,6 +194,7 @@ class FirebaseService {
         'cuotasPagadas': newPurchase.quotasPayed,
         'fechaFinalizacion': newPurchase.lastQuotaDate,
         'fechaPrimeraCuota': firstQuotaDate,
+        'ignored': newPurchase.ignored,
       });
 
       debugPrint('Compra actualizada en Firestore.');
@@ -263,6 +270,8 @@ class FirebaseService {
           lastQuotaDate: compraData['fechaFinalizacion'] as String?,
           currency: CurrencyType.type(compraData['currency'] as int),
           logs: List<String>.from(compraData['logs'] as List<dynamic>),
+          firstQuotaDate: compraData['fechaPrimeraCuota'] as String?,
+          ignored: compraData['ignored'] as bool,
         );
 
         return compra;
@@ -339,6 +348,8 @@ class FirebaseService {
               creationDate: purchaseData['fechaCreacion'] as String,
               lastQuotaDate: purchaseData['fechaFinalizacion'] as String?,
               logs: (purchaseData['logs'] as List<dynamic>).cast<String>(),
+              firstQuotaDate: purchaseData['fechaPrimeraCuota'] as String?,
+              ignored: purchaseData['ignored'] as bool,
             );
           }).toList();
 

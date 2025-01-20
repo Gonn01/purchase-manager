@@ -29,6 +29,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     on<BlocHomeEventEditPurchase>(_onEditPurchase);
     on<BlocHomeEventDeletePurchase>(_onDeletePurchase);
     on<BlocHomeEventPayMonth>(_onPayMonth);
+    on<BlocHomeEventAlternateIgnorePurchase>(_onAlternateIgnorePurchase);
 
     add(BlocHomeEventInitialize());
   }
@@ -46,7 +47,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
   ) async {
     emit(BlocHomeStateLoading.from(state));
     try {
-      await _firebaseService.crearValorCuotasPagadas();
+      await _firebaseService.crearValorCuotasPagadasYIgnored();
       await _firebaseService.actualizarFechaCreacionComoString();
       final listFinancialeEntity = await _firebaseService.readFinancialEntities(
         idUser: auth.currentUser?.uid ?? '',
@@ -203,7 +204,6 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
       final nuevaCompra = Purchase(
         creationDate: DateTime.now().formatWithHour,
         amountOfQuotas: event.amountQuotas,
-        quotasPayed: 0,
         totalAmount: event.totalAmount,
         amountPerQuota: event.totalAmount / event.amountQuotas,
         nameOfProduct: event.productName,
@@ -432,5 +432,52 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
 
     listFinancialEntity[index] = financialEntityModified;
     return listFinancialEntity;
+  }
+
+  Future<void> _onAlternateIgnorePurchase(
+    BlocHomeEventAlternateIgnorePurchase event,
+    Emitter<BlocHomeState> emit,
+  ) async {
+    emit(
+      BlocHomeStateLoadingPurchase.from(
+        state,
+        purchaseLoadingId: event.purchaseId,
+      ),
+    );
+    try {
+      final listFinancialEntity =
+          List<FinancialEntity>.from(state.financialEntityList);
+
+      final financialEntityModified = listFinancialEntity.firstWhere(
+        (financialEntity) => financialEntity.purchases
+            .any((compra) => compra.id == event.purchaseId),
+      );
+
+      final purchaseToModify = financialEntityModified.purchases.firstWhere(
+        (compra) => compra.id == event.purchaseId,
+      );
+
+      purchaseToModify.ignored = !purchaseToModify.ignored;
+
+      await _firebaseService.updatePurchase(
+        idUser: auth.currentUser?.uid ?? '',
+        idFinancialEntity: financialEntityModified.id,
+        newPurchase: purchaseToModify,
+      );
+
+      final index = listFinancialEntity.indexOf(financialEntityModified);
+
+      listFinancialEntity[index] = financialEntityModified;
+
+      emit(
+        BlocHomeStateSuccess.from(
+          state,
+          financialEntityList: listFinancialEntity,
+          deleteSelectedShipmentId: true,
+        ),
+      );
+    } on Exception catch (e) {
+      emit(BlocHomeStateError.from(state, error: e.toString()));
+    }
   }
 }

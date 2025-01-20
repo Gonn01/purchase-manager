@@ -38,6 +38,16 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
   Widget build(BuildContext context) {
     return BlocBuilder<BlocHome, BlocHomeState>(
       builder: (context, state) {
+        final totalEsteMes = totalAmountPerMonth(
+          state: state,
+          financialEntities: state.listFinancialEntitiesStatusCurrent,
+          dollarValue: state.currency?.venta ?? 0,
+        );
+
+        final total = totalAmount(
+          financialEntityList: state.listFinancialEntitiesStatusCurrent,
+          dollarValue: state.currency?.venta ?? 0,
+        );
         if (state is BlocHomeStateLoading) {
           return const Center(
             child: CircularProgressIndicator(
@@ -50,10 +60,7 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                'Total adeudado: ${totalAmount(
-                  financialEntityList: state.listFinancialEntitiesStatusCurrent,
-                  dollarValue: state.currency?.venta ?? 0,
-                ).formatAmount}',
+                'En total ${total.isNegative ? 'debo' : 'me deben'}: ${(total.isNegative ? total * -1 : total).formatAmount}',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -69,11 +76,7 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                'Total adeudado por mes: ${totalAmountPerMonth(
-                  state: state,
-                  financialEntities: state.listFinancialEntitiesStatusCurrent,
-                  dollarValue: state.currency?.venta ?? 0,
-                ).formatAmount}',
+                'Este mes ${totalEsteMes.isNegative ? 'debo' : 'me deben'}: ${(totalEsteMes.isNegative ? totalEsteMes * -1 : totalEsteMes).formatAmount}',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -109,7 +112,6 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
                     .toList(),
               ),
             ),
-            const SizedBox(height: 60),
           ],
         );
       },

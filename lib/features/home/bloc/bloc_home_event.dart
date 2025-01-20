@@ -210,3 +210,14 @@ class BlocHomeEventPayMonth extends BlocHomeEvento {
   /// List of purchases to pay.
   final String idFinancialEntity;
 }
+
+class BlocHomeEventAlternateIgnorePurchase extends BlocHomeEvento {
+  ///{@macro BlocHomeEventAlternateIgnorePurchase}
+  const BlocHomeEventAlternateIgnorePurchase({
+    required this.purchaseId,
+  });
+
+  /// Compra a editar.
+  /// Purchase to edit.
+  final String purchaseId;
+}

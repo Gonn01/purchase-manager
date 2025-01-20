@@ -50,9 +50,23 @@ class PurchaseElement extends StatelessWidget {
         return Container(
           margin: const EdgeInsets.only(bottom: 10),
           decoration: BoxDecoration(
-            color: purchase.type == PurchaseType.currentCreditorPurchase
-                ? const Color(0xff02B3A3)
-                : const Color(0xffFF6B6B),
+            gradient: LinearGradient(
+              colors: purchase.type == PurchaseType.currentCreditorPurchase
+                  ? [
+                      const Color(0xff02B3A3),
+                      if (purchase.ignored)
+                        Colors.orange
+                      else
+                        const Color(0xff02B3A3),
+                    ]
+                  : [
+                      const Color(0xffFF6B6B),
+                      if (purchase.ignored)
+                        Colors.orange
+                      else
+                        const Color(0xffFF6B6B),
+                    ],
+            ),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Padding(
@@ -71,7 +85,28 @@ class PurchaseElement extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(),
+                            Row(
+                              children: [
+                                Checkbox(
+                                  value: purchase.ignored,
+                                  onChanged: (value) {
+                                    context.read<BlocHome>().add(
+                                          BlocHomeEventAlternateIgnorePurchase(
+                                            purchaseId: purchase.id ?? '',
+                                          ),
+                                        );
+                                  },
+                                ),
+                                const Text(
+                                  'ignorar',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
                             Text(
                               purchase.nameOfProduct.capitalize,
                               maxLines: 1,
@@ -182,18 +217,25 @@ class PurchaseElement extends StatelessWidget {
                                 // ),
                                 // const SizedBox(width: 10),
                                 GestureDetector(
-                                  onTap: () => context.read<BlocHome>().add(
-                                        BlocHomeEventPayQuota(
-                                          idPurchase: purchase.id ?? '',
-                                          purchaseType: purchase.type,
-                                        ),
-                                      ),
-                                  child: const Text(
+                                  onTap: () {
+                                    if (!purchase.ignored) {
+                                      context.read<BlocHome>().add(
+                                            BlocHomeEventPayQuota(
+                                              idPurchase: purchase.id ?? '',
+                                              purchaseType: purchase.type,
+                                            ),
+                                          );
+                                    }
+                                  },
+                                  child: Text(
                                     'Pagar cuota',
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
+                                      decoration: purchase.ignored
+                                          ? TextDecoration.lineThrough
+                                          : TextDecoration.none,
                                     ),
                                   ),
                                 ),
