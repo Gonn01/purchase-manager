@@ -1,5 +1,3 @@
-// ignore_for_file: lines_longer_than_80_chars
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
@@ -33,7 +31,7 @@ class FinancialEntityElement extends StatelessWidget {
   String generateText({
     required String financialEntityName,
     required List<Purchase> purchases,
-    required String total,
+    required double total,
     required int dollarValue,
   }) {
     final purchasesCreditor = purchases.where(
@@ -74,23 +72,23 @@ class FinancialEntityElement extends StatelessWidget {
       ..write('Te debo:\n\n');
     for (final purchase in purchasesDebtor) {
       buffer.write(
-        '${purchase.nameOfProduct}: \$${purchase.amountPerQuota.toStringAsFixed(2)} ${purchase.currency.name}\n'
-        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+        '${purchase.nameOfProduct}: \$${purchase.amountPerQuota.toStringAsFixed(2)} ${purchase.currency.name}\nCuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
       );
     }
     buffer.write('Me debes:\n\n');
 
     for (final purchase in purchasesCreditor) {
       buffer.write(
-        '${purchase.nameOfProduct}: \$${purchase.amountPerQuota.toStringAsFixed(2)} ${purchase.currency.name}\n'
-        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+        '${purchase.nameOfProduct}: \$${purchase.amountPerQuota.toStringAsFixed(2)} ${purchase.currency.name}\nCuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
       );
     }
 
     buffer
       ..write(thereIsPurchasesInDollars ? 'Dolar: \$$dollarValue\n\n' : '')
       ..write(
-        'Total: \$$total (${totalDebtor.toStringAsFixed(2)} - ${totalCreditor.toStringAsFixed(2)})',
+        '${total.isNegative ? 'Me debes en' : 'Te debo en'} total: \$'
+        '${total.toStringAsFixed(2)} (${totalDebtor.toStringAsFixed(2)} - '
+        '${totalCreditor.toStringAsFixed(2)})',
       );
     return buffer.toString();
   }
@@ -105,27 +103,7 @@ class FinancialEntityElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<BlocHome, BlocHomeState>(
-      listener: (context, state) {
-        if (state is BlocHomeStateSuccessPayingMonth) {
-          var lista = <Purchase>[];
-          if (featureType == FeatureType.settled) {
-            lista = state.listPurchaseStatusSettled(financialEntity);
-          } else {
-            lista = state.listPurchaseStatusCurrent(financialEntity);
-          }
-          _onShareWithResult(
-            context,
-            financialEntity.name,
-            lista,
-            totalAmountPerFinancialEntity(
-              purchases: lista,
-              dollarValue: state.currency?.venta ?? 0,
-            ).toStringAsFixed(2),
-            state.currency?.venta ?? 0,
-          );
-        }
-      },
+    return BlocBuilder<BlocHome, BlocHomeState>(
       builder: (context, state) {
         var lista = <Purchase>[];
         if (featureType == FeatureType.settled) {
@@ -166,63 +144,75 @@ class FinancialEntityElement extends StatelessWidget {
                     .toList(),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Total de este mes \$${totalAmountPerFinancialEntity(
-                      purchases: lista,
-                      dollarValue: state.currency?.venta ?? 0,
-                    ).toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
+            if (featureType == FeatureType.current)
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Total de este mes \$${totalAmountPerFinancialEntity(
+                        purchases: lista,
+                        dollarValue: state.currency?.venta ?? 0,
+                      ).toStringAsFixed(2)}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () => _onShareWithResult(
+                    GestureDetector(
+                      onTap: () => _onShareWithResult(
+                        context,
+                        financialEntity.name,
+                        lista,
+                        totalAmountPerFinancialEntity(
+                          purchases: lista,
+                          dollarValue: state.currency?.venta ?? 0,
+                        ),
+                        state.currency?.venta ?? 0,
+                      ),
+                      child: Image.asset(
+                        Assets.icons.whatsapp.path,
+                        width: 25,
+                        height: 25,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            if (featureType == FeatureType.current)
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: GestureDetector(
+                  onTap: () {
+                    context.read<BlocHome>().add(
+                          BlocHomeEventPayMonth(
+                            purchaseList: lista,
+                            idFinancialEntity: financialEntity.id,
+                          ),
+                        );
+                    _onShareWithResult(
                       context,
                       financialEntity.name,
                       lista,
                       totalAmountPerFinancialEntity(
                         purchases: lista,
                         dollarValue: state.currency?.venta ?? 0,
-                      ).toStringAsFixed(2),
+                      ),
                       state.currency?.venta ?? 0,
+                    );
+                  },
+                  child: const Text(
+                    'Pagar este mes',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
                     ),
-                    child: Image.asset(
-                      Assets.icons.whatsapp.path,
-                      width: 25,
-                      height: 25,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: GestureDetector(
-                onTap: () {
-                  context.read<BlocHome>().add(
-                        BlocHomeEventPayMonth(
-                          purchaseList: lista,
-                          idFinancialEntity: financialEntity.id,
-                        ),
-                      );
-                },
-                child: const Text(
-                  'Pagar este mes',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
-            ),
           ],
         );
       },
@@ -233,7 +223,7 @@ class FinancialEntityElement extends StatelessWidget {
     BuildContext context,
     String financialEntityName,
     List<Purchase> purchases,
-    String total,
+    double total,
     int dollarValue,
   ) async {
     final box = context.findRenderObject() as RenderBox?;

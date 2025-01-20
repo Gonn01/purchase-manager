@@ -33,8 +33,8 @@ class BlocPurchaseDetails
           purchase: purchase,
         ),
       );
-    } catch (e) {
-      emit(BlocPurchaseDetailsStateError.from(state));
+    } on Exception catch (e) {
+      emit(BlocPurchaseDetailsStateError.from(state, error: e.toString()));
     }
   }
 }

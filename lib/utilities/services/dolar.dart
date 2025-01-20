@@ -27,7 +27,7 @@ class DolarService {
       } else {
         debugPrint('Request failed with status code: ${response.statusCode}');
       }
-    } catch (e) {
+    } on Exception catch (e) {
       debugPrint('Error occurred: $e');
     }
     return null;

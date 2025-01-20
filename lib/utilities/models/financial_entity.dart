@@ -34,6 +34,9 @@ class FinancialEntity {
   /// Logs of the financial entity
   final List<String> logs;
 
+  /// Copia de la entidad financiera con los nuevos valores
+  ///
+  /// Copy of the financial entity with the new values
   FinancialEntity copyWith({
     String? id,
     String? name,

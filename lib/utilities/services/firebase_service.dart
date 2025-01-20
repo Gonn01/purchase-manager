@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print, lines_longer_than_80_chars
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -21,7 +19,7 @@ class FirebaseService {
   final userId = FirebaseAuth.instance.currentUser!.uid;
 
   /// Actualiza las compras en Firestore.
-  Future<void> asd() async {
+  Future<void> actualizarFechaCreacionComoString() async {
     try {
       // Obtiene todos los usuarios
       final usersSnapshot = _firestore.collection('usuarios').doc(userId);
@@ -29,34 +27,85 @@ class FirebaseService {
       final categorias = await usersSnapshot.collection('categorias').get();
 
       for (final categoriaDoc in categorias.docs) {
-        print('Categoría ID: ${categoriaDoc.id}, Data: ${categoriaDoc.data()}');
+        debugPrint(
+          'Categoría ID: ${categoriaDoc.id}, Data: ${categoriaDoc.data()}',
+        );
 
         // Accede a la colección "compras" de cada categoría
         final comprasSnapshot =
             await categoriaDoc.reference.collection('compras').get();
 
         if (comprasSnapshot.docs.isEmpty) {
-          print(
+          debugPrint(
             'No se encontraron compras para la categoría ${categoriaDoc.id}.',
           );
           continue;
         }
 
         for (final compraDoc in comprasSnapshot.docs) {
-          print('Compra ID: ${compraDoc.id}, Data: ${compraDoc.data()}');
+          debugPrint('Compra ID: ${compraDoc.id}, Data: ${compraDoc.data()}');
+
+          // Revisa si el campo "fechaCreacion" existe y es un Timestamp
+          final data = compraDoc.data();
+          if (data.containsKey('fechaCreacion') &&
+              data['fechaCreacion'] is Timestamp) {
+            final timestamp = data['fechaCreacion'] as Timestamp;
+            final f = timestamp.toDate().formatWithHour;
+            // Actualiza la compra con "fechaCreacion" formateada
+            await compraDoc.reference.update({'fechaCreacion': f});
+            debugPrint(
+              'Actualizado fechaCreacion en compra ${compraDoc.id}: '
+              '${timestamp.toDate().formatWithHour}',
+            );
+          }
+        }
+      }
+
+      debugPrint('Actualización completa.');
+    } on Exception catch (e) {
+      debugPrint('Error al actualizar las compras: $e');
+    }
+  }
+
+  /// Actualiza las compras en Firestore.
+  Future<void> crearValorCuotasPagadas() async {
+    try {
+      // Obtiene todos los usuarios
+      final usersSnapshot = _firestore.collection('usuarios').doc(userId);
+
+      final categorias = await usersSnapshot.collection('categorias').get();
+
+      for (final categoriaDoc in categorias.docs) {
+        debugPrint(
+          'Categoría ID: ${categoriaDoc.id}, Data: ${categoriaDoc.data()}',
+        );
+
+        // Accede a la colección "compras" de cada categoría
+        final comprasSnapshot =
+            await categoriaDoc.reference.collection('compras').get();
+
+        if (comprasSnapshot.docs.isEmpty) {
+          debugPrint(
+            'No se encontraron compras para la categoría ${categoriaDoc.id}.',
+          );
+          continue;
+        }
+
+        for (final compraDoc in comprasSnapshot.docs) {
+          debugPrint('Compra ID: ${compraDoc.id}, Data: ${compraDoc.data()}');
 
           // Revisa si el campo "cuotasPagadas" no existe
           if (!compraDoc.data().containsKey('cuotasPagadas')) {
             // Actualiza la compra con "cuotasPagadas" establecido en 0
             await compraDoc.reference.update({'cuotasPagadas': 0});
-            print('Actualizado cuotasPagadas en compra: ${compraDoc.id}');
+            debugPrint('Actualizado cuotasPagadas en compra: ${compraDoc.id}');
           }
         }
       }
 
-      print('Actualización completa.');
-    } catch (e) {
-      print('Error al actualizar las compras: $e');
+      debugPrint('Actualización completa.');
+    } on Exception catch (e) {
+      debugPrint('Error al actualizar las compras: $e');
     }
   }
 
@@ -96,7 +145,7 @@ class FirebaseService {
           .update({
         'logs': FieldValue.arrayUnion(
           <String>[
-            'Se creó la compra ${newPurchase.nameOfProduct}. ${DateTime.now().formatWithHour}',
+            '''Se creó la compra ${newPurchase.nameOfProduct}.${DateTime.now().formatWithHour}''',
           ],
         ),
       });
@@ -116,6 +165,10 @@ class FirebaseService {
     required Purchase newPurchase,
   }) async {
     try {
+      String? firstQuotaDate;
+      if (newPurchase.quotasPayed == 1) {
+        firstQuotaDate = DateTime.now().formatWithHour;
+      }
       final DocumentReference compraRef = _firestore
           .collection('usuarios')
           .doc(idUser)
@@ -134,10 +187,11 @@ class FirebaseService {
         'logs': newPurchase.logs,
         'cuotasPagadas': newPurchase.quotasPayed,
         'fechaFinalizacion': newPurchase.lastQuotaDate,
+        'fechaPrimeraCuota': firstQuotaDate,
       });
 
       debugPrint('Compra actualizada en Firestore.');
-    } catch (e) {
+    } on Exception catch (e) {
       debugPrint('Error al actualizar la compra: $e');
     }
   }
@@ -167,12 +221,12 @@ class FirebaseService {
           .update({
         'logs': FieldValue.arrayUnion(
           <String>[
-            'Se elimino la compra $idPurchase. ${DateTime.now().formatWithHour}',
+            '''Se elimino la compra $idPurchase. ${DateTime.now().formatWithHour}''',
           ],
         ),
       });
       debugPrint('Compra eliminada de Firestore.');
-    } catch (e) {
+    } on Exception catch (e) {
       debugPrint('Error al eliminar la compra: $e');
     }
   }
@@ -205,7 +259,7 @@ class FirebaseService {
           amountPerQuota: compraData['montoPorCuota'] as double,
           nameOfProduct: compraData['producto'] as String,
           type: PurchaseType.type(compraData['type'] as int),
-          creationDate: (compraData['fechaCreacion'] as Timestamp).toDate(),
+          creationDate: compraData['fechaCreacion'] as String,
           lastQuotaDate: compraData['fechaFinalizacion'] as String?,
           currency: CurrencyType.type(compraData['currency'] as int),
           logs: List<String>.from(compraData['logs'] as List<dynamic>),
@@ -216,7 +270,7 @@ class FirebaseService {
         debugPrint('La compra con ID $purchaseId no existe.');
         return null;
       }
-    } catch (e) {
+    } on Exception catch (e) {
       debugPrint('Error al obtener la compra: $e');
       return null;
     }
@@ -272,15 +326,7 @@ class FirebaseService {
 
           final purchases = purchaseManagersnapshot.docs.map((purchaseDoc) {
             final purchaseData = purchaseDoc.data()! as Map<String, dynamic>;
-            String? lastQuotaDate;
 
-            if (purchaseData['fechaFinalizacion'] != null) {
-              if (purchaseData['fechaFinalizacion'] is Timestamp) {
-                lastQuotaDate = purchaseData['fechaFinalizacion'] as String;
-              } else if (purchaseData['fechaFinalizacion'] is DateTime) {
-                lastQuotaDate = purchaseData['fechaFinalizacion'] as String;
-              }
-            }
             return Purchase(
               currency: CurrencyType.type(purchaseData['currency'] as int),
               id: purchaseDoc.id,
@@ -290,9 +336,8 @@ class FirebaseService {
               amountPerQuota: purchaseData['montoPorCuota'] as double,
               nameOfProduct: purchaseData['producto'] as String,
               type: PurchaseType.type(purchaseData['type'] as int),
-              creationDate:
-                  (purchaseData['fechaCreacion'] as Timestamp).toDate(),
-              lastQuotaDate: lastQuotaDate,
+              creationDate: purchaseData['fechaCreacion'] as String,
+              lastQuotaDate: purchaseData['fechaFinalizacion'] as String?,
               logs: (purchaseData['logs'] as List<dynamic>).cast<String>(),
             );
           }).toList();
@@ -307,7 +352,7 @@ class FirebaseService {
         }).toList(),
       );
       return list;
-    } catch (e) {
+    } on Exception catch (e) {
       debugPrint('Error al leer las categorías: $e');
       return [];
     }
@@ -332,7 +377,7 @@ class FirebaseService {
         'logs': newLogs,
       });
       debugPrint('Categoría actualizada en Firestore.');
-    } catch (e) {
+    } on Exception catch (e) {
       debugPrint('Error al actualizar la categoría: $e');
     }
   }
@@ -351,7 +396,7 @@ class FirebaseService {
           .doc(idFinancialEntity)
           .delete();
       debugPrint('Categoría eliminada de Firestore.');
-    } catch (e) {
+    } on Exception catch (e) {
       debugPrint('Error al eliminar la categoría: $e');
     }
   }

@@ -61,7 +61,7 @@ class Purchase {
   /// Fecha de creacion de la compra
   ///
   /// Creation date of the purchase
-  final DateTime creationDate;
+  final String creationDate;
 
   /// Fecha de pago de la ultima cuota
   ///
@@ -81,6 +81,9 @@ class Purchase {
   /// Logs of the financial entity
   final List<String> logs;
 
+  /// Copia de la compra con los nuevos valores
+  ///
+  /// Copy of the purchase with the new values
   Purchase copyWith({
     String? id,
     int? amountOfQuotas,
@@ -89,7 +92,7 @@ class Purchase {
     double? amountPerQuota,
     String? nameOfProduct,
     PurchaseType? type,
-    DateTime? creationDate,
+    String? creationDate,
     String? lastQuotaDate,
     String? firstQuotaDate,
     CurrencyType? currency,

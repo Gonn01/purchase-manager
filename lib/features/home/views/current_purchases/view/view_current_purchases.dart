@@ -91,27 +91,22 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
                 onRefresh: _refresh,
                 stateStream: _stream,
                 indicatorColor: const Color(0xff02B3A3),
-                children: [
-                  Column(
-                    children: state.listFinancialEntitiesStatusCurrent
-                        .map(
-                          (financialEntity) =>
-                              financialEntity.purchases.isNotEmpty
-                                  ? Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 15,
-                                        vertical: 10,
-                                      ),
-                                      child: FinancialEntityElement(
-                                        financialEntity: financialEntity,
-                                        featureType: FeatureType.current,
-                                      ),
-                                    )
-                                  : Container(),
-                        )
-                        .toList(),
-                  ),
-                ],
+                children: state.listFinancialEntitiesStatusCurrent
+                    .map(
+                      (financialEntity) => financialEntity.purchases.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 15,
+                                vertical: 10,
+                              ),
+                              child: FinancialEntityElement(
+                                financialEntity: financialEntity,
+                                featureType: FeatureType.current,
+                              ),
+                            )
+                          : Container(),
+                    )
+                    .toList(),
               ),
             ),
             const SizedBox(height: 60),

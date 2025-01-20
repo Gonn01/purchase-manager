@@ -317,7 +317,9 @@ class _PMTextFormFieldsState extends State<PMTextFormFields> {
         readOnly: widget.readOnly,
         textAlignVertical: TextAlignVertical.center,
         style: TextStyle(
-          color: widget.readOnly ? Colors.blue.withOpacity(.5) : Colors.black,
+          color: widget.readOnly
+              ? Colors.blue.withValues(alpha: .5)
+              : Colors.black,
           fontSize: 15,
         ),
         inputFormatters: widget.inputFormatters,

@@ -91,21 +91,38 @@ class PurchaseElement extends StatelessWidget {
                           ],
                         ),
                       ),
+                      if (!purchase.type.isCurrent)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Fecha de finalización: '
+                              '${purchase.lastQuotaDate}',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            purchase.type.isCurrent
-                                ? 'Total: ${purchase.totalAmount.formatAmount}'
-                                    '${purchase.currency.name}'
-                                : 'Fecha de finalización: '
-                                    '${purchase.lastQuotaDate}',
+                            'Total: ${purchase.totalAmount.formatAmount}'
+                            '${purchase.currency.name}',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
+                              decoration: !purchase.type.isCurrent
+                                  ? TextDecoration.lineThrough
+                                  : null,
                             ),
                           ),
                         ],
@@ -119,10 +136,13 @@ class PurchaseElement extends StatelessWidget {
                             '${purchase.currency.name}',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
+                              decoration: !purchase.type.isCurrent
+                                  ? TextDecoration.lineThrough
+                                  : null,
                             ),
                           ),
                         ],

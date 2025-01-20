@@ -46,7 +46,8 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
   ) async {
     emit(BlocHomeStateLoading.from(state));
     try {
-      // await _firebaseService.asd();
+      await _firebaseService.crearValorCuotasPagadas();
+      await _firebaseService.actualizarFechaCreacionComoString();
       final listFinancialeEntity = await _firebaseService.readFinancialEntities(
         idUser: auth.currentUser?.uid ?? '',
       );
@@ -60,7 +61,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
           financialEntityList: listFinancialeEntity,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
@@ -113,7 +114,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
           deleteSelectedShipmentId: true,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
@@ -141,7 +142,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
           deleteSelectedShipmentId: true,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
@@ -168,7 +169,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
         );
 
       emit(BlocHomeStateSuccess.from(state, financialEntityList: list));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
@@ -189,7 +190,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
         );
 
       emit(BlocHomeStateSuccess.from(state, financialEntityList: list));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
@@ -200,7 +201,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
   ) async {
     try {
       final nuevaCompra = Purchase(
-        creationDate: DateTime.now(),
+        creationDate: DateTime.now().formatWithHour,
         amountOfQuotas: event.amountQuotas,
         quotasPayed: 0,
         totalAmount: event.totalAmount,
@@ -241,7 +242,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
           financialEntityList: newList,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
@@ -298,7 +299,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
           deleteSelectedShipmentId: true,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
@@ -326,6 +327,9 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
         (financialEntity) => financialEntity.id == event.idFinancialEntity,
       );
 
+      final log = 'Se eliminó la compra ${event.purchase.nameOfProduct}. '
+          '${DateTime.now().formatWithHour}';
+
       final updatedEntity = list[index].copyWith(
         purchases: [
           ...list[index]
@@ -334,14 +338,14 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
         ],
         logs: [
           ...list[index].logs,
-          'Se eliminó la compra ${event.purchase.nameOfProduct}. ${DateTime.now().formatWithHour}',
+          log,
         ],
       );
 
       list[index] = updatedEntity;
 
       emit(BlocHomeStateSuccess.from(state, financialEntityList: list));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
@@ -369,14 +373,12 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
           ),
         );
       }
-      emit(
-        BlocHomeStateSuccessPayingMonth.from(state),
-      );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
 
+  /// Paga una cuota de una compra
   Future<List<FinancialEntity>> payQuota({
     required String idPurchase,
     required PurchaseType purchaseType,

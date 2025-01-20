@@ -57,5 +57,13 @@ class BlocPurchaseDetailsStateSuccess extends BlocPurchaseDetailsState {
 /// {@endtemplate}
 class BlocPurchaseDetailsStateError extends BlocPurchaseDetailsState {
   /// {@macro BlocPurchaseDetailsStateError}
-  BlocPurchaseDetailsStateError.from(super.previusState) : super.from();
+  BlocPurchaseDetailsStateError.from(
+    super.previusState, {
+    required this.error,
+  }) : super.from();
+
+  /// Error
+  ///
+  /// Error
+  final String error;
 }

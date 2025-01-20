@@ -7,9 +7,20 @@ part of 'bloc_drawer.dart';
 /// {@endtemplate}
 class BlocDrawerState {
   /// {@macro BlocDrawerState}
-  const BlocDrawerState({
+  const BlocDrawerState._({
     this.nada = false,
   });
+
+  /// Estado previo.
+  ///
+  /// Previous state.
+
+  BlocDrawerState.from(
+    BlocDrawerState? previousState, {
+    bool? nada,
+  }) : this._(
+          nada: nada ?? previousState?.nada ?? false,
+        );
 
   /// Estado de la página.
   ///
@@ -23,7 +34,7 @@ class BlocDrawerState {
 
 class BlocDrawerStateInitial extends BlocDrawerState {
   /// {@macro BlocDrawerStateInitial}
-  BlocDrawerStateInitial() : super(nada: false);
+  BlocDrawerStateInitial() : super._();
 }
 
 /// {@template BlocDrawerStateLoading}
@@ -31,8 +42,7 @@ class BlocDrawerStateInitial extends BlocDrawerState {
 /// {@endtemplate}
 class BlocDrawerStateLoading extends BlocDrawerState {
   /// {@macro BlocDrawerStateLoading}
-  BlocDrawerStateLoading.from(BlocDrawerState previousState)
-      : super(nada: previousState.nada);
+  BlocDrawerStateLoading.from(super.previusState) : super.from();
 }
 
 /// {@template BlocDrawerStateSuccess}
@@ -40,8 +50,7 @@ class BlocDrawerStateLoading extends BlocDrawerState {
 /// {@endtemplate}
 class BlocDrawerStateSuccess extends BlocDrawerState {
   /// {@macro BlocDrawerStateSuccess}
-  BlocDrawerStateSuccess.from(BlocDrawerState previousState)
-      : super(nada: previousState.nada);
+  BlocDrawerStateSuccess.from(super.previusState) : super.from();
 }
 
 /// {@template BlocDrawerStateError}
@@ -49,6 +58,13 @@ class BlocDrawerStateSuccess extends BlocDrawerState {
 /// {@endtemplate}
 class BlocDrawerStateError extends BlocDrawerState {
   /// {@macro BlocDrawerStateError}
-  BlocDrawerStateError.from(BlocDrawerState previousState)
-      : super(nada: previousState.nada);
+  BlocDrawerStateError.from(
+    super.previusState, {
+    required this.error,
+  }) : super.from();
+
+  /// Error
+  ///
+  /// Error
+  final String error;
 }

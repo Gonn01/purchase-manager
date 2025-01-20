@@ -7,7 +7,7 @@ import 'package:purchase_manager/app/auto_route/router_guards.dart';
 /// {@template AppRouter}
 /// Se encarga de manejar las rutas de la aplicacion
 /// {@endtemplate}
-class AppRouter extends $AppRouter {
+class AppRouter extends RootStackRouter {
   /// Se encarga de proteger las rutas que requieren
   /// que el usuario este deslogueado, en caso de que
   /// el usuario este logueado y quiera dirigirse a este tipo
@@ -33,14 +33,16 @@ class AppRouter extends $AppRouter {
           guards: [authGuard],
           initial: true,
           children: [
-            AutoRoute(
+            CustomRoute<AutoRoute>(
               page: RutaCurrentPurchases.page,
               initial: true,
               path: 'current-purchases',
+              transitionsBuilder: TransitionsBuilders.slideRightWithFade,
             ),
-            AutoRoute(
+            CustomRoute<AutoRoute>(
               page: RutaSettledPurchases.page,
               path: 'settled-purchases',
+              transitionsBuilder: TransitionsBuilders.slideLeftWithFade,
             ),
           ],
         ),

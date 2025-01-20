@@ -125,7 +125,12 @@ class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
                 selectedBorderColor: const Color(0xff02B4A3),
                 selectedColor: const Color(0xff006F66),
-                fillColor: const Color(0xff02B4A3).withOpacity(.3),
+                fillColor: const Color(0xff02B4A3).withValues(
+                  alpha: 0.3,
+                  red: 0x02 / 255,
+                  green: 0xB4 / 255,
+                  blue: 0xA3 / 255,
+                ),
                 color: Colors.grey,
                 constraints: const BoxConstraints(
                   minHeight: 40,
@@ -169,7 +174,12 @@ class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
                       selectedBorderColor: const Color(0xff02B4A3),
                       selectedColor: const Color(0xff006F66),
-                      fillColor: const Color(0xff02B4A3).withOpacity(.3),
+                      fillColor: const Color(0xff02B4A3).withValues(
+                        alpha: 0.3,
+                        red: 0x02 / 255,
+                        green: 0xB4 / 255,
+                        blue: 0xA3 / 255,
+                      ),
                       color: Colors.grey,
                       constraints: const BoxConstraints(
                         minHeight: 40,

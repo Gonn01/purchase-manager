@@ -106,7 +106,7 @@ class PMButtons extends StatelessWidget {
                   ? backgroundColorOutlined
                   : isEnabled
                       ? backgroundColor
-                      : Colors.grey.withOpacity(.5),
+                      : Colors.grey.withValues(alpha: 0.5),
               border: isOutlined ? Border.all(color: Colors.grey) : null,
             ),
             child: Padding(

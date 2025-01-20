@@ -9,7 +9,7 @@ part 'bloc_drawer_state.dart';
 /// {@endtemplate}
 class BlocDrawer extends Bloc<BlocDrawerEvent, BlocDrawerState> {
   /// {@macro BlocInicio}
-  BlocDrawer() : super(const BlocDrawerState()) {
+  BlocDrawer() : super(BlocDrawerStateInitial()) {
     on<BlocDrawerEventSignOut>(_onSignOut);
   }
 
@@ -26,8 +26,8 @@ class BlocDrawer extends Bloc<BlocDrawerEvent, BlocDrawerState> {
     try {
       await auth.signOut();
       emit(BlocDrawerStateSuccess.from(state));
-    } catch (e) {
-      emit(BlocDrawerStateError.from(state));
+    } on Exception catch (e) {
+      emit(BlocDrawerStateError.from(state, error: e.toString()));
     }
   }
 }

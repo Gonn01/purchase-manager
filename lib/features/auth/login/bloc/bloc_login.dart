@@ -28,7 +28,7 @@ class BlocLogin extends Bloc<BlocLoginEvent, BlocLoginState> {
       await auth.signInWithProvider(googleProvider);
 
       emit(BlocLoginStateSuccess.from(state));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         BlocLoginStateError.from(
           state,

@@ -45,7 +45,7 @@ class BlocFinancialEntities
           listFinancialEntity: listFinancialEntitys,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(BlocFinancialEntitiesStateError.from(state, error: e.toString()));
     }
   }
@@ -66,7 +66,7 @@ class BlocFinancialEntities
       add(BlocFinancialEntitiesEventInitialize());
 
       emit(BlocFinancialEntitiesStateSuccess.from(state));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(BlocFinancialEntitiesStateError.from(state, error: e.toString()));
     }
   }
@@ -87,7 +87,7 @@ class BlocFinancialEntities
       add(BlocFinancialEntitiesEventInitialize());
 
       emit(BlocFinancialEntitiesStateSuccess.from(state));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(BlocFinancialEntitiesStateError.from(state, error: e.toString()));
     }
   }

@@ -226,7 +226,7 @@ class PMDialogs extends StatelessWidget {
                   isEnabled: isEnabled,
                   backgroundColor: isEnabled
                       ? backgroundColorConfirmButton
-                      : Colors.grey.withOpacity(0.5),
+                      : Colors.grey.withValues(alpha: 0.5),
                   text: confirmButtonText ?? 'Confirmar',
                 ),
               ),

@@ -205,5 +205,8 @@ class BlocHomeEventPayMonth extends BlocHomeEvento {
   /// ID of the category to which the purchase belongs.
   final List<Purchase> purchaseList;
 
+  /// Lista de compras a pagar.
+  ///
+  /// List of purchases to pay.
   final String idFinancialEntity;
 }
