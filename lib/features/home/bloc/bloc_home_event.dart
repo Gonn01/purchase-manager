@@ -211,6 +211,11 @@ class BlocHomeEventPayMonth extends BlocHomeEvento {
   final String idFinancialEntity;
 }
 
+/// {@template BlocHomeEventAlternateIgnorePurchase}
+/// Ignora una compra.
+///
+/// Ignore a purchase.
+/// {@endtemplate}
 class BlocHomeEventAlternateIgnorePurchase extends BlocHomeEvento {
   ///{@macro BlocHomeEventAlternateIgnorePurchase}
   const BlocHomeEventAlternateIgnorePurchase({
