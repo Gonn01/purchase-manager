@@ -62,13 +62,13 @@ class FirebaseService {
 
   /// Crea una nueva [Purchase] en Firestore.
   /// Creates a new [Purchase] in Firestore.
-  Future<void> createPurchase({
+  Future<String> createPurchase({
     required String idUser,
     required String idFinancialEntity,
     required Purchase newPurchase,
   }) async {
     try {
-      await _firestore
+      final newPurchasee = await _firestore
           .collection('usuarios')
           .doc(idUser)
           .collection('categorias')
@@ -101,9 +101,9 @@ class FirebaseService {
         ),
       });
 
-      debugPrint('Compra registrada en Firestore.');
+      return newPurchasee.id;
     } catch (e) {
-      debugPrint('Error al registrar la compra: $e');
+      throw Exception('Error al registrar la compra: $e');
     }
   }
 

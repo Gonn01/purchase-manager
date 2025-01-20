@@ -7,10 +7,10 @@ import 'package:intl/intl.dart';
 extension FormatearDoubleExtension on double {
   /// Formatea el monto en formato de moneda
   /// Formats the amount in currency format
-  String formatAmount() {
+  String get formatAmount {
     final formattedNumber = NumberFormat.currency(
       symbol: r'$',
-      decimalDigits: 0,
+      decimalDigits: 2,
       locale: 'es_ES',
     ).format(this);
     return formattedNumber;

@@ -197,10 +197,13 @@ class BlocHomeEventPayMonth extends BlocHomeEvento {
   ///{@macro BlocHomeEventoPayMonth}
   const BlocHomeEventPayMonth({
     required this.purchaseList,
+    required this.idFinancialEntity,
   });
 
   /// ID de la categoría a la que pertenece la compra.
   ///
   /// ID of the category to which the purchase belongs.
   final List<Purchase> purchaseList;
+
+  final String idFinancialEntity;
 }

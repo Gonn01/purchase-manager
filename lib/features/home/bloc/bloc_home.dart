@@ -129,55 +129,10 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
       ),
     );
     try {
-      final listFinancialEntity =
-          List<FinancialEntity>.from(state.financialEntityList);
-
-      final financialEntityModified = listFinancialEntity.firstWhere(
-        (financialEntity) => financialEntity.purchases
-            .any((compra) => compra.id == event.idPurchase),
+      final listFinancialEntity = await payQuota(
+        idPurchase: event.idPurchase,
+        purchaseType: event.purchaseType,
       );
-
-      final purchaseToModify = financialEntityModified.purchases.firstWhere(
-        (compra) => compra.id == event.idPurchase,
-      );
-
-      if (purchaseToModify.quotasPayed < purchaseToModify.amountOfQuotas &&
-          (purchaseToModify.amountOfQuotas - 1) !=
-              purchaseToModify.quotasPayed) {
-        purchaseToModify
-          ..quotasPayed += 1
-          ..logs.add(
-            'Se pago una cuota.${DateTime.now().formatWithHour}',
-          );
-        if (purchaseToModify.quotasPayed == 1) {
-          purchaseToModify.firstQuotaDate = DateTime.now().formatWithHour;
-        }
-        await _firebaseService.updatePurchase(
-          idUser: auth.currentUser?.uid ?? '',
-          idFinancialEntity: financialEntityModified.id,
-          newPurchase: purchaseToModify,
-        );
-      } else {
-        purchaseToModify
-          ..type = event.purchaseType == PurchaseType.currentDebtorPurchase
-              ? PurchaseType.settledDebtorPurchase
-              : PurchaseType.settledCreditorPurchase
-          ..quotasPayed += 1
-          ..lastQuotaDate = DateTime.now().formatWithHour
-          ..logs.add(
-            'Se pago la ultima cuota. ${DateTime.now().formatWithHour}',
-          );
-
-        await _firebaseService.updatePurchase(
-          idUser: auth.currentUser?.uid ?? '',
-          idFinancialEntity: financialEntityModified.id,
-          newPurchase: purchaseToModify,
-        );
-      }
-
-      final index = listFinancialEntity.indexOf(financialEntityModified);
-
-      listFinancialEntity[index] = financialEntityModified;
 
       emit(
         BlocHomeStateSuccess.from(
@@ -256,7 +211,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
         logs: ['Se creó la compra. ${DateTime.now().formatWithHour}'],
       );
 
-      await _firebaseService.createPurchase(
+      final newPurchaseId = await _firebaseService.createPurchase(
         idUser: auth.currentUser?.uid ?? '',
         idFinancialEntity: event.financialEntity.id,
         newPurchase: nuevaCompra,
@@ -271,7 +226,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
       final updatedEntity = newList[index].copyWith(
         purchases: [
           ...newList[index].purchases,
-          nuevaCompra,
+          nuevaCompra..id = newPurchaseId,
         ],
         logs: [
           ...newList[index].logs,
@@ -395,64 +350,85 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     BlocHomeEventPayMonth event,
     Emitter<BlocHomeState> emit,
   ) async {
-    emit(BlocHomeStateLoading.from(state));
     try {
-      final list = List<FinancialEntity>.from(state.financialEntityList);
-
-      final financialEntityModified = list.firstWhere(
-        (financialEntity) => financialEntity.purchases.any(
-          (compra) => event.purchaseList.any(
-            (element) => element.id == compra.id,
+      for (final purchase in event.purchaseList) {
+        emit(
+          BlocHomeStateLoadingPurchase.from(
+            state,
+            purchaseLoadingId: purchase.id,
           ),
-        ),
-      );
-
-      final newList = List<FinancialEntity>.from(state.financialEntityList)
-        ..removeWhere(
-          (financialEntity) => financialEntity.id == financialEntityModified.id,
         );
-
-      final newPurchases = financialEntityModified.purchases.map(
-        (purchase) {
-          final p = event.purchaseList.contains(purchase)
-              ? (purchase
-                ..quotasPayed = purchase.quotasPayed + 1
-                ..lastQuotaDate = DateTime.now().formatWithHour
-                ..logs.add(
-                  'Se pago una cuota.${DateTime.now().formatWithHour}',
-                ))
-              : purchase;
-          unawaited(
-            _firebaseService.updatePurchase(
-              idUser: auth.currentUser?.uid ?? '',
-              idFinancialEntity: financialEntityModified.id,
-              newPurchase: p,
-            ),
-          );
-          return p;
-        },
-      ).toList();
-
-      final newFinancialEntity = FinancialEntity(
-        id: financialEntityModified.id,
-        name: financialEntityModified.name,
-        purchases: newPurchases,
-        logs: financialEntityModified.logs
-          ..add(
-            'Se pagaron todas las cuotas. ${DateTime.now().formatWithHour}',
+        await payQuota(
+          idPurchase: purchase.id ?? '',
+          purchaseType: purchase.type,
+        );
+        emit(
+          BlocHomeStateSuccess.from(
+            state,
+            deleteSelectedShipmentId: true,
           ),
-      );
-
-      newList.add(newFinancialEntity);
-
+        );
+      }
       emit(
-        BlocHomeStateSuccess.from(
-          state,
-          financialEntityList: newList,
-        ),
+        BlocHomeStateSuccessPayingMonth.from(state),
       );
     } catch (e) {
       emit(BlocHomeStateError.from(state, error: e.toString()));
     }
+  }
+
+  Future<List<FinancialEntity>> payQuota({
+    required String idPurchase,
+    required PurchaseType purchaseType,
+  }) async {
+    final listFinancialEntity =
+        List<FinancialEntity>.from(state.financialEntityList);
+
+    final financialEntityModified = listFinancialEntity.firstWhere(
+      (financialEntity) =>
+          financialEntity.purchases.any((compra) => compra.id == idPurchase),
+    );
+
+    final purchaseToModify = financialEntityModified.purchases.firstWhere(
+      (compra) => compra.id == idPurchase,
+    );
+
+    if (purchaseToModify.quotasPayed < purchaseToModify.amountOfQuotas &&
+        (purchaseToModify.amountOfQuotas - 1) != purchaseToModify.quotasPayed) {
+      purchaseToModify
+        ..quotasPayed += 1
+        ..logs.add(
+          'Se pago una cuota.${DateTime.now().formatWithHour}',
+        );
+      if (purchaseToModify.quotasPayed == 1) {
+        purchaseToModify.firstQuotaDate = DateTime.now().formatWithHour;
+      }
+      await _firebaseService.updatePurchase(
+        idUser: auth.currentUser?.uid ?? '',
+        idFinancialEntity: financialEntityModified.id,
+        newPurchase: purchaseToModify,
+      );
+    } else {
+      purchaseToModify
+        ..type = purchaseType == PurchaseType.currentDebtorPurchase
+            ? PurchaseType.settledDebtorPurchase
+            : PurchaseType.settledCreditorPurchase
+        ..quotasPayed += 1
+        ..lastQuotaDate = DateTime.now().formatWithHour
+        ..logs.add(
+          'Se pago la ultima cuota. ${DateTime.now().formatWithHour}',
+        );
+
+      await _firebaseService.updatePurchase(
+        idUser: auth.currentUser?.uid ?? '',
+        idFinancialEntity: financialEntityModified.id,
+        newPurchase: purchaseToModify,
+      );
+    }
+
+    final index = listFinancialEntity.indexOf(financialEntityModified);
+
+    listFinancialEntity[index] = financialEntityModified;
+    return listFinancialEntity;
   }
 }

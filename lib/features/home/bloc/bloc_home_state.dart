@@ -147,6 +147,18 @@ class BlocHomeStateSuccess extends BlocHomeState {
   }) : super.from();
 }
 
+/// {@template BlocHomeStateSuccessPayingMonth}
+/// State when the home is loaded successfully.
+/// {@endtemplate}
+class BlocHomeStateSuccessPayingMonth extends BlocHomeState {
+  /// {@macro BlocHomeStateSuccessPayingMonth}
+  BlocHomeStateSuccessPayingMonth.from(
+    super.previusState, {
+    super.financialEntityList,
+    super.deleteSelectedShipmentId,
+  }) : super.from();
+}
+
 /// {@template BlocHomeStateError}
 /// State when the home has an error.
 /// {@endtemplate}

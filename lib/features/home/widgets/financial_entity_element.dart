@@ -105,7 +105,27 @@ class FinancialEntityElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BlocHome, BlocHomeState>(
+    return BlocConsumer<BlocHome, BlocHomeState>(
+      listener: (context, state) {
+        if (state is BlocHomeStateSuccessPayingMonth) {
+          var lista = <Purchase>[];
+          if (featureType == FeatureType.settled) {
+            lista = state.listPurchaseStatusSettled(financialEntity);
+          } else {
+            lista = state.listPurchaseStatusCurrent(financialEntity);
+          }
+          _onShareWithResult(
+            context,
+            financialEntity.name,
+            lista,
+            totalAmountPerFinancialEntity(
+              purchases: lista,
+              dollarValue: state.currency?.venta ?? 0,
+            ).toStringAsFixed(2),
+            state.currency?.venta ?? 0,
+          );
+        }
+      },
       builder: (context, state) {
         var lista = <Purchase>[];
         if (featureType == FeatureType.settled) {
@@ -141,8 +161,6 @@ class FinancialEntityElement extends StatelessWidget {
                       (purchase) => PurchaseElement(
                         purchase: purchase,
                         financialEntity: financialEntity,
-                        isLoading: state.purchaseLoadingId == purchase.id &&
-                            state.purchaseLoadingId != null,
                       ),
                     )
                     .toList(),
@@ -165,18 +183,16 @@ class FinancialEntityElement extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      _onShareWithResult(
-                        context,
-                        financialEntity.name,
-                        lista,
-                        totalAmountPerFinancialEntity(
-                          purchases: lista,
-                          dollarValue: state.currency?.venta ?? 0,
-                        ).toStringAsFixed(2),
-                        state.currency?.venta ?? 0,
-                      );
-                    },
+                    onTap: () => _onShareWithResult(
+                      context,
+                      financialEntity.name,
+                      lista,
+                      totalAmountPerFinancialEntity(
+                        purchases: lista,
+                        dollarValue: state.currency?.venta ?? 0,
+                      ).toStringAsFixed(2),
+                      state.currency?.venta ?? 0,
+                    ),
                     child: Image.asset(
                       Assets.icons.whatsapp.path,
                       width: 25,
@@ -190,12 +206,20 @@ class FinancialEntityElement extends StatelessWidget {
               padding: const EdgeInsets.all(12),
               child: GestureDetector(
                 onTap: () {
-                  context
-                      .read<BlocHome>()
-                      .add(BlocHomeEventPayMonth(purchaseList: lista));
+                  context.read<BlocHome>().add(
+                        BlocHomeEventPayMonth(
+                          purchaseList: lista,
+                          idFinancialEntity: financialEntity.id,
+                        ),
+                      );
                 },
                 child: const Text(
                   'Pagar este mes',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ),

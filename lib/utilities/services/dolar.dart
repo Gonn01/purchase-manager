@@ -18,9 +18,6 @@ class DolarService {
 
       if (response.statusCode == 200) {
         if (response.data != null) {
-          debugPrint('Response data: ${response.data}');
-
-          // Explicitly cast response.data to Map<String, dynamic>
           final responseData = response.data!;
 
           return Currency.fromJson(responseData);
