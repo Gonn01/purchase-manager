@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:purchase_manager/utilities/extensions/date_time.dart';
 import 'package:purchase_manager/utilities/models/currency.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
@@ -17,7 +20,7 @@ part 'bloc_home_state.dart';
 /// {@template BlocInicio}
 /// Bloc que maneja los estados y lógica de la pagina de 'Login'
 /// {@endtemplate}
-class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
+class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
   /// {@macro BlocInicio}
   BlocHome() : super(BlocHomeStateInitial()) {
     on<BlocHomeEventInitialize>(_onInitialize);
@@ -30,6 +33,8 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     on<BlocHomeEventDeletePurchase>(_onDeletePurchase);
     on<BlocHomeEventPayMonth>(_onPayMonth);
     on<BlocHomeEventAlternateIgnorePurchase>(_onAlternateIgnorePurchase);
+    on<BlocHomeEventAddImage>(_onAddImage);
+    on<BlocHomeEventDeleteImageAt>(_onDeleteImageAt);
 
     add(BlocHomeEventInitialize());
   }
@@ -201,6 +206,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     Emitter<BlocHomeState> emit,
   ) async {
     try {
+      final url = await uploadImage(state.images.first);
       final nuevaCompra = Purchase(
         creationDate: DateTime.now().formatWithHour,
         amountOfQuotas: event.amountQuotas,
@@ -210,6 +216,7 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
         type: event.purchaseType,
         currency: event.currency,
         logs: ['Se creó la compra. ${DateTime.now().formatWithHour}'],
+        image: url,
       );
 
       final newPurchaseId = await _firebaseService.createPurchase(
@@ -217,7 +224,6 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
         idFinancialEntity: event.financialEntity.id,
         newPurchase: nuevaCompra,
       );
-
       final newList = List<FinancialEntity>.from(state.financialEntityList);
 
       final index = newList.indexWhere(
@@ -479,5 +485,52 @@ class BlocHome extends Bloc<BlocHomeEvento, BlocHomeState> {
     } on Exception catch (e) {
       emit(BlocHomeStateError.from(state, error: e.toString()));
     }
+  }
+
+  void _onAddImage(
+    BlocHomeEventAddImage event,
+    Emitter<BlocHomeState> emit,
+  ) {
+    final images = List<XFile>.from(state.images)..add(event.image);
+
+    emit(BlocHomeStateSuccess.from(state, images: images));
+  }
+
+  void _onDeleteImageAt(
+    BlocHomeEventDeleteImageAt event,
+    Emitter<BlocHomeState> emit,
+  ) {
+    final images = List<XFile>.from(state.images)..removeAt(event.index);
+
+    emit(BlocHomeStateSuccess.from(state, images: images));
+  }
+}
+
+///
+Future<String> uploadImage(XFile image) async {
+  final url =
+      Uri.parse('https://api.cloudinary.com/v1_1/dkdwnhsxf/image/upload');
+
+  try {
+    // Crea un multipart request
+    final request = http.MultipartRequest('POST', url)
+      ..fields['upload_preset'] =
+          'purchasemanager' // Asegúrate de usar el nombre correcto del preset
+      ..files.add(await http.MultipartFile.fromPath('file', image.path));
+
+    // Envía la solicitud
+    final response = await request.send();
+
+    if (response.statusCode == 200) {
+      final responseData = await response.stream.bytesToString();
+      final responses = jsonDecode(responseData);
+
+      final nombre = responses['url'] as String;
+      return nombre;
+    } else {
+      throw Exception('Error al subir la imagen: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Excepción al subir la imagen: $e');
   }
 }

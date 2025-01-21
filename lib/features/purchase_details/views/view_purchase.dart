@@ -17,6 +17,11 @@ class ViewPurchaseDetails extends StatelessWidget {
       builder: (context, state) {
         return Column(
           children: [
+            Image.network(
+              state.purchase?.image ?? '',
+              height: 200,
+              width: 200,
+            ),
             Text(
               'Nombre: ${state.purchase?.nameOfProduct ?? ''}',
               style: const TextStyle(

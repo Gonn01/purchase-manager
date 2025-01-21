@@ -11,6 +11,7 @@ class BlocHomeState {
     this.financialEntityList = const [],
     this.currency,
     this.purchaseLoadingId,
+    this.images = const [],
   });
 
   /// Estado previo.
@@ -20,6 +21,7 @@ class BlocHomeState {
     Currency? currency,
     String? purchaseLoadingId,
     bool deleteSelectedShipmentId = false,
+    List<XFile>? images,
   }) : this._(
           financialEntityList:
               financialEntityList ?? previousState.financialEntityList,
@@ -27,6 +29,7 @@ class BlocHomeState {
           purchaseLoadingId: deleteSelectedShipmentId
               ? null
               : purchaseLoadingId ?? previousState.purchaseLoadingId,
+          images: images ?? previousState.images,
         );
 
   /// Lista de entidades financieras.
@@ -41,6 +44,9 @@ class BlocHomeState {
 
   /// Id de la compra que se está cargando.
   final String? purchaseLoadingId;
+
+  /// List of images that will be uploaded
+  final List<XFile> images;
 
   /// Lista de [FinancialEntity] que tienen compras de
   /// [PurchaseType.currentDebtorPurchase]
@@ -144,6 +150,7 @@ class BlocHomeStateSuccess extends BlocHomeState {
     super.financialEntityList,
     super.currency,
     super.deleteSelectedShipmentId,
+    super.images,
   }) : super.from();
 }
 

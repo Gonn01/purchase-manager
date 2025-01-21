@@ -22,6 +22,7 @@ class Purchase {
     this.firstQuotaDate,
     this.ignored = false,
     this.quotasPayed = 0,
+    this.image,
   });
 
   /// id de la compra
@@ -87,6 +88,8 @@ class Purchase {
   /// Logs of the financial entity
   final List<String> logs;
 
+  String? image;
+
   /// Copia de la compra con los nuevos valores
   ///
   /// Copy of the purchase with the new values
@@ -104,6 +107,7 @@ class Purchase {
     CurrencyType? currency,
     List<String>? logs,
     bool? ignored,
+    String? image,
   }) {
     return Purchase(
       id: id ?? this.id,
@@ -119,6 +123,7 @@ class Purchase {
       currency: currency ?? this.currency,
       logs: logs ?? this.logs,
       ignored: ignored ?? this.ignored,
+      image: image ?? this.image,
     );
   }
 }

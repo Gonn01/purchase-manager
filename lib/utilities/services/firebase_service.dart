@@ -141,6 +141,7 @@ class FirebaseService {
         'currency': newPurchase.currency.value,
         'logs': <String>['Se creó la compra. ${DateTime.now().formatWithHour}'],
         'ignored': false,
+        'image': newPurchase.image,
       });
 
       await _firestore
@@ -195,6 +196,7 @@ class FirebaseService {
         'fechaFinalizacion': newPurchase.lastQuotaDate,
         'fechaPrimeraCuota': firstQuotaDate,
         'ignored': newPurchase.ignored,
+        'image': newPurchase.image,
       });
 
       debugPrint('Compra actualizada en Firestore.');
@@ -272,6 +274,7 @@ class FirebaseService {
           logs: List<String>.from(compraData['logs'] as List<dynamic>),
           firstQuotaDate: compraData['fechaPrimeraCuota'] as String?,
           ignored: compraData['ignored'] as bool,
+          image: compraData['image'] as String?,
         );
 
         return compra;
@@ -350,6 +353,7 @@ class FirebaseService {
               logs: (purchaseData['logs'] as List<dynamic>).cast<String>(),
               firstQuotaDate: purchaseData['fechaPrimeraCuota'] as String?,
               ignored: purchaseData['ignored'] as bool,
+              image: purchaseData['image'] as String?,
             );
           }).toList();
 
