@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:purchase_manager/utilities/widgets/drawer/pm_drawer.dart';
 import 'package:purchase_manager/utilities/widgets/pm_appbar.dart';
 import 'package:purchase_manager/utilities/widgets/pm_bottom_navigation_bar.dart';
@@ -23,12 +24,14 @@ class PMScaffold extends StatelessWidget {
   final Widget body;
   @override
   Widget build(BuildContext context) {
+    final rutaa = Provider.of<String>(context);
     final ruta = context.router.current.name;
     return Scaffold(
       backgroundColor: const Color(0xfff2f2f2),
       drawer: const PMDrawer(),
       appBar: PMAppbar(
         route: context.router.current,
+        title: rutaa,
       ),
       floatingActionButton:
           ruta == 'RutaHome' ? const PMFloatingActionButton() : null,

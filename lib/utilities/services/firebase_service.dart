@@ -27,10 +27,6 @@ class FirebaseService {
       final categorias = await usersSnapshot.collection('categorias').get();
 
       for (final categoriaDoc in categorias.docs) {
-        debugPrint(
-          'Categoría ID: ${categoriaDoc.id}, Data: ${categoriaDoc.data()}',
-        );
-
         // Accede a la colección "compras" de cada categoría
         final comprasSnapshot =
             await categoriaDoc.reference.collection('compras').get();
@@ -76,10 +72,6 @@ class FirebaseService {
       final categorias = await usersSnapshot.collection('categorias').get();
 
       for (final categoriaDoc in categorias.docs) {
-        debugPrint(
-          'Categoría ID: ${categoriaDoc.id}, Data: ${categoriaDoc.data()}',
-        );
-
         // Accede a la colección "compras" de cada categoría
         final comprasSnapshot =
             await categoriaDoc.reference.collection('compras').get();

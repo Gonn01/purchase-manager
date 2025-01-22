@@ -1,6 +1,35 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/app/auto_route/router_guards.dart';
+
+class MyObserver extends AutoRouterObserver {
+  final _routeStreamController = StreamController<String>.broadcast();
+
+  Stream<String> get routeStream => _routeStreamController.stream;
+
+  @override
+  void didPush(Route route, Route? previousRoute) {
+    _routeStreamController.add(route.settings.name ?? '1');
+    print('object');
+  }
+
+  @override
+  void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
+    _routeStreamController.add(route.name);
+  }
+
+  @override
+  void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
+    _routeStreamController.add(route.name);
+  }
+
+  void dispose() {
+    _routeStreamController.close();
+  }
+}
 
 @AutoRouterConfig(replaceInRouteName: 'Page,Ruta')
 

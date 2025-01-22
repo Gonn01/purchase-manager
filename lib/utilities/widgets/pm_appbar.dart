@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/dialogs/dialog_create_financial_entity.dart';
 
@@ -13,6 +14,7 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
   /// {@macro PMAppbar}
   const PMAppbar({
     required this.route,
+    required this.title,
     super.key,
   });
 
@@ -20,6 +22,7 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
   ///
   /// Current route
   final RouteData route;
+  final String title;
 
   Future<void> _createFinancialEntity(BuildContext context) {
     return showDialog<void>(
@@ -39,7 +42,7 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: const Color(0xff02B3A3),
       title: Text(
-        route.title(context),
+        title,
         style: const TextStyle(
           fontFamily: 'Nunito',
           fontWeight: FontWeight.bold,

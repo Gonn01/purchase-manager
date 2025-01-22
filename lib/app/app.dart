@@ -12,16 +12,23 @@ import 'package:purchase_manager/l10n/l10n.dart';
 /// Main application
 /// {@endtemplate}
 class App extends StatelessWidget {
-  /// {@macro App}
   const App({super.key});
 
   @override
   Widget build(BuildContext context) {
     final appRouter = AppRouter();
 
-    return StreamProvider<List<ConnectivityResult>>.value(
-      initialData: const [],
-      value: Connectivity().onConnectivityChanged,
+    return MultiProvider(
+      providers: [
+        StreamProvider<List<ConnectivityResult>>(
+          create: (_) => Connectivity().onConnectivityChanged,
+          initialData: const [],
+        ),
+        StreamProvider<String>(
+          create: (_) => MyObserver().routeStream,
+          initialData: 'unknown',
+        ),
+      ],
       child: BlocProvider(
         create: (context) => BlocDashboard(),
         child: MaterialApp.router(
@@ -31,7 +38,9 @@ class App extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          routerConfig: appRouter.config(),
+          routerConfig: appRouter.config(
+            navigatorObservers: () => [MyObserver()],
+          ),
         ),
       ),
     );
