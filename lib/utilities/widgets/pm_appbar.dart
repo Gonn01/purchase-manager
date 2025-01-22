@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/dialogs/dialog_create_financial_entity.dart';
 
 /// {@template PMAppbar}
@@ -25,7 +25,7 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
     return showDialog<void>(
       context: context,
       builder: (_) => BlocProvider.value(
-        value: context.read<BlocHome>(),
+        value: context.read<BlocDashboard>(),
         child: const DialogCreateFinancialEntity(),
       ),
     );

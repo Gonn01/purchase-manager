@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
@@ -44,7 +44,7 @@ class _PMFloatingActionButtonState extends State<PMFloatingActionButton> {
           useSafeArea: true,
           builder: (_) {
             return BlocProvider.value(
-              value: context.read<BlocHome>(),
+              value: context.read<BlocDashboard>(),
               child: const CreatePurchaseModal(),
             );
           },
@@ -84,11 +84,11 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
     showDialog<void>(
       context: context,
       builder: (_) => BlocProvider.value(
-        value: context.read<BlocHome>(),
+        value: context.read<BlocDashboard>(),
         child: UploadImageDialog(
           onImageSelected: (value) {
-            context.read<BlocHome>().add(
-                  BlocHomeEventAddImage(image: value),
+            context.read<BlocDashboard>().add(
+                  BlocDashboardEventAddImage(image: value),
                 );
           },
         ),
@@ -97,8 +97,8 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
   }
 
   void _createPurchase({required FinancialEntity financialEntity}) {
-    context.read<BlocHome>().add(
-          BlocHomeEventCreatePurchase(
+    context.read<BlocDashboard>().add(
+          BlocDashboardEventCreatePurchase(
             productName: _controllerProductName.text,
             totalAmount: double.parse(_controllerAmount.text),
             amountQuotas: int.parse(_controllerQuotas.text),
@@ -118,7 +118,7 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
     showDialog<void>(
       context: context,
       builder: (_) => BlocProvider.value(
-        value: context.read<BlocHome>(),
+        value: context.read<BlocDashboard>(),
         child: const DialogDeleteImage(),
       ),
     );
@@ -136,7 +136,7 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BlocHome, BlocHomeState>(
+    return BlocBuilder<BlocDashboard, BlocDashboardState>(
       builder: (context, state) {
         return Container(
           color: Colors.white,
@@ -330,8 +330,8 @@ class DialogDeleteImage extends StatelessWidget {
     return PMDialogs.actionRequest(
       content: const Text('¿Estás seguro que deseas eliminar la imagen?'),
       onTapConfirm: () {
-        context.read<BlocHome>().add(
-              const BlocHomeEventDeleteImageAt(
+        context.read<BlocDashboard>().add(
+              const BlocDashboardEventDeleteImageAt(
                 index: 0,
               ),
             );

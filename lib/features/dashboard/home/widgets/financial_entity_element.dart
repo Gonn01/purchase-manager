@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/purchase_element.dart';
 import 'package:purchase_manager/gen/assets.gen.dart';
 import 'package:purchase_manager/utilities/extensions/double.dart';
@@ -105,7 +105,7 @@ class FinancialEntityElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BlocHome, BlocHomeState>(
+    return BlocBuilder<BlocDashboard, BlocDashboardState>(
       builder: (context, state) {
         var lista = <Purchase>[];
         if (index == 1) {
@@ -190,8 +190,8 @@ class FinancialEntityElement extends StatelessWidget {
                 padding: const EdgeInsets.all(12),
                 child: GestureDetector(
                   onTap: () {
-                    context.read<BlocHome>().add(
-                          BlocHomeEventPayMonth(
+                    context.read<BlocDashboard>().add(
+                          BlocDashboardEventPayMonth(
                             purchaseList: lista,
                             idFinancialEntity: financialEntity.id,
                           ),

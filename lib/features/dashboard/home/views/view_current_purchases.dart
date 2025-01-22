@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/financial_entity_element.dart';
 import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/functions/total_amount.dart';
@@ -35,14 +35,14 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
 
   Future<void> _refresh() async {
     _controller.add(SwipeRefreshState.loading);
-    context.read<BlocHome>().add(BlocHomeEventInitialize());
+    context.read<BlocDashboard>().add(BlocDashboardEventInitialize());
 
     _controller.sink.add(SwipeRefreshState.hidden);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BlocHome, BlocHomeState>(
+    return BlocBuilder<BlocDashboard, BlocDashboardState>(
       builder: (context, state) {
         final totalEsteMes = totalAmountPerMonth(
           state: state,
@@ -55,10 +55,22 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
           dollarValue: state.currency?.venta ?? 0,
         );
 
-        if (state is BlocHomeStateLoading) {
+        if (state is BlocDashboardStateLoading) {
           return const Center(
             child: CircularProgressIndicator(
               color: Color(0xff02B3A3),
+            ),
+          );
+        }
+
+        if (state.listFinancialEntitiesStatusCurrent.isEmpty) {
+          return const Center(
+            child: Text(
+              'No hay compras',
+              style: TextStyle(
+                color: Color(0xff047269),
+                fontSize: 20,
+              ),
             ),
           );
         }

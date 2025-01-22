@@ -22,16 +22,16 @@ double totalAmount({
       final amount = (purchase.amountOfQuotas - purchase.quotasPayed) *
           purchase.amountPerQuota;
       if (purchase.currency == CurrencyType.usDollar) {
-        monto += amount * dollarValue;
+        monto -= amount * dollarValue;
       } else {
-        monto += amount;
+        monto -= amount;
       }
     } else if (purchase.type == PurchaseType.currentCreditorPurchase) {
       final amount = purchase.amountOfQuotas * purchase.amountPerQuota;
       if (purchase.currency == CurrencyType.usDollar) {
-        monto -= amount * dollarValue;
+        monto += amount * dollarValue;
       } else {
-        monto -= amount;
+        monto += amount;
       }
     }
   }

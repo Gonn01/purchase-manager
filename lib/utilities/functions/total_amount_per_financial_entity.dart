@@ -13,21 +13,21 @@ double totalAmountPerFinancialEntity({
   required List<Purchase> purchases,
 }) {
   var monto = 0.0;
- final ps= purchases.where((p) => !p.ignored);
+  final ps = purchases.where((p) => !p.ignored);
   for (final purchase in ps) {
     if (purchase.type == PurchaseType.currentDebtorPurchase) {
-      final amount = purchase.amountPerQuota;
-      if (purchase.currency == CurrencyType.usDollar) {
-        monto += amount * dollarValue;
-      } else {
-        monto += amount;
-      }
-    } else if (purchase.type == PurchaseType.currentCreditorPurchase) {
       final amount = purchase.amountPerQuota;
       if (purchase.currency == CurrencyType.usDollar) {
         monto -= amount * dollarValue;
       } else {
         monto -= amount;
+      }
+    } else if (purchase.type == PurchaseType.currentCreditorPurchase) {
+      final amount = purchase.amountPerQuota;
+      if (purchase.currency == CurrencyType.usDollar) {
+        monto += amount * dollarValue;
+      } else {
+        monto += amount;
       }
     }
   }

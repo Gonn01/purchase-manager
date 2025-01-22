@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
-import 'package:purchase_manager/features/dashboard/financial_entities/bloc/bloc_financial_entities.dart';
+import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/utilities/extensions/string.dart';
 
 /// {@template ViewFinancialEntityDetails}
@@ -18,7 +18,7 @@ class ViewFinancialEntityDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BlocFinancialEntities, BlocFinancialEntitiesState>(
+    return BlocBuilder<BlocDashboard, BlocDashboardState>(
       builder: (context, state) {
         final fe = state.financialEntitySelected;
         final purchases = state.financialEntitySelected?.purchases ?? [];

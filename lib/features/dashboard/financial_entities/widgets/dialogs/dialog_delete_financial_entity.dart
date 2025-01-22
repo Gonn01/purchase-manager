@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/financial_entities/bloc/bloc_financial_entities.dart';
+import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/widgets/pm_dialogs.dart';
 
@@ -23,8 +23,8 @@ class DialogDeleteFinancialEntity extends StatelessWidget {
   Widget build(BuildContext context) {
     return PMDialogs.actionRequest(
       onTapConfirm: () {
-        context.read<BlocFinancialEntities>().add(
-              BlocFinancialEntitiesEventDeleteFinancialEntity(
+        context.read<BlocDashboard>().add(
+              BlocDashboardEventDeleteFinancialEntity(
                 idFinancialEntity: financialEntity.id,
               ),
             );

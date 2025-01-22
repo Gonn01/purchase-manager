@@ -14,30 +14,33 @@ import 'package:purchase_manager/utilities/models/purchase.dart';
 import 'package:purchase_manager/utilities/services/dolar.dart';
 import 'package:purchase_manager/utilities/services/firebase_service.dart';
 
-part 'bloc_home_event.dart';
-part 'bloc_home_state.dart';
+part 'bloc_dashboard_event.dart';
+part 'bloc_dashboard_state.dart';
 
 /// {@template BlocInicio}
 /// Bloc que maneja los estados y lógica de la pagina de 'Login'
 /// {@endtemplate}
-class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
+class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
   /// {@macro BlocInicio}
-  BlocHome() : super(BlocHomeStateInitial()) {
-    on<BlocHomeEventInitialize>(_onInitialize);
-    on<BlocHomeEventIncreaseAmountOfQuotas>(_onIncreaseAmountOfQuotas);
-    on<BlocHomeEventPayQuota>(_onPayQuota);
-    on<BlocHomeEventCreateFinancialEntity>(_onCreateFinancialEntity);
-    on<BlocHomeEventDeleteFinancialEntity>(_onDeleteFinancialEntity);
-    on<BlocHomeEventCreatePurchase>(_onCreatePurchase);
-    on<BlocHomeEventEditPurchase>(_onEditPurchase);
-    on<BlocHomeEventDeletePurchase>(_onDeletePurchase);
-    on<BlocHomeEventPayMonth>(_onPayMonth);
-    on<BlocHomeEventAlternateIgnorePurchase>(_onAlternateIgnorePurchase);
-    on<BlocHomeEventAddImage>(_onAddImage);
-    on<BlocHomeEventDeleteImageAt>(_onDeleteImageAt);
-    on<BlocHomeEventSignOut>(_onSignOut);
+  BlocDashboard() : super(BlocDashboardStateInitial()) {
+    on<BlocDashboardEventInitialize>(_onInitialize);
+    on<BlocDashboardEventIncreaseAmountOfQuotas>(_onIncreaseAmountOfQuotas);
+    on<BlocDashboardEventPayQuota>(_onPayQuota);
+    on<BlocDashboardEventCreateFinancialEntity>(_onCreateFinancialEntity);
+    on<BlocDashboardEventDeleteFinancialEntity>(_onDeleteFinancialEntity);
+    on<BlocDashboardEventCreatePurchase>(_onCreatePurchase);
+    on<BlocDashboardEventEditPurchase>(_onEditPurchase);
+    on<BlocDashboardEventDeletePurchase>(_onDeletePurchase);
+    on<BlocDashboardEventPayMonth>(_onPayMonth);
+    on<BlocDashboardEventAlternateIgnorePurchase>(_onAlternateIgnorePurchase);
+    on<BlocDashboardEventAddImage>(_onAddImage);
+    on<BlocDashboardEventDeleteImageAt>(_onDeleteImageAt);
+    on<BlocDashboardEventSignOut>(_onSignOut);
+    on<BlocDashboardEventSelectFinancialEntity>(
+      _onSelectFinancialEntity,
+    );
 
-    add(BlocHomeEventInitialize());
+    add(BlocDashboardEventInitialize());
   }
 
   /// Instancia de FirebaseAuth
@@ -47,23 +50,23 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
 
   final _firebaseService = FirebaseService();
   Future<void> _onSignOut(
-    BlocHomeEventSignOut event,
-    Emitter<BlocHomeState> emit,
+    BlocDashboardEventSignOut event,
+    Emitter<BlocDashboardState> emit,
   ) async {
-    emit(BlocHomeStateLoading.from(state));
+    emit(BlocDashboardStateLoading.from(state));
     try {
       await auth.signOut();
-      emit(BlocHomeStateSuccessSignOut.from(state));
+      emit(BlocDashboardStateSuccessSignOut.from(state));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocDashboardStateError.from(state, error: e.toString()));
     }
   }
 
   Future<void> _onInitialize(
-    BlocHomeEventInitialize event,
-    Emitter<BlocHomeState> emit,
+    BlocDashboardEventInitialize event,
+    Emitter<BlocDashboardState> emit,
   ) async {
-    emit(BlocHomeStateLoading.from(state));
+    emit(BlocDashboardStateLoading.from(state));
     try {
       await _firebaseService.crearValorCuotasPagadasYIgnored();
       await _firebaseService.actualizarFechaCreacionComoString();
@@ -74,23 +77,23 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       final dolar = await DolarService().getDollarData();
 
       emit(
-        BlocHomeStateSuccess.from(
+        BlocDashboardStateSuccess.from(
           state,
           currency: dolar,
           financialEntityList: listFinancialeEntity,
         ),
       );
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocDashboardStateError.from(state, error: e.toString()));
     }
   }
 
   Future<void> _onIncreaseAmountOfQuotas(
-    BlocHomeEventIncreaseAmountOfQuotas event,
-    Emitter<BlocHomeState> emit,
+    BlocDashboardEventIncreaseAmountOfQuotas event,
+    Emitter<BlocDashboardState> emit,
   ) async {
     emit(
-      BlocHomeStateLoadingPurchase.from(
+      BlocDashboardStateLoadingPurchase.from(
         state,
         purchaseLoadingId: event.idPurchase,
       ),
@@ -127,23 +130,23 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       listFinancialEntity[index] = financialEntityModified;
 
       emit(
-        BlocHomeStateSuccess.from(
+        BlocDashboardStateSuccess.from(
           state,
           financialEntityList: listFinancialEntity,
           deleteSelectedShipmentId: true,
         ),
       );
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocDashboardStateError.from(state, error: e.toString()));
     }
   }
 
   Future<void> _onPayQuota(
-    BlocHomeEventPayQuota event,
-    Emitter<BlocHomeState> emit,
+    BlocDashboardEventPayQuota event,
+    Emitter<BlocDashboardState> emit,
   ) async {
     emit(
-      BlocHomeStateLoadingPurchase.from(
+      BlocDashboardStateLoadingPurchase.from(
         state,
         purchaseLoadingId: event.idPurchase,
       ),
@@ -155,47 +158,42 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       );
 
       emit(
-        BlocHomeStateSuccess.from(
+        BlocDashboardStateSuccess.from(
           state,
           financialEntityList: listFinancialEntity,
           deleteSelectedShipmentId: true,
         ),
       );
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocDashboardStateError.from(state, error: e.toString()));
     }
   }
 
   Future<void> _onCreateFinancialEntity(
-    BlocHomeEventCreateFinancialEntity event,
-    Emitter<BlocHomeState> emit,
+    BlocDashboardEventCreateFinancialEntity event,
+    Emitter<BlocDashboardState> emit,
   ) async {
-    emit(BlocHomeStateLoading.from(state));
+    emit(BlocDashboardStateLoading.from(state));
     try {
-      await _firebaseService.createFinancialEntity(
+      final newFinancialEntity = await _firebaseService.createFinancialEntity(
         financialEntityName: event.financialEntityName,
         idUser: auth.currentUser?.uid ?? '',
       );
 
       final list = List<FinancialEntity>.from(state.financialEntityList)
         ..add(
-          FinancialEntity(
-            id: '',
-            name: event.financialEntityName,
-            purchases: [],
-            logs: ['Se creó la categoría. ${DateTime.now().formatWithHour}'],
-          ),
+          newFinancialEntity,
         );
 
-      emit(BlocHomeStateSuccess.from(state, financialEntityList: list));
+      emit(BlocDashboardStateSuccess.from(state, financialEntityList: list));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocDashboardStateError.from(state, error: e.toString()));
     }
   }
 
   Future<void> _onDeleteFinancialEntity(
-    BlocHomeEventDeleteFinancialEntity event,
-    Emitter<BlocHomeState> emit,
+    BlocDashboardEventDeleteFinancialEntity event,
+    Emitter<BlocDashboardState> emit,
   ) async {
     try {
       await _firebaseService.deleteFinancialEntity(
@@ -208,21 +206,23 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           (financialEntity) => financialEntity.id == event.idFinancialEntity,
         );
 
-      emit(BlocHomeStateSuccess.from(state, financialEntityList: list));
+      emit(BlocDashboardStateSuccess.from(state, financialEntityList: list));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocDashboardStateError.from(state, error: e.toString()));
     }
   }
 
   Future<void> _onCreatePurchase(
-    BlocHomeEventCreatePurchase event,
-    Emitter<BlocHomeState> emit,
+    BlocDashboardEventCreatePurchase event,
+    Emitter<BlocDashboardState> emit,
   ) async {
     try {
       String? url;
+
       if (state.images.isNotEmpty) {
         url = await uploadImage(state.images.first);
       }
+
       final nuevaCompra = Purchase(
         creationDate: DateTime.now().formatWithHour,
         amountOfQuotas: event.amountQuotas,
@@ -240,6 +240,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
         idFinancialEntity: event.financialEntity.id,
         newPurchase: nuevaCompra,
       );
+
       final newList = List<FinancialEntity>.from(state.financialEntityList);
 
       final index = newList.indexWhere(
@@ -260,22 +261,22 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       newList[index] = updatedEntity;
 
       emit(
-        BlocHomeStateSuccess.from(
+        BlocDashboardStateSuccess.from(
           state,
           financialEntityList: newList,
         ),
       );
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocDashboardStateError.from(state, error: e.toString()));
     }
   }
 
   Future<void> _onEditPurchase(
-    BlocHomeEventEditPurchase event,
-    Emitter<BlocHomeState> emit,
+    BlocDashboardEventEditPurchase event,
+    Emitter<BlocDashboardState> emit,
   ) async {
     emit(
-      BlocHomeStateLoadingPurchase.from(
+      BlocDashboardStateLoadingPurchase.from(
         state,
         purchaseLoadingId: event.purchase.id,
       ),
@@ -316,23 +317,23 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
         listFinancialEntity[index] = updatedEntity;
       }
       emit(
-        BlocHomeStateSuccess.from(
+        BlocDashboardStateSuccess.from(
           state,
           financialEntityList: listFinancialEntity,
           deleteSelectedShipmentId: true,
         ),
       );
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocDashboardStateError.from(state, error: e.toString()));
     }
   }
 
   Future<void> _onDeletePurchase(
-    BlocHomeEventDeletePurchase event,
-    Emitter<BlocHomeState> emit,
+    BlocDashboardEventDeletePurchase event,
+    Emitter<BlocDashboardState> emit,
   ) async {
     emit(
-      BlocHomeStateLoadingPurchase.from(
+      BlocDashboardStateLoadingPurchase.from(
         state,
         purchaseLoadingId: event.purchase.id,
       ),
@@ -367,20 +368,20 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
 
       list[index] = updatedEntity;
 
-      emit(BlocHomeStateSuccess.from(state, financialEntityList: list));
+      emit(BlocDashboardStateSuccess.from(state, financialEntityList: list));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocDashboardStateError.from(state, error: e.toString()));
     }
   }
 
   Future<void> _onPayMonth(
-    BlocHomeEventPayMonth event,
-    Emitter<BlocHomeState> emit,
+    BlocDashboardEventPayMonth event,
+    Emitter<BlocDashboardState> emit,
   ) async {
     try {
       for (final purchase in event.purchaseList) {
         emit(
-          BlocHomeStateLoadingPurchase.from(
+          BlocDashboardStateLoadingPurchase.from(
             state,
             purchaseLoadingId: purchase.id,
           ),
@@ -390,14 +391,14 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           purchaseType: purchase.type,
         );
         emit(
-          BlocHomeStateSuccess.from(
+          BlocDashboardStateSuccess.from(
             state,
             deleteSelectedShipmentId: true,
           ),
         );
       }
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocDashboardStateError.from(state, error: e.toString()));
     }
   }
 
@@ -458,11 +459,11 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
   }
 
   Future<void> _onAlternateIgnorePurchase(
-    BlocHomeEventAlternateIgnorePurchase event,
-    Emitter<BlocHomeState> emit,
+    BlocDashboardEventAlternateIgnorePurchase event,
+    Emitter<BlocDashboardState> emit,
   ) async {
     emit(
-      BlocHomeStateLoadingPurchase.from(
+      BlocDashboardStateLoadingPurchase.from(
         state,
         purchaseLoadingId: event.purchaseId,
       ),
@@ -493,33 +494,46 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       listFinancialEntity[index] = financialEntityModified;
 
       emit(
-        BlocHomeStateSuccess.from(
+        BlocDashboardStateSuccess.from(
           state,
           financialEntityList: listFinancialEntity,
           deleteSelectedShipmentId: true,
         ),
       );
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocDashboardStateError.from(state, error: e.toString()));
     }
   }
 
   void _onAddImage(
-    BlocHomeEventAddImage event,
-    Emitter<BlocHomeState> emit,
+    BlocDashboardEventAddImage event,
+    Emitter<BlocDashboardState> emit,
   ) {
     final images = List<XFile>.from(state.images)..add(event.image);
 
-    emit(BlocHomeStateSuccess.from(state, images: images));
+    emit(BlocDashboardStateSuccess.from(state, images: images));
   }
 
   void _onDeleteImageAt(
-    BlocHomeEventDeleteImageAt event,
-    Emitter<BlocHomeState> emit,
+    BlocDashboardEventDeleteImageAt event,
+    Emitter<BlocDashboardState> emit,
   ) {
     final images = List<XFile>.from(state.images)..removeAt(event.index);
 
-    emit(BlocHomeStateSuccess.from(state, images: images));
+    emit(BlocDashboardStateSuccess.from(state, images: images));
+  }
+
+  void _onSelectFinancialEntity(
+    BlocDashboardEventSelectFinancialEntity event,
+    Emitter<BlocDashboardState> emit,
+  ) {
+    add(BlocDashboardEventInitialize());
+    emit(
+      BlocDashboardStateSuccess.from(
+        state,
+        financialEntitySelected: event.financialEntity,
+      ),
+    );
   }
 }
 

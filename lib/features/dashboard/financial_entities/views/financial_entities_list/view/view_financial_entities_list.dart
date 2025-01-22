@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
-import 'package:purchase_manager/features/dashboard/financial_entities/bloc/bloc_financial_entities.dart';
 import 'package:purchase_manager/features/dashboard/financial_entities/widgets/dialogs/dialog_delete_financial_entity.dart';
+import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 
 /// {@template ViewFinancialEntitiesList}
@@ -25,7 +25,7 @@ class ViewFinancialEntitiesList extends StatelessWidget {
     return showDialog(
       context: context,
       builder: (_) => BlocProvider.value(
-        value: context.read<BlocFinancialEntities>(),
+        value: context.read<BlocDashboard>(),
         child: DialogDeleteFinancialEntity(financialEntity: financialEntity),
       ),
     );
@@ -34,17 +34,17 @@ class ViewFinancialEntitiesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: BlocBuilder<BlocFinancialEntities, BlocFinancialEntitiesState>(
+      child: BlocBuilder<BlocDashboard, BlocDashboardState>(
         builder: (context, state) {
           return Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
-              children: state.listFinancialEntity
+              children: state.financialEntityList
                   .map(
                     (financialEntity) => GestureDetector(
                       onTap: () {
-                        context.read<BlocFinancialEntities>().add(
-                              BlocFinancialEntitiesEventSelectFinancialEntity(
+                        context.read<BlocDashboard>().add(
+                              BlocDashboardEventSelectFinancialEntity(
                                 financialEntity: financialEntity,
                               ),
                             );

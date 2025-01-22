@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/dialogs/dialog_delete_purchase.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
@@ -48,8 +48,8 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
   final _controllerAmount = TextEditingController();
 
   void _editPurchase() {
-    context.read<BlocHome>().add(
-          BlocHomeEventEditPurchase(
+    context.read<BlocDashboard>().add(
+          BlocDashboardEventEditPurchase(
             purchase: widget.purchase,
             productName: _controllerProductName.text,
             amount: double.parse(_controllerAmount.text),
@@ -75,7 +75,7 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
     return showDialog(
       context: context,
       builder: (_) => BlocProvider.value(
-        value: context.read<BlocHome>(),
+        value: context.read<BlocDashboard>(),
         child: DialogDeletePurchase(
           purchase: widget.purchase,
           idFinancialEntity: widget.financialEntity.id,
@@ -133,7 +133,7 @@ class _DialogEditPurchaseState extends State<DialogEditPurchase> {
             text: 'Eliminar compra',
             isEnabled: true,
           ),
-          BlocBuilder<BlocHome, BlocHomeState>(
+          BlocBuilder<BlocDashboard, BlocDashboardState>(
             builder: (context, state) {
               return Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),

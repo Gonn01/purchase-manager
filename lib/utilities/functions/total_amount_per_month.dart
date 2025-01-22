@@ -1,4 +1,4 @@
-import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
@@ -12,7 +12,7 @@ import 'package:purchase_manager/utilities/models/purchase.dart';
 double totalAmountPerMonth({
   required List<FinancialEntity> financialEntities,
   required int dollarValue,
-  required BlocHomeState state,
+  required BlocDashboardState state,
 }) {
   var monto = 0.0;
   final purchases = financialEntities.expand((category) => category.purchases);
@@ -22,16 +22,16 @@ double totalAmountPerMonth({
     if (purchase.type == PurchaseType.currentDebtorPurchase) {
       final amount = purchase.amountPerQuota;
       if (purchase.currency == CurrencyType.usDollar) {
-        monto += amount * dollarValue;
+        monto -= amount * dollarValue;
       } else {
-        monto += amount;
+        monto -= amount;
       }
     } else if (purchase.type == PurchaseType.currentCreditorPurchase) {
       final amount = purchase.amountPerQuota;
       if (purchase.currency == CurrencyType.usDollar) {
-        monto -= amount * dollarValue;
+        monto += amount * dollarValue;
       } else {
-        monto -= amount;
+        monto += amount;
       }
     }
   }

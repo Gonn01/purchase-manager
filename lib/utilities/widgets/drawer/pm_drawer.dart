@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
-import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/gen/assets.gen.dart';
 import 'package:purchase_manager/utilities/widgets/pm_buttons.dart';
 
@@ -22,9 +22,9 @@ class PMDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final auth = FirebaseAuth.instance;
 
-    return BlocListener<BlocHome, BlocHomeState>(
+    return BlocListener<BlocDashboard, BlocDashboardState>(
       listener: (context, state) {
-        if (state is BlocHomeStateSuccessSignOut) {
+        if (state is BlocDashboardStateSuccessSignOut) {
           context.router.replace(const RutaLogin());
         }
       },
@@ -62,29 +62,6 @@ class PMDrawer extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _DrawerButtons(
-                      label: 'Home',
-                      onTap: () {
-                        context.router.replace(const RutaHome());
-                        Scaffold.of(context).closeDrawer();
-                      },
-                    ),
-                    _DrawerButtons(
-                      label: 'Entidades financieras',
-                      onTap: () {
-                        context.router.replace(const RutaFinancialEntities());
-                        Scaffold.of(context).closeDrawer();
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Container(),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 30),
@@ -92,8 +69,8 @@ class PMDrawer extends StatelessWidget {
                     text: 'Cerrar sesión',
                     backgroundColor: Colors.redAccent,
                     isEnabled: true,
-                    onTap: () => context.read<BlocHome>().add(
-                          const BlocHomeEventSignOut(),
+                    onTap: () => context.read<BlocDashboard>().add(
+                          const BlocDashboardEventSignOut(),
                         ),
                   ),
                 ),
@@ -106,13 +83,27 @@ class PMDrawer extends StatelessWidget {
   }
 }
 
-class _DrawerButtons extends StatelessWidget {
-  const _DrawerButtons({
+/// {@template DrawerButtons}
+/// Botones del drawer
+///
+/// Drawer buttons
+/// {@endtemplate}
+class DrawerButtons extends StatelessWidget {
+  /// {@macro DrawerButtons}
+  const DrawerButtons({
     required this.label,
     required this.onTap,
+    super.key,
   });
 
+  /// Texto del botón
+  ///
+  /// Button text
   final String label;
+
+  /// Función que se ejecuta al presionar el botón
+  ///
+  /// Function that is executed when the button is pressed
   final VoidCallback onTap;
 
   @override

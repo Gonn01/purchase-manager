@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.dart';
-import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/l10n/l10n.dart';
 
 /// {@template App}
@@ -23,7 +23,7 @@ class App extends StatelessWidget {
       initialData: const [],
       value: Connectivity().onConnectivityChanged,
       child: BlocProvider(
-        create: (context) => BlocHome(),
+        create: (context) => BlocDashboard(),
         child: MaterialApp.router(
           theme: ThemeData(
             useMaterial3: true,

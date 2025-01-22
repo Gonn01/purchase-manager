@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/dialogs/dialog_edit_purchase.dart';
 import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/extensions/string.dart';
@@ -24,7 +24,7 @@ class PurchaseElement extends StatelessWidget {
     return showDialog<void>(
       context: context,
       builder: (_) => BlocProvider.value(
-        value: context.read<BlocHome>(),
+        value: context.read<BlocDashboard>(),
         child: DialogEditPurchase(
           purchase: purchase,
           financialEntity: financialEntity,
@@ -43,9 +43,9 @@ class PurchaseElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BlocHome, BlocHomeState>(
+    return BlocBuilder<BlocDashboard, BlocDashboardState>(
       builder: (context, state) {
-        final isLoading = state is BlocHomeStateLoadingPurchase &&
+        final isLoading = state is BlocDashboardStateLoadingPurchase &&
             state.purchaseLoadingId == purchase.id;
         return Container(
           margin: const EdgeInsets.only(bottom: 10),
@@ -91,9 +91,9 @@ class PurchaseElement extends StatelessWidget {
                                   Checkbox(
                                     value: purchase.ignored,
                                     onChanged: (value) {
-                                      context.read<BlocHome>().add(
+                                      context.read<BlocDashboard>().add(
                                             // ignore: lines_longer_than_80_chars asd
-                                            BlocHomeEventAlternateIgnorePurchase(
+                                            BlocDashboardEventAlternateIgnorePurchase(
                                               purchaseId: purchase.id ?? '',
                                             ),
                                           );
@@ -205,8 +205,8 @@ class PurchaseElement extends StatelessWidget {
                             Row(
                               children: [
                                 // GestureDetector(
-                                //   onTap: () => context.read<BlocHome>().add(
-                                //         BlocHomeEventIncreaseAmountOfQuotas(
+                                //   onTap: () => context.read<BlocDashboard>().add(
+                                //         BlocDashboardEventIncreaseAmountOfQuotas(
                                 //           idPurchase: purchase.id ?? '',
                                 //           purchaseType: purchase.type,
                                 //         ),
@@ -221,8 +221,8 @@ class PurchaseElement extends StatelessWidget {
                                 GestureDetector(
                                   onTap: () {
                                     if (!purchase.ignored) {
-                                      context.read<BlocHome>().add(
-                                            BlocHomeEventPayQuota(
+                                      context.read<BlocDashboard>().add(
+                                            BlocDashboardEventPayQuota(
                                               idPurchase: purchase.id ?? '',
                                               purchaseType: purchase.type,
                                             ),
@@ -245,8 +245,8 @@ class PurchaseElement extends StatelessWidget {
                             )
                           else
                             GestureDetector(
-                              onTap: () => context.read<BlocHome>().add(
-                                    BlocHomeEventIncreaseAmountOfQuotas(
+                              onTap: () => context.read<BlocDashboard>().add(
+                                    BlocDashboardEventIncreaseAmountOfQuotas(
                                       idPurchase: purchase.id ?? '',
                                       purchaseType: purchase.type,
                                     ),

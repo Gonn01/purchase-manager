@@ -1,27 +1,29 @@
-part of 'bloc_home.dart';
+part of 'bloc_dashboard.dart';
 
-/// {@template BlocHomeState}
+/// {@template BlocDashboardState}
 /// Maneja los distintos estados y variables guardadas en los mismos
 ///
 /// Manage the different states and variables saved in them
 /// {@endtemplate}
-class BlocHomeState {
+class BlocDashboardState {
   /// {@macro BlocInicioEstado}
-  const BlocHomeState._({
+  const BlocDashboardState._({
     this.financialEntityList = const [],
     this.currency,
     this.purchaseLoadingId,
     this.images = const [],
+    this.financialEntitySelected,
   });
 
   /// Estado previo.
-  BlocHomeState.from(
-    BlocHomeState previousState, {
+  BlocDashboardState.from(
+    BlocDashboardState previousState, {
     List<FinancialEntity>? financialEntityList,
     Currency? currency,
     String? purchaseLoadingId,
     bool deleteSelectedShipmentId = false,
     List<XFile>? images,
+    FinancialEntity? financialEntitySelected,
   }) : this._(
           financialEntityList:
               financialEntityList ?? previousState.financialEntityList,
@@ -30,6 +32,8 @@ class BlocHomeState {
               ? null
               : purchaseLoadingId ?? previousState.purchaseLoadingId,
           images: images ?? previousState.images,
+          financialEntitySelected:
+              financialEntitySelected ?? previousState.financialEntitySelected,
         );
 
   /// Lista de entidades financieras.
@@ -47,6 +51,11 @@ class BlocHomeState {
 
   /// List of images that will be uploaded
   final List<XFile> images;
+
+  /// Entidad financiera seleccionada.
+  ///
+  /// Selected financial entity.
+  final FinancialEntity? financialEntitySelected;
 
   /// Lista de [FinancialEntity] que tienen compras de
   /// [PurchaseType.currentDebtorPurchase]
@@ -113,73 +122,74 @@ class BlocHomeState {
           .toList();
 }
 
-/// {@template BlocHomeStateInitial}
+/// {@template BlocDashboardStateInitial}
 /// Initial state of the home bloc.
 /// {@endtemplate}
-class BlocHomeStateInitial extends BlocHomeState {
-  /// {@macro BlocHomeStateInitial}
-  BlocHomeStateInitial() : super._();
+class BlocDashboardStateInitial extends BlocDashboardState {
+  /// {@macro BlocDashboardStateInitial}
+  BlocDashboardStateInitial() : super._();
 }
 
-/// {@template BlocHomeStateLoading}
+/// {@template BlocDashboardStateLoading}
 /// State when the home is loading.
 /// {@endtemplate}
-class BlocHomeStateLoading extends BlocHomeState {
-  /// {@macro BlocHomeStateLoading}
-  BlocHomeStateLoading.from(super.previusState) : super.from();
+class BlocDashboardStateLoading extends BlocDashboardState {
+  /// {@macro BlocDashboardStateLoading}
+  BlocDashboardStateLoading.from(super.previusState) : super.from();
 }
 
-/// {@template BlocHomeStateLoading}
+/// {@template BlocDashboardStateLoading}
 /// State when the home is loading.
 /// {@endtemplate}
-class BlocHomeStateLoadingPurchase extends BlocHomeState {
-  /// {@macro BlocHomeStateLoading}
-  BlocHomeStateLoadingPurchase.from(
+class BlocDashboardStateLoadingPurchase extends BlocDashboardState {
+  /// {@macro BlocDashboardStateLoading}
+  BlocDashboardStateLoadingPurchase.from(
     super.previusState, {
     super.purchaseLoadingId,
   }) : super.from();
 }
 
-/// {@template BlocHomeStateSuccess}
+/// {@template BlocDashboardStateSuccess}
 /// State when the home is loaded successfully.
 /// {@endtemplate}
-class BlocHomeStateSuccess extends BlocHomeState {
-  /// {@macro BlocHomeStateSuccess}
-  BlocHomeStateSuccess.from(
+class BlocDashboardStateSuccess extends BlocDashboardState {
+  /// {@macro BlocDashboardStateSuccess}
+  BlocDashboardStateSuccess.from(
     super.previusState, {
     super.financialEntityList,
     super.currency,
     super.deleteSelectedShipmentId,
     super.images,
+    super.financialEntitySelected,
   }) : super.from();
 }
 
-/// {@template BlocHomeStateSuccessSignOut}
+/// {@template BlocDashboardStateSuccessSignOut}
 /// State when the home is loaded successfully.
 /// {@endtemplate}
-class BlocHomeStateSuccessSignOut extends BlocHomeState {
-  /// {@macro BlocHomeStateSuccessSignOut}
-  BlocHomeStateSuccessSignOut.from(super.previusState) : super.from();
+class BlocDashboardStateSuccessSignOut extends BlocDashboardState {
+  /// {@macro BlocDashboardStateSuccessSignOut}
+  BlocDashboardStateSuccessSignOut.from(super.previusState) : super.from();
 }
 
-/// {@template BlocHomeStateSuccessPayingMonth}
+/// {@template BlocDashboardStateSuccessPayingMonth}
 /// State when the home is loaded successfully.
 /// {@endtemplate}
-class BlocHomeStateSuccessPayingMonth extends BlocHomeState {
-  /// {@macro BlocHomeStateSuccessPayingMonth}
-  BlocHomeStateSuccessPayingMonth.from(
+class BlocDashboardStateSuccessPayingMonth extends BlocDashboardState {
+  /// {@macro BlocDashboardStateSuccessPayingMonth}
+  BlocDashboardStateSuccessPayingMonth.from(
     super.previusState, {
     super.financialEntityList,
     super.deleteSelectedShipmentId,
   }) : super.from();
 }
 
-/// {@template BlocHomeStateError}
+/// {@template BlocDashboardStateError}
 /// State when the home has an error.
 /// {@endtemplate}
-class BlocHomeStateError extends BlocHomeState {
-  /// {@macro BlocHomeStateError}
-  BlocHomeStateError.from(
+class BlocDashboardStateError extends BlocDashboardState {
+  /// {@macro BlocDashboardStateError}
+  BlocDashboardStateError.from(
     super.previusState, {
     required this.error,
   }) : super.from();

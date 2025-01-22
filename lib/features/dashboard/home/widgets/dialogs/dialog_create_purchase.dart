@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
@@ -39,8 +39,8 @@ class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
   final _controllerAmount = TextEditingController();
 
   void _createPurchase({required FinancialEntity financialEntity}) {
-    context.read<BlocHome>().add(
-          BlocHomeEventCreatePurchase(
+    context.read<BlocDashboard>().add(
+          BlocDashboardEventCreatePurchase(
             productName: _controllerProductName.text,
             totalAmount: double.parse(_controllerAmount.text),
             amountQuotas: int.parse(_controllerQuotas.text),
@@ -72,7 +72,7 @@ class _DialogCreatePurchaseState extends State<DialogCreatePurchase> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BlocHome, BlocHomeState>(
+    return BlocBuilder<BlocDashboard, BlocDashboardState>(
       builder: (context, state) {
         return PMDialogs.actionRequest(
           isEnabled: _controllerQuotas.text.isNotEmpty &&
