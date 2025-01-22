@@ -49,6 +49,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
   final auth = FirebaseAuth.instance;
 
   final _firebaseService = FirebaseService();
+
   Future<void> _onSignOut(
     BlocDashboardEventSignOut event,
     Emitter<BlocDashboardState> emit,
@@ -195,6 +196,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
     BlocDashboardEventDeleteFinancialEntity event,
     Emitter<BlocDashboardState> emit,
   ) async {
+    emit(BlocDashboardStateLoading.from(state));
     try {
       await _firebaseService.deleteFinancialEntity(
         idFinancialEntity: event.idFinancialEntity,

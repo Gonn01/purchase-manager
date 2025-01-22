@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
-import 'package:purchase_manager/features/dashboard/financial_entities/widgets/dialogs/dialog_delete_financial_entity.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
+import 'package:purchase_manager/features/dashboard/financial_entities/widgets/dialogs/dialog_delete_financial_entity.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 
 /// {@template ViewFinancialEntitiesList}
@@ -33,11 +33,39 @@ class ViewFinancialEntitiesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: BlocBuilder<BlocDashboard, BlocDashboardState>(
-        builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.all(20),
+    return BlocBuilder<BlocDashboard, BlocDashboardState>(
+      builder: (context, state) {
+        if (state.financialEntityList.isEmpty) {
+          return const Column(
+            children: [
+              Expanded(
+                child: Center(
+                  child: Text(
+                    'No hay entidades financieras',
+                    style: TextStyle(
+                      color: Color(0xff047269),
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        }
+        if (state is BlocDashboardStateLoading) {
+          return const Column(
+            children: [
+              Expanded(
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            ],
+          );
+        }
+        return Padding(
+          padding: const EdgeInsets.all(20),
+          child: SingleChildScrollView(
             child: Column(
               children: state.financialEntityList
                   .map(
@@ -82,9 +110,9 @@ class ViewFinancialEntitiesList extends StatelessWidget {
                   )
                   .toList(),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

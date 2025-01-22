@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
-import 'package:purchase_manager/features/dashboard/home/widgets/dialogs/dialog_edit_purchase.dart';
 import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/extensions/string.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
+import 'package:purchase_manager/utilities/widgets/dialogs/edit_purchase_dialog.dart';
 
 /// {@template PurchaseElement}
 /// Elemento que muestra la información de una compra
@@ -20,16 +20,24 @@ class PurchaseElement extends StatelessWidget {
     super.key,
   });
 
-  Future<void> _editPurchase(BuildContext context) {
-    return showDialog<void>(
+  Future<void> _editPurchase(
+    BuildContext context,
+    FinancialEntity financialEntity,
+    Purchase purchase,
+  ) async {
+    await showModalBottomSheet<void>(
       context: context,
-      builder: (_) => BlocProvider.value(
-        value: context.read<BlocDashboard>(),
-        child: DialogEditPurchase(
-          purchase: purchase,
-          financialEntity: financialEntity,
-        ),
-      ),
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (_) {
+        return BlocProvider.value(
+          value: context.read<BlocDashboard>(),
+          child: EditPurchaseModal(
+            financialEntity: financialEntity,
+            purchase: purchase,
+          ),
+        );
+      },
     );
   }
 
@@ -120,7 +128,11 @@ class PurchaseElement extends StatelessWidget {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () => _editPurchase(context),
+                              onTap: () => _editPurchase(
+                                context,
+                                financialEntity,
+                                purchase,
+                              ),
                               child: const Icon(
                                 Icons.settings,
                               ),
@@ -205,8 +217,9 @@ class PurchaseElement extends StatelessWidget {
                             Row(
                               children: [
                                 // GestureDetector(
-                                //   onTap: () => context.read<BlocDashboard>().add(
-                                //         BlocDashboardEventIncreaseAmountOfQuotas(
+                                //onTap: () => context.read<BlocDashboard>().add
+                                //(
+                                //     BlocDashboardEventIncreaseAmountOfQuotas(
                                 //           idPurchase: purchase.id ?? '',
                                 //           purchaseType: purchase.type,
                                 //         ),

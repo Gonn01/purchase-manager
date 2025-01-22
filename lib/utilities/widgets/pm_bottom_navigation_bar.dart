@@ -10,13 +10,16 @@ import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
 class PMBottomNavigationBar extends StatelessWidget {
   /// {@macro PMBottomNavigationBar}
   const PMBottomNavigationBar({
+    required this.route,
     super.key,
   });
 
+  /// Ruta actual
+  ///
+  /// Current route
+  final RouteData route;
   @override
   Widget build(BuildContext context) {
-    final ruta = context.router.current.name;
-
     return BottomAppBar(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -28,7 +31,7 @@ class PMBottomNavigationBar extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    color: ruta == 'RutaDashboard'
+                    color: route.path == 'home'
                         ? const Color(0xff00B3A3)
                         : Colors.transparent,
                   ),
@@ -36,12 +39,11 @@ class PMBottomNavigationBar extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     child: Icon(
                       Icons.home,
-                      color:
-                          ruta == 'RutaDashboard' ? Colors.white : Colors.grey,
+                      color: route.path == 'home' ? Colors.white : Colors.grey,
                     ),
                   ),
                 ),
-                if (ruta == 'RutaDashboard')
+                if (route.path == 'home')
                   Container(
                     margin: const EdgeInsets.only(top: 5),
                     width: 30,
@@ -61,20 +63,19 @@ class PMBottomNavigationBar extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    color: ruta == 'RutaDashboard'
-                        ? const Color(0xff00B3A3)
-                        : Colors.transparent,
+                    color: route.path == 'home'
+                        ? Colors.transparent
+                        : const Color(0xff00B3A3),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8),
                     child: Icon(
                       Icons.groups_2_outlined,
-                      color:
-                          ruta == 'RutaDashboard' ? Colors.grey : Colors.white,
+                      color: route.path == 'home' ? Colors.grey : Colors.white,
                     ),
                   ),
                 ),
-                if (ruta != 'RutaDashboard')
+                if (route.path != 'home')
                   Container(
                     margin: const EdgeInsets.only(top: 5),
                     width: 30,

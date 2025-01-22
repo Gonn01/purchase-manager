@@ -49,14 +49,17 @@ class AppRouter extends RootStackRouter {
                   page: RutaFinancialEntitiesList.page,
                   initial: true,
                   path: 'list',
+                  title: (context, data) => 'Lista de entidades financieras',
                 ),
                 AutoRoute(
                   page: RutaFinancialEntityDetails.page,
                   path: 'details',
+                  title: (context, data) => 'Detalles de la entidad financiera',
                 ),
                 AutoRoute(
                   page: RutaPurchaseDetails.page,
                   path: 'purchase',
+                  title: (context, data) => 'Detalles de la compra',
                 ),
               ],
             ),

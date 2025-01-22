@@ -15,35 +15,47 @@ class ViewPurchaseDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<BlocPurchaseDetails, BlocPurchaseDetailsState>(
       builder: (context, state) {
-        return Column(
-          children: [
-            Image.network(
-              state.purchase?.image ?? '',
-              height: 200,
-              width: 200,
-            ),
-            Text(
-              'Nombre: ${state.purchase?.nameOfProduct ?? ''}',
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              Text(
+                'Nombre de la compra: ${state.purchase?.nameOfProduct ?? ''}',
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            ExpansionTile(
-              title: const Text('Logs'),
-              childrenPadding: const EdgeInsets.symmetric(horizontal: 10),
-              expandedCrossAxisAlignment: CrossAxisAlignment.start,
-              children: state.purchase?.logs
-                      .map(
-                        (e) => Text(
-                          '- $e',
-                          textAlign: TextAlign.start,
-                        ),
-                      )
-                      .toList() ??
-                  [],
-            ),
-          ],
+              if (state.purchase?.image != null)
+                Image.network(
+                  state.purchase?.image ?? '',
+                  height: 200,
+                  width: 200,
+                )
+              else
+                const Center(
+                  child: Icon(
+                    Icons.image_not_supported_outlined,
+                    size: 50,
+                    color: Color(0xff02B4A3),
+                  ),
+                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: state.purchase?.logs
+                        .map(
+                          (e) => Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: Text(
+                              '- $e',
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                        )
+                        .toList() ??
+                    [],
+              ),
+            ],
+          ),
         );
       },
     );

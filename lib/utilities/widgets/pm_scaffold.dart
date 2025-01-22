@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:purchase_manager/utilities/widgets/drawer/pm_drawer.dart';
-import 'package:purchase_manager/utilities/widgets/ld_bottom_navigation_bar/ld_bottom_navigation_bar.dart';
 import 'package:purchase_manager/utilities/widgets/pm_appbar.dart';
+import 'package:purchase_manager/utilities/widgets/pm_bottom_navigation_bar.dart';
 import 'package:purchase_manager/utilities/widgets/pm_floating_action_button.dart';
 
 /// {@template PMScaffold}
@@ -32,7 +32,11 @@ class PMScaffold extends StatelessWidget {
       ),
       floatingActionButton:
           ruta == 'RutaHome' ? const PMFloatingActionButton() : null,
-      bottomNavigationBar: const SafeArea(child: LDBottomNavigationBar()),
+      bottomNavigationBar: SafeArea(
+        child: PMBottomNavigationBar(
+          route: context.router.current,
+        ),
+      ),
       body: body,
     );
   }

@@ -29,11 +29,13 @@ class ViewFinancialEntityDetails extends StatelessWidget {
         return ListView(
           shrinkWrap: true,
           children: [
-            Text(
-              'Nombre: ${fe?.name ?? ''}',
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+            Center(
+              child: Text(
+                'Nombre: ${fe?.name ?? ''}',
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             ExpansionTile(
