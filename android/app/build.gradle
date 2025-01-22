@@ -48,20 +48,22 @@ android {
         applicationId "com.example.purchase_manager"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 31
+        minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
     }
+
     signingConfigs {
         release {
-            storeFile file("C:/purchase-manager-key.jks")
+            storeFile file("C:/Users/Lightdata/purchase-manager-key.jks")
             storePassword 'Vulkan01.'
             keyAlias 'purchase-manager-key'
             keyPassword 'Vulkan01.'
         }
     }
+
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
