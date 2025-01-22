@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
+import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/gen/assets.gen.dart';
-import 'package:purchase_manager/utilities/widgets/drawer/bloc/bloc_drawer.dart';
 import 'package:purchase_manager/utilities/widgets/pm_buttons.dart';
 
 /// {@template PMDrawer}
@@ -22,9 +22,9 @@ class PMDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final auth = FirebaseAuth.instance;
 
-    return BlocListener<BlocDrawer, BlocDrawerState>(
+    return BlocListener<BlocHome, BlocHomeState>(
       listener: (context, state) {
-        if (state is BlocDrawerStateSuccess) {
+        if (state is BlocHomeStateSuccessSignOut) {
           context.router.replace(const RutaLogin());
         }
       },
@@ -70,14 +70,14 @@ class PMDrawer extends StatelessWidget {
                     _DrawerButtons(
                       label: 'Home',
                       onTap: () {
-                        context.router.push(const RutaHome());
+                        context.router.replace(const RutaHome());
                         Scaffold.of(context).closeDrawer();
                       },
                     ),
                     _DrawerButtons(
                       label: 'Entidades financieras',
                       onTap: () {
-                        context.router.push(const RutaFinancialEntities());
+                        context.router.replace(const RutaFinancialEntities());
                         Scaffold.of(context).closeDrawer();
                       },
                     ),
@@ -92,8 +92,8 @@ class PMDrawer extends StatelessWidget {
                     text: 'Cerrar sesión',
                     backgroundColor: Colors.redAccent,
                     isEnabled: true,
-                    onTap: () => context.read<BlocDrawer>().add(
-                          const BlocDrawerEventSignOut(),
+                    onTap: () => context.read<BlocHome>().add(
+                          const BlocHomeEventSignOut(),
                         ),
                   ),
                 ),

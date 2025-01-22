@@ -88,6 +88,9 @@ class Purchase {
   /// Logs of the financial entity
   final List<String> logs;
 
+  /// Imagen de la compra
+  ///
+  /// Image of the purchase
   String? image;
 
   /// Copia de la compra con los nuevos valores

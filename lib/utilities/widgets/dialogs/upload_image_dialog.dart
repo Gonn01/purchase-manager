@@ -1,8 +1,13 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously asd
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+/// {@template UploadImageDialog}
+/// Dialog to select the source of the image
+///
+/// Dialogo para seleccionar la fuente de la imagen
+/// {@endtemplate}
 class UploadImageDialog extends StatefulWidget {
   /// {@macro UploadImageDialog}
   const UploadImageDialog({

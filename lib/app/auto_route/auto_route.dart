@@ -28,44 +28,39 @@ class AppRouter extends RootStackRouter {
           guards: [initialGuard],
         ),
         AutoRoute(
-          page: RutaHome.page,
-          path: '/home',
+          page: RutaDashboard.page,
+          path: '/dashboard',
           guards: [authGuard],
           initial: true,
           children: [
-            CustomRoute<AutoRoute>(
-              page: RutaCurrentPurchases.page,
-              initial: true,
-              path: 'current-purchases',
-              transitionsBuilder: TransitionsBuilders.slideRightWithFade,
-            ),
-            CustomRoute<AutoRoute>(
-              page: RutaSettledPurchases.page,
-              path: 'settled-purchases',
-              transitionsBuilder: TransitionsBuilders.slideLeftWithFade,
-            ),
-          ],
-        ),
-        AutoRoute(
-          page: RutaFinancialEntities.page,
-          path: '/financial-entities',
-          guards: [authGuard],
-          children: [
             AutoRoute(
-              page: RutaFinancialEntitiesList.page,
+              page: RutaHome.page,
               initial: true,
-              path: 'list',
+              path: 'home',
+              title: (context, data) => 'Inicio',
             ),
             AutoRoute(
-              page: RutaFinancialEntityDetails.page,
-              path: 'details',
+              page: RutaFinancialEntities.page,
+              path: 'financial-entities',
+              guards: [authGuard],
+              title: (context, data) => 'Entidades Financieras',
+              children: [
+                AutoRoute(
+                  page: RutaFinancialEntitiesList.page,
+                  initial: true,
+                  path: 'list',
+                ),
+                AutoRoute(
+                  page: RutaFinancialEntityDetails.page,
+                  path: 'details',
+                ),
+                AutoRoute(
+                  page: RutaPurchaseDetails.page,
+                  path: 'purchase',
+                ),
+              ],
             ),
           ],
-        ),
-        AutoRoute(
-          page: RutaPurchaseDetails.page,
-          path: '/purchase-details',
-          guards: [authGuard],
         ),
       ];
 }

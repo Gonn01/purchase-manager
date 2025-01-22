@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
-import 'package:purchase_manager/utilities/models/enums/feature_type.dart';
 
 /// {@template PMBottomNavigationBar}
 /// Barra de navegacion inferior
@@ -11,41 +10,38 @@ import 'package:purchase_manager/utilities/models/enums/feature_type.dart';
 class PMBottomNavigationBar extends StatelessWidget {
   /// {@macro PMBottomNavigationBar}
   const PMBottomNavigationBar({
-    required this.type,
     super.key,
   });
 
-  /// Tipo de feature
-  final FeatureType type;
-
   @override
   Widget build(BuildContext context) {
+    final ruta = context.router.current.name;
+
     return BottomAppBar(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           InkWell(
-            onTap: () => context.router.push(const RutaCurrentPurchases()),
+            onTap: () => context.router.replace(const RutaHome()),
             child: Column(
               children: [
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    color: type == FeatureType.settled
-                        ? Colors.transparent
-                        : const Color(0xff00B3A3),
+                    color: ruta == 'RutaDashboard'
+                        ? const Color(0xff00B3A3)
+                        : Colors.transparent,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8),
                     child: Icon(
-                      Icons.shopping_cart_outlined,
-                      color: type == FeatureType.settled
-                          ? Colors.grey
-                          : Colors.white,
+                      Icons.home,
+                      color:
+                          ruta == 'RutaDashboard' ? Colors.white : Colors.grey,
                     ),
                   ),
                 ),
-                if (type != FeatureType.settled)
+                if (ruta == 'RutaDashboard')
                   Container(
                     margin: const EdgeInsets.only(top: 5),
                     width: 30,
@@ -59,27 +55,26 @@ class PMBottomNavigationBar extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () => context.router.push(const RutaSettledPurchases()),
+            onTap: () => context.router.replace(const RutaFinancialEntities()),
             child: Column(
               children: [
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    color: type == FeatureType.settled
+                    color: ruta == 'RutaDashboard'
                         ? const Color(0xff00B3A3)
                         : Colors.transparent,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8),
                     child: Icon(
-                      Icons.history,
-                      color: type == FeatureType.settled
-                          ? Colors.white
-                          : Colors.grey,
+                      Icons.groups_2_outlined,
+                      color:
+                          ruta == 'RutaDashboard' ? Colors.grey : Colors.white,
                     ),
                   ),
                 ),
-                if (type == FeatureType.settled)
+                if (ruta != 'RutaDashboard')
                   Container(
                     margin: const EdgeInsets.only(top: 5),
                     width: 30,

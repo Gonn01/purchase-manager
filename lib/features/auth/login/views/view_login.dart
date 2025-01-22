@@ -24,7 +24,7 @@ class _ViewLoginState extends State<ViewLogin> {
     return BlocListener<BlocLogin, BlocLoginState>(
       listener: (context, state) {
         if (state is BlocLoginStateSuccess) {
-          context.router.replace(const RutaHome());
+          context.router.replace(const RutaDashboard());
         }
         if (state is BlocLoginStateError) {
           ScaffoldMessenger.of(context).showSnackBar(

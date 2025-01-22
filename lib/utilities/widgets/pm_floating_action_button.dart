@@ -2,9 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
-import 'package:purchase_manager/utilities/models/enums/feature_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/widgets/dialogs/upload_image_dialog.dart';
@@ -21,12 +20,8 @@ import 'package:purchase_manager/utilities/widgets/pm_textfields.dart';
 class PMFloatingActionButton extends StatefulWidget {
   /// {@macro PMFloatingActionButton}
   const PMFloatingActionButton({
-    required this.type,
     super.key,
   });
-
-  /// Tipo de feature
-  final FeatureType type;
 
   @override
   State<PMFloatingActionButton> createState() => _PMFloatingActionButtonState();
@@ -50,9 +45,7 @@ class _PMFloatingActionButtonState extends State<PMFloatingActionButton> {
           builder: (_) {
             return BlocProvider.value(
               value: context.read<BlocHome>(),
-              child: CreatePurchaseModal(
-                current: widget.type != FeatureType.settled,
-              ),
+              child: const CreatePurchaseModal(),
             );
           },
         );
@@ -69,14 +62,9 @@ class _PMFloatingActionButtonState extends State<PMFloatingActionButton> {
 class CreatePurchaseModal extends StatefulWidget {
   /// {@macro CreatePurchaseModal}
   const CreatePurchaseModal({
-    required this.current,
     super.key,
   });
 
-  /// Indica si la compra es actual o liquidada
-  ///
-  /// Indicates if the purchase is current or settled
-  final bool current;
   @override
   State<CreatePurchaseModal> createState() => _CreatePurchaseModalState();
 }
@@ -118,13 +106,9 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
             currency: _currency[0]
                 ? CurrencyType.pesoArgentino
                 : CurrencyType.usDollar,
-            purchaseType: widget.current
-                ? _purchaseType[0]
-                    ? PurchaseType.currentDebtorPurchase
-                    : PurchaseType.currentCreditorPurchase
-                : _purchaseType[0]
-                    ? PurchaseType.settledDebtorPurchase
-                    : PurchaseType.settledCreditorPurchase,
+            purchaseType: _purchaseType[0]
+                ? PurchaseType.currentDebtorPurchase
+                : PurchaseType.currentCreditorPurchase,
           ),
         );
     Navigator.pop(context);
@@ -170,8 +154,9 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
                         ),
                       )
                       .toList(),
-                  onChanged: (value) =>
-                      setState(() => idSelectedFinancialEntity = value?.text),
+                  onChanged: (value) => setState(
+                    () => idSelectedFinancialEntity = value?.value.id,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 ToggleButtons(
