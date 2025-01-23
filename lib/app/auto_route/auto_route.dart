@@ -1,3 +1,5 @@
+// ignore_for_file: strict_raw_type asd
+
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
@@ -5,29 +7,53 @@ import 'package:flutter/material.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/app/auto_route/router_guards.dart';
 
+/// {@template RouteTitleManager}
+/// Clase encargada de manejar los titulos de las rutas
+///
+/// Class in charge of managing the titles of the routes
+/// {@endtemplate}
+class RouteTitleManager {
+  final _controller = StreamController<RouteData?>.broadcast();
+
+  /// Expose the stream to listen to changes
+  Stream<RouteData?> get stream => _controller.stream;
+
+  /// Push a new title to the stream
+  void updateTitle(RouteData? title) {
+    _controller.add(title);
+  }
+
+  /// Close the controller when no longer needed
+  void dispose() {
+    _controller.close();
+  }
+}
+
+/// Singleton instance
+final routeTitleManager = RouteTitleManager();
+
+/// {@template AutoRouterObserver}
+/// Clase encargada de observar los cambios en las rutas
+///
+/// Class in charge of observing changes in routes
+/// {@endtemplate}
 class MyObserver extends AutoRouterObserver {
-  final _routeStreamController = StreamController<String>.broadcast();
-
-  Stream<String> get routeStream => _routeStreamController.stream;
-
   @override
   void didPush(Route route, Route? previousRoute) {
-    _routeStreamController.add(route.settings.name ?? '1');
-    print('object');
+    final title = route.data;
+    routeTitleManager.updateTitle(title);
   }
 
   @override
-  void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
-    _routeStreamController.add(route.name);
+  void didReplace({Route? newRoute, Route? oldRoute}) {
+    final title = newRoute?.data;
+    routeTitleManager.updateTitle(title);
   }
 
   @override
-  void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
-    _routeStreamController.add(route.name);
-  }
-
-  void dispose() {
-    _routeStreamController.close();
+  void didPop(Route route, Route? previousRoute) {
+    final title = route.data;
+    routeTitleManager.updateTitle(title);
   }
 }
 

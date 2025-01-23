@@ -24,14 +24,14 @@ class PMScaffold extends StatelessWidget {
   final Widget body;
   @override
   Widget build(BuildContext context) {
-    final rutaa = Provider.of<String>(context);
+    final rutaa = Provider.of<RouteData?>(context);
     final ruta = context.router.current.name;
     return Scaffold(
       backgroundColor: const Color(0xfff2f2f2),
       drawer: const PMDrawer(),
       appBar: PMAppbar(
         route: context.router.current,
-        title: rutaa,
+        title: rutaa?.title(context) ?? '',
       ),
       floatingActionButton:
           ruta == 'RutaHome' ? const PMFloatingActionButton() : null,
