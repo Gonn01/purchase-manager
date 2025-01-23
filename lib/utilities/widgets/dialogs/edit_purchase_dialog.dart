@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
+import 'package:purchase_manager/features/dashboard/home/widgets/dialogs/dialog_delete_purchase.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
@@ -150,27 +151,48 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
                 //   ),
                 // ),
                 // const SizedBox(height: 10),
-                ToggleButtons(
-                  onPressed: (int index) {
-                    setState(() {
-                      for (var i = 0; i < _debtorOrCreditor.length; i++) {
-                        _debtorOrCreditor[i] = i == index;
-                      }
-                    });
-                  },
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  selectedBorderColor: const Color(0xff02B4A3),
-                  selectedColor: const Color(0xff006F66),
-                  fillColor: const Color(0xff02B4A3).withValues(alpha: 0.3),
-                  color: Colors.grey,
-                  constraints: const BoxConstraints(
-                    minHeight: 40,
-                    minWidth: 130,
-                  ),
-                  isSelected: _debtorOrCreditor,
-                  children: const [
-                    Text('Debo'),
-                    Text('Me deben'),
+                Row(
+                  children: [
+                    ToggleButtons(
+                      onPressed: (int index) {
+                        setState(() {
+                          for (var i = 0; i < _debtorOrCreditor.length; i++) {
+                            _debtorOrCreditor[i] = i == index;
+                          }
+                        });
+                      },
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      selectedBorderColor: const Color(0xff02B4A3),
+                      selectedColor: const Color(0xff006F66),
+                      fillColor: const Color(0xff02B4A3).withValues(alpha: 0.3),
+                      color: Colors.grey,
+                      constraints: const BoxConstraints(
+                        minHeight: 40,
+                        minWidth: 130,
+                      ),
+                      isSelected: _debtorOrCreditor,
+                      children: const [
+                        Text('Debo'),
+                        Text('Me deben'),
+                      ],
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        showDialog<void>(
+                          context: context,
+                          builder: (context) => DialogDeletePurchase(
+                            purchase: widget.purchase,
+                            idFinancialEntity: widget.financialEntity.id,
+                          ),
+                        ).then((value) {
+                          Navigator.pop(context);
+                        });
+                      },
+                      child: const Icon(
+                        Icons.delete_outline,
+                        color: Colors.red,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -227,57 +249,55 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
                   onChanged: (value) => setState(() {}),
                 ),
                 const SizedBox(height: 10),
-                // if (state.images.isEmpty)
-                //   GestureDetector(
-                //     onTap: () => addImageDialog(context),
-                //     child: Container(
-                //       decoration: BoxDecoration(
-                //         border: Border.all(color: const Color(0xff02B4A3)),
-                //         borderRadius:
-                //             const BorderRadius.all(Radius.circular(20)),
-                //       ),
-                //       child: const Center(
-                //         child: Icon(
-                //           Icons.camera_alt_outlined,
-                //           size: 150,
-                //           color: Color(0xff02B4A3),
-                //         ),
-                //       ),
-                //     ),
-                //   )
-                // else
-                //   Image.file(
-                //     File(state.images[0].path),
-                //     height: 150,
-                //   ),
-
-                if (widget.purchase.image != null)
+                if (state.images.isEmpty && widget.purchase.image == null)
+                  GestureDetector(
+                    onTap: () => addImageDialog(context),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: const Color(0xff02B4A3)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20)),
+                      ),
+                      child: const Center(
+                        child: Icon(
+                          Icons.camera_alt_outlined,
+                          size: 150,
+                          color: Color(0xff02B4A3),
+                        ),
+                      ),
+                    ),
+                  )
+                else if (state.images.isNotEmpty)
                   Image.file(
                     File(state.images[0].path),
                     height: 150,
+                  )
+                else
+                  Image.network(
+                    widget.purchase.image!,
+                    height: 150,
                   ),
-                // const SizedBox(height: 10),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     if (state.images.isNotEmpty)
-                //       PMButtons.text(
-                //         isEnabled: state.images.isNotEmpty,
-                //         onTap: () => removeImageDialog(context),
-                //         text: 'Eliminar',
-                //         backgroundColor: Colors.red,
-                //       ),
-                //     if (state.images.isEmpty)
-                //       PMButtons.text(
-                //         backgroundColor: const Color(0xff02B4A3),
-                //         isEnabled: true,
-                //         onTap: () {
-                //           addImageDialog(context);
-                //         },
-                //         text: 'Agregar imagen',
-                //       ),
-                //   ],
-                // ),
+
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    PMButtons.text(
+                      isEnabled: state.images.isNotEmpty,
+                      onTap: () => removeImageDialog(context),
+                      text: 'Eliminar',
+                      backgroundColor: Colors.red,
+                    ),
+                    PMButtons.text(
+                      backgroundColor: const Color(0xff02B4A3),
+                      isEnabled: true,
+                      onTap: () {
+                        addImageDialog(context);
+                      },
+                      text: 'Agregar imagen',
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 10),
                 Row(
                   children: [

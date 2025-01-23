@@ -18,16 +18,16 @@ double totalAmountPerFinancialEntity({
     if (purchase.type == PurchaseType.currentDebtorPurchase) {
       final amount = purchase.amountPerQuota;
       if (purchase.currency == CurrencyType.usDollar) {
-        monto -= amount * dollarValue;
+        monto += amount * dollarValue;
       } else {
-        monto -= amount;
+        monto += amount;
       }
     } else if (purchase.type == PurchaseType.currentCreditorPurchase) {
       final amount = purchase.amountPerQuota;
       if (purchase.currency == CurrencyType.usDollar) {
-        monto += amount * dollarValue;
+        monto -= amount * dollarValue;
       } else {
-        monto += amount;
+        monto -= amount;
       }
     }
   }

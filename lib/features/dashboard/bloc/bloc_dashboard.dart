@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -71,6 +72,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
     try {
       await _firebaseService.crearValorCuotasPagadasYIgnored();
       await _firebaseService.actualizarFechaCreacionComoString();
+
       final listFinancialeEntity = await _firebaseService.readFinancialEntities(
         idUser: auth.currentUser?.uid ?? '',
       );
@@ -222,7 +224,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
       String? url;
 
       if (state.images.isNotEmpty) {
-        url = await uploadImage(state.images.first);
+        url = await uploadImage(state.images.first, event.productName);
       }
 
       final nuevaCompra = Purchase(
@@ -266,6 +268,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
         BlocDashboardStateSuccess.from(
           state,
           financialEntityList: newList,
+          deleteImage: true,
         ),
       );
     } on Exception catch (e) {
@@ -284,6 +287,15 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
       ),
     );
     try {
+      if (state.images.isNotEmpty) {
+        await deleteImage(
+          'public/purchase-manager/${event.purchase.nameOfProduct}',
+        );
+        await uploadImage(
+          state.images.first,
+          event.productName,
+        );
+      }
       final nuevaCompra = event.purchase
         ..amountOfQuotas = event.amountOfQuotas
         ..totalAmount = event.amount
@@ -323,6 +335,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
           state,
           financialEntityList: listFinancialEntity,
           deleteSelectedShipmentId: true,
+          deleteImage: true,
         ),
       );
     } on Exception catch (e) {
@@ -540,15 +553,15 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
 }
 
 ///
-Future<String> uploadImage(XFile image) async {
+Future<String> uploadImage(XFile image, String nombre) async {
   final url =
       Uri.parse('https://api.cloudinary.com/v1_1/dkdwnhsxf/image/upload');
 
   try {
     // Crea un multipart request
     final request = http.MultipartRequest('POST', url)
-      ..fields['upload_preset'] =
-          'purchasemanager' // Asegúrate de usar el nombre correcto del preset
+      ..fields['upload_preset'] = 'purchasemanager'
+      ..fields['public_id'] = nombre
       ..files.add(await http.MultipartFile.fromPath('file', image.path));
 
     // Envía la solicitud
@@ -566,5 +579,51 @@ Future<String> uploadImage(XFile image) async {
     }
   } catch (e) {
     throw Exception('Excepción al subir la imagen: $e');
+  }
+}
+
+Future<String> deleteImage(
+    [String publicId = 'public/purchase-manager/pajrb0zsldfsdkyyok6v']) async {
+  const cloudName = 'dkdwnhsxf'; // Reemplaza con tu nombre de cuenta
+  const apiKey = '957695417391746'; // Reemplaza con tu API Key
+  const apiSecret =
+      'GLj70y-rNOsQO8dpjQESO5L7HJg'; // Reemplaza con tu API Secret
+
+  final timestamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+
+  // Generar string para firmar
+  final stringToSign = 'public_id=$publicId&timestamp=$timestamp';
+
+  // Crear firma usando SHA-1
+  final signature =
+      sha1.convert(utf8.encode('$stringToSign$apiSecret')).toString();
+
+  final url =
+      Uri.parse('https://api.cloudinary.com/v1_1/$cloudName/image/destroy');
+
+  try {
+    final response = await http.post(
+      url,
+      body: {
+        'public_id': publicId,
+        'signature': signature,
+        'api_key': apiKey,
+        'timestamp': timestamp.toString(),
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      if (responseData['result'] == 'ok') {
+        return 'Imagen eliminada exitosamente.';
+      } else {
+        throw Exception('Error en la respuesta: ${responseData['result']}');
+      }
+    } else {
+      throw Exception(
+          'Error en el servidor: Código ${response.statusCode}. Mensaje: ${response.reasonPhrase}');
+    }
+  } catch (e) {
+    throw Exception('Excepción al eliminar la imagen: $e');
   }
 }

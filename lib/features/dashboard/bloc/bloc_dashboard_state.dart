@@ -22,6 +22,7 @@ class BlocDashboardState {
     Currency? currency,
     String? purchaseLoadingId,
     bool deleteSelectedShipmentId = false,
+    bool deleteImage = false,
     List<XFile>? images,
     FinancialEntity? financialEntitySelected,
   }) : this._(
@@ -31,7 +32,7 @@ class BlocDashboardState {
           purchaseLoadingId: deleteSelectedShipmentId
               ? null
               : purchaseLoadingId ?? previousState.purchaseLoadingId,
-          images: images ?? previousState.images,
+          images: deleteImage ? [] : images ?? previousState.images,
           financialEntitySelected:
               financialEntitySelected ?? previousState.financialEntitySelected,
         );
@@ -159,6 +160,7 @@ class BlocDashboardStateSuccess extends BlocDashboardState {
     super.financialEntityList,
     super.currency,
     super.deleteSelectedShipmentId,
+    super.deleteImage,
     super.images,
     super.financialEntitySelected,
   }) : super.from();
