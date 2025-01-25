@@ -101,40 +101,40 @@ class PurchaseElement extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (purchase.image != null)
-                        Column(
-                          children: [
+                      Column(
+                        children: [
+                          if (purchase.image != null)
                             Image.network(
                               purchase.image!,
                               width: 100,
                               height: 100,
                             ),
-                            if (purchase.type.isCurrent)
-                              Row(
-                                children: [
-                                  Checkbox(
-                                    value: purchase.ignored,
-                                    onChanged: (value) {
-                                      context.read<BlocDashboard>().add(
-                                            // ignore: lines_longer_than_80_chars asd
-                                            BlocDashboardEventAlternateIgnorePurchase(
-                                              purchaseId: purchase.id ?? '',
-                                            ),
-                                          );
-                                    },
+                          if (purchase.type.isCurrent)
+                            Row(
+                              children: [
+                                Checkbox(
+                                  value: purchase.ignored,
+                                  onChanged: (value) {
+                                    context.read<BlocDashboard>().add(
+                                          // ignore: lines_longer_than_80_chars asd
+                                          BlocDashboardEventAlternateIgnorePurchase(
+                                            purchaseId: purchase.id ?? '',
+                                          ),
+                                        );
+                                  },
+                                ),
+                                const Text(
+                                  'ignorar',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
                                   ),
-                                  const Text(
-                                    'ignorar',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                          ],
-                        ),
+                                ),
+                              ],
+                            ),
+                        ],
+                      ),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

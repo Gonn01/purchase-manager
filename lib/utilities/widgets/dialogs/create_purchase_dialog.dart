@@ -252,12 +252,21 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
                     const Spacer(),
                     PMButtons.text(
                       isEnabled: true,
-                      onTap: () => _createPurchase(
-                        financialEntity: state.financialEntityList.firstWhere(
-                          (financialEntity) =>
-                              financialEntity.id == idSelectedFinancialEntity,
-                        ),
-                      ),
+                      onTap: () {
+                        if (state.financialEntityList.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('No hay entidades financieras'),
+                            ),
+                          );
+                        }
+                        _createPurchase(
+                          financialEntity: state.financialEntityList.firstWhere(
+                            (financialEntity) =>
+                                financialEntity.id == idSelectedFinancialEntity,
+                          ),
+                        );
+                      },
                       text: 'Agregar compra',
                       backgroundColor: Colors.green,
                     ),

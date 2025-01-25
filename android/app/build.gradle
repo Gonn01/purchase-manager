@@ -57,7 +57,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("C:/Users/Lightdata/purchase-manager-key.jks")
+            storeFile file("D:/proyectos_flutter/purchase-manager-key.jks")
             storePassword 'Vulkan01.'
             keyAlias 'purchase-manager-key'
             keyPassword 'Vulkan01.'
