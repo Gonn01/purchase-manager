@@ -582,8 +582,7 @@ Future<String> uploadImage(XFile image, String nombre) async {
   }
 }
 
-Future<String> deleteImage(
-    [String publicId = 'public/purchase-manager/pajrb0zsldfsdkyyok6v']) async {
+Future<String> deleteImage(String publicId) async {
   const cloudName = 'dkdwnhsxf'; // Reemplaza con tu nombre de cuenta
   const apiKey = '957695417391746'; // Reemplaza con tu API Key
   const apiSecret =
@@ -621,7 +620,8 @@ Future<String> deleteImage(
       }
     } else {
       throw Exception(
-          'Error en el servidor: Código ${response.statusCode}. Mensaje: ${response.reasonPhrase}');
+        'Error en el servidor: Código ${response.statusCode}. Mensaje: ${response.reasonPhrase}',
+      );
     }
   } catch (e) {
     throw Exception('Excepción al eliminar la imagen: $e');

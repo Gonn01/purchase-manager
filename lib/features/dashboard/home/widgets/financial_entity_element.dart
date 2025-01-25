@@ -10,6 +10,7 @@ import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
+import 'package:purchase_manager/utilities/widgets/pm_buttons.dart';
 import 'package:share_plus/share_plus.dart';
 
 /// {@template FinancialEntityElement}
@@ -187,8 +188,10 @@ class FinancialEntityElement extends StatelessWidget {
               ),
             if (index == 0)
               Padding(
-                padding: const EdgeInsets.all(12),
-                child: GestureDetector(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: PMButtons.text(
+                  backgroundColor: const Color(0xff02B3A3),
+                  isEnabled: true,
                   onTap: () {
                     context.read<BlocDashboard>().add(
                           BlocDashboardEventPayMonth(
@@ -204,14 +207,7 @@ class FinancialEntityElement extends StatelessWidget {
                       state.currency?.venta ?? 0,
                     );
                   },
-                  child: const Text(
-                    'Pagar este mes',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
+                  text: 'Pagar este mes',
                 ),
               ),
           ],

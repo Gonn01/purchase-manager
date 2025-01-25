@@ -101,7 +101,7 @@ class PMButtons extends StatelessWidget {
         child: IntrinsicWidth(
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(5),
               color: isOutlined
                   ? backgroundColorOutlined
                   : isEnabled

@@ -185,6 +185,7 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
                             idFinancialEntity: widget.financialEntity.id,
                           ),
                         ).then((value) {
+                          // ignore: use_build_context_synchronously asd
                           Navigator.pop(context);
                         });
                       },
