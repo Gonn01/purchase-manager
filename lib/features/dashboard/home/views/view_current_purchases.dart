@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/financial_entity_element.dart';
-import 'package:purchase_manager/utilities/extensions/double.dart';
-import 'package:purchase_manager/utilities/functions/total_amount.dart';
-import 'package:purchase_manager/utilities/functions/total_amount_per_month.dart';
 import 'package:swipe_refresh/swipe_refresh.dart';
 
 /// {@template ViewDebtorCurrentPurchases}
@@ -44,15 +41,14 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
   Widget build(BuildContext context) {
     return BlocBuilder<BlocDashboard, BlocDashboardState>(
       builder: (context, state) {
-        final totalEsteMes = totalAmountPerMonth(
-          state: state,
+        final totalEsteMes = state.selectedCurrency.totalAmountPerMonth(
           financialEntities: state.listFinancialEntitiesStatusCurrent,
-          dollarValue: state.currency?.venta ?? 0,
+          currency: state.currency,
         );
 
-        final total = totalAmount(
+        final total = state.selectedCurrency.totalAmount(
           financialEntityList: state.listFinancialEntitiesStatusCurrent,
-          dollarValue: state.currency?.venta ?? 0,
+          currency: state.currency,
         );
 
         if (state is BlocDashboardStateLoading) {
@@ -80,7 +76,7 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                '''En total ${total.isNegative ? 'debo' : 'me deben'}: ${(total.isNegative ? total * -1 : total).formatAmount}''',
+                '''En total ${total.isNegative ? 'debo' : 'me deben'}: ${(total.isNegative ? total * -1 : total).toStringAsFixed(2)} ${state.selectedCurrency.abreviation}''',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -96,7 +92,7 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                '''Este mes ${totalEsteMes.isNegative ? 'debo' : 'me deben'}: ${(totalEsteMes.isNegative ? totalEsteMes * -1 : totalEsteMes).formatAmount}''',
+                '''Este mes ${totalEsteMes.isNegative ? 'debo' : 'me deben'}: ${(totalEsteMes.isNegative ? totalEsteMes * -1 : totalEsteMes).toStringAsFixed(2)} ${state.selectedCurrency.abreviation}''',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

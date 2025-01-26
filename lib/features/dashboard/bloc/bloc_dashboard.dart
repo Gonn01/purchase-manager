@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls a
+
 import 'dart:async';
 import 'dart:convert';
 
@@ -12,8 +14,9 @@ import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
-import 'package:purchase_manager/utilities/services/dolar.dart';
+import 'package:purchase_manager/utilities/services/currency_service.dart';
 import 'package:purchase_manager/utilities/services/firebase_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'bloc_dashboard_event.dart';
 part 'bloc_dashboard_state.dart';
@@ -39,6 +42,9 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
     on<BlocDashboardEventSignOut>(_onSignOut);
     on<BlocDashboardEventSelectFinancialEntity>(
       _onSelectFinancialEntity,
+    );
+    on<BlocDashboardEventSelectCurrency>(
+      _onSelectCurrency,
     );
 
     add(BlocDashboardEventInitialize());
@@ -72,6 +78,13 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
     try {
       await _firebaseService.crearValorCuotasPagadasYIgnored();
       await _firebaseService.actualizarFechaCreacionComoString();
+      await _firebaseService.actualizarFechasComoString();
+
+      final preferences = await SharedPreferences.getInstance();
+
+      final currencyTypeValue = preferences.getInt('currency');
+
+      final currencyTypeSelected = CurrencyType.type(currencyTypeValue ?? 0);
 
       final listFinancialeEntity = await _firebaseService.readFinancialEntities(
         idUser: auth.currentUser?.uid ?? '',
@@ -84,6 +97,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
           state,
           currency: dolar,
           financialEntityList: listFinancialeEntity,
+          selectedCurrency: currencyTypeSelected,
         ),
       );
     } on Exception catch (e) {
@@ -234,7 +248,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
         amountPerQuota: event.totalAmount / event.amountQuotas,
         nameOfProduct: event.productName,
         type: event.purchaseType,
-        currency: event.currency,
+        currencyType: event.currency,
         logs: ['Se creó la compra. ${DateTime.now().formatWithHour}'],
         image: url,
       );
@@ -302,7 +316,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
         ..nameOfProduct = event.productName
         ..type = event.purchaseType
         ..amountPerQuota = event.amount / event.amountOfQuotas
-        ..currency = event.currency
+        ..currencyType = event.currency
         ..logs.add('Se editó la compra. ${DateTime.now().formatWithHour}');
 
       await _firebaseService.updatePurchase(
@@ -550,6 +564,22 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
       ),
     );
   }
+
+  Future<void> _onSelectCurrency(
+    BlocDashboardEventSelectCurrency event,
+    Emitter<BlocDashboardState> emit,
+  ) async {
+    final preferences = await SharedPreferences.getInstance();
+
+    await preferences.setInt('currency', event.selectedCurrency.value);
+
+    emit(
+      BlocDashboardStateSuccess.from(
+        state,
+        selectedCurrency: event.selectedCurrency,
+      ),
+    );
+  }
 }
 
 ///
@@ -571,7 +601,6 @@ Future<String> uploadImage(XFile image, String nombre) async {
       final responseData = await response.stream.bytesToString();
       final responses = jsonDecode(responseData);
 
-      // ignore: avoid_dynamic_calls asd
       final nombre = responses['url'] as String;
       return nombre;
     } else {
@@ -582,6 +611,7 @@ Future<String> uploadImage(XFile image, String nombre) async {
   }
 }
 
+/// Elimina una imagen de Cloudinary
 Future<String> deleteImage(String publicId) async {
   const cloudName = 'dkdwnhsxf'; // Reemplaza con tu nombre de cuenta
   const apiKey = '957695417391746'; // Reemplaza con tu API Key
@@ -620,7 +650,8 @@ Future<String> deleteImage(String publicId) async {
       }
     } else {
       throw Exception(
-        'Error en el servidor: Código ${response.statusCode}. Mensaje: ${response.reasonPhrase}',
+        'Error en el servidor: Código ${response.statusCode}. Mensaje: '
+        '${response.reasonPhrase}',
       );
     }
   } catch (e) {

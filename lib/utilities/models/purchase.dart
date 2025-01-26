@@ -15,7 +15,7 @@ class Purchase {
     required this.nameOfProduct,
     required this.type,
     required this.creationDate,
-    required this.currency,
+    required this.currencyType,
     required this.logs,
     this.id,
     this.lastQuotaDate,
@@ -81,7 +81,7 @@ class Purchase {
   String? firstQuotaDate;
 
   /// Tipo de moneda
-  CurrencyType currency;
+  CurrencyType currencyType;
 
   /// Logs de la entidad financiera
   ///
@@ -111,6 +111,7 @@ class Purchase {
     List<String>? logs,
     bool? ignored,
     String? image,
+    CurrencyType? currencyType,
   }) {
     return Purchase(
       id: id ?? this.id,
@@ -123,7 +124,7 @@ class Purchase {
       creationDate: creationDate ?? this.creationDate,
       lastQuotaDate: lastQuotaDate ?? this.lastQuotaDate,
       firstQuotaDate: firstQuotaDate ?? this.firstQuotaDate,
-      currency: currency ?? this.currency,
+      currencyType: currency ?? this.currencyType,
       logs: logs ?? this.logs,
       ignored: ignored ?? this.ignored,
       image: image ?? this.image,

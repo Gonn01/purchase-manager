@@ -9,10 +9,11 @@ class BlocDashboardState {
   /// {@macro BlocInicioEstado}
   const BlocDashboardState._({
     this.financialEntityList = const [],
-    this.currency,
+    this.currency = const Currency.empty(),
     this.purchaseLoadingId,
     this.images = const [],
     this.financialEntitySelected,
+    this.selectedCurrency = CurrencyType.pesoArgentino,
   });
 
   /// Estado previo.
@@ -25,6 +26,7 @@ class BlocDashboardState {
     bool deleteImage = false,
     List<XFile>? images,
     FinancialEntity? financialEntitySelected,
+    CurrencyType? selectedCurrency,
   }) : this._(
           financialEntityList:
               financialEntityList ?? previousState.financialEntityList,
@@ -35,7 +37,11 @@ class BlocDashboardState {
           images: deleteImage ? [] : images ?? previousState.images,
           financialEntitySelected:
               financialEntitySelected ?? previousState.financialEntitySelected,
+          selectedCurrency: selectedCurrency ?? previousState.selectedCurrency,
         );
+
+  ///
+  final CurrencyType selectedCurrency;
 
   /// Lista de entidades financieras.
   ///
@@ -45,7 +51,7 @@ class BlocDashboardState {
   /// Moneda actual.
   ///
   /// Current currency.
-  final Currency? currency;
+  final Currency currency;
 
   /// Id de la compra que se está cargando.
   final String? purchaseLoadingId;
@@ -163,6 +169,7 @@ class BlocDashboardStateSuccess extends BlocDashboardState {
     super.deleteImage,
     super.images,
     super.financialEntitySelected,
+    super.selectedCurrency,
   }) : super.from();
 }
 

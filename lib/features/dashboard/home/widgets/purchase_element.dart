@@ -197,13 +197,27 @@ class PurchaseElement extends StatelessWidget {
   }
 }
 
+/// {@template Campos}
+/// Campos de la compra
+///
+/// Purchase fields
+/// {@endtemplate}
 class Campos extends StatelessWidget {
+  /// {@macro Campos}
   const Campos({
     required this.purchase,
     required this.financialEntity,
     super.key,
   });
+
+  /// Compra a mostrar
+  ///
+  /// Purchase to show
   final Purchase purchase;
+
+  /// Entidad financiera a la que pertenece la compra
+  ///
+  /// Financial entity to which the purchase belongs
   final FinancialEntity financialEntity;
 
   Future<void> _editPurchase(
@@ -334,8 +348,8 @@ class Campos extends StatelessWidget {
                 child: Row(
                   children: [
                     DetailField(
-                      value: '${purchase.totalAmount.formatAmount}'
-                          '${purchase.currency.name}',
+                      value: '${purchase.totalAmount}'
+                          '${purchase.currencyType.abreviation}',
                       hint: 'Total:',
                       isLoading: false,
                     ),
@@ -350,7 +364,7 @@ class Campos extends StatelessWidget {
                     Text(
                       '${purchase.amountOfQuotas} '
                       'cuotas x ${purchase.amountPerQuota.formatAmount}'
-                      '${purchase.currency.name}',
+                      '${purchase.currencyType.abreviation}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -448,6 +462,11 @@ class Campos extends StatelessWidget {
   }
 }
 
+/// {@template DetailField}
+/// Campo de detalle
+///
+/// Detail field
+/// {@endtemplate}
 class DetailField extends StatelessWidget {
   /// {@macro ShipmentDetailsField}
   const DetailField({

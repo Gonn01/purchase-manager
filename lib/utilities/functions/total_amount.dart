@@ -1,3 +1,4 @@
+import 'package:purchase_manager/utilities/models/currency.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
@@ -8,28 +9,126 @@ import 'package:purchase_manager/utilities/models/purchase.dart';
 ///
 /// Calculates the total amount of all the [Purchase] of a list of
 /// [FinancialEntity].
-double totalAmount({
+double totalAmountPesos({
   required List<FinancialEntity> financialEntityList,
-  required int dollarValue,
+  required Currency currency,
 }) {
   var monto = 0.0;
+
   final purchases =
       financialEntityList.expand((category) => category.purchases);
 
   final ps = purchases.where((p) => !p.ignored);
+
+  final dollarValue = currency.dolarBlue.valueSell;
+
+  final euroValue = currency.euroBlue.valueSell;
+
   for (final purchase in ps) {
     if (purchase.type == PurchaseType.currentDebtorPurchase) {
       final amount = (purchase.amountOfQuotas - purchase.quotasPayed) *
           purchase.amountPerQuota;
-      if (purchase.currency == CurrencyType.usDollar) {
+      if (purchase.currencyType == CurrencyType.usDollar) {
         monto -= amount * dollarValue;
+      } else if (purchase.currencyType == CurrencyType.euro) {
+        monto -= amount * euroValue;
       } else {
         monto -= amount;
       }
     } else if (purchase.type == PurchaseType.currentCreditorPurchase) {
       final amount = purchase.amountOfQuotas * purchase.amountPerQuota;
-      if (purchase.currency == CurrencyType.usDollar) {
+      if (purchase.currencyType == CurrencyType.usDollar) {
         monto += amount * dollarValue;
+      } else if (purchase.currencyType == CurrencyType.euro) {
+        monto += amount * euroValue;
+      } else {
+        monto += amount;
+      }
+    }
+  }
+  return monto;
+}
+
+/// Calcula el monto total de todas las [Purchase] de una lista de
+/// [FinancialEntity] en dólares.
+///
+/// Calculates the total amount of all the [Purchase] of a list of
+/// [FinancialEntity] in USD.
+double totalAmountDolar({
+  required List<FinancialEntity> financialEntityList,
+  required Currency currency,
+}) {
+  var monto = 0.0;
+
+  final purchases =
+      financialEntityList.expand((category) => category.purchases);
+
+  final ps = purchases.where((p) => !p.ignored);
+
+  final dollarValue = currency.dolarBlue.valueSell;
+  final euroValue = currency.euroBlue.valueSell;
+
+  for (final purchase in ps) {
+    if (purchase.type == PurchaseType.currentDebtorPurchase) {
+      final amount = (purchase.amountOfQuotas - purchase.quotasPayed) *
+          purchase.amountPerQuota;
+      if (purchase.currencyType == CurrencyType.pesoArgentino) {
+        monto -= amount / dollarValue;
+      } else if (purchase.currencyType == CurrencyType.euro) {
+        monto -= (amount * euroValue) / dollarValue;
+      } else {
+        monto -= amount;
+      }
+    } else if (purchase.type == PurchaseType.currentCreditorPurchase) {
+      final amount = purchase.amountOfQuotas * purchase.amountPerQuota;
+      if (purchase.currencyType == CurrencyType.pesoArgentino) {
+        monto += amount / dollarValue;
+      } else if (purchase.currencyType == CurrencyType.euro) {
+        monto += (amount * euroValue) / dollarValue;
+      } else {
+        monto += amount;
+      }
+    }
+  }
+  return monto;
+}
+
+/// Calcula el monto total de todas las [Purchase] de una lista de
+/// [FinancialEntity] en euros.
+///
+/// Calculates the total amount of all the [Purchase] of a list of
+/// [FinancialEntity] in EUR.
+double totalAmountEuro({
+  required List<FinancialEntity> financialEntityList,
+  required Currency currency,
+}) {
+  var monto = 0.0;
+
+  final purchases =
+      financialEntityList.expand((category) => category.purchases);
+
+  final ps = purchases.where((p) => !p.ignored);
+
+  final dollarValue = currency.dolarBlue.valueSell;
+  final euroValue = currency.euroBlue.valueSell;
+
+  for (final purchase in ps) {
+    if (purchase.type == PurchaseType.currentDebtorPurchase) {
+      final amount = (purchase.amountOfQuotas - purchase.quotasPayed) *
+          purchase.amountPerQuota;
+      if (purchase.currencyType == CurrencyType.pesoArgentino) {
+        monto -= amount / euroValue;
+      } else if (purchase.currencyType == CurrencyType.usDollar) {
+        monto -= (amount * dollarValue) / euroValue;
+      } else {
+        monto -= amount;
+      }
+    } else if (purchase.type == PurchaseType.currentCreditorPurchase) {
+      final amount = purchase.amountOfQuotas * purchase.amountPerQuota;
+      if (purchase.currencyType == CurrencyType.pesoArgentino) {
+        monto += amount / euroValue;
+      } else if (purchase.currencyType == CurrencyType.usDollar) {
+        monto += (amount * dollarValue) / euroValue;
       } else {
         monto += amount;
       }

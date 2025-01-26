@@ -30,7 +30,7 @@ class CreatePurchaseModal extends StatefulWidget {
 class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
   final List<bool> _purchaseType = <bool>[true, false];
 
-  final List<bool> _currency = <bool>[true, false];
+  final List<bool> _currency = <bool>[true, false, false];
 
   final _controllerProductName = TextEditingController();
 
@@ -63,7 +63,9 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
             financialEntity: financialEntity,
             currency: _currency[0]
                 ? CurrencyType.pesoArgentino
-                : CurrencyType.usDollar,
+                : _currency[1]
+                    ? CurrencyType.usDollar
+                    : CurrencyType.euro,
             purchaseType: _purchaseType[0]
                 ? PurchaseType.currentDebtorPurchase
                 : PurchaseType.currentCreditorPurchase,
@@ -183,6 +185,7 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
                         children: const [
                           Text('ARS'),
                           Text('USD'),
+                          Text('EUR'),
                         ],
                       ),
                     ],

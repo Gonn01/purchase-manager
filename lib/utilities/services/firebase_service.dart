@@ -63,6 +63,61 @@ class FirebaseService {
     }
   }
 
+  /// Actualiza las fechas específicas en las compras si son Timestamps,
+  /// formateándolas como String.
+  Future<void> actualizarFechasComoString() async {
+    try {
+      // Obtiene todos los usuarios
+      final usersSnapshot = _firestore.collection('usuarios').doc(userId);
+
+      final categorias = await usersSnapshot.collection('categorias').get();
+
+      for (final categoriaDoc in categorias.docs) {
+        // Accede a la colección "compras" de cada categoría
+        final comprasSnapshot =
+            await categoriaDoc.reference.collection('compras').get();
+
+        if (comprasSnapshot.docs.isEmpty) {
+          debugPrint(
+            'No se encontraron compras para la categoría ${categoriaDoc.id}.',
+          );
+          continue;
+        }
+
+        for (final compraDoc in comprasSnapshot.docs) {
+          debugPrint('Compra ID: ${compraDoc.id}, Data: ${compraDoc.data()}');
+
+          final data = compraDoc.data();
+
+          // Lista de campos de fecha a verificar
+          final camposFecha = [
+            'fechaFinalizacion',
+            'fechaCreacion',
+            'fechaPrimeraCuota',
+          ];
+
+          // Revisa y actualiza cada campo si es un Timestamp
+          for (final campo in camposFecha) {
+            if (data.containsKey(campo) && data[campo] is Timestamp) {
+              final timestamp = data[campo] as Timestamp;
+              final fechaFormateada = timestamp.toDate().formatWithHour;
+
+              await compraDoc.reference.update({campo: fechaFormateada});
+              debugPrint(
+                'Actualizado $campo en compra ${compraDoc.id}: '
+                '$fechaFormateada',
+              );
+            }
+          }
+        }
+      }
+
+      debugPrint('Actualización de fechas completa.');
+    } on Exception catch (e) {
+      debugPrint('Error al actualizar las fechas en las compras: $e');
+    }
+  }
+
   /// Actualiza las compras en Firestore.
   Future<void> crearValorCuotasPagadasYIgnored() async {
     try {
@@ -130,7 +185,7 @@ class FirebaseService {
         'fechaFinalizacion': null,
         'fechaPrimeraCuota': null,
         'cuotasPagadas': 0,
-        'currency': newPurchase.currency.value,
+        'currency': newPurchase.currencyType.value,
         'logs': <String>['Se creó la compra. ${DateTime.now().formatWithHour}'],
         'ignored': false,
         'image': newPurchase.image,
@@ -182,7 +237,7 @@ class FirebaseService {
         'producto': newPurchase.nameOfProduct,
         'montoPorCuota': newPurchase.amountPerQuota,
         'type': newPurchase.type.value,
-        'currency': newPurchase.currency.value,
+        'currency': newPurchase.currencyType.value,
         'logs': newPurchase.logs,
         'cuotasPagadas': newPurchase.quotasPayed,
         'fechaFinalizacion': newPurchase.lastQuotaDate,
@@ -262,7 +317,7 @@ class FirebaseService {
           type: PurchaseType.type(compraData['type'] as int),
           creationDate: compraData['fechaCreacion'] as String,
           lastQuotaDate: compraData['fechaFinalizacion'] as String?,
-          currency: CurrencyType.type(compraData['currency'] as int),
+          currencyType: CurrencyType.type(compraData['currency'] as int),
           logs: List<String>.from(compraData['logs'] as List<dynamic>),
           firstQuotaDate: compraData['fechaPrimeraCuota'] as String?,
           ignored: compraData['ignored'] as bool,
@@ -332,7 +387,7 @@ class FirebaseService {
             final purchaseData = purchaseDoc.data()! as Map<String, dynamic>;
 
             return Purchase(
-              currency: CurrencyType.type(purchaseData['currency'] as int),
+              currencyType: CurrencyType.type(purchaseData['currency'] as int),
               id: purchaseDoc.id,
               amountOfQuotas: purchaseData['cantidadCuotas'] as int,
               quotasPayed: purchaseData['cuotasPagadas'] as int,

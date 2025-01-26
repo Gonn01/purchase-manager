@@ -41,7 +41,7 @@ class EditPurchaseModal extends StatefulWidget {
 
 class _EditPurchaseModalState extends State<EditPurchaseModal> {
   List<bool> _debtorOrCreditor = <bool>[true, false];
-  List<bool> _currency = <bool>[true, false];
+  List<bool> _currency = <bool>[true, false, false];
 
   final _controllerProductName = TextEditingController();
 
@@ -82,7 +82,9 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
                     : PurchaseType.settledCreditorPurchase,
             currency: _currency[0]
                 ? CurrencyType.pesoArgentino
-                : CurrencyType.usDollar,
+                : _currency[1]
+                    ? CurrencyType.usDollar
+                    : CurrencyType.euro,
           ),
         );
     Navigator.pop(context);
@@ -99,8 +101,9 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
       !widget.purchase.type.isDebtor,
     ];
     _currency = [
-      widget.purchase.currency == CurrencyType.pesoArgentino,
-      !(widget.purchase.currency == CurrencyType.pesoArgentino),
+      widget.purchase.currencyType.isPesoArgentino,
+      widget.purchase.currencyType.isDolar,
+      widget.purchase.currencyType.isEuro,
     ];
   }
 
@@ -152,7 +155,12 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
                 // ),
                 // const SizedBox(height: 10),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    const Icon(
+                      Icons.delete_outline,
+                      color: Colors.transparent,
+                    ),
                     ToggleButtons(
                       onPressed: (int index) {
                         setState(() {
@@ -239,6 +247,7 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
                         children: const [
                           Text('ARS'),
                           Text('USD'),
+                          Text('EUR'),
                         ],
                       ),
                     ],
@@ -281,7 +290,7 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
 
                 const SizedBox(height: 10),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     PMButtons.text(
                       isEnabled: state.images.isNotEmpty,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/dialogs/dialog_create_financial_entity.dart';
+import 'package:purchase_manager/features/dashboard/home/widgets/dialogs/dialog_settings.dart';
 
 /// {@template PMAppbar}
 /// Appbar de la aplicacion
@@ -33,6 +34,16 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
       builder: (_) => BlocProvider.value(
         value: context.read<BlocDashboard>(),
         child: const DialogCreateFinancialEntity(),
+      ),
+    );
+  }
+
+  Future<void> _settings(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (_) => BlocProvider.value(
+        value: context.read<BlocDashboard>(),
+        child: const DialogSettings(),
       ),
     );
   }
@@ -68,6 +79,17 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
             onTap: () => _createFinancialEntity(context),
             child: const Icon(
               Icons.add,
+              size: 30,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 20),
+          child: GestureDetector(
+            onTap: () => _settings(context),
+            child: const Icon(
+              Icons.settings_outlined,
               size: 30,
               color: Colors.white,
             ),

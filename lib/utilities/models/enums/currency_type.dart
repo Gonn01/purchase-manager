@@ -1,3 +1,11 @@
+import 'package:purchase_manager/utilities/functions/generate_text.dart';
+import 'package:purchase_manager/utilities/functions/total_amount.dart';
+import 'package:purchase_manager/utilities/functions/total_amount_per_financial_entity.dart';
+import 'package:purchase_manager/utilities/functions/total_amount_per_month.dart';
+import 'package:purchase_manager/utilities/models/currency.dart';
+import 'package:purchase_manager/utilities/models/financial_entity.dart';
+import 'package:purchase_manager/utilities/models/purchase.dart';
+
 /// {@template CurrencyType}
 /// Tipo de moneda.
 ///
@@ -12,7 +20,10 @@ enum CurrencyType {
   /// Dólar estadounidense.
   ///
   /// US dollar.
-  usDollar;
+  usDollar,
+
+  /// Euro.
+  euro;
 
   /// Crea una instancia de [CurrencyType] a partir de un valor entero.
   ///
@@ -21,6 +32,7 @@ enum CurrencyType {
     return switch (value) {
       0 => CurrencyType.pesoArgentino,
       1 => CurrencyType.usDollar,
+      2 => CurrencyType.euro,
       _ => throw Exception('Invalid purchase type'),
     };
   }
@@ -31,13 +43,137 @@ enum CurrencyType {
   int get value => switch (this) {
         CurrencyType.pesoArgentino => 0,
         CurrencyType.usDollar => 1,
+        CurrencyType.euro => 2,
       };
 
   /// Devuelve el nombre del tipo de moneda.
   ///
   /// Returns the name of the currency type.
-  String get name => switch (this) {
+  String get abreviation => switch (this) {
         CurrencyType.pesoArgentino => 'ARS',
         CurrencyType.usDollar => 'USD',
+        CurrencyType.euro => 'EUR',
       };
+
+  /// Devuelve la cantidad total de una lista de [Purchase] de una entidad
+  /// financiera.
+  ///
+  /// Returns the total amount of a list of [Purchase] of a financial entity.
+  double totalAmountPerFinancialEntity({
+    required List<Purchase> purchases,
+    required Currency currency,
+  }) {
+    switch (this) {
+      case CurrencyType.pesoArgentino:
+        return totalAmountPerFinancialEntityPesos(
+          currency: currency,
+          purchases: purchases,
+        );
+      case CurrencyType.usDollar:
+        return totalAmountPerFinancialEntityDolar(
+          currency: currency,
+          purchases: purchases,
+        );
+      case CurrencyType.euro:
+        return totalAmountPerFinancialEntityEuro(
+          currency: currency,
+          purchases: purchases,
+        );
+    }
+  }
+
+  /// Devuelve la cantidad total de una lista de [FinancialEntity] en un mes.
+  ///
+  /// Returns the total amount of a list of [FinancialEntity] in a month.
+  double totalAmountPerMonth({
+    required List<FinancialEntity> financialEntities,
+    required Currency currency,
+  }) {
+    switch (this) {
+      case CurrencyType.pesoArgentino:
+        return totalAmountPerMonthPesos(
+          financialEntities: financialEntities,
+          currency: currency,
+        );
+      case CurrencyType.usDollar:
+        return totalAmountPerMonthDolar(
+          financialEntities: financialEntities,
+          currency: currency,
+        );
+      case CurrencyType.euro:
+        return totalAmountPerMonthEuro(
+          financialEntities: financialEntities,
+          currency: currency,
+        );
+    }
+  }
+
+  /// Devuelve la cantidad total de una lista de [FinancialEntity].
+  ///
+  /// Returns the total amount of a list of [FinancialEntity].
+  double totalAmount({
+    required List<FinancialEntity> financialEntityList,
+    required Currency currency,
+  }) {
+    switch (this) {
+      case CurrencyType.pesoArgentino:
+        return totalAmountPesos(
+          financialEntityList: financialEntityList,
+          currency: currency,
+        );
+      case CurrencyType.usDollar:
+        return totalAmountDolar(
+          financialEntityList: financialEntityList,
+          currency: currency,
+        );
+      case CurrencyType.euro:
+        return totalAmountEuro(
+          financialEntityList: financialEntityList,
+          currency: currency,
+        );
+    }
+  }
+
+  /// Devuelve el texto generado para compartir con el usuario.
+  ///
+  /// Returns the generated text to share with the user.
+  String generateText({
+    required String financialEntityName,
+    required List<Purchase> purchases,
+    required double total,
+    required Currency currency,
+  }) {
+    switch (this) {
+      case CurrencyType.pesoArgentino:
+        return generateTextPesos(
+          financialEntityName: financialEntityName,
+          purchases: purchases,
+          total: total,
+          currency: currency,
+        );
+      case CurrencyType.usDollar:
+        return generateTextInDollars(
+          financialEntityName: financialEntityName,
+          purchases: purchases,
+          total: total,
+          currency: currency,
+        );
+      case CurrencyType.euro:
+        return generateTextInEuros(
+          financialEntityName: financialEntityName,
+          purchases: purchases,
+          total: total,
+          currency: currency,
+        );
+    }
+  }
+
+  /// Devuelve `true` si el tipo de moneda es [CurrencyType.pesoArgentino].
+  bool get isPesoArgentino => this == CurrencyType.pesoArgentino;
+
+  /// Devuelve `true` si el tipo de moneda es [CurrencyType.usDollar].
+  bool get isDolar => this == CurrencyType.usDollar;
+
+  /// Devuelve `true` si el tipo de moneda es [CurrencyType.euro].
+  bool get isEuro => this == CurrencyType.euro;
 }
