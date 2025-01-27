@@ -178,7 +178,7 @@
     "description": ""
   },
   "pageShipmentProductsOrderedAmount": "Orderer amount",
-  "@pageShipmentProducts": {
+  "@pageShipmentProductsOrderedAmount": {
     "description": ""
   },
   "pageShipmentProductsLastReading": "Last reading",

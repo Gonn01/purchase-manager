@@ -1036,5 +1036,13 @@
   "commonAllowPermissions": "Permitir permissões",
   "@commonAllowPermissions": {
     "description": ""
+  },
+  "pageHomeOptionPendingShipments": "Pending\nshipments",
+  "@pageHomeOptionPendingShipments": {
+    "description": ""
+  },
+  "pageShipmentDetailsWhoRecibeTheShipment": "Package recipient is the buyer",
+  "@pageShipmentDetailsWhoRecibeTheShipment": {
+    "description": ""
   }
 }
