@@ -53,6 +53,20 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
           currency: state.currency,
         );
 
+        final caducanEsteMesa = caducanEsteMes(
+          financialEntities: state.financialEntityList,
+        );
+
+        final caducanEsteMesCount = caducanEsteMesDinero(
+          financialEntities: state.financialEntityList,
+          currency: state.currency,
+          selectedCurrency: state.selectedCurrency,
+        );
+
+        final caducanEsteMesDinero2 = caducanEsteMesCount.isNegative
+            ? caducanEsteMesCount * -1
+            : caducanEsteMesCount;
+
         if (state is BlocDashboardStateLoading) {
           return const Center(
             child: CircularProgressIndicator(
@@ -110,7 +124,7 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                'Este mes caducan ${caducanEsteMes(financialEntities: state.financialEntityList)} compras',
+                'Este mes caducan $caducanEsteMesa compras (${caducanEsteMesDinero2.formatAmount} ${state.selectedCurrency.abreviation})',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
