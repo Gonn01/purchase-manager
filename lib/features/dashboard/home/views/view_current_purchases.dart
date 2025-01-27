@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/financial_entity_element.dart';
 import 'package:purchase_manager/utilities/extensions/double.dart';
+import 'package:purchase_manager/utilities/functions/caducan_este_mes.dart';
 import 'package:swipe_refresh/swipe_refresh.dart';
 
 /// {@template ViewDebtorCurrentPurchases}
@@ -94,6 +95,22 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
                 '''Este mes ${totalEsteMes.isNegative ? 'debo' : 'me deben'}: ${(totalEsteMes.isNegative ? totalEsteMes * -1 : totalEsteMes).formatAmount} ${state.selectedCurrency.abreviation}''',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff047269),
+                ),
+              ),
+            ),
+            const Divider(
+              height: .5,
+              thickness: 3,
+              color: Color(0xff02B3A3),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Text(
+                'Este mes caducan ${caducanEsteMes(financialEntities: state.financialEntityList)} compras',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
