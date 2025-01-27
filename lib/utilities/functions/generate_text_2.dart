@@ -69,7 +69,7 @@ String generateText2({
       );
     }
     buffer.write(
-      'En total te debo: ${totalDebtor.formatAmount} ${selectedCurrency.abreviation}\n\n\n',
+      '*En total te debo:* ${totalDebtor.formatAmount} ${selectedCurrency.abreviation}\n\n\n',
     );
   }
 
@@ -84,7 +84,7 @@ String generateText2({
       );
     }
     buffer.write(
-      'En total me debes: ${totalCreditor.formatAmount} ${selectedCurrency.abreviation}\n\n\n',
+      '*En total me debes:* ${totalCreditor.formatAmount} ${selectedCurrency.abreviation}\n\n\n',
     );
   }
 

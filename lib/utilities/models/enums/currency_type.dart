@@ -352,7 +352,7 @@ String cuotasPesos({
     return '${purchase.nameOfProduct}: ${(purchase.amountPerQuota * euroValue).formatAmount} ARS (${purchase.amountPerQuota} EUR)\n'
         'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
   } else {
-    return '${purchase.nameOfProduct}: ${purchase.amountPerQuota} ${purchase.currencyType.abreviation}\n'
+    return '${purchase.nameOfProduct}: ${purchase.amountPerQuota.formatAmount} ${purchase.currencyType.abreviation}\n'
         'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
   }
 }
