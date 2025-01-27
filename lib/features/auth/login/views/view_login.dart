@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/features/auth/login/bloc/bloc_login.dart';
+import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/gen/assets.gen.dart';
 
 /// {@template ViewLogin}
@@ -24,6 +25,7 @@ class _ViewLoginState extends State<ViewLogin> {
     return BlocListener<BlocLogin, BlocLoginState>(
       listener: (context, state) {
         if (state is BlocLoginStateSuccess) {
+          context.read<BlocDashboard>().add(BlocDashboardEventInitialize());
           context.router.replace(const RutaDashboard());
         }
         if (state is BlocLoginStateError) {
