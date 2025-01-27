@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/financial_entity_element.dart';
+import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:swipe_refresh/swipe_refresh.dart';
 
 /// {@template ViewDebtorCurrentPurchases}
@@ -76,7 +77,7 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                '''En total ${total.isNegative ? 'debo' : 'me deben'}: ${(total.isNegative ? total * -1 : total).toStringAsFixed(2)} ${state.selectedCurrency.abreviation}''',
+                '''En total ${total.isNegative ? 'debo' : 'me deben'}: ${(total.isNegative ? total * -1 : total).formatAmount} ${state.selectedCurrency.abreviation}''',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -92,7 +93,7 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                '''Este mes ${totalEsteMes.isNegative ? 'debo' : 'me deben'}: ${(totalEsteMes.isNegative ? totalEsteMes * -1 : totalEsteMes).toStringAsFixed(2)} ${state.selectedCurrency.abreviation}''',
+                '''Este mes ${totalEsteMes.isNegative ? 'debo' : 'me deben'}: ${(totalEsteMes.isNegative ? totalEsteMes * -1 : totalEsteMes).formatAmount} ${state.selectedCurrency.abreviation}''',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

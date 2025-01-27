@@ -9,11 +9,11 @@ import 'package:share_plus/share_plus.dart';
 /// Shares the generated text with the user
 Future<void> onShareWithResult({
   required BuildContext context,
-  required CurrencyType currencyType,
   required String financialEntityName,
   required List<Purchase> purchases,
   required double total,
   required Currency currency,
+  required CurrencyType selectedCurrency,
 }) async {
   final box = context.findRenderObject() as RenderBox?;
   // await Clipboard.setData(
@@ -28,11 +28,12 @@ Future<void> onShareWithResult({
   // );
 
   await Share.share(
-    currencyType.generateText(
+    selectedCurrency.generateText(
       financialEntityName: financialEntityName,
       purchases: purchases,
       total: total,
       currency: currency,
+      selectedCurrency: selectedCurrency,
     ),
     sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
   );

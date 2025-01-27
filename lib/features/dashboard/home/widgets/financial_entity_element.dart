@@ -4,6 +4,7 @@ import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/dialogs/dialog_pay_month_alert.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/purchase_element.dart';
 import 'package:purchase_manager/gen/assets.gen.dart';
+import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/extensions/string.dart';
 import 'package:purchase_manager/utilities/functions/share_result.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
@@ -89,7 +90,7 @@ class FinancialEntityElement extends StatelessWidget {
                   children: [
                     Text(
                       // ignore: lines_longer_than_80_chars asd
-                      '${total.isNegative ? 'Me debe en' : 'Le debo en'} total \$${(total.isNegative ? total * -1 : total).toStringAsFixed(2)} ${state.selectedCurrency.abreviation}',
+                      '${total.isNegative ? 'Me debe en' : 'Le debo en'} total ${(total.isNegative ? total * -1 : total).formatAmount} ${state.selectedCurrency.abreviation}',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -122,7 +123,7 @@ class FinancialEntityElement extends StatelessWidget {
                             currency: state.currency,
                           ),
                           currency: state.currency,
-                          currencyType: state.selectedCurrency,
+                          selectedCurrency: state.selectedCurrency,
                         );
                       },
                       child: Image.asset(

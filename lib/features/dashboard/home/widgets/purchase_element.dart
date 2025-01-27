@@ -348,7 +348,7 @@ class Campos extends StatelessWidget {
                 child: Row(
                   children: [
                     DetailField(
-                      value: '${purchase.totalAmount}'
+                      value: '${purchase.totalAmount.formatAmount}'
                           '${purchase.currencyType.abreviation}',
                       hint: 'Total:',
                       isLoading: false,

@@ -1,5 +1,6 @@
 // ignore_for_file: lines_longer_than_80_chars a
 
+import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/models/currency.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
@@ -73,12 +74,12 @@ String generateTextPesos({
     for (final purchase in purchasesDebtor) {
       if (purchase.currencyType == CurrencyType.usDollar) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota * dollarValue).toStringAsFixed(2)} ARS (${purchase.amountPerQuota} USD)\n'
+          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota * dollarValue).formatAmount} ARS (${purchase.amountPerQuota} USD)\n'
           'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
         );
       } else if (purchase.currencyType == CurrencyType.euro) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota * euroValue).toStringAsFixed(2)} ARS (${purchase.amountPerQuota} EUR)\n'
+          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota * euroValue).formatAmount} ARS (${purchase.amountPerQuota} EUR)\n'
           'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
         );
       } else {
@@ -89,7 +90,7 @@ String generateTextPesos({
       }
     }
     buffer.write(
-      'En total te debo: \$${totalDebtor.toStringAsFixed(2)} ARS\n\n\n',
+      'En total te debo: ${totalDebtor.formatAmount} ARS\n\n\n',
     );
   }
 
@@ -98,12 +99,12 @@ String generateTextPesos({
     for (final purchase in purchasesCreditor) {
       if (purchase.currencyType == CurrencyType.usDollar) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota * dollarValue).toStringAsFixed(2)} ARS (${purchase.amountPerQuota} USD)\n'
+          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota * dollarValue).formatAmount} ARS (${purchase.amountPerQuota} USD)\n'
           'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
         );
       } else if (purchase.currencyType == CurrencyType.euro) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota * euroValue).toStringAsFixed(2)} ARS (${purchase.amountPerQuota} EUR)\n'
+          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota * euroValue).formatAmount} ARS (${purchase.amountPerQuota} EUR)\n'
           'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
         );
       } else {
@@ -113,18 +114,18 @@ String generateTextPesos({
         );
       }
     }
-    buffer.write('En total me debes: \$$totalCreditor ARS\n\n\n');
+    buffer.write('En total me debes: $totalCreditor ARS\n\n\n');
   }
 
   if (thereIsPurchasesInDollars) {
     buffer.write(
-      'Valor del dolar tomado: 1 USD = \$$dollarValue ARS\n\n\n',
+      'Valor del dolar tomado: 1 USD = $dollarValue ARS\n\n\n',
     );
   }
 
   if (thereIsPurchasesInEUR) {
     buffer.write(
-      'Valor del euro tomado: 1 EUR = \$$euroValue ARS\n\n\n',
+      'Valor del euro tomado: 1 EUR = $euroValue ARS\n\n\n',
     );
   }
 
@@ -139,14 +140,14 @@ String generateTextPesos({
   }
   if (totalDebtor > totalCreditor) {
     buffer.write(
-        ' (${(totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor).toStringAsFixed(2)}'
+        ' (${(totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor).formatAmount}'
         ' - '
-        '${(totalCreditor.isNegative ? totalCreditor * -1 : totalCreditor).toStringAsFixed(2)})');
+        '${(totalCreditor.isNegative ? totalCreditor * -1 : totalCreditor).formatAmount})');
   } else {
     buffer.write(
-        ' (${(totalCreditor.isNegative ? totalCreditor * -1 : totalCreditor).toStringAsFixed(2)}'
+        ' (${(totalCreditor.isNegative ? totalCreditor * -1 : totalCreditor).formatAmount}'
         ' - '
-        '${(totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor).toStringAsFixed(2)})');
+        '${(totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor).formatAmount})');
   }
   return buffer.toString();
 }
@@ -220,23 +221,23 @@ String generateTextInDollars({
     for (final purchase in purchasesDebtor) {
       if (purchase.currencyType == CurrencyType.usDollar) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${purchase.amountPerQuota.toStringAsFixed(2)} USD\n'
+          '${purchase.nameOfProduct}: ${purchase.amountPerQuota.formatAmount} USD\n'
           'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
         );
       } else if (purchase.currencyType == CurrencyType.euro) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${((purchase.amountPerQuota * euroValue) / dollarValue).toStringAsFixed(2)} USD(${purchase.amountPerQuota} EUR)\n'
+          '${purchase.nameOfProduct}: ${((purchase.amountPerQuota * euroValue) / dollarValue).formatAmount} USD(${purchase.amountPerQuota} EUR)\n'
           'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
         );
       } else {
         buffer.write(
-          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota / dollarValue).toStringAsFixed(2)} USD(${purchase.amountPerQuota} ARS)\n'
+          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota / dollarValue).formatAmount} USD(${purchase.amountPerQuota} ARS)\n'
           'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
         );
       }
     }
     buffer.write(
-      'En total te debo: \$${totalDebtor.toStringAsFixed(2)} USD\n\n\n',
+      'En total te debo: ${totalDebtor.formatAmount} USD\n\n\n',
     );
   }
 
@@ -245,17 +246,17 @@ String generateTextInDollars({
     for (final purchase in purchasesCreditor) {
       if (purchase.currencyType == CurrencyType.usDollar) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${purchase.amountPerQuota.toStringAsFixed(2)} USD\n'
+          '${purchase.nameOfProduct}: ${purchase.amountPerQuota.formatAmount} USD\n'
           'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
         );
       } else if (purchase.currencyType == CurrencyType.euro) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${((purchase.amountPerQuota * euroValue) / dollarValue).toStringAsFixed(2)} USD(${purchase.amountPerQuota} EUR)\n'
+          '${purchase.nameOfProduct}: ${((purchase.amountPerQuota * euroValue) / dollarValue).formatAmount} USD(${purchase.amountPerQuota} EUR)\n'
           'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
         );
       } else {
         buffer.write(
-          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota / dollarValue).toStringAsFixed(2)} USD(${purchase.amountPerQuota} ARS)\n'
+          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota / dollarValue).formatAmount} USD(${purchase.amountPerQuota} ARS)\n'
           'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
         );
       }
@@ -263,24 +264,24 @@ String generateTextInDollars({
   }
 
   buffer.write(
-    'En total me debes: \$${totalCreditor.toStringAsFixed(2)} USD\n\n\n',
+    'En total me debes: ${totalCreditor.formatAmount} USD\n\n\n',
   );
 
   if (thereIsPurchasesInPesos) {
     buffer.write(
-      'Valor del dolar tomado: 1 USD = \$$dollarValue ARS\n\n\n',
+      'Valor del dolar tomado: 1 USD = $dollarValue ARS\n\n\n',
     );
   }
 
   if (thereIsPurchasesInEUR) {
     buffer.write(
-      'Valor del euro tomado: 1 USD = \$${(dollarValue / euroValue).toStringAsFixed(2)} EUR\n\n\n',
+      'Valor del euro tomado: 1 USD = ${(dollarValue / euroValue).formatAmount} EUR\n\n\n',
     );
   }
 
   buffer.write(
       '${total.isNegative ? '*Resumen*: Me debes en' : 'Te debo en'} total: '
-      '${(total.isNegative ? (total * -1) : total).toStringAsFixed(2)} USD');
+      '${(total.isNegative ? (total * -1) : total).formatAmount} USD');
   if (totalDebtor == 0 ||
       totalCreditor == 0.0 ||
       totalCreditor == 0 ||
@@ -289,14 +290,14 @@ String generateTextInDollars({
   }
   if (totalDebtor > totalCreditor) {
     buffer.write(
-        ' (${(totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor).toStringAsFixed(2)}'
+        ' (${(totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor).formatAmount}'
         ' - '
-        '${(totalCreditor.isNegative ? totalCreditor * -1 : totalCreditor).toStringAsFixed(2)})');
+        '${(totalCreditor.isNegative ? totalCreditor * -1 : totalCreditor).formatAmount})');
   } else {
     buffer.write(
-        ' (${(totalCreditor.isNegative ? totalCreditor * -1 : totalCreditor).toStringAsFixed(2)}'
+        ' (${(totalCreditor.isNegative ? totalCreditor * -1 : totalCreditor).formatAmount}'
         ' - '
-        '${(totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor).toStringAsFixed(2)})');
+        '${(totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor).formatAmount})');
   }
   return buffer.toString();
 }
@@ -371,23 +372,23 @@ String generateTextInEuros({
     for (final purchase in purchasesDebtor) {
       if (purchase.currencyType == CurrencyType.pesoArgentino) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${purchase.amountPerQuota.toStringAsFixed(2)} EUR\n'
+          '${purchase.nameOfProduct}: ${purchase.amountPerQuota.formatAmount} EUR\n'
           'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
         );
       } else if (purchase.currencyType == CurrencyType.usDollar) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${((purchase.amountPerQuota * dollarValue) / euroValue).toStringAsFixed(2)} EUR (${purchase.amountPerQuota} USD)\n'
+          '${purchase.nameOfProduct}: ${((purchase.amountPerQuota * dollarValue) / euroValue).formatAmount} EUR (${purchase.amountPerQuota} USD)\n'
           'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
         );
       } else {
         buffer.write(
-          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota / euroValue).toStringAsFixed(2)} EUR (${purchase.amountPerQuota} ARS)\n'
+          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota / euroValue).formatAmount} EUR (${purchase.amountPerQuota} ARS)\n'
           'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
         );
       }
     }
     buffer.write(
-      'En total te debo: €${totalDebtor.toStringAsFixed(2)} EUR\n\n\n',
+      'En total te debo: €${totalDebtor.formatAmount} EUR\n\n\n',
     );
   }
 
@@ -396,41 +397,41 @@ String generateTextInEuros({
     for (final purchase in purchasesCreditor) {
       if (purchase.currencyType == CurrencyType.euro) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${purchase.amountPerQuota.toStringAsFixed(2)} EUR\n'
+          '${purchase.nameOfProduct}: ${purchase.amountPerQuota.formatAmount} EUR\n'
           'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
         );
       } else if (purchase.currencyType == CurrencyType.usDollar) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${((purchase.amountPerQuota * dollarValue) / euroValue).toStringAsFixed(2)} EUR (${purchase.amountPerQuota} USD)\n'
+          '${purchase.nameOfProduct}: ${((purchase.amountPerQuota * dollarValue) / euroValue).formatAmount} EUR (${purchase.amountPerQuota} USD)\n'
           'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
         );
       } else {
         buffer.write(
-          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota / euroValue).toStringAsFixed(2)} EUR (${purchase.amountPerQuota} ARS)\n'
+          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota / euroValue).formatAmount} EUR (${purchase.amountPerQuota} ARS)\n'
           'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
         );
       }
     }
     buffer.write(
-      'En total me debes: €${totalCreditor.toStringAsFixed(2)} EUR\n\n\n',
+      'En total me debes: €${totalCreditor.formatAmount} EUR\n\n\n',
     );
   }
 
   if (thereIsPurchasesInPesos) {
     buffer.write(
-      'Valor del dolar tomado: 1 EUR = \$$euroValue ARS\n\n\n',
+      'Valor del dolar tomado: 1 EUR = $euroValue ARS\n\n\n',
     );
   }
 
   if (thereIsPurchasesInDollars) {
     buffer.write(
-      'Valor del euro tomado: 1 EUR = \$${(euroValue / dollarValue).toStringAsFixed(2)} USD\n\n\n',
+      'Valor del euro tomado: 1 EUR = ${(euroValue / dollarValue).formatAmount} USD\n\n\n',
     );
   }
 
   buffer.write(
       '${total.isNegative ? '*Resumen*: Me debes en' : 'Te debo en'} total: '
-      '${(total.isNegative ? (total * -1) : total).toStringAsFixed(2)} USD');
+      '${(total.isNegative ? (total * -1) : total).formatAmount} USD');
   if (totalDebtor == 0 ||
       totalCreditor == 0.0 ||
       totalCreditor == 0 ||
@@ -439,14 +440,14 @@ String generateTextInEuros({
   }
   if (totalDebtor > totalCreditor) {
     buffer.write(
-        ' (${(totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor).toStringAsFixed(2)}'
+        ' (${(totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor).formatAmount}'
         ' - '
-        '${(totalCreditor.isNegative ? totalCreditor * -1 : totalCreditor).toStringAsFixed(2)})');
+        '${(totalCreditor.isNegative ? totalCreditor * -1 : totalCreditor).formatAmount})');
   } else {
     buffer.write(
-        ' (${(totalCreditor.isNegative ? totalCreditor * -1 : totalCreditor).toStringAsFixed(2)}'
+        ' (${(totalCreditor.isNegative ? totalCreditor * -1 : totalCreditor).formatAmount}'
         ' - '
-        '${(totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor).toStringAsFixed(2)})');
+        '${(totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor).formatAmount})');
   }
   return buffer.toString();
 }

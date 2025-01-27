@@ -45,7 +45,7 @@ class DialogPayMonthAlert extends StatelessWidget {
             currency: state.currency,
           ),
           currency: state.currency,
-          currencyType: state.selectedCurrency,
+          selectedCurrency: state.selectedCurrency,
         );
         Navigator.of(context).pop();
       },

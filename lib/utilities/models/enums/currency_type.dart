@@ -1,4 +1,5 @@
-import 'package:purchase_manager/utilities/functions/generate_text.dart';
+import 'package:purchase_manager/utilities/extensions/double.dart';
+import 'package:purchase_manager/utilities/functions/generate_text_2.dart';
 import 'package:purchase_manager/utilities/functions/total_amount.dart';
 import 'package:purchase_manager/utilities/functions/total_amount_per_financial_entity.dart';
 import 'package:purchase_manager/utilities/functions/total_amount_per_month.dart';
@@ -142,30 +143,157 @@ enum CurrencyType {
     required List<Purchase> purchases,
     required double total,
     required Currency currency,
+    required CurrencyType selectedCurrency,
   }) {
-    switch (this) {
-      case CurrencyType.pesoArgentino:
-        return generateTextPesos(
-          financialEntityName: financialEntityName,
-          purchases: purchases,
-          total: total,
-          currency: currency,
-        );
-      case CurrencyType.usDollar:
-        return generateTextInDollars(
-          financialEntityName: financialEntityName,
-          purchases: purchases,
-          total: total,
-          currency: currency,
-        );
-      case CurrencyType.euro:
-        return generateTextInEuros(
-          financialEntityName: financialEntityName,
-          purchases: purchases,
-          total: total,
-          currency: currency,
-        );
-    }
+    return generateText2(
+      financialEntityName: financialEntityName,
+      purchases: purchases,
+      total: total,
+      currency: currency,
+      selectedCurrency: selectedCurrency,
+    );
+    // switch (this) {
+    //   case CurrencyType.pesoArgentino:
+    //     return generateTextPesos(
+    //       financialEntityName: financialEntityName,
+    //       purchases: purchases,
+    //       total: total,
+    //       currency: currency,
+    //     );
+    //   case CurrencyType.usDollar:
+    //     return generateTextInDollars(
+    //       financialEntityName: financialEntityName,
+    //       purchases: purchases,
+    //       total: total,
+    //       currency: currency,
+    //     );
+    //   case CurrencyType.euro:
+    //     return generateTextInEuros(
+    //       financialEntityName: financialEntityName,
+    //       purchases: purchases,
+    //       total: total,
+    //       currency: currency,
+    //     );
+    // }
+  }
+
+  double totalCreditor({
+    required List<Purchase> purchases,
+    required Currency currency,
+  }) {
+    final dollarValue = currency.dolarBlue.valueSell;
+
+    final euroValue = currency.euroBlue.valueSell;
+
+    return switch (this) {
+      CurrencyType.pesoArgentino => purchases.fold<double>(
+          0,
+          (previousValue, purchase) =>
+              previousValue +
+              (purchase.currencyType == CurrencyType.usDollar
+                  ? purchase.amountPerQuota * dollarValue
+                  : purchase.currencyType == CurrencyType.euro
+                      ? purchase.amountPerQuota * euroValue
+                      : purchase.amountPerQuota),
+        ),
+      CurrencyType.usDollar => purchases.fold<double>(
+          0,
+          (previousValue, purchase) =>
+              previousValue +
+              (purchase.currencyType == CurrencyType.usDollar
+                  ? purchase.amountPerQuota
+                  : purchase.currencyType == CurrencyType.euro
+                      ? (purchase.amountPerQuota *
+                              currency.euroBlue.valueSell) /
+                          dollarValue
+                      : purchase.amountPerQuota / dollarValue),
+        ),
+      CurrencyType.euro => purchases.fold<double>(
+          0,
+          (previousValue, purchase) =>
+              previousValue +
+              (purchase.currencyType == CurrencyType.euro
+                  ? purchase.amountPerQuota
+                  : purchase.currencyType == CurrencyType.usDollar
+                      ? (purchase.amountPerQuota *
+                              currency.dolarBlue.valueSell) /
+                          euroValue
+                      : purchase.amountPerQuota / euroValue),
+        ),
+    };
+  }
+
+  double totalDebtor({
+    required List<Purchase> purchases,
+    required Currency currency,
+  }) {
+    final dollarValue = currency.dolarBlue.valueSell;
+
+    final euroValue = currency.euroBlue.valueSell;
+
+    return switch (this) {
+      CurrencyType.pesoArgentino => purchases.fold<double>(
+          0,
+          (previousValue, purchase) =>
+              previousValue +
+              (purchase.currencyType == CurrencyType.usDollar
+                  ? purchase.amountPerQuota * dollarValue
+                  : purchase.currencyType == CurrencyType.euro
+                      ? purchase.amountPerQuota * euroValue
+                      : purchase.amountPerQuota),
+        ),
+      CurrencyType.usDollar => purchases.fold<double>(
+          0,
+          (previousValue, purchase) =>
+              previousValue +
+              (purchase.currencyType == CurrencyType.usDollar
+                  ? purchase.amountPerQuota
+                  : purchase.currencyType == CurrencyType.euro
+                      ? (purchase.amountPerQuota *
+                              currency.euroBlue.valueSell) /
+                          dollarValue
+                      : purchase.amountPerQuota / dollarValue),
+        ),
+      CurrencyType.euro => purchases.fold<double>(
+          0,
+          (previousValue, purchase) =>
+              previousValue +
+              (purchase.currencyType == CurrencyType.euro
+                  ? purchase.amountPerQuota
+                  : purchase.currencyType == CurrencyType.usDollar
+                      ? (purchase.amountPerQuota *
+                              currency.dolarBlue.valueSell) /
+                          euroValue
+                      : purchase.amountPerQuota / euroValue),
+        ),
+    };
+  }
+
+  String textoParaCards({
+    required Currency currency,
+    required Purchase purchase,
+  }) {
+    final dollarValue = currency.dolarBlue.valueSell;
+
+    final euroValue = currency.euroBlue.valueSell;
+
+    return switch (this) {
+      CurrencyType.pesoArgentino => cuotasPesos(
+          purchase: purchase,
+          dollarValue: dollarValue,
+          euroValue: euroValue,
+        ),
+      CurrencyType.usDollar => cuotasDollars(
+          purchase: purchase,
+          dollarValue: dollarValue,
+          euroValue: euroValue,
+        ),
+      CurrencyType.euro => cuotasEuros(
+          purchase: purchase,
+          dollarValue: dollarValue,
+          euroValue: euroValue,
+        ),
+    };
   }
 
   /// Devuelve `true` si el tipo de moneda es [CurrencyType.pesoArgentino].
@@ -176,4 +304,55 @@ enum CurrencyType {
 
   /// Devuelve `true` si el tipo de moneda es [CurrencyType.euro].
   bool get isEuro => this == CurrencyType.euro;
+}
+
+String cuotasEuros({
+  required Purchase purchase,
+  required double dollarValue,
+  required double euroValue,
+}) {
+  if (purchase.currencyType == CurrencyType.pesoArgentino) {
+    return '${purchase.nameOfProduct}: ${purchase.amountPerQuota.formatAmount} EUR\n'
+        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
+  } else if (purchase.currencyType == CurrencyType.usDollar) {
+    return '${purchase.nameOfProduct}: ${((purchase.amountPerQuota * dollarValue) / euroValue).formatAmount} EUR (${purchase.amountPerQuota} USD)\n'
+        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
+  } else {
+    return '${purchase.nameOfProduct}: ${(purchase.amountPerQuota / euroValue).formatAmount} EUR (${purchase.amountPerQuota} ARS)\n'
+        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
+  }
+}
+
+String cuotasDollars({
+  required Purchase purchase,
+  required double dollarValue,
+  required double euroValue,
+}) {
+  if (purchase.currencyType == CurrencyType.usDollar) {
+    return '${purchase.nameOfProduct}: ${purchase.amountPerQuota.formatAmount} USD\n'
+        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
+  } else if (purchase.currencyType == CurrencyType.euro) {
+    return '${purchase.nameOfProduct}: ${((purchase.amountPerQuota * euroValue) / dollarValue).formatAmount} USD(${purchase.amountPerQuota} EUR)\n'
+        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
+  } else {
+    return '${purchase.nameOfProduct}: ${(purchase.amountPerQuota / dollarValue).formatAmount} USD(${purchase.amountPerQuota} ARS)\n'
+        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
+  }
+}
+
+String cuotasPesos({
+  required Purchase purchase,
+  required double dollarValue,
+  required double euroValue,
+}) {
+  if (purchase.currencyType == CurrencyType.usDollar) {
+    return '${purchase.nameOfProduct}: ${(purchase.amountPerQuota * dollarValue).formatAmount} ARS (${purchase.amountPerQuota} USD)\n'
+        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
+  } else if (purchase.currencyType == CurrencyType.euro) {
+    return '${purchase.nameOfProduct}: ${(purchase.amountPerQuota * euroValue).formatAmount} ARS (${purchase.amountPerQuota} EUR)\n'
+        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
+  } else {
+    return '${purchase.nameOfProduct}: ${purchase.amountPerQuota} ${purchase.currencyType.abreviation}\n'
+        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
+  }
 }
