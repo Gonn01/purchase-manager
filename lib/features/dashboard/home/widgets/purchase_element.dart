@@ -363,7 +363,7 @@ class Campos extends StatelessWidget {
                   children: [
                     Text(
                       '${purchase.amountOfQuotas} '
-                      'cuotas x ${purchase.amountPerQuota.formatAmount}'
+                      'cuotas x ${purchase.amountPerQuota.formatAmount} '
                       '${purchase.currencyType.abreviation}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
