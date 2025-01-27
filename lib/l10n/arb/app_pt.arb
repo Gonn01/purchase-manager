@@ -1,62 +1,58 @@
 {
-  "@@locale": "es",
-  "pageIdentificationEnterYourCode": "Ingrese el código",
+  "@@locale": "pt",
+  "pageIdentificationEnterYourCode": "Digite o código",
   "@pageIdentificationEnterYourCode": {
     "description": ""
   },
-  "pageIdentificationEnterTheCompanyCode": "Ingrese el código de empresa que le\nhan asignado",
+  "pageIdentificationEnterTheCompanyCode": "Digite o código da empresa\natribuído a você",
   "@pageIdentificationEnterTheCompanyCode": {
     "description": ""
   },
-  "pageLoginAskForLocationWhenInUsePermission": "Lightdata es una aplicación que recopila datos de ubicación para habilitar el posicionamiento de los paquetes y el armado de rutas posibles de las entregas, incluso cuando la aplicación está cerrada o no está en uso.",
+  "pageLoginAskForLocationWhenInUsePermission": "O aplicativo Lightdata coleta dados de localização para permitir o posicionamento de pacotes e o possível roteamento de entregas mesmo quando o aplicativo está fechado ou não está em uso.",
   "@pageLoginAskForLocationWhenInUsePermission": {
     "description": ""
   },
-  "pageLoginAskForLocationAlwaysPermission": "Lightdata es una aplicación que recolectará la ubicación del celular en segundo plano para ofrecer una mejor herramienta de trabajo. De esta manera, se sabrá la posición del paquete en todo momento.",
+  "pageLoginAskForLocationAlwaysPermission": "Lightdata é um aplicativo que coletará a localização do celular em segundo plano para oferecer uma melhor ferramenta de trabalho. Dessa forma, a posição do pacote será conhecida em todos os momentos.",
   "@pageLoginAskForLocationAlwaysPermission": {
     "description": ""
   },
-  "pageLoginAskForPermissions": "Lightdata recopila datos de ubicación para:\n- Permitir la ubicación de los envíos y el enrutamiento de las entregas.\n- Proporcionar una mejor herramienta de trabajo al rastrear la ubicación de los envíos en tiempo real.\n\nEstos datos se recopilan incluso cuando la aplicación está cerrada o no se está utilizando.(background)\n\nObtén más información sobre cómo usamos tus datos de ubicación en nuestra",
+  "pageLoginAskForPermissions": "O aplicativo Lightdata coleta dados de localização para:\n- Permitir o posicionamento de remessas e o roteamento de entregas.\n- Proporcionar uma ferramenta de trabalho melhor, rastreando a localização das remessas em tempo real.\n\nEsses dados são coletados mesmo quando o aplicativo está fechado ou não está em uso.(background)\n\nSaiba mais sobre como usamos seus dados de localização em nossa",
   "@pageLoginAskForPermissions": {
     "description": ""
   },
-  "pageLoginBadCredentials": "Credenciales incorrectas",
+  "pageLoginBadCredentials": "Credenciais inválidas",
   "@pageLoginBadCredentials": {
     "description": ""
   },
-  "pageLoginProCourrierError": "Tenemos otra app para Pro Courrier, por favor descargala desde la play store",
+  "pageLoginProCourrierError": "Temos outro aplicativo para Pro Courrier, faça o download na Play Store",
   "@pageLoginProCourrierError": {
     "description": ""
   },
-  "pageHomeTitle": "Paquetes de ",
+  "pageHomeTitle": "Encomendas de ",
   "@pageHomeTitle": {
     "description": ""
   },
-  "pageHomeOptionShipmentsDeliveredToday": "Paquetes\nentregados hoy",
+  "pageHomeOptionShipmentsDeliveredToday": "Pacotes a serem\n entregues hoje",
   "@pageHomeOptionShipmentsDeliveredToday": {
     "description": ""
   },
-  "pageHomeOptionTodaysAssignedShipments": "Paquetes\nasignados hoy",
+  "pageHomeOptionTodaysAssignedShipments": "Atribuir\npacotes de hoje",
   "@pageHomeOptionTodaysAssignedShipments": {
     "description": ""
   },
-  "pageHomeOptionShipmentsOnTheWay": "Paquetes\nen camino",
+  "pageHomeOptionShipmentsOnTheWay": "Pacotes\natribuídos",
   "@pageHomeOptionShipmentsOnTheWay": {
     "description": ""
   },
-  "pageHomeOptionClosedShipments": "Paquetes\ncerrados",
+  "pageHomeOptionClosedShipments": "Pacotes\ncerrados",
   "@pageHomeOptionClosedShipments": {
     "description": ""
   },
-  "pageHomeOptionPendingShipments": "Paquetes\npendientes",
-  "@pageHomeOptionPendingShipments": {
-    "description": ""
-  },
-  "pageHomeStartRoute": "Comenzar ruta",
+  "pageHomeStartRoute": "Iniciar rota",
   "@pageHomeStartRoute": {
     "description": ""
   },
-  "pageHomeFinishRoute": "Finalizar ruta",
+  "pageHomeFinishRoute": "Finalizar rota",
   "@pageHomeFinishRoute": {
     "description": ""
   },
@@ -64,27 +60,27 @@
   "@pageQrScanInvalidQR": {
     "description": ""
   },
-  "pageQrScanSuccess": "Carga realizada con éxito",
-  "@pageQrScanSuccess": {
-    "description": ""
-  },
-  "pageQrMenuTitle": "Selecciona un lector de QR",
+  "pageQrMenuTitle": "Selecione um leitor de QR",
   "@pageQrMenuTitle": {
     "description": ""
   },
-  "pageQrMenuOptionToProcessingPlant": "A planta",
+  "pageQrMenuOptionToProcessingPlant": "Para a fábrica\n de processamento",
   "@pageQrMenuOptionToProcessingPlant": {
     "description": ""
   },
-  "pageQrMenuOptionCollect": "Colecta",
+  "pageQrMenuOptionCollect": "Recolher",
   "@pageQrMenuOptionCollect": {
     "description": ""
   },
-  "pageQrMenuOptionReadQr": "Leer QR",
+  "pageQrScanSuccess": "Leitura QR realizada com sucesso",
+  "@pageQrScanSuccess": {
+    "description": ""
+  },
+  "pageQrMenuOptionReadQr": "Ler QR",
   "@pageQrMenuOptionReadQr": {
     "description": ""
   },
-  "pageQrMenuOptionAssign": "Asignación",
+  "pageQrMenuOptionAssign": "Atribuir",
   "@pageQrMenuOptionAssign": {
     "description": ""
   },
@@ -92,27 +88,27 @@
   "@pageQrMenuOptionCrossDocking": {
     "description": ""
   },
-  "pageQrMenuOptionShipmentInformation": "Información\n del envío",
+  "pageQrMenuOptionShipmentInformation": "Informações\n da remessa",
   "@pageQrMenuOptionShipmentInformation": {
     "description": ""
   },
-  "pageQrMenuOptionEnterFlex": "Ingresar flex",
+  "pageQrMenuOptionEnterFlex": "Inserir flex",
   "@pageQrMenuOptionEnterFlex": {
     "description": ""
   },
-  "pageQrCollectCollectedTodayByMe": "Retirados hoy por mi",
+  "pageQrCollectCollectedTodayByMe": "Retirado hoje por mim",
   "@pageQrCollectCollectedTodayByMe": {
     "description": ""
   },
-  "pageQrProccessingPlantTodayForMeInTheDay": "Hoy por mi en el día",
+  "pageQrProccessingPlantTodayForMeInTheDay": "Processando planta\nhoje para mim no dia",
   "@pageQrProccessingPlantTodayForMeInTheDay": {
     "description": ""
   },
-  "pageQrProccessingPlantCustomerToday": "Hoy del cliente",
+  "pageQrProccessingPlantCustomerToday": "Cliente hoje",
   "@pageQrProccessingPlantCustomerToday": {
     "description": ""
   },
-  "pageQrProccessingPlantMissings": "Faltantes a planta de ingreso hoy ({clientName})",
+  "pageQrProccessingPlantMissings": "Faltantes na planta de processamento hoje ({clientName})",
   "@pageQrProccessingPlantMissings": {
     "placeholders": {
       "clientName": {
@@ -121,23 +117,23 @@
     },
     "description": ""
   },
-  "pageQrReadNow": "Leidos ahora",
+  "pageQrReadNow": "Leia agora",
   "@pageQrReadNow": {
     "description": ""
   },
-  "pageQrScanTheQR": "Escanea el QR",
+  "pageQrScanTheQR": "Leia o QR",
   "@pageQrScanTheQR": {
     "description": ""
   },
-  "pageQrDeliveryArea": "Zona de entrega",
+  "pageQrDeliveryArea": "Área de entrega",
   "@pageQrDeliveryArea": {
     "description": ""
   },
-  "pageQrReadQRDni": "Leer QR DNI",
+  "pageQrReadQRDni": "Ler QR DNI",
   "@pageQrReadQRDni": {
     "description": ""
   },
-  "pageQrSaveVisit": "Guardar visita",
+  "pageQrSaveVisit": "Salvar visita",
   "@pageQrSaveVisit": {
     "description": ""
   },
@@ -145,19 +141,19 @@
   "@pageQrRegisterVisit": {
     "description": ""
   },
-  "pageQrSelfAssign": "Auto-asignar",
+  "pageQrSelfAssign": "Autoatribuir",
   "@pageQrSelfAssign": {
     "description": ""
   },
-  "pageQrCollectTotalToCollectClient": "Total a retirar cliente",
+  "pageQrCollectTotalToCollectClient": "Total a coletar do cliente",
   "@pageQrCollectTotalToCollectClient": {
     "description": ""
   },
-  "pageQrCollectToCollectToday": "A colectar hoy",
+  "pageQrCollectToCollectToday": "Para coletar hoje",
   "@pageQrCollectToCollectToday": {
     "description": ""
   },
-  "pageQrCollectCollectedToday": "Colectados hoy",
+  "pageQrCollectCollectedToday": "Coletado hoje",
   "@pageQrCollectCollectedToday": {
     "description": ""
   },
@@ -165,35 +161,35 @@
   "@pageFiltersApplyFilters": {
     "description": ""
   },
-  "pageFiltersCleanFilters": "Limpiar filtros",
+  "pageFiltersCleanFilters": "Limpar filtros",
   "@pageFiltersCleanFilters": {
     "description": ""
   },
-  "pageFiltersRecipientName": "Nombre Destinatario",
+  "pageFiltersRecipientName": "Nome do destinatário",
   "@pageFiltersRecipientName": {
     "description": ""
   },
-  "pageFiltersClientName": "Nombre cliente",
+  "pageFiltersClientName": "Nome do cliente",
   "@pageFiltersClientName": {
     "description": ""
   },
-  "pageShipmentProductsOrderedAmount": "Cantidad pedida",
-  "@pageShipmentProducts": {
+  "pageShipmentProductsOrderedAmount": "Quantidade encomendada",
+  "@pageShipmentProductsOrderedAmount": {
     "description": ""
   },
-  "pageShipmentProductsLastReading": "Última lectura",
+  "pageShipmentProductsLastReading": "Última leitura",
   "@pageShipmentProductsLastReading": {
     "description": ""
   },
-  "pageShipmentAssignmentAmountOfShipmentsAssignedToday": "Paquetes asignados hoy",
+  "pageShipmentAssignmentAmountOfShipmentsAssignedToday": "Remessas atribuídas hoje",
   "@pageShipmentAssignmentAmountOfShipmentsAssignedToday": {
     "description": ""
   },
-  "pageShipmentAssignmentChooseADriver": "Elegir un chofer",
+  "pageShipmentAssignmentChooseADriver": "Escolher um motorista",
   "@pageShipmentAssignmentChooseADriver": {
     "description": ""
   },
-  "pageMapsGenerateRoutes": "Generar rutas",
+  "pageMapsGenerateRoutes": "Gerar rotas",
   "@pageMapsGenerateRoutes": {
     "description": ""
   },
@@ -201,19 +197,19 @@
   "@pageMapsGeolocate": {
     "description": ""
   },
-  "pageMapsCardDataItemNumberOfShipmentsGeolocated": "Total de paquetes geolocalizados",
+  "pageMapsCardDataItemNumberOfShipmentsGeolocated": "Total de remessas geolocalizadas",
   "@pageMapsCardDataItemNumberOfShipmentsGeolocated": {
     "description": ""
   },
-  "pageMapsCardDataItemNumberOfShipmentsWithoutGeolocation": "Total de paquetes sin geolocalizar",
+  "pageMapsCardDataItemNumberOfShipmentsWithoutGeolocation": "Total de remessas sem geolocalização",
   "@pageMapsCardDataItemNumberOfShipmentsWithoutGeolocation": {
     "description": ""
   },
-  "pageMapsCardDataItemDistanceInKm": "Cantidad de kilometros",
+  "pageMapsCardDataItemDistanceInKm": "Distância em quilômetros",
   "@pageMapsCardDataItemDistanceInKm": {
     "description": ""
   },
-  "pageMapsCardDataItemDistanceTime": "Tiempo de distancia",
+  "pageMapsCardDataItemDistanceTime": "Tempo de distância",
   "@pageMapsCardDataItemDistanceTime": {
     "description": ""
   },
@@ -221,163 +217,159 @@
   "@pageMapsDepot": {
     "description": ""
   },
-  "pageMapsLastShipment": "Último envío",
+  "pageMapsLastShipment": "Última remessa",
   "@pageMapsLastShipment": {
     "description": ""
   },
-  "pageMapsMyCurrentLocation": "Mi ubicación actual",
+  "pageMapsMyCurrentLocation": "Minha localização atual",
   "@pageMapsMyCurrentLocation": {
     "description": ""
   },
-  "pageMapsShipmentsWithoutGeolocate": "Hay envíos sin geolocalizar",
+  "pageMapsShipmentsWithoutGeolocate": "Remessas sem geolocalização",
   "@pageMapsShipmentsWithoutGeolocate": {
     "description": ""
   },
-  "pageMapsAlertYouHaveToSelectAShipment": "Tenes que seleccionar uno de los envíos para generar la ruta.",
+  "pageMapsAlertYouHaveToSelectAShipment": "Você precisa selecionar uma das remessas para gerar a rota.",
   "@pageMapsAlertYouHaveToSelectAShipment": {
     "description": ""
   },
-  "pageMapsAvoidHighways": "Evitar autopistas",
+  "pageMapsAvoidHighways": "Evitar rodovias",
   "@pageMapsAvoidHighways": {
     "description": ""
   },
-  "pageMapsAvoidTollways": "Evitar peajes",
+  "pageMapsAvoidTollways": "Evitar pedágios",
   "@pageMapsAvoidTollways": {
     "description": ""
   },
-  "pageMapsChooseWhereToFinish": "Elegir donde finalizar",
+  "pageMapsChooseWhereToFinish": "Escolha onde terminar",
   "@pageMapsChooseWhereToFinish": {
     "description": ""
   },
-  "pageMapsChooseWhereToStart": "Elegir donde comenzar",
+  "pageMapsChooseWhereToStart": "Escolha onde começar",
   "@pageMapsChooseWhereToStart": {
     "description": ""
   },
-  "pageMapsSelectALocation": "Tenes que seleccionar un punto en el mapa",
+  "pageMapsSelectALocation": "Selecionar uma localização",
   "@pageMapsSelectALocation": {
     "description": ""
   },
-  "pageMapsNoGeolocatedShipments": "No hay envíos geolocalizados",
+  "pageMapsNoGeolocatedShipments": "Nenhuma remessa geolocalizada",
   "@pageMapsNoGeolocatedShipments": {
     "description": ""
   },
-  "pageMapsRouteGeneratedCorrectly": "Ruta generada correctamente",
+  "pageMapsRouteGeneratedCorrectly": "Rota gerada corretamente",
   "@pageMapsRouteGeneratedCorrectly": {
     "description": ""
   },
-  "pageProfileForgetSession": "Olvidar todo",
+  "pageProfileForgetSession": "Esquecer sessão",
   "@pageProfileForgetSession": {
     "description": ""
   },
-  "pageProfileProfilePicture": "Foto de perfil",
+  "pageProfileProfilePicture": "Foto do perfil",
   "@pageProfileProfilePicture": {
     "description": ""
   },
-  "pageProfileDeletePictureConfirmation": "¿Estás seguro de que queres eliminar esta foto?",
+  "pageProfileDeletePictureConfirmation": "Tem certeza de que deseja excluir esta foto?",
   "@pageProfileDeletePictureConfirmation": {
     "description": ""
   },
-  "pageProfileIntegrationsLinks": "Links integraciones",
+  "pageProfileIntegrationsLinks": "Links de integrações",
   "@pageProfileIntegrationsLinks": {
     "description": ""
   },
-  "pageProfileAreYouSureThatYouWantToDeleteCache": "¿Estás seguro de que queres eliminar el caché?",
+  "pageProfileAreYouSureThatYouWantToDeleteCache": "Tem certeza de que deseja excluir o cache?",
   "@pageProfileAreYouSureThatYouWantToDeleteCache": {
     "description": ""
   },
-  "pageProfileClearCache": "Limpiar caché",
+  "pageProfileClearCache": "Limpar cache",
   "@pageProfileClearCache": {
     "description": ""
   },
-  "pageProfileProfilePictureChangedSuccessfully": "Foto de perfil cambiada con éxito",
+  "pageProfileProfilePictureChangedSuccessfully": "Foto do perfil alterada com sucesso",
   "@pageProfileProfilePictureChangedSuccessfully": {
     "description": ""
   },
-  "pageProfileChangePassword": "Cambiar contraseña",
+  "pageProfileChangePassword": "Alterar senha",
   "@pageProfileChangePassword": {
     "description": ""
   },
-  "pageProfileSuccessEditingPersonalData": "Datos personales editados con éxito",
+  "pageProfileSuccessEditingPersonalData": "Dados pessoais editados com sucesso",
   "@pageProfileSuccessEditingPersonalData": {
     "description": ""
   },
-  "pageProfileChangeIcon": "Cambiar icono",
+  "pageProfileChangeIcon": "Alterar ícone",
   "@pageProfileChangeIcon": {
     "description": ""
   },
-  "pageRegisterVisitAddObservations": "Agregar observaciones",
+  "pageRegisterVisitAddObservations": "Adicionar observações",
   "@pageRegisterVisitAddObservations": {
     "description": ""
   },
-  "pageRegisterVisitDNIOfTheRecipient": "DNI Recibe",
+  "pageRegisterVisitDNIOfTheRecipient": "DNI do destinatário",
   "@pageRegisterVisitDNIOfTheRecipient": {
     "description": ""
   },
-  "pageRegisterVisitRUTOfTheRecipient": "RUT Recibe",
+  "pageRegisterVisitRUTOfTheRecipient": "RUT do destinatário",
   "@pageRegisterVisitRUTOfTheRecipient": {
     "description": ""
   },
-  "pageRegisterVisitCCOfTheRecipient": "C.C. Recibe",
+  "pageRegisterVisitCCOfTheRecipient": "C.C. do destinatário",
   "@pageRegisterVisitCCOfTheRecipient": {
     "description": ""
   },
-  "pageRegisterVisitNameOfTheRecipient": "Nombre quien recibe",
+  "pageRegisterVisitNameOfTheRecipient": "Nome do destinatário",
   "@pageRegisterVisitNameOfTheRecipient": {
     "description": ""
   },
-  "pageRegisterVisitRegisterVisit": "Registrar Visita",
+  "pageRegisterVisitRegisterVisit": "Registrar visita",
   "@pageRegisterVisitRegisterVisit": {
     "description": ""
   },
-  "pageRegisterVisitImageLimitAlert": "Has alcanzado el límite de imágenes",
+  "pageRegisterVisitImageLimitAlert": "Você atingiu o limite de imagens",
   "@pageRegisterVisitImageLimitAlert": {
     "description": ""
   },
-  "pageRegisterVisitSuccess": "Visita registrada con éxito",
+  "pageRegisterVisitSuccess": "Visita registrada com sucesso",
   "@pageRegisterVisitSuccess": {
     "description": ""
   },
-  "pageRegisterVisitUploadingImages": "Subiendo imágenes...",
+  "pageRegisterVisitUploadingImages": "Carregando imagens...",
   "@pageRegisterVisitUploadingImages": {
     "description": ""
   },
-  "pageRegisterVisitErrorRequiredImage": "Es necesario agregar una imagen",
-  "@pageRegisterVisitErrorRequiredImage": {
-    "description": ""
-  },
-  "pageShipmentDetailsWithoutObservations": "Sin observaciones",
+  "pageShipmentDetailsWithoutObservations": "Sem observações",
   "@pageShipmentDetailsWithoutObservations": {
     "description": ""
   },
-  "pageShipmentDetailsIdShipment": "ID envío",
+  "pageRegisterVisitErrorRequiredImage": "É necessário adicionar uma imagem",
+  "@pageRegisterVisitErrorRequiredImage": {
+    "description": ""
+  },
+  "pageShipmentDetailsIdShipment": "ID do envio",
   "@pageShipmentDetailsIdShipment": {
     "description": ""
   },
-  "pageShipmentDetailsIdSale": "ID venta",
+  "pageShipmentDetailsIdSale": "ID da venda",
   "@pageShipmentDetailsIdSale": {
     "description": ""
   },
-  "pageShipmentDetailsTotalToClaim": "Total a cobrar",
+  "pageShipmentDetailsTotalToClaim": "Total a reclamar",
   "@pageShipmentDetailsTotalToClaim": {
     "description": ""
   },
-  "pageShipmentDetailsWhoRecibeTheShipment": "Recibe el paquete titular de la compra",
-  "@pageShipmentDetailsWhoRecibeTheShipment": {
-    "description": ""
-  },
-  "pageShipmentDetailsNoLocationOfShipment": "No se ha proporcionado la ubicación",
+  "pageShipmentDetailsNoLocationOfShipment": "Sem localização do envio",
   "@pageShipmentDetailsNoLocationOfShipment": {
     "description": ""
   },
-  "pageShipmentListTotalShipments": "Total paquetes visualizados",
+  "pageShipmentListTotalShipments": "Pacotes visualizados no total",
   "@pageShipmentListTotalShipments": {
     "description": ""
   },
-  "pageShipmentListNoShipmentsAvailable": "No hay paquetes disponibles",
+  "pageShipmentListNoShipmentsAvailable": "Nenhum envio disponível",
   "@pageShipmentListNoShipmentsAvailable": {
     "description": ""
   },
-  "pageShipmentListTheShipmentDoesntHavePhoneNumber": "Este envío no tiene un numero de telefono asignado",
+  "pageShipmentListTheShipmentDoesntHavePhoneNumber": "Este envio não possui um número de telefone atribuído.",
   "@pageShipmentListTheShipmentDoesntHavePhoneNumber": {
     "description": ""
   },
@@ -385,19 +377,19 @@
   "@pageShipmentListShipmentProximoAEntregar": {
     "description": ""
   },
-  "pageShipmentListTodaysPackagesAreNotBeingShown": "No se están mostrando paquetes de hoy",
+  "pageShipmentListTodaysPackagesAreNotBeingShown": "Os pacotes de hoje não estão sendo mostrados",
   "@pageShipmentListTodaysPackagesAreNotBeingShown": {
     "description": ""
   },
-  "pageAccountsSellerId": "Seller Id",
+  "pageAccountsSellerId": "ID do vendedor",
   "@pageAccountsSellerId": {
     "description": ""
   },
-  "pageSettlementsNoSettlements": "No hay liquidaciones disponibles",
+  "pageSettlementsNoSettlements": "Nenhum acordo disponível",
   "@pageSettlementsNoSettlements": {
     "description": ""
   },
-  "pageSettlementsShipmentAddress": "Dirección envío",
+  "pageSettlementsShipmentAddress": "Endereço de envio",
   "@pageSettlementsShipmentAddress": {
     "description": ""
   },
@@ -405,127 +397,127 @@
   "@pageSettlementsWhoLiquidate": {
     "description": ""
   },
-  "pageSettlementsLiquidateDate": "Fecha liquidación",
+  "pageSettlementsLiquidateDate": "Fechada de liquidação",
   "@pageSettlementsLiquidateDate": {
     "description": ""
   },
-  "pageSettlementsNoShipmentAvailable": "No hay envíos disponibles",
+  "pageSettlementsNoShipmentAvailable": "Nenhum envio disponível",
   "@pageSettlementsNoShipmentAvailable": {
     "description": ""
   },
-  "pageSettlementsNumbersOfTrips": "Cantidad de viajes",
+  "pageSettlementsNumbersOfTrips": "Número de viagens",
   "@pageSettlementsNumbersOfTrips": {
     "description": ""
   },
-  "pageAppConfiguration": "Configuración de la aplicación",
+  "pageAppConfiguration": "Configuração do aplicativo",
   "@pageAppConfiguration": {
     "description": ""
   },
-  "pageAppConfigurationDefaultRegisterVisitStates": "Estados por defecto para registrar visitas",
+  "pageAppConfigurationDefaultRegisterVisitStates": "Estados de visita padrão",
   "@pageAppConfigurationDefaultRegisterVisitStates": {
     "description": ""
   },
-  "pageAppConfigurationChangeGeoDriversHoursStartHour": "Hora de inicio",
+  "pageAppConfigurationChangeGeoDriversHoursStartHour": "Hora de início",
   "@pageAppConfigurationChangeGeoDriversHoursStartHour": {
     "description": ""
   },
-  "pageAppConfigurationChangeGeoDriversHoursEndHour": "Hora de fin",
+  "pageAppConfigurationChangeGeoDriversHoursEndHour": "Hora de término",
   "@pageAppConfigurationChangeGeoDriversHoursEndHour": {
     "description": ""
   },
-  "pageAppConfigurationChangeGeoDriversHours": "Cambiar horas de geolocalización de choferes",
+  "pageAppConfigurationChangeGeoDriversHours": "Alterar horas de geolocalização de motoristas",
   "@pageAppConfigurationChangeGeoDriversHours": {
     "description": ""
   },
-  "pageAppConfigurationCheckPermissions": "Verificar permisos",
+  "pageAppConfigurationCheckPermissions": "Verificar permissões",
   "@pageAppConfigurationCheckPermissions": {
     "description": ""
   },
-  "pageCheckPermissionsAlreadyAllowed": "Los permisos ya están otorgados",
+  "pageCheckPermissionsAlreadyAllowed": "As permissões já foram concedidas",
   "@pageCheckPermissionsAlreadyAllowed": {
     "description": ""
   },
-  "pageCheckPermissionsAlreadyAllowedDescription": "Los permisos ya han sido otorgados",
+  "pageCheckPermissionsAlreadyAllowedDescription": "As permissões já foram concedidas",
   "@pageCheckPermissionsAlreadyAllowedDescription": {
     "description": ""
   },
-  "pageAppConfigurationCheckPermissionsAllowed": "Permisos otorgados correctamente",
+  "pageAppConfigurationCheckPermissionsAllowed": "Permissões permitidas",
   "@pageAppConfigurationCheckPermissionsAllowed": {
     "description": ""
   },
-  "pageCheckPermissionsAllowedDescription": "Los permisos han sido otorgados",
+  "pageCheckPermissionsAllowedDescription": "As permissões foram concedidas",
   "@pageCheckPermissionsAllowedDescription": {
     "description": ""
   },
-  "pageAppConfigurationCheckPermissionsDenied": "Permisos denegados",
+  "pageAppConfigurationCheckPermissionsDenied": "Permissões negadas",
   "@pageAppConfigurationCheckPermissionsDenied": {
     "description": ""
   },
-  "pageAppConfigurationNewWhatsappMessages": "Nuevos mensajes de Whatsapp disponibles",
+  "pageAppConfigurationNewWhatsappMessages": "Novas mensagens do WhatsApp disponíveis",
   "@pageAppConfigurationNewWhatsappMessages": {
     "description": ""
   },
-  "pageCollectCurrentRoute": "Ruta actual",
+  "pageCollectCurrentRoute": "Rota atual",
   "@pageCollectCurrentRoute": {
     "description": ""
   },
-  "pageCollectToCollect": "Colectar",
+  "pageCollectToCollect": "Coletar",
   "@pageCollectToCollect": {
     "description": ""
   },
-  "pageCollectCollectList": "Listado de colectas",
+  "pageCollectCollectList": "Lista de coletas",
   "@pageCollectCollectList": {
     "description": ""
   },
-  "pageCollectSettlementList": "Listado de liquidaciones",
+  "pageCollectSettlementList": "Lista de acordos",
   "@pageCollectSettlementList": {
     "description": ""
   },
-  "pageCollectShipmentList": "Listado de envíos",
+  "pageCollectShipmentList": "Lista de envios",
   "@pageCollectShipmentList": {
     "description": ""
   },
-  "pageCollectCollectDetails": "Detalles de la colecta",
+  "pageCollectCollectDetails": "Detalhes da coleta",
   "@pageCollectCollectDetails": {
     "description": ""
   },
-  "pageCollectSellerDetails": "Detalles del vendedor",
+  "pageCollectSellerDetails": "Detalhes do vendedor",
   "@pageCollectSellerDetails": {
     "description": ""
   },
-  "pageCollectSettlementDate": "Fecha de liquidación",
+  "pageCollectSettlementDate": "Data de liquidação",
   "@pageCollectSettlementDate": {
     "description": ""
   },
-  "pageCollectSettlementRange": "Rango de liquidación",
+  "pageCollectSettlementRange": "Intervalo de liquidação",
   "@pageCollectSettlementRange": {
     "description": ""
   },
-  "pageCollectSettlementDetails": "Detalles de liquidación",
+  "pageCollectSettlementDetails": "Detalhes da liquidação",
   "@pageCollectSettlementDetails": {
     "description": ""
   },
-  "pageCollectTotalToCollect": "Total colectas",
+  "pageCollectTotalToCollect": "Total a coletar",
   "@pageCollectTotalToCollect": {
     "description": ""
   },
-  "pageCollectTotalClients": "Total clientes",
+  "pageCollectTotalClients": "Total de clientes",
   "@pageCollectTotalClients": {
     "description": ""
   },
-  "pageCollectTotalClientsToCollect": "Total de clientes a colectar",
+  "pageCollectTotalClientsToCollect": "Total de clientes a coletar",
   "@pageCollectTotalClientsToCollect": {
     "description": ""
   },
-  "pageCollectNotEveryClientIsGeolocalized": "No todos los clientes están geolocalizados",
+  "pageCollectNotEveryClientIsGeolocalized": "Nem todos os clientes estão geolocalizados",
   "@pageCollectNotEveryClientIsGeolocalized": {
     "description": ""
   },
-  "bottomNavigationBarOptionHome": "Inicio",
+  "bottomNavigationBarOptionHome": "Início",
   "@bottomNavigationBarOptionHome": {
     "description": ""
   },
-  "bottomNavigationBarOptionShipments": "Paquetes",
+  "bottomNavigationBarOptionShipments": "Envios",
   "@bottomNavigationBarOptionShipments": {
     "description": ""
   },
@@ -541,47 +533,47 @@
   "@bottomNavigationBarOptionProfile": {
     "description": ""
   },
-  "bottomNavigationBarOptionSettings": "Configuración",
+  "bottomNavigationBarOptionSettings": "Configurações",
   "@bottomNavigationBarOptionSettings": {
     "description": ""
   },
-  "bottomNavigationBarOptionMySettlements": "Mis liquidaciones",
+  "bottomNavigationBarOptionMySettlements": "Meus acordos",
   "@bottomNavigationBarOptionMySettlements": {
     "description": ""
   },
-  "bottomNavigationBarOptionLogout": "Cerrar sesión",
+  "bottomNavigationBarOptionLogout": "Sair",
   "@bottomNavigationBarOptionLogout": {
     "description": ""
   },
-  "stateCollected": "Retirado",
+  "stateCollected": "Coletado",
   "@stateCollected": {
     "description": ""
   },
-  "stateAtProcessingPlant": "En planta de procesamiento",
+  "stateAtProcessingPlant": "Na planta de processamento",
   "@stateAtProcessingPlant": {
     "description": ""
   },
-  "stateAtProcessingPlant2": "En planta de procesamiento 2",
+  "stateAtProcessingPlant2": "Na planta de processamento 2",
   "@stateAtProcessingPlant2": {
     "description": ""
   },
-  "stateOnTheWay": "En camino",
+  "stateOnTheWay": "A caminho",
   "@stateOnTheWay": {
     "description": ""
   },
-  "stateReturningToProcessingPlant": "Volviendo a la planta de procesamiento",
+  "stateReturningToProcessingPlant": "Retornando à planta de processamento",
   "@stateReturningToProcessingPlant": {
     "description": ""
   },
-  "stateDelivered": "Entregado",
+  "stateDelivered": "Entregue",
   "@stateDelivered": {
     "description": ""
   },
-  "stateNobody": "Nadie en casa",
+  "stateNobody": "Ninguém",
   "@stateNobody": {
     "description": ""
   },
-  "stateToBeCollected": "A retirar",
+  "stateToBeCollected": "A ser coletado",
   "@stateToBeCollected": {
     "description": ""
   },
@@ -589,115 +581,115 @@
   "@stateCanceled": {
     "description": ""
   },
-  "stateDeliveredSecondVisit": "Entregado 2da visita",
+  "stateDeliveredSecondVisit": "Entregue segunda visita",
   "@stateDeliveredSecondVisit": {
     "description": ""
   },
-  "stateNobodySecondVisit": "Nadie en casa 2da visita",
+  "stateNobodySecondVisit": "Ninguém segunda visita",
   "@stateNobodySecondVisit": {
     "description": ""
   },
-  "stateOnTheWaySecondVisit": "En camino 2da visita",
+  "stateOnTheWaySecondVisit": "A caminho segunda visita",
   "@stateOnTheWaySecondVisit": {
     "description": ""
   },
-  "stateOnTheWayRescheduled": "En camino reprogramado",
+  "stateOnTheWayRescheduled": "A caminho reagendado",
   "@stateOnTheWayRescheduled": {
     "description": ""
   },
-  "stateNotDelivered": "No entregado",
+  "stateNotDelivered": "Não entregue",
   "@stateNotDelivered": {
     "description": ""
   },
-  "stateReturnedToClient": "Devuelto al cliente",
+  "stateReturnedToClient": "Devolvido ao cliente",
   "@stateReturnedToClient": {
     "description": ""
   },
-  "stateRejectedByClient": "Rechazado por el comprador",
+  "stateRejectedByClient": "Rejeitado pelo cliente",
   "@stateRejectedByClient": {
     "description": ""
   },
-  "stateOnTheWayThirdVisit": "En camino 3ra visita",
+  "stateOnTheWayThirdVisit": "A caminho terceira visita",
   "@stateOnTheWayThirdVisit": {
     "description": ""
   },
-  "stateDeliveredThirdVisit": "Entregado 3ra visita",
+  "stateDeliveredThirdVisit": "Entregue terceira visita",
   "@stateDeliveredThirdVisit": {
     "description": ""
   },
-  "stateNobodyThirdVisit": "Nadie en casa 3ra visita",
+  "stateNobodyThirdVisit": "Ninguém terceira visita",
   "@stateNobodyThirdVisit": {
     "description": ""
   },
-  "stateDeliveredPickupPoint": "Entregado en punto de retiro",
+  "stateDeliveredPickupPoint": "Entregue ponto de coleta",
   "@stateDeliveredPickupPoint": {
     "description": ""
   },
-  "languageSpanish": "Español",
+  "languageSpanish": "Espanhol",
   "@languageSpanish": {
     "description": ""
   },
-  "languageEnglish": "Inglés",
+  "languageEnglish": "Inglês",
   "@languageEnglish": {
     "description": ""
   },
-  "languagePortuguese": "Portugues",
+  "languagePortuguese": "Português",
   "@languagePortuguese": {
     "description": ""
   },
-  "commonUser": "Usuario",
+  "commonUser": "Usuário",
   "@commonUser": {
     "description": ""
   },
-  "commonFilter": "Filtrar",
+  "commonFilter": "Filtro",
   "@commonFilter": {
     "description": ""
   },
-  "commonLogin": "Ingresar",
+  "commonLogin": "Login",
   "@commonLogin": {
     "description": ""
   },
-  "commonToday": "Hoy",
+  "commonToday": "Hoje",
   "@commonToday": {
     "description": ""
   },
-  "commonClose": "Cerrar",
+  "commonClose": "Fechar",
   "@commonClose": {
     "description": ""
   },
-  "commonGenerate": "Generar",
+  "commonGenerate": "Gerar",
   "@commonGenerate": {
     "description": ""
   },
-  "commonId": "Id",
+  "commonId": "ID",
   "@commonId": {
     "description": ""
   },
-  "commonUbication": "Ubicación",
+  "commonUbication": "Localização",
   "@commonUbication": {
     "description": ""
   },
-  "commonSaveImage": "Cargar imagen",
+  "commonSaveImage": "Salvar imagem",
   "@commonSaveImage": {
     "description": ""
   },
-  "commonAddImage": "Agregar imagen",
+  "commonAddImage": "Adicionar imagem",
   "@commonAddImage": {
     "description": ""
   },
-  "commonDeleteImage": "Eliminar imagen",
+  "commonDeleteImage": "Excluir imagem",
   "@commonDeleteImage": {
     "description": ""
   },
-  "commonSave": "Guardar",
+  "commonSave": "Salvar",
   "@commonSave": {
     "description": ""
   },
-  "commonUserName": "Nombre de usuario",
+  "commonUserName": "Nome de usuário",
   "@commonUserName": {
     "description": ""
   },
-  "commonContact": "Contacto",
+  "commonContact": "Contato",
   "@commonContact": {
     "description": ""
   },
@@ -713,35 +705,35 @@
   "@commonPlan": {
     "description": ""
   },
-  "commonAccept": "Aceptar",
+  "commonAccept": "Aceitar",
   "@commonAccept": {
     "description": ""
   },
-  "commonDriver": "Chofer",
+  "commonDriver": "Motorista",
   "@commonDriver": {
     "description": ""
   },
-  "commonDelete": "Eliminar",
+  "commonDelete": "Excluir",
   "@commonDelete": {
     "description": ""
   },
-  "commonLoad": "Cargar",
+  "commonLoad": "Carregar",
   "@commonLoad": {
     "description": ""
   },
-  "commonHome": "Inicio",
+  "commonHome": "Início",
   "@commonHome": {
     "description": ""
   },
-  "commonCamera": "Cámara",
+  "commonCamera": "Câmera",
   "@commonCamera": {
     "description": ""
   },
-  "commonGallery": "Galería",
+  "commonGallery": "Galeria",
   "@commonGallery": {
     "description": ""
   },
-  "commonHistory": "Historial",
+  "commonHistory": "Histórico",
   "@commonHistory": {
     "description": ""
   },
@@ -753,27 +745,27 @@
   "@commonStates": {
     "description": ""
   },
-  "commonLocation": "Localidad",
+  "commonLocation": "Localização",
   "@commonLocation": {
     "description": ""
   },
-  "commonAddress": "Dirección",
+  "commonAddress": "Endereço",
   "@commonAddress": {
     "description": ""
   },
-  "commonDate": "Fecha",
+  "commonDate": "Data",
   "@commonDate": {
     "description": ""
   },
-  "commonDateFrom": "Fecha desde",
+  "commonDateFrom": "Data inicial",
   "@commonDateFrom": {
     "description": ""
   },
-  "commonDateTo": "Fecha hasta",
+  "commonDateTo": "Data final",
   "@commonDateTo": {
     "description": ""
   },
-  "commonObservations": "Observaciones",
+  "commonObservations": "Observações",
   "@commonObservations": {
     "description": ""
   },
@@ -785,35 +777,35 @@
   "@commonTotal": {
     "description": ""
   },
-  "commonTracking": "Seguimiento",
+  "commonTracking": "Rastreamento",
   "@commonTracking": {
     "description": ""
   },
-  "commonSettlements": "Liquidaciones",
+  "commonSettlements": "Acordos",
   "@commonSettlements": {
     "description": ""
   },
-  "commonSelectADate": "Selecciona una fecha",
+  "commonSelectADate": "Selecione uma data",
   "@commonSelectADate": {
     "description": ""
   },
-  "commonPersonalData": "Datos personales",
+  "commonPersonalData": "Dados pessoais",
   "@commonPersonalData": {
     "description": ""
   },
-  "commonMyData": "Mis datos",
+  "commonMyData": "Meus dados",
   "@commonMyData": {
     "description": ""
   },
-  "commonOn": "On",
+  "commonOn": "Ativado",
   "@commonOn": {
     "description": ""
   },
-  "commonOff": "Off",
+  "commonOff": "Desativado",
   "@commonOff": {
     "description": ""
   },
-  "commonAssign": "Asignar",
+  "commonAssign": "Atribuir",
   "@commonAssign": {
     "description": ""
   },
@@ -821,11 +813,11 @@
   "@commonSKU": {
     "description": ""
   },
-  "commonVariation": "Variation",
+  "commonVariation": "Variação",
   "@commonVariation": {
     "description": ""
   },
-  "commonSource": "Origen",
+  "commonSource": "Fonte",
   "@commonSource": {
     "description": ""
   },
@@ -833,11 +825,11 @@
   "@commonImportant": {
     "description": ""
   },
-  "commonIncorrectCode": "Código incorrecto",
+  "commonIncorrectCode": "Código incorreto",
   "@commonIncorrectCode": {
     "description": ""
   },
-  "commonBack": "Volver",
+  "commonBack": "Voltar",
   "@commonBack": {
     "description": ""
   },
@@ -845,15 +837,15 @@
   "@commonHouse": {
     "description": ""
   },
-  "commonSelect": "Seleccionar",
+  "commonSelect": "Selecionar",
   "@commonSelect": {
     "description": ""
   },
-  "commonSync": "Sincronizado",
+  "commonSync": "Sincronizar",
   "@commonSync": {
     "description": ""
   },
-  "commonWithoutSync": "No sincronizado",
+  "commonWithoutSync": "Não sincronizado",
   "@commonWithoutSync": {
     "description": ""
   },
@@ -861,7 +853,7 @@
   "@commonNumber": {
     "description": ""
   },
-  "commonAdd": "Agregar",
+  "commonAdd": "Adicionar",
   "@commonAdd": {
     "description": ""
   },
@@ -869,39 +861,39 @@
   "@commonCancel": {
     "description": ""
   },
-  "commonSaved": "Guardado",
+  "commonSaved": "Salvo",
   "@commonSaved": {
     "description": ""
   },
-  "commonFeatNotAvailableTitle": "Funcionalidad no disponible",
+  "commonFeatNotAvailableTitle": "Recurso não disponível",
   "@commonFeatNotAvailableTitle": {
     "description": ""
   },
-  "commonFeatNotAvailableDescription": "Esta funcionalidad no se encuentra disponible en esta versión de la aplicación",
+  "commonFeatNotAvailableDescription": "Este recurso não está disponível nesta versão do aplicativo.",
   "@commonFeatNotAvailableDescription": {
     "description": ""
   },
-  "commonInformationSavedSuccessfully": "Su información se ha guardado correctamente",
+  "commonInformationSavedSuccessfully": "Suas informações foram salvas com sucesso",
   "@commonInformationSavedSuccessfully": {
     "description": ""
   },
-  "commonOops": "Ups",
+  "commonOops": "Ops",
   "@commonOops": {
     "description": ""
   },
-  "commonNoMovements": "No hay movimientos",
+  "commonNoMovements": "Sem movimentos para mostrar",
   "@commonNoMovements": {
     "description": ""
   },
-  "commonCP": "CP",
+  "commonCP": "CEP",
   "@commonCP": {
     "description": ""
   },
-  "commonAccounts": "Cuentas",
+  "commonAccounts": "Contas",
   "@commonAccounts": {
     "description": ""
   },
-  "commonHi": "Hola",
+  "commonHi": "Olá",
   "@commonHi": {
     "description": ""
   },
@@ -913,7 +905,7 @@
   "@commonOk": {
     "description": ""
   },
-  "commonAdmitted": "Ingresados",
+  "commonAdmitted": "Admitido",
   "@commonAdmitted": {
     "description": ""
   },
@@ -921,15 +913,15 @@
   "@commonSeconds": {
     "description": ""
   },
-  "commonError": "Error",
+  "commonError": "Erro",
   "@commonError": {
     "description": ""
   },
-  "commonIUnderstand": "Entiendo",
+  "commonIUnderstand": "Eu entendo",
   "@commonIUnderstand": {
     "description": ""
   },
-  "commonPassword": "Contraseña",
+  "commonPassword": "Senha",
   "@commonPassword": {
     "description": ""
   },
@@ -937,23 +929,23 @@
   "@commonOf": {
     "description": ""
   },
-  "commonNoInternet": "No hay conexión a internet",
+  "commonNoInternet": "Sem conexão com a internet",
   "@commonNoInternet": {
     "description": ""
   },
-  "commonNoAvailableWithoutInternet": "Esta funcionalidad no está disponible sin conexión a internet. Por favor, conéctese a una red y vuelva a intentarlo.",
+  "commonNoAvailableWithoutInternet": "Este recurso não está disponível sem uma conexão com a internet.",
   "@commonNoAvailableWithoutInternet": {
     "description": ""
   },
-  "commonErrorText": "Ha ocurrido un error, intente eliminando el cache de la aplicación y iniciando sesión nuevamente, si el problema persiste contacte a soporte.",
+  "commonErrorText": "Ocorreu um erro, tente excluir o cache e fazer login novamente. Se o problema persistir, entre em contato com o suporte.",
   "@commonErrorText": {
     "description": ""
   },
-  "commonShipment": "Envío",
+  "commonShipment": "Remessa",
   "@commonShipment": {
     "description": ""
   },
-  "commonVersion": "Versión",
+  "commonVersion": "Versão",
   "@commonVersion": {
     "description": ""
   },
@@ -961,39 +953,39 @@
   "@commonApp": {
     "description": ""
   },
-  "commonCurrentPassword": "Contraseña actual",
+  "commonCurrentPassword": "Senha atual",
   "@commonCurrentPassword": {
     "description": ""
   },
-  "commonNewPassword": "Nueva contraseña",
+  "commonNewPassword": "Nova senha",
   "@commonNewPassword": {
     "description": ""
   },
-  "commonRepeatNewPassword": "Repetir nueva contraseña",
+  "commonRepeatNewPassword": "Repetir nova senha",
   "@commonRepeatNewPassword": {
     "description": ""
   },
-  "commonSuccess": "Éxito",
+  "commonSuccess": "Sucesso",
   "@commonSuccess": {
     "description": ""
   },
-  "commonChange": "Cambiar",
+  "commonChange": "Alterar",
   "@commonChange": {
     "description": ""
   },
-  "commonBranch": "Sucursal",
+  "commonBranch": "Filial",
   "@commonBranch": {
     "description": ""
   },
-  "commonNow": "Ahora",
+  "commonNow": "Agora",
   "@commonNow": {
     "description": ""
   },
-  "commonNotifications": "Notificaciones",
+  "commonNotifications": "Notificações",
   "@commonNotifications": {
     "description": ""
   },
-  "commonCollect": "Colecta",
+  "commonCollect": "Coletar",
   "@commonCollect": {
     "description": ""
   },
@@ -1001,15 +993,15 @@
   "@commonStart": {
     "description": ""
   },
-  "commonSavedWithoutConnection": "Guardado sin conexión",
+  "commonSavedWithoutConnection": "Salvo sem conexão",
   "@commonSavedWithoutConnection": {
     "description": ""
   },
-  "commonRefresh": "Refrescar",
+  "commonRefresh": "Atualizar",
   "@commonRefresh": {
     "description": ""
   },
-  "commonUnAssign": "Desasignar",
+  "commonUnAssign": "Desatribuir",
   "@commonUnAssign": {
     "description": ""
   },
@@ -1025,7 +1017,7 @@
       }
     }
   },
-  "commonWhitoutInformation": "Sin información",
+  "commonWhitoutInformation": "Sem informações",
   "@commonWhitoutInformation": {
     "description": ""
   },
@@ -1033,15 +1025,15 @@
   "@commonRegenerate": {
     "description": ""
   },
-  "commonNoShipmentsAvailable": "No hay envíos disponibles",
+  "commonNoShipmentsAvailable": "Nenhum envio disponível",
   "@commonNoShipmentsAvailable": {
     "description": ""
   },
-  "commonAmountToCharge": "Monto a cobrar",
+  "commonAmountToCharge": "Valor a ser cobrado",
   "@commonAmountToCharge": {
     "description": ""
   },
-  "commonAllowPermissions": "Permitir permisos",
+  "commonAllowPermissions": "Permitir permissões",
   "@commonAllowPermissions": {
     "description": ""
   }

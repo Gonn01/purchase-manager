@@ -8,47 +8,67 @@
   "@pageIdentificationEnterTheCompanyCode": {
     "description": ""
   },
-  "pageLoginAskForLocationWhenInUsePermission": "Lightdata app collects location data to enable positioning of packages and possible routing of deliveries even when the app is closed or not in use.",
+  "pageLoginAskForLocationWhenInUsePermission": "Lightdata app collects location data to enable positioning of shipments and possible routing of deliveries even when the app is closed or not in use.",
   "@pageLoginAskForLocationWhenInUsePermission": {
     "description": ""
   },
-  "pageLoginAskForLocationAlwaysPermission": "Lightdata is an application that will collect the cell phone location in the background to offer a better work tool. This way, the position of the package will be known at all times.",
+  "pageLoginAskForLocationAlwaysPermission": "Lightdata is an application that will collect the cell phone location in the background to offer a better work tool. This way, the position of the shipment will be known at all times.",
   "@pageLoginAskForLocationAlwaysPermission": {
+    "description": ""
+  },
+  "pageLoginAskForPermissions": "Lightdata app collects location data to:\n- Enable positioning of shipments and routing of deliveries.\n- Provide a better work tool by tracking the shipment location in real time.\n\nThis data is collected even when the app is closed or not in use.(background)\n\nLearn more about how we use your location data in our",
+  "@pageLoginAskForPermissions": {
+    "description": ""
+  },
+  "pageLoginBadCredentials": "Bad credentials",
+  "@pageLoginBadCredentials": {
+    "description": ""
+  },
+  "pageLoginProCourrierError": "We have another app for Pro Courrier, please download it from the store.",
+  "@pageLoginProCourrierError": {
     "description": ""
   },
   "pageHomeTitle": "Shipments from ",
   "@pageHomeTitle": {
     "description": ""
   },
-  "pageHomeOptionPackagesToDeliver": "Packages\nto deliver",
-  "@pageHomeOptionPackagesToDeliver": {
+  "pageHomeOptionShipmentsDeliveredToday": "Shipments\n delivered today",
+  "@pageHomeOptionShipmentsDeliveredToday": {
     "description": ""
   },
-  "pageHomeOptionAsignPackages": "Asign\npackages",
-  "@pageHomeOptionAsignPackages": {
+  "pageHomeOptionTodaysAssignedShipments": "Todays\nassigned shipments",
+  "@pageHomeOptionTodaysAssignedShipments": {
     "description": ""
   },
-  "pageHomeOptionPackagesOnTheWay": "Asigned\npackages",
-  "@pageHomeOptionPackagesOnTheWay": {
+  "pageHomeOptionShipmentsOnTheWay": "On the way",
+  "@pageHomeOptionShipmentsOnTheWay": {
     "description": ""
   },
-  "pageHomeOptionDeliveredPackages": "Delivered\npackages",
-  "@pageHomeOptionDeliveredPackages": {
+  "pageHomeOptionClosedShipments": "Closed\nshipments",
+  "@pageHomeOptionClosedShipments": {
     "description": ""
   },
-  "pageHomeOptionPendingPackages": "Pending\npackages",
-  "@pageHomeOptionPendingPackages": {
+  "pageHomeOptionPendingShipments": "Pending\nshipments",
+  "@pageHomeOptionPendingShipments": {
     "description": ""
   },
-  "pageHomeStartRoute": "Start Route",
+  "pageHomeStartRoute": "Start route",
   "@pageHomeStartRoute": {
+    "description": ""
+  },
+  "pageHomeFinishRoute": "Finish route",
+  "@pageHomeFinishRoute": {
+    "description": ""
+  },
+  "pageQrScanInvalidQR": "QR code not valid",
+  "@pageQrScanInvalidQR": {
     "description": ""
   },
   "pageQrMenuTitle": "Select a QR reader",
   "@pageQrMenuTitle": {
     "description": ""
   },
-  "pageQrMenuOptionToProcessingPlant": "To processing plant",
+  "pageQrMenuOptionToProcessingPlant": "To processing\n plant",
   "@pageQrMenuOptionToProcessingPlant": {
     "description": ""
   },
@@ -72,7 +92,7 @@
   "@pageQrMenuOptionCrossDocking": {
     "description": ""
   },
-  "pageQrMenuOptionShipmentInformation": "Shipment information",
+  "pageQrMenuOptionShipmentInformation": "Shipment\n information",
   "@pageQrMenuOptionShipmentInformation": {
     "description": ""
   },
@@ -80,17 +100,25 @@
   "@pageQrMenuOptionEnterFlex": {
     "description": ""
   },
-  "pageQrCollectOptionCollectedFrom": "Retired from {clientName}",
-  "@pageQrCollectOptionCollectedFrom": {
-    "description": "",
+  "pageQrCollectCollectedTodayByMe": "Retired today by me",
+  "@pageQrCollectCollectedTodayByMe": {
+    "description": ""
+  },
+  "pageQrProccessingPlantTodayForMeInTheDay": "Today for me in the day",
+  "@pageQrProccessingPlantTodayForMeInTheDay": {
+    "description": ""
+  },
+  "pageQrProccessingPlantCustomerToday": "Customer today",
+  "@pageQrProccessingPlantCustomerToday": {
+    "description": ""
+  },
+  "pageQrProccessingPlantMissings": "Missings at the entrance floor today ({clientName})",
+  "@pageQrProccessingPlantMissings": {
     "placeholders": {
       "clientName": {
         "type": "String"
       }
-    }
-  },
-  "pageQrRetiredTodayByMe": "Retired today by me",
-  "@pageQrRetiredTodayByMe": {
+    },
     "description": ""
   },
   "pageQrReadNow": "Read now",
@@ -99,26 +127,6 @@
   },
   "pageQrScanTheQR": "Scan the QR",
   "@pageQrScanTheQR": {
-    "description": ""
-  },
-  "pageQrToEnterToday": "To enter today",
-  "@pageQrToEnterToday": {
-    "description": ""
-  },
-  "pageQrMissingFromTheEntranceFloorToday": "Missing from the entrance floor today",
-  "@pageQrMissingFromTheEntranceFloorToday": {
-    "description": ""
-  },
-  "pageQrToTheCustomersProcessingPlantToday": "To the customer's processing plant today",
-  "@pageQrToTheCustomersProcessingPlantToday": {
-    "description": ""
-  },
-  "pageQrToPlantTodayForMeOnTheDay": "To plant today for me on the day",
-  "@pageQrToPlantTodayForMeOnTheDay": {
-    "description": ""
-  },
-  "pageQrToProcessingPlantNow": "To processing plant now",
-  "@pageQrToProcessingPlantNow": {
     "description": ""
   },
   "pageQrDeliveryArea": "Delivery area",
@@ -133,8 +141,24 @@
   "@pageQrSaveVisit": {
     "description": ""
   },
+  "pageQrRegisterVisit": "Register visit",
+  "@pageQrRegisterVisit": {
+    "description": ""
+  },
   "pageQrSelfAssign": "Self-assign",
   "@pageQrSelfAssign": {
+    "description": ""
+  },
+  "pageQrCollectTotalToCollectClient": "Total to withdraw customer",
+  "@pageQrCollectTotalToCollectClient": {
+    "description": ""
+  },
+  "pageQrCollectToCollectToday": "To collect today",
+  "@pageQrCollectToCollectToday": {
+    "description": ""
+  },
+  "pageQrCollectCollectedToday": "Collected today",
+  "@pageQrCollectCollectedToday": {
     "description": ""
   },
   "pageFiltersApplyFilters": "Apply filters",
@@ -193,8 +217,8 @@
   "@pageMapsCardDataItemDistanceTime": {
     "description": ""
   },
-  "pageMapsDeposit": "Deposit",
-  "@pageMapsDeposit": {
+  "pageMapsDepot": "Depot",
+  "@pageMapsDepot": {
     "description": ""
   },
   "pageMapsLastShipment": "Last shipment",
@@ -233,6 +257,14 @@
   "@pageMapsSelectALocation": {
     "description": ""
   },
+  "pageMapsNoGeolocatedShipments": "No geolocated shipments",
+  "@pageMapsNoGeolocatedShipments": {
+    "description": ""
+  },
+  "pageMapsRouteGeneratedCorrectly": "Route generated correctly",
+  "@pageMapsRouteGeneratedCorrectly": {
+    "description": ""
+  },
   "pageProfileForgetSession": "Forget session",
   "@pageProfileForgetSession": {
     "description": ""
@@ -249,12 +281,44 @@
   "@pageProfileIntegrationsLinks": {
     "description": ""
   },
+  "pageProfileAreYouSureThatYouWantToDeleteCache": "Are you sure that you want to delete cache?",
+  "@pageProfileAreYouSureThatYouWantToDeleteCache": {
+    "description": ""
+  },
+  "pageProfileClearCache": "Clear cache",
+  "@pageProfileClearCache": {
+    "description": ""
+  },
+  "pageProfileProfilePictureChangedSuccessfully": "Profile picture changed successfully",
+  "@pageProfileProfilePictureChangedSuccessfully": {
+    "description": ""
+  },
+  "pageProfileChangePassword": "Change password",
+  "@pageProfileChangePassword": {
+    "description": ""
+  },
+  "pageProfileSuccessEditingPersonalData": "Success editing personal data",
+  "@pageProfileSuccessEditingPersonalData": {
+    "description": ""
+  },
+  "pageProfileChangeIcon": "Change icon",
+  "@pageProfileChangeIcon": {
+    "description": ""
+  },
   "pageRegisterVisitAddObservations": "Add observations",
   "@pageRegisterVisitAddObservations": {
     "description": ""
   },
-  "pageRegisterVisitDNIOfTheRecipient": "Recipient's DNI",
+  "pageRegisterVisitDNIOfTheRecipient": "Receiver's DNI",
   "@pageRegisterVisitDNIOfTheRecipient": {
+    "description": ""
+  },
+  "pageRegisterVisitRUTOfTheRecipient": "Receiver's RUT",
+  "@pageRegisterVisitRUTOfTheRecipient": {
+    "description": ""
+  },
+  "pageRegisterVisitCCOfTheRecipient": "Receiver's C.C.",
+  "@pageRegisterVisitCCOfTheRecipient": {
     "description": ""
   },
   "pageRegisterVisitNameOfTheRecipient": "Name of the recipient",
@@ -265,27 +329,47 @@
   "@pageRegisterVisitRegisterVisit": {
     "description": ""
   },
-  "pageShipmentInformationWithoutObservations": "Without observations",
-  "@pageShipmentInformationWithoutObservations": {
+  "pageRegisterVisitImageLimitAlert": "You have reached the image limit",
+  "@pageRegisterVisitImageLimitAlert": {
     "description": ""
   },
-  "pageShipmentInformationIdShipment": "Shipment ID ML",
-  "@pageShipmentInformationIdShipment": {
+  "pageRegisterVisitSuccess": "Visit registered successfully",
+  "@pageRegisterVisitSuccess": {
     "description": ""
   },
-  "pageShipmentInformationIdSale": "Sale ID ML",
-  "@pageShipmentInformationIdSale": {
+  "pageRegisterVisitUploadingImages": "Uploading images...",
+  "@pageRegisterVisitUploadingImages": {
     "description": ""
   },
-  "pageShipmentInformationTotalToClaim": "Total to claim",
-  "@pageShipmentInformationTotalToClaim": {
+  "pageRegisterVisitErrorRequiredImage": "You must add at least one image",
+  "@pageRegisterVisitErrorRequiredImage": {
     "description": ""
   },
-  "pageShipmentInformationWhoRecibeTheShipment": "Package recipient is the buyer",
-  "@pageShipmentInformationWhoRecibeTheShipment": {
+  "pageShipmentDetailsWithoutObservations": "Without observations",
+  "@pageShipmentDetailsWithoutObservations": {
     "description": ""
   },
-  "pageShipmentListTotalShipments": "Packages viewed in total",
+  "pageShipmentDetailsIdShipment": "Shipment ID",
+  "@pageShipmentDetailsIdShipment": {
+    "description": ""
+  },
+  "pageShipmentDetailsIdSale": "Sale ID",
+  "@pageShipmentDetailsIdSale": {
+    "description": ""
+  },
+  "pageShipmentDetailsTotalToClaim": "Total to claim",
+  "@pageShipmentDetailsTotalToClaim": {
+    "description": ""
+  },
+  "pageShipmentDetailsWhoRecibeTheShipment": "Package recipient is the buyer",
+  "@pageShipmentDetailsWhoRecibeTheShipment": {
+    "description": ""
+  },
+  "pageShipmentDetailsNoLocationOfShipment": "No shipment location of shipment",
+  "@pageShipmentDetailsNoLocationOfShipment": {
+    "description": ""
+  },
+  "pageShipmentListTotalShipments": "Total of shipments shown",
   "@pageShipmentListTotalShipments": {
     "description": ""
   },
@@ -301,6 +385,10 @@
   "@pageShipmentListShipmentProximoAEntregar": {
     "description": ""
   },
+  "pageShipmentListTodaysPackagesAreNotBeingShown": "Today's packages are not being shown",
+  "@pageShipmentListTodaysPackagesAreNotBeingShown": {
+    "description": ""
+  },
   "pageAccountsSellerId": "Seller Id",
   "@pageAccountsSellerId": {
     "description": ""
@@ -311,6 +399,126 @@
   },
   "pageSettlementsShipmentAddress": "Shipment address",
   "@pageSettlementsShipmentAddress": {
+    "description": ""
+  },
+  "pageSettlementsWhoLiquidate": "Who liquidate",
+  "@pageSettlementsWhoLiquidate": {
+    "description": ""
+  },
+  "pageSettlementsLiquidateDate": "Liquidate date",
+  "@pageSettlementsLiquidateDate": {
+    "description": ""
+  },
+  "pageSettlementsNoShipmentAvailable": "No shipments available",
+  "@pageSettlementsNoShipmentAvailable": {
+    "description": ""
+  },
+  "pageSettlementsNumbersOfTrips": "Number of trips",
+  "@pageSettlementsNumbersOfTrips": {
+    "description": ""
+  },
+  "pageAppConfiguration": "App configuration",
+  "@pageAppConfiguration": {
+    "description": ""
+  },
+  "pageAppConfigurationDefaultRegisterVisitStates": "Default register visit states",
+  "@pageAppConfigurationDefaultRegisterVisitStates": {
+    "description": ""
+  },
+  "pageAppConfigurationChangeGeoDriversHours": "Change geodrivers hours",
+  "@pageAppConfigurationChangeGeoDriversHours": {
+    "description": ""
+  },
+  "pageAppConfigurationChangeGeoDriversHoursStartHour": "Start hour",
+  "@pageAppConfigurationChangeGeoDriversHoursStartHour": {
+    "description": ""
+  },
+  "pageAppConfigurationChangeGeoDriversHoursEndHour": "End hour",
+  "@pageAppConfigurationChangeGeoDriversHoursEndHour": {
+    "description": ""
+  },
+  "pageAppConfigurationCheckPermissions": "Check permissions",
+  "@pageAppConfigurationCheckPermissions": {
+    "description": ""
+  },
+  "pageCheckPermissionsAlreadyAllowed": "Permissions already granted",
+  "@pageCheckPermissionsAlreadyAllowed": {
+    "description": ""
+  },
+  "pageCheckPermissionsAlreadyAllowedDescription": "The permissions are already granted",
+  "@pageCheckPermissionsAlreadyAllowedDescription": {
+    "description": ""
+  },
+  "pageAppConfigurationCheckPermissionsAllowed": "Permissions granted",
+  "@pageAppConfigurationCheckPermissionsAllowed": {
+    "description": ""
+  },
+  "pageCheckPermissionsAllowedDescription": "The permission has been granted successfully",
+  "@pageCheckPermissionsAllowedDescription": {
+    "description": ""
+  },
+  "pageAppConfigurationCheckPermissionsDenied": "Permissions denied",
+  "@pageAppConfigurationCheckPermissionsDenied": {
+    "description": ""
+  },
+  "pageAppConfigurationNewWhatsappMessages": "New whatsapp messages available",
+  "@pageAppConfigurationNewWhatsappMessages": {
+    "description": ""
+  },
+  "pageCollectCurrentRoute": "Current route",
+  "@pageCollectCurrentRoute": {
+    "description": ""
+  },
+  "pageCollectToCollect": "To collect",
+  "@pageCollectToCollect": {
+    "description": ""
+  },
+  "pageCollectCollectList": "Collect list",
+  "@pageCollectCollectList": {
+    "description": ""
+  },
+  "pageCollectSettlementList": "Settlement list",
+  "@pageCollectSettlementList": {
+    "description": ""
+  },
+  "pageCollectShipmentList": "Shipment list",
+  "@pageCollectShipmentList": {
+    "description": ""
+  },
+  "pageCollectCollectDetails": "Collect details",
+  "@pageCollectCollectDetails": {
+    "description": ""
+  },
+  "pageCollectSellerDetails": "Seller details",
+  "@pageCollectSellerDetails": {
+    "description": ""
+  },
+  "pageCollectSettlementDate": "Settlement date",
+  "@pageCollectSettlementDate": {
+    "description": ""
+  },
+  "pageCollectSettlementRange": "Settlement range",
+  "@pageCollectSettlementRange": {
+    "description": ""
+  },
+  "pageCollectSettlementDetails": "Settlement details",
+  "@pageCollectSettlementDetails": {
+    "description": ""
+  },
+  "pageCollectTotalToCollect": "Total collect's",
+  "@pageCollectTotalToCollect": {
+    "description": ""
+  },
+  "pageCollectTotalClients": "Total clients",
+  "@pageCollectTotalClients": {
+    "description": ""
+  },
+  "pageCollectTotalClientsToCollect": "Total clients to collect",
+  "@pageCollectTotalClientsToCollect": {
+    "description": ""
+  },
+  "pageCollectNotEveryClientIsGeolocalized": "Not every client is geolocalized",
+  "@pageCollectNotEveryClientIsGeolocalized": {
     "description": ""
   },
   "bottomNavigationBarOptionHome": "Home",
@@ -351,6 +559,10 @@
   },
   "stateAtProcessingPlant": "At processing plant",
   "@stateAtProcessingPlant": {
+    "description": ""
+  },
+  "stateAtProcessingPlant2": "At processing plant 2",
+  "@stateAtProcessingPlant2": {
     "description": ""
   },
   "stateOnTheWay": "On the way",
@@ -403,6 +615,22 @@
   },
   "stateRejectedByClient": "Rejected by client",
   "@stateRejectedByClient": {
+    "description": ""
+  },
+  "stateOnTheWayThirdVisit": "On the way third visit",
+  "@stateOnTheWayThirdVisit": {
+    "description": ""
+  },
+  "stateDeliveredThirdVisit": "Delivered third visit",
+  "@stateDeliveredThirdVisit": {
+    "description": ""
+  },
+  "stateNobodyThirdVisit": "Nobody third visit",
+  "@stateNobodyThirdVisit": {
+    "description": ""
+  },
+  "stateDeliveredPickupPoint": "Delivered pickup point",
+  "@stateDeliveredPickupPoint": {
     "description": ""
   },
   "languageSpanish": "Spanish",
@@ -479,6 +707,10 @@
   },
   "commonCompany": "Company",
   "@commonCompany": {
+    "description": ""
+  },
+  "commonPlan": "Plan",
+  "@commonPlan": {
     "description": ""
   },
   "commonAccept": "Accept",
@@ -705,8 +937,112 @@
   "@commonOf": {
     "description": ""
   },
+  "commonNoInternet": "No internet connection",
+  "@commonNoInternet": {
+    "description": ""
+  },
+  "commonNoAvailableWithoutInternet": "This feature is not available without an internet connection.",
+  "@commonNoAvailableWithoutInternet": {
+    "description": ""
+  },
   "commonErrorText": "An error has occurred, please try deleting the cache and logging in again. If the problem persists, please contact support.",
   "@commonErrorText": {
+    "description": ""
+  },
+  "commonShipment": "Shipment",
+  "@commonShipment": {
+    "description": ""
+  },
+  "commonVersion": "Version",
+  "@commonVersion": {
+    "description": ""
+  },
+  "commonApp": "App",
+  "@commonApp": {
+    "description": ""
+  },
+  "commonCurrentPassword": "Current password",
+  "@commonCurrentPassword": {
+    "description": ""
+  },
+  "commonNewPassword": "New password",
+  "@commonNewPassword": {
+    "description": ""
+  },
+  "commonRepeatNewPassword": "Repeat new password",
+  "@commonRepeatNewPassword": {
+    "description": ""
+  },
+  "commonSuccess": "Success",
+  "@commonSuccess": {
+    "description": ""
+  },
+  "commonChange": "Change",
+  "@commonChange": {
+    "description": ""
+  },
+  "commonBranch": "Branch",
+  "@commonBranch": {
+    "description": ""
+  },
+  "commonNow": "Now",
+  "@commonNow": {
+    "description": ""
+  },
+  "commonNotifications": "Notifications",
+  "@commonNotifications": {
+    "description": ""
+  },
+  "commonCollect": "Collect",
+  "@commonCollect": {
+    "description": ""
+  },
+  "commonStart": "Start",
+  "@commonStart": {
+    "description": ""
+  },
+  "commonSavedWithoutConnection": "Saved without connection",
+  "@commonSavedWithoutConnection": {
+    "description": ""
+  },
+  "commonRefresh": "Refresh",
+  "@commonRefresh": {
+    "description": ""
+  },
+  "commonUnAssign": "Unassign",
+  "@commonUnAssign": {
+    "description": ""
+  },
+  "commonSynchronizing": "Synchronizing data {current} of {total}",
+  "@commonSynchronizing": {
+    "description": "",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "commonWhitoutInformation": "No information",
+  "@commonWhitoutInformation": {
+    "description": ""
+  },
+  "commonRegenerate": "Regenerate",
+  "@commonRegenerate": {
+    "description": ""
+  },
+  "commonNoShipmentsAvailable": "No shipments available",
+  "@commonNoShipmentsAvailable": {
+    "description": ""
+  },
+  "commonAmountToCharge": "Amount to charge",
+  "@commonAmountToCharge": {
+    "description": ""
+  },
+  "commonAllowPermissions": "Allow permissions",
+  "@commonAllowPermissions": {
     "description": ""
   }
 }

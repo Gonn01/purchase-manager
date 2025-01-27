@@ -131,16 +131,22 @@ String generateTextPesos({
   buffer.write(
       '${total.isNegative ? '*Resumen*: Me debes en' : 'Te debo en'} total: '
       '${total.isNegative ? (total * -1) : total} ARS');
-
+  if (totalDebtor == 0 ||
+      totalCreditor == 0.0 ||
+      totalCreditor == 0 ||
+      totalDebtor == 0.0) {
+    return buffer.toString();
+  }
   if (totalDebtor > totalCreditor) {
-    buffer.write(' (${totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor}'
+    buffer.write(
+        ' (${(totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor).toStringAsFixed(2)}'
         ' - '
         '${(totalCreditor.isNegative ? totalCreditor * -1 : totalCreditor).toStringAsFixed(2)})');
   } else {
     buffer.write(
         ' (${(totalCreditor.isNegative ? totalCreditor * -1 : totalCreditor).toStringAsFixed(2)}'
         ' - '
-        '${totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor})');
+        '${(totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor).toStringAsFixed(2)})');
   }
   return buffer.toString();
 }
@@ -268,16 +274,22 @@ String generateTextInDollars({
 
   if (thereIsPurchasesInEUR) {
     buffer.write(
-      'Valor del euro tomado: 1 EUR = \$$euroValue ARS\n\n\n',
+      'Valor del euro tomado: 1 USD = \$${(dollarValue / euroValue).toStringAsFixed(2)} EUR\n\n\n',
     );
   }
 
   buffer.write(
       '${total.isNegative ? '*Resumen*: Me debes en' : 'Te debo en'} total: '
       '${(total.isNegative ? (total * -1) : total).toStringAsFixed(2)} USD');
-
+  if (totalDebtor == 0 ||
+      totalCreditor == 0.0 ||
+      totalCreditor == 0 ||
+      totalDebtor == 0.0) {
+    return buffer.toString();
+  }
   if (totalDebtor > totalCreditor) {
-    buffer.write(' (${totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor}'
+    buffer.write(
+        ' (${(totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor).toStringAsFixed(2)}'
         ' - '
         '${(totalCreditor.isNegative ? totalCreditor * -1 : totalCreditor).toStringAsFixed(2)})');
   } else {
@@ -406,22 +418,28 @@ String generateTextInEuros({
 
   if (thereIsPurchasesInPesos) {
     buffer.write(
-      'Valor del dolar tomado: 1 USD = \$$dollarValue ARS\n\n\n',
+      'Valor del dolar tomado: 1 EUR = \$$euroValue ARS\n\n\n',
     );
   }
 
   if (thereIsPurchasesInDollars) {
     buffer.write(
-      'Valor del euro tomado: 1 EUR = \$$euroValue ARS\n\n\n',
+      'Valor del euro tomado: 1 EUR = \$${(euroValue / dollarValue).toStringAsFixed(2)} USD\n\n\n',
     );
   }
 
   buffer.write(
       '${total.isNegative ? '*Resumen*: Me debes en' : 'Te debo en'} total: '
       '${(total.isNegative ? (total * -1) : total).toStringAsFixed(2)} USD');
-
+  if (totalDebtor == 0 ||
+      totalCreditor == 0.0 ||
+      totalCreditor == 0 ||
+      totalDebtor == 0.0) {
+    return buffer.toString();
+  }
   if (totalDebtor > totalCreditor) {
-    buffer.write(' (${totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor}'
+    buffer.write(
+        ' (${(totalDebtor.isNegative ? totalDebtor * -1 : totalDebtor).toStringAsFixed(2)}'
         ' - '
         '${(totalCreditor.isNegative ? totalCreditor * -1 : totalCreditor).toStringAsFixed(2)})');
   } else {
