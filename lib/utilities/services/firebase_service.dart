@@ -32,14 +32,10 @@ class FirebaseService {
             await categoriaDoc.reference.collection('compras').get();
 
         if (comprasSnapshot.docs.isEmpty) {
-          debugPrint(
-            'No se encontraron compras para la categoría ${categoriaDoc.id}.',
-          );
           continue;
         }
 
         for (final compraDoc in comprasSnapshot.docs) {
-          debugPrint('Compra ID: ${compraDoc.id}, Data: ${compraDoc.data()}');
 
           // Revisa si el campo "fechaCreacion" existe y es un Timestamp
           final data = compraDoc.data();
@@ -49,15 +45,10 @@ class FirebaseService {
             final f = timestamp.toDate().formatWithHour;
             // Actualiza la compra con "fechaCreacion" formateada
             await compraDoc.reference.update({'fechaCreacion': f});
-            debugPrint(
-              'Actualizado fechaCreacion en compra ${compraDoc.id}: '
-              '${timestamp.toDate().formatWithHour}',
-            );
           }
         }
       }
 
-      debugPrint('Actualización completa.');
     } on Exception catch (e) {
       debugPrint('Error al actualizar las compras: $e');
     }
@@ -78,14 +69,10 @@ class FirebaseService {
             await categoriaDoc.reference.collection('compras').get();
 
         if (comprasSnapshot.docs.isEmpty) {
-          debugPrint(
-            'No se encontraron compras para la categoría ${categoriaDoc.id}.',
-          );
           continue;
         }
 
         for (final compraDoc in comprasSnapshot.docs) {
-          debugPrint('Compra ID: ${compraDoc.id}, Data: ${compraDoc.data()}');
 
           final data = compraDoc.data();
 
@@ -103,16 +90,11 @@ class FirebaseService {
               final fechaFormateada = timestamp.toDate().formatWithHour;
 
               await compraDoc.reference.update({campo: fechaFormateada});
-              debugPrint(
-                'Actualizado $campo en compra ${compraDoc.id}: '
-                '$fechaFormateada',
-              );
             }
           }
         }
       }
 
-      debugPrint('Actualización de fechas completa.');
     } on Exception catch (e) {
       debugPrint('Error al actualizar las fechas en las compras: $e');
     }
@@ -132,30 +114,23 @@ class FirebaseService {
             await categoriaDoc.reference.collection('compras').get();
 
         if (comprasSnapshot.docs.isEmpty) {
-          debugPrint(
-            'No se encontraron compras para la categoría ${categoriaDoc.id}.',
-          );
           continue;
         }
 
         for (final compraDoc in comprasSnapshot.docs) {
-          debugPrint('Compra ID: ${compraDoc.id}, Data: ${compraDoc.data()}');
 
           // Revisa si el campo "cuotasPagadas" no existe
           if (!compraDoc.data().containsKey('cuotasPagadas')) {
             // Actualiza la compra con "cuotasPagadas" establecido en 0
             await compraDoc.reference.update({'cuotasPagadas': 0});
-            debugPrint('Actualizado cuotasPagadas en compra: ${compraDoc.id}');
           }
           if (!compraDoc.data().containsKey('ignored')) {
             // Actualiza la compra con "cuotasPagadas" establecido en 0
             await compraDoc.reference.update({'ignored': false});
-            debugPrint('Actualizado ignored en compra: ${compraDoc.id}');
           }
         }
       }
 
-      debugPrint('Actualización completa.');
     } on Exception catch (e) {
       debugPrint('Error al actualizar las compras: $e');
     }
@@ -199,7 +174,7 @@ class FirebaseService {
           .update({
         'logs': FieldValue.arrayUnion(
           <String>[
-            '''Se creó la compra ${newPurchase.nameOfProduct}.${DateTime.now().formatWithHour}''',
+            'Se creó la compra ${newPurchase.nameOfProduct}.${DateTime.now().formatWithHour}',
           ],
         ),
       });
@@ -277,7 +252,7 @@ class FirebaseService {
           .update({
         'logs': FieldValue.arrayUnion(
           <String>[
-            '''Se elimino la compra $idPurchase. ${DateTime.now().formatWithHour}''',
+            'Se elimino la compra $idPurchase. ${DateTime.now().formatWithHour}',
           ],
         ),
       });

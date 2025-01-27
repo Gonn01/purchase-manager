@@ -1,5 +1,3 @@
-// ignore_for_file: lines_longer_than_80_chars a
-
 import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/models/currency.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';

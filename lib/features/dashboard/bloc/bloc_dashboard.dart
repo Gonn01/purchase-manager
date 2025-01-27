@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_dynamic_calls a
-
 import 'dart:async';
 import 'dart:convert';
 
@@ -272,7 +270,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
         ],
         logs: [
           ...newList[index].logs,
-          '''Se creó la compra ${event.productName}. ${DateTime.now().formatWithHour}''',
+          'Se creó la compra ${event.productName}. ${DateTime.now().formatWithHour}',
         ],
       );
 

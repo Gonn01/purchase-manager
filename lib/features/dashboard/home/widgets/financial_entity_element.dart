@@ -89,7 +89,6 @@ class FinancialEntityElement extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      // ignore: lines_longer_than_80_chars asd
                       '${total.isNegative ? 'Me debe en' : 'Le debo en'} total ${(total.isNegative ? total * -1 : total).formatAmount} ${state.selectedCurrency.abreviation}',
                       style: const TextStyle(
                         color: Colors.white,

@@ -31,7 +31,6 @@ class LDBottomNavigationBarItem extends StatelessWidget {
   final Widget? image;
 
   /// Function to call when the item is tapped
-  // ignore: avoid_positional_boolean_parameters
   final void Function(int) onTap;
 
   @override

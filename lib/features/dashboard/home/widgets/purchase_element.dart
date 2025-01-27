@@ -321,7 +321,6 @@ class Campos extends StatelessWidget {
                                 );
                               }
                               context.read<BlocDashboard>().add(
-                                    // ignore: lines_longer_than_80_chars asd
                                     BlocDashboardEventAlternateIgnorePurchase(
                                       purchaseId: purchase.id ?? '',
                                     ),
@@ -395,7 +394,6 @@ class Campos extends StatelessWidget {
                       ),
                     ),
                   // const Row(
-                  // ignore: avoid_redundant_argument_values as
                   // children: [
                   // GestureDetector(
                   //onTap: () => context.read<BlocDashboard>().add

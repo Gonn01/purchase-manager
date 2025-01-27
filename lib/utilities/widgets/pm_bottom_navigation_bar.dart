@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
 
 /// {@template PMBottomNavigationBar}
@@ -20,74 +22,97 @@ class PMBottomNavigationBar extends StatelessWidget {
   final RouteData route;
   @override
   Widget build(BuildContext context) {
+    final connectionStates = Provider.of<List<ConnectivityResult>>(context);
     return BottomAppBar(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      child: Column(
         children: [
-          InkWell(
-            onTap: () => context.router.replace(const RutaHome()),
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: route.path == 'home'
-                        ? const Color(0xff00B3A3)
-                        : Colors.transparent,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Icon(
-                      Icons.home,
-                      color: route.path == 'home' ? Colors.white : Colors.grey,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              InkWell(
+                onTap: () => context.router.replace(const RutaHome()),
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: route.path == 'home'
+                            ? const Color(0xff00B3A3)
+                            : Colors.transparent,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Icon(
+                          Icons.home,
+                          color:
+                              route.path == 'home' ? Colors.white : Colors.grey,
+                        ),
+                      ),
                     ),
+                    if (route.path == 'home')
+                      Container(
+                        margin: const EdgeInsets.only(top: 5),
+                        width: 30,
+                        height: 5,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: const Color(0xff006F66),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              InkWell(
+                onTap: () =>
+                    context.router.replace(const RutaFinancialEntities()),
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: route.path == 'home'
+                            ? Colors.transparent
+                            : const Color(0xff00B3A3),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Icon(
+                          Icons.groups_2_outlined,
+                          color:
+                              route.path == 'home' ? Colors.grey : Colors.white,
+                        ),
+                      ),
+                    ),
+                    if (route.path != 'home')
+                      Container(
+                        margin: const EdgeInsets.only(top: 5),
+                        width: 30,
+                        height: 5,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: const Color(0xff006F66),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          if (connectionStates.contains(ConnectivityResult.none))
+            Container(
+              height: 25,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.red,
+              child: const Center(
+                child: Text(
+                  'No internet connection',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
                   ),
                 ),
-                if (route.path == 'home')
-                  Container(
-                    margin: const EdgeInsets.only(top: 5),
-                    width: 30,
-                    height: 5,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: const Color(0xff006F66),
-                    ),
-                  ),
-              ],
+              ),
             ),
-          ),
-          InkWell(
-            onTap: () => context.router.replace(const RutaFinancialEntities()),
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: route.path == 'home'
-                        ? Colors.transparent
-                        : const Color(0xff00B3A3),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Icon(
-                      Icons.groups_2_outlined,
-                      color: route.path == 'home' ? Colors.grey : Colors.white,
-                    ),
-                  ),
-                ),
-                if (route.path != 'home')
-                  Container(
-                    margin: const EdgeInsets.only(top: 5),
-                    width: 30,
-                    height: 5,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: const Color(0xff006F66),
-                    ),
-                  ),
-              ],
-            ),
-          ),
         ],
       ),
     );
