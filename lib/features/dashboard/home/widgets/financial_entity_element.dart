@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
@@ -71,16 +72,30 @@ class FinancialEntityElement extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                children: lista
-                    .map(
-                      (purchase) => PurchaseElement(
-                        purchase: purchase,
-                        financialEntity: financialEntity,
-                      ),
+              child: kIsWeb
+                  ? Wrap(
+                      children: lista
+                          .map(
+                            (purchase) => Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: PurchaseElement(
+                                purchase: purchase,
+                                financialEntity: financialEntity,
+                              ),
+                            ),
+                          )
+                          .toList(),
                     )
-                    .toList(),
-              ),
+                  : Column(
+                      children: lista
+                          .map(
+                            (purchase) => PurchaseElement(
+                              purchase: purchase,
+                              financialEntity: financialEntity,
+                            ),
+                          )
+                          .toList(),
+                    ),
             ),
             if (index == 0)
               Padding(

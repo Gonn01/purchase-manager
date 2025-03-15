@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
@@ -38,57 +39,36 @@ class PurchaseElement extends StatelessWidget {
 
         return Padding(
           padding: const EdgeInsets.only(bottom: 10),
-          child: IntrinsicHeight(
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      duration: Durations.long4,
-                      backgroundColor:
-                          purchase.type == PurchaseType.currentCreditorPurchase
-                              ? const Color.fromARGB(255, 0, 189, 25)
-                              : const Color.fromARGB(255, 255, 81, 81),
-                      content: Text(
-                        purchase.type == PurchaseType.currentCreditorPurchase ||
-                                purchase.type ==
-                                    PurchaseType.settledCreditorPurchase
-                            ? 'Te deben'
-                            : 'Debes',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+          child: SizedBox(
+            width: kIsWeb ? 400 : double.infinity,
+            child: IntrinsicHeight(
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        duration: Durations.long4,
+                        backgroundColor: purchase.type ==
+                                PurchaseType.currentCreditorPurchase
+                            ? const Color.fromARGB(255, 0, 189, 25)
+                            : const Color.fromARGB(255, 255, 81, 81),
+                        content: Text(
+                          purchase.type ==
+                                      PurchaseType.currentCreditorPurchase ||
+                                  purchase.type ==
+                                      PurchaseType.settledCreditorPurchase
+                              ? 'Te deben'
+                              : 'Debes',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  child: Stack(
-                    children: [
-                      Container(
-                        width: 25,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            bottomLeft: Radius.circular(10),
-                          ),
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: purchase.type ==
-                                    PurchaseType.currentCreditorPurchase
-                                ? [
-                                    const Color.fromARGB(255, 0, 189, 25),
-                                    const Color.fromARGB(255, 0, 145, 19),
-                                  ]
-                                : [
-                                    const Color.fromARGB(255, 255, 81, 81),
-                                    const Color.fromARGB(255, 228, 21, 21),
-                                  ],
-                          ),
-                        ),
-                      ),
-                      if (purchase.ignored)
+                    child: Stack(
+                      children: [
                         Container(
                           width: 25,
                           decoration: BoxDecoration(
@@ -99,96 +79,122 @@ class PurchaseElement extends StatelessWidget {
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
-                              colors: [
-                                Colors.grey.withValues(alpha: .55),
-                                Colors.grey.withValues(alpha: .55),
-                              ],
+                              colors: purchase.type ==
+                                      PurchaseType.currentCreditorPurchase
+                                  ? [
+                                      const Color.fromARGB(255, 0, 189, 25),
+                                      const Color.fromARGB(255, 0, 145, 19),
+                                    ]
+                                  : [
+                                      const Color.fromARGB(255, 255, 81, 81),
+                                      const Color.fromARGB(255, 228, 21, 21),
+                                    ],
                             ),
                           ),
                         ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      gradient: LinearGradient(
-                        begin: Alignment.centerRight,
-                        end: Alignment.centerLeft,
-                        colors: purchase.ignored
-                            ? [
-                                const Color.fromARGB(255, 255, 255, 255),
-                                const Color.fromARGB(255, 255, 255, 255),
-                                Colors.grey,
-                              ]
-                            : [
-                                const Color.fromARGB(255, 255, 255, 255),
-                                const Color.fromARGB(255, 255, 255, 255),
-                              ],
-                      ),
-                      borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(10),
-                        bottomRight: Radius.circular(10),
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 10,
-                      ),
-                      child: Stack(
-                        children: [
-                          Visibility(
-                            visible: !isLoading,
-                            maintainSize: true,
-                            maintainAnimation: true,
-                            maintainState: true,
-                            child: IntrinsicHeight(
-                              child: Row(
-                                children: [
-                                  if (purchase.image != null)
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 8),
-                                      child: GestureDetector(
-                                        onTap: () => showDialog<void>(
-                                          context: context,
-                                          builder: (context) => Dialog(
-                                            child: SizedBox(
-                                              child: Image.network(
-                                                purchase.image!,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        child: Image.network(
-                                          purchase.image!,
-                                          width: 80,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  Campos(
-                                    purchase: purchase,
-                                    financialEntity: financialEntity,
-                                  ),
+                        if (purchase.ignored)
+                          Container(
+                            width: 25,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                              ),
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.grey.withValues(alpha: .55),
+                                  Colors.grey.withValues(alpha: .55),
                                 ],
                               ),
                             ),
                           ),
-                          if (isLoading)
-                            const Positioned.fill(
-                              child: Align(
-                                child: CircularProgressIndicator(),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        gradient: LinearGradient(
+                          begin: Alignment.centerRight,
+                          end: Alignment.centerLeft,
+                          colors: purchase.ignored
+                              ? [
+                                  const Color.fromARGB(255, 255, 255, 255),
+                                  const Color.fromARGB(255, 255, 255, 255),
+                                  Colors.grey,
+                                ]
+                              : [
+                                  const Color.fromARGB(255, 255, 255, 255),
+                                  const Color.fromARGB(255, 255, 255, 255),
+                                ],
+                        ),
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(10),
+                          bottomRight: Radius.circular(10),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 10,
+                        ),
+                        child: Stack(
+                          children: [
+                            Visibility(
+                              visible: !isLoading,
+                              maintainSize: true,
+                              maintainAnimation: true,
+                              maintainState: true,
+                              child: IntrinsicHeight(
+                                child: Row(
+                                  children: [
+                                    if (purchase.image != null)
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 8),
+                                        child: GestureDetector(
+                                          onTap: () => showDialog<void>(
+                                            context: context,
+                                            builder: (context) => Dialog(
+                                              child: SizedBox(
+                                                child: Image.network(
+                                                  purchase.image!,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          child: Image.network(
+                                            purchase.image!,
+                                            width: 80,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                    Campos(
+                                      purchase: purchase,
+                                      financialEntity: financialEntity,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                        ],
+                            if (isLoading)
+                              const Positioned.fill(
+                                child: Align(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

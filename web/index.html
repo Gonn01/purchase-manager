@@ -43,7 +43,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
 
-    <script>
+    <!-- <script>
       // paste the code copied
       // from Firebase SDK below.
       const firebaseConfig = {
@@ -59,7 +59,7 @@
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);
       const analytics = getAnalytics(app);
-    </script>
+    </script> -->
     <script>
       window.addEventListener("load", function (ev) {
         // Download main.dart.js
@@ -74,6 +74,29 @@
           },
         });
       });
+    </script>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyAp0Id91tqAyMvoCvA_qOtxrG_wRpXtVRk",
+        authDomain: "compras-3e47f.firebaseapp.com",
+        projectId: "compras-3e47f",
+        storageBucket: "compras-3e47f.firebasestorage.app",
+        messagingSenderId: "1033469084474",
+        appId: "1:1033469084474:web:fd34c8a0f6027fbf64c603",
+        measurementId: "G-0QGB2W5G5M",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
     </script>
   </body>
 </html>
