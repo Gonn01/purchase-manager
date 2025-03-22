@@ -19,7 +19,7 @@ class ViewPurchaseDetails extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                'Nombre de la compra: ${state.purchase?.nameOfProduct ?? ''}',
+                'Nombre de la compra: ${state.purchase?.name ?? ''}',
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,

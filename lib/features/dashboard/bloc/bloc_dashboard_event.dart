@@ -22,13 +22,13 @@ class BlocDashboardEventInitialize extends BlocDashboardEvent {}
 class BlocDashboardEventIncreaseAmountOfQuotas extends BlocDashboardEvent {
   ///{@macro BlocDashboardEventModifyAmountOfQuotas}
   const BlocDashboardEventIncreaseAmountOfQuotas({
-    required this.idPurchase,
+    required this.purchaseId,
     required this.purchaseType,
   });
 
   /// ID de la compra a modificar.
   /// ID of the purchase to modify.
-  final String idPurchase;
+  final int purchaseId;
 
   /// Tipo de compra a modificar.
   /// Type of purchase to modify.
@@ -48,7 +48,7 @@ class BlocDashboardEventPayQuota extends BlocDashboardEvent {
 
   /// ID de la compra a modificar.
   /// ID of the purchase to modify.
-  final String idPurchase;
+  final int idPurchase;
 
   /// Tipo de compra a modificar.
   /// Type of purchase to modify.
@@ -81,7 +81,7 @@ class BlocDashboardEventDeleteFinancialEntity extends BlocDashboardEvent {
   });
 
   /// ID de la categoría a eliminar.
-  final String idFinancialEntity;
+  final int idFinancialEntity;
 }
 
 /// {@template BlocDashboardEventDeletePurchase}
@@ -97,7 +97,7 @@ class BlocDashboardEventDeletePurchase extends BlocDashboardEvent {
 
   /// ID de la categoría a la que pertenece la compra.
   /// ID of the category to which the purchase belongs.
-  final String idFinancialEntity;
+  final int idFinancialEntity;
 
   /// ID de la compra a eliminar.
   /// ID of the purchase to delete.
@@ -132,6 +132,8 @@ class BlocDashboardEventCreatePurchase extends BlocDashboardEvent {
     required this.financialEntity,
     required this.purchaseType,
     required this.currency,
+    required this.isFixedExpenses,
+    required this.payedQuotas,
   });
 
   /// Nombre del producto a comprar.
@@ -157,6 +159,10 @@ class BlocDashboardEventCreatePurchase extends BlocDashboardEvent {
   /// Tipo de moneda.
   /// Type of currency.
   final CurrencyType currency;
+
+  final bool isFixedExpenses;
+
+  final int payedQuotas;
 }
 
 /// {@template BlocDashboardEventEditPurchase}
@@ -167,12 +173,14 @@ class BlocDashboardEventEditPurchase extends BlocDashboardEvent {
   ///{@macro BlocDashboardEventEditPurchase}
   const BlocDashboardEventEditPurchase({
     required this.purchase,
-    required this.productName,
+    required this.name,
     required this.amount,
     required this.amountOfQuotas,
     required this.idFinancialEntity,
     required this.purchaseType,
     required this.currency,
+    required this.isFixedExpenses,
+    required this.payedQuotas,
   });
 
   /// Compra a editar.
@@ -181,7 +189,7 @@ class BlocDashboardEventEditPurchase extends BlocDashboardEvent {
 
   /// Nombre del producto a comprar.
   /// Name of the product to buy.
-  final String productName;
+  final String name;
 
   /// Monto total de la compra.
   /// Total amount of the purchase.
@@ -193,7 +201,7 @@ class BlocDashboardEventEditPurchase extends BlocDashboardEvent {
 
   /// ID de la categoría a la que pertenece la compra.
   /// ID of the category to which the purchase belongs.
-  final String idFinancialEntity;
+  final int idFinancialEntity;
 
   /// Tipo de compra.
   /// Type of purchase.
@@ -202,6 +210,9 @@ class BlocDashboardEventEditPurchase extends BlocDashboardEvent {
   /// Tipo de moneda.
   /// Type of currency.
   final CurrencyType currency;
+
+  final bool isFixedExpenses;
+  final int payedQuotas;
 }
 
 /// {@template BlocDashboardEventoPayMonth}
@@ -223,7 +234,7 @@ class BlocDashboardEventPayMonth extends BlocDashboardEvent {
   /// Lista de compras a pagar.
   ///
   /// List of purchases to pay.
-  final String idFinancialEntity;
+  final int idFinancialEntity;
 }
 
 /// {@template BlocDashboardEventAlternateIgnorePurchase}
@@ -239,7 +250,7 @@ class BlocDashboardEventAlternateIgnorePurchase extends BlocDashboardEvent {
 
   /// Compra a editar.
   /// Purchase to edit.
-  final String purchaseId;
+  final int purchaseId;
 }
 
 /// {@template BlocDashboardEventAddImage}

@@ -69,11 +69,11 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
     context.read<BlocDashboard>().add(
           BlocDashboardEventEditPurchase(
             purchase: widget.purchase,
-            productName: _controllerProductName.text,
+            name: _controllerProductName.text,
             amount: double.parse(_controllerAmount.text),
             amountOfQuotas: int.parse(_controllerQuotas.text),
             idFinancialEntity: widget.financialEntity.id,
-            purchaseType: widget.purchase.type.isCurrent
+            purchaseType: widget.purchase.purchaseType.isCurrent
                 ? _debtorOrCreditor[0]
                     ? PurchaseType.currentDebtorPurchase
                     : PurchaseType.currentCreditorPurchase
@@ -93,12 +93,12 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
   @override
   void initState() {
     super.initState();
-    _controllerProductName.text = widget.purchase.nameOfProduct;
-    _controllerAmount.text = widget.purchase.totalAmount.toString();
-    _controllerQuotas.text = widget.purchase.amountOfQuotas.toString();
+    _controllerProductName.text = widget.purchase.name;
+    _controllerAmount.text = widget.purchase.amount.toString();
+    _controllerQuotas.text = widget.purchase.numberOfQuotas.toString();
     _debtorOrCreditor = [
-      widget.purchase.type.isDebtor,
-      !widget.purchase.type.isDebtor,
+      widget.purchase.purchaseType.isDebtor,
+      !widget.purchase.purchaseType.isDebtor,
     ];
     _currency = [
       widget.purchase.currencyType.isPesoArgentino,

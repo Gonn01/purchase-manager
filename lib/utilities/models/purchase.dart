@@ -1,5 +1,8 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
+import 'package:purchase_manager/utilities/models/logs.dart';
 
 /// {@template Purchase}
 /// Entidad que contiene la informacion de una compra
@@ -9,125 +12,107 @@ import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 class Purchase {
   /// {@macro Purchase}
   Purchase({
-    required this.amountOfQuotas,
-    required this.totalAmount,
+    required this.id,
+    required this.createdAt,
+    required this.finalizationDate,
+    required this.firstQuotaDate,
+    required this.ignored,
+    required this.image,
+    required this.amount,
     required this.amountPerQuota,
-    required this.nameOfProduct,
-    required this.type,
-    required this.creationDate,
+    required this.numberOfQuotas,
+    required this.payedQuotas,
     required this.currencyType,
+    required this.name,
+    required this.purchaseType,
+    required this.financialEntityId,
+    required this.fixesExpenses,
     required this.logs,
-    this.id,
-    this.lastQuotaDate,
-    this.firstQuotaDate,
-    this.ignored = false,
-    this.quotasPayed = 0,
-    this.image,
   });
 
-  /// id de la compra
-  ///
-  /// id of the purchase
-  String? id;
-
-  /// Indica si la compra fue ignorada
-  ///
-  /// Indicates if the purchase was ignored
-  bool ignored;
-
-  /// Cantidad de cuotas de la compra
-  ///
-  /// Number of quotas of the purchase
-  int amountOfQuotas;
-
-  /// Cuotas pagadas de la compra
-  ///
-  /// Payed quotas of the purchase
-  int quotasPayed;
-
-  /// Monto total de la compra
-  ///
-  /// Total amount of the purchase
-  double totalAmount;
-
-  /// Monto por cuota de la compra
-  ///
-  /// Amount per quota of the purchase
-  double amountPerQuota;
-
-  /// Nombre del producto comprado
-  ///
-  /// Name of the product buyed
-  String nameOfProduct;
-
-  /// Tipo de compra
-  ///
-  /// Type of purchase
-  PurchaseType type;
-
-  /// Fecha de creacion de la compra
-  ///
-  /// Creation date of the purchase
-  final String creationDate;
-
-  /// Fecha de pago de la ultima cuota
-  ///
-  /// Payment date of the last quota
-  String? lastQuotaDate;
-
-  /// Fecha de pago de la primera cuota
-  ///
-  /// Payment date of the first quota
-  String? firstQuotaDate;
-
-  /// Tipo de moneda
-  CurrencyType currencyType;
-
-  /// Logs de la entidad financiera
-  ///
-  /// Logs of the financial entity
-  final List<String> logs;
-
-  /// Imagen de la compra
-  ///
-  /// Image of the purchase
-  String? image;
+  factory Purchase.fromJson(Map<String, dynamic> json) {
+    return Purchase(
+      id: json['id'] as int,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      finalizationDate: json['finalizationDate'] == null
+          ? null
+          : DateTime.parse(json['finalizationDate'] as String),
+      firstQuotaDate: json['firstQuotaDate'] == null
+          ? null
+          : DateTime.parse(json['firstQuotaDate'] as String),
+      ignored: json['ignored'] as bool,
+      image: json['image'] as String?,
+      amount: json['amount'] as double,
+      amountPerQuota: json['amountPerQuota'] as double,
+      numberOfQuotas: json['numberOfQuotas'] as int,
+      payedQuotas: json['payedQuotas'] as int,
+      currencyType: json['currencyType'] as CurrencyType,
+      name: json['name'] as String,
+      purchaseType: json['purchaseType'] as PurchaseType,
+      financialEntityId: json['financialEntityId'] as int,
+      fixesExpenses: json['fixesExpenses'] as bool,
+      logs: json['logs'] != null
+          ? (json['logs'] as List)
+              .map((e) => PurchaseLog.fromJson(e as Map<String, dynamic>))
+              .toList()
+          : [],
+    );
+  }
+  final int id;
+  final DateTime createdAt;
+  final DateTime? finalizationDate;
+  final DateTime? firstQuotaDate;
+  final bool ignored;
+  final String? image;
+  final double amount;
+  final double amountPerQuota;
+  final int numberOfQuotas;
+  final int payedQuotas;
+  final CurrencyType currencyType;
+  final String name;
+  final PurchaseType purchaseType;
+  final int financialEntityId;
+  final bool fixesExpenses;
+  final List<PurchaseLog> logs;
 
   /// Copia de la compra con los nuevos valores
   ///
   /// Copy of the purchase with the new values
   Purchase copyWith({
-    String? id,
-    int? amountOfQuotas,
-    int? quotasPayed,
-    double? totalAmount,
-    double? amountPerQuota,
-    String? nameOfProduct,
-    PurchaseType? type,
-    String? creationDate,
-    String? lastQuotaDate,
-    String? firstQuotaDate,
-    CurrencyType? currency,
-    List<String>? logs,
+    int? id,
+    DateTime? createdAt,
+    DateTime? finalizationDate,
+    DateTime? firstQuotaDate,
     bool? ignored,
     String? image,
+    double? amount,
+    double? amountPerQuota,
+    int? numberOfQuotas,
+    int? payedQuotas,
     CurrencyType? currencyType,
+    String? name,
+    PurchaseType? purchaseType,
+    int? financialEntityId,
+    bool? fixesExpenses,
+    List<PurchaseLog>? logs,
   }) {
     return Purchase(
       id: id ?? this.id,
-      amountOfQuotas: amountOfQuotas ?? this.amountOfQuotas,
-      quotasPayed: quotasPayed ?? this.quotasPayed,
-      totalAmount: totalAmount ?? this.totalAmount,
-      amountPerQuota: amountPerQuota ?? this.amountPerQuota,
-      nameOfProduct: nameOfProduct ?? this.nameOfProduct,
-      type: type ?? this.type,
-      creationDate: creationDate ?? this.creationDate,
-      lastQuotaDate: lastQuotaDate ?? this.lastQuotaDate,
+      createdAt: createdAt ?? this.createdAt,
+      finalizationDate: finalizationDate ?? this.finalizationDate,
       firstQuotaDate: firstQuotaDate ?? this.firstQuotaDate,
-      currencyType: currency ?? this.currencyType,
-      logs: logs ?? this.logs,
       ignored: ignored ?? this.ignored,
       image: image ?? this.image,
+      amount: amount ?? this.amount,
+      amountPerQuota: amountPerQuota ?? this.amountPerQuota,
+      numberOfQuotas: numberOfQuotas ?? this.numberOfQuotas,
+      payedQuotas: payedQuotas ?? this.payedQuotas,
+      currencyType: currencyType ?? this.currencyType,
+      name: name ?? this.name,
+      purchaseType: purchaseType ?? this.purchaseType,
+      financialEntityId: financialEntityId ?? this.financialEntityId,
+      fixesExpenses: fixesExpenses ?? this.fixesExpenses,
+      logs: logs ?? this.logs,
     );
   }
 }

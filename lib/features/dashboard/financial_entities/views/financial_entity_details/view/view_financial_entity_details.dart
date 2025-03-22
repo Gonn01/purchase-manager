@@ -24,7 +24,7 @@ class ViewFinancialEntityDetails extends StatelessWidget {
         final purchases = state.financialEntitySelected?.purchases ?? [];
         final ordenadas = purchases
           ..sort(
-            (a, b) => a.creationDate.compareTo(b.creationDate),
+            (a, b) => a.createdAt.compareTo(b.createdAt),
           );
         return ListView(
           shrinkWrap: true,
@@ -44,12 +44,12 @@ class ViewFinancialEntityDetails extends StatelessWidget {
               expandedAlignment: Alignment.centerLeft,
               children: ordenadas
                   .map(
-                    (e) => GestureDetector(
+                    (purchase) => GestureDetector(
                       onTap: () => context.router.push(
                         RutaPurchaseDetails(
-                          idPurchase: e.id ?? '',
+                          idPurchase: purchase.id,
                           idFinancialEntity:
-                              state.financialEntitySelected?.id ?? '',
+                              state.financialEntitySelected?.id ?? 0,
                         ),
                       ),
                       child: Padding(
@@ -60,11 +60,11 @@ class ViewFinancialEntityDetails extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  '- ${e.nameOfProduct.capitalize}',
+                                  '- ${purchase.name.capitalize}',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                    decoration: e.type.isCurrent
+                                    decoration: purchase.purchaseType.isCurrent
                                         ? null
                                         : TextDecoration.lineThrough,
                                   ),
@@ -77,7 +77,7 @@ class ViewFinancialEntityDetails extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              e.creationDate,
+                              purchase.createdAt.toString(),
                               style: const TextStyle(
                                 fontSize: 12,
                                 color: Colors.grey,

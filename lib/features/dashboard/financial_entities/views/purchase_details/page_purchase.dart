@@ -22,12 +22,12 @@ class PagePurchaseDetails extends StatelessWidget {
   /// Id de la compra
   ///
   /// Purchase id
-  final String idPurchase;
+  final int idPurchase;
 
   /// Id de la entidad financiera
   ///
   /// Financial entity id
-  final String idFinancialEntity;
+  final int idFinancialEntity;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

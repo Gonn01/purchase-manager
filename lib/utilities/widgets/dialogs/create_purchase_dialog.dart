@@ -84,7 +84,7 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
     );
   }
 
-  String? idSelectedFinancialEntity;
+  int? idSelectedFinancialEntity;
 
   @override
   void dispose() {

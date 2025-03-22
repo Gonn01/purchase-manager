@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:purchase_manager/features/dashboard/repositories/purchases_repository.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
 import 'package:purchase_manager/utilities/services/firebase_service.dart';
 
@@ -14,17 +15,15 @@ class BlocPurchaseDetails
   BlocPurchaseDetails() : super(BlocPurchaseDetailsStateInitial()) {
     on<BlocPurchaseDetailsEventInitialize>(_onInitialize);
   }
-  final _firebaseService = FirebaseService();
-
+  final _purchasesRepository = PurchasesRepository();
   Future<void> _onInitialize(
     BlocPurchaseDetailsEventInitialize event,
     Emitter<BlocPurchaseDetailsState> emit,
   ) async {
     emit(BlocPurchaseDetailsStateLoading.from(state));
     try {
-      final purchase = await _firebaseService.getPurchaseById(
+      final purchase = await _purchasesRepository.getPurchaseById(
         purchaseId: event.idPurchase,
-        financialEntityId: event.idFinancialEntity,
       );
 
       emit(

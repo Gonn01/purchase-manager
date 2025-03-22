@@ -25,7 +25,7 @@ class DialogDeletePurchase extends StatelessWidget {
   /// Id de la entidad financiera a la que pertenece la compra
   ///
   /// Id of the financial entity to which the purchase belongs
-  final String idFinancialEntity;
+  final int idFinancialEntity;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class DialogDeletePurchase extends StatelessWidget {
       content: const Text(
           '¿Estas seguro de eliminar esta compra? Se eliminara toda su '
           'informacion'),
-      title: 'Eliminar Compra: ${purchase.nameOfProduct}',
+      title: 'Eliminar Compra: ${purchase.name}',
       isEnabled: true,
     );
   }

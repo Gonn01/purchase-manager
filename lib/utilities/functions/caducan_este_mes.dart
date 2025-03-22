@@ -10,11 +10,11 @@ int caducanEsteMes({required List<FinancialEntity> financialEntities}) {
     final purchases = financialEntity.purchases.where(
       (p) =>
           !p.ignored &&
-          (p.type == PurchaseType.currentDebtorPurchase ||
-              p.type == PurchaseType.currentCreditorPurchase),
+          (p.purchaseType == PurchaseType.currentDebtorPurchase ||
+              p.purchaseType == PurchaseType.currentCreditorPurchase),
     );
     for (final purchase in purchases) {
-      if (purchase.amountOfQuotas - purchase.quotasPayed == 1) {
+      if (purchase.numberOfQuotas - purchase.payedQuotas == 1) {
         count++;
       }
     }
@@ -35,9 +35,9 @@ double caducanEsteMesDinero({
         .where(
           (p) =>
               !p.ignored &&
-              (p.type == PurchaseType.currentDebtorPurchase ||
-                  p.type == PurchaseType.currentCreditorPurchase) &&
-              p.amountOfQuotas - p.quotasPayed == 1,
+              (p.purchaseType == PurchaseType.currentDebtorPurchase ||
+                  p.purchaseType == PurchaseType.currentCreditorPurchase) &&
+              p.numberOfQuotas - p.payedQuotas == 1,
         )
         .toList();
     count += selectedCurrency.totalAmountPerFinancialEntity(

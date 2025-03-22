@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
+import 'package:purchase_manager/utilities/extensions/date_time.dart';
 import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/extensions/string.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
@@ -48,14 +49,14 @@ class PurchaseElement extends StatelessWidget {
                     onTap: () => ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         duration: Durations.long4,
-                        backgroundColor: purchase.type ==
+                        backgroundColor: purchase.purchaseType ==
                                 PurchaseType.currentCreditorPurchase
                             ? const Color.fromARGB(255, 0, 189, 25)
                             : const Color.fromARGB(255, 255, 81, 81),
                         content: Text(
-                          purchase.type ==
+                          purchase.purchaseType ==
                                       PurchaseType.currentCreditorPurchase ||
-                                  purchase.type ==
+                                  purchase.purchaseType ==
                                       PurchaseType.settledCreditorPurchase
                               ? 'Te deben'
                               : 'Debes',
@@ -79,7 +80,7 @@ class PurchaseElement extends StatelessWidget {
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
-                              colors: purchase.type ==
+                              colors: purchase.purchaseType ==
                                       PurchaseType.currentCreditorPurchase
                                   ? [
                                       const Color.fromARGB(255, 0, 189, 25),
@@ -267,7 +268,7 @@ class Campos extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      purchase.nameOfProduct.capitalize,
+                      purchase.name.capitalize,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -328,7 +329,7 @@ class Campos extends StatelessWidget {
                               }
                               context.read<BlocDashboard>().add(
                                     BlocDashboardEventAlternateIgnorePurchase(
-                                      purchaseId: purchase.id ?? '',
+                                      purchaseId: purchase.id,
                                     ),
                                   );
                             },
@@ -339,11 +340,11 @@ class Campos extends StatelessWidget {
                   ],
                 ),
               ),
-              if (!purchase.type.isCurrent)
+              if (!purchase.purchaseType.isCurrent)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: DetailField(
-                    value: purchase.lastQuotaDate?.split(' ')[0],
+                    value: purchase.finalizationDate?.formatWithHour,
                     hint: 'Fecha de finalización:',
                     isLoading: false,
                   ),
@@ -353,7 +354,7 @@ class Campos extends StatelessWidget {
                 child: Row(
                   children: [
                     DetailField(
-                      value: '${purchase.totalAmount.formatAmount}'
+                      value: '${purchase.amount.formatAmount}'
                           '${purchase.currencyType.abreviation}',
                       hint: 'Total:',
                       isLoading: false,
@@ -367,7 +368,7 @@ class Campos extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${purchase.amountOfQuotas} '
+                      '${purchase.numberOfQuotas} '
                       'cuotas x ${purchase.amountPerQuota.formatAmount} '
                       '${purchase.currencyType.abreviation}',
                       maxLines: 1,
@@ -380,17 +381,17 @@ class Campos extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   DetailField(
-                    value: (purchase.amountOfQuotas - purchase.quotasPayed)
+                    value: (purchase.numberOfQuotas - purchase.payedQuotas)
                         .toString(),
                     hint: 'Restantes:',
                     isLoading: false,
                   ),
-                  if (!purchase.type.isCurrent)
+                  if (!purchase.purchaseType.isCurrent)
                     GestureDetector(
                       onTap: () => context.read<BlocDashboard>().add(
                             BlocDashboardEventIncreaseAmountOfQuotas(
-                              idPurchase: purchase.id ?? '',
-                              purchaseType: purchase.type,
+                              purchaseId: purchase.id,
+                              purchaseType: purchase.purchaseType,
                             ),
                           ),
                       child: const Icon(
@@ -420,7 +421,7 @@ class Campos extends StatelessWidget {
                   // ),
                 ],
               ),
-              if (purchase.type.isCurrent)
+              if (purchase.purchaseType.isCurrent)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -433,8 +434,8 @@ class Campos extends StatelessWidget {
                         if (!purchase.ignored) {
                           context.read<BlocDashboard>().add(
                                 BlocDashboardEventPayQuota(
-                                  idPurchase: purchase.id ?? '',
-                                  purchaseType: purchase.type,
+                                  idPurchase: purchase.id,
+                                  purchaseType: purchase.purchaseType,
                                 ),
                               );
                         } else {

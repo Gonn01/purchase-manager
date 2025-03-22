@@ -25,8 +25,8 @@ double totalAmountPesos({
   final euroValue = currency.euroBlue.valueSell;
 
   for (final purchase in ps) {
-    if (purchase.type == PurchaseType.currentDebtorPurchase) {
-      final amount = (purchase.amountOfQuotas - purchase.quotasPayed) *
+    if (purchase.purchaseType == PurchaseType.currentDebtorPurchase) {
+      final amount = (purchase.numberOfQuotas - purchase.payedQuotas) *
           purchase.amountPerQuota;
       if (purchase.currencyType == CurrencyType.usDollar) {
         monto -= amount * dollarValue;
@@ -35,8 +35,8 @@ double totalAmountPesos({
       } else {
         monto -= amount;
       }
-    } else if (purchase.type == PurchaseType.currentCreditorPurchase) {
-      final amount = purchase.amountOfQuotas * purchase.amountPerQuota;
+    } else if (purchase.purchaseType == PurchaseType.currentCreditorPurchase) {
+      final amount = purchase.numberOfQuotas * purchase.amountPerQuota;
       if (purchase.currencyType == CurrencyType.usDollar) {
         monto += amount * dollarValue;
       } else if (purchase.currencyType == CurrencyType.euro) {
@@ -69,8 +69,8 @@ double totalAmountDolar({
   final euroValue = currency.euroBlue.valueSell;
 
   for (final purchase in ps) {
-    if (purchase.type == PurchaseType.currentDebtorPurchase) {
-      final amount = (purchase.amountOfQuotas - purchase.quotasPayed) *
+    if (purchase.purchaseType == PurchaseType.currentDebtorPurchase) {
+      final amount = (purchase.numberOfQuotas - purchase.payedQuotas) *
           purchase.amountPerQuota;
       if (purchase.currencyType == CurrencyType.pesoArgentino) {
         monto -= amount / dollarValue;
@@ -79,8 +79,8 @@ double totalAmountDolar({
       } else {
         monto -= amount;
       }
-    } else if (purchase.type == PurchaseType.currentCreditorPurchase) {
-      final amount = purchase.amountOfQuotas * purchase.amountPerQuota;
+    } else if (purchase.purchaseType == PurchaseType.currentCreditorPurchase) {
+      final amount = purchase.numberOfQuotas * purchase.amountPerQuota;
       if (purchase.currencyType == CurrencyType.pesoArgentino) {
         monto += amount / dollarValue;
       } else if (purchase.currencyType == CurrencyType.euro) {
@@ -113,8 +113,8 @@ double totalAmountEuro({
   final euroValue = currency.euroBlue.valueSell;
 
   for (final purchase in ps) {
-    if (purchase.type == PurchaseType.currentDebtorPurchase) {
-      final amount = (purchase.amountOfQuotas - purchase.quotasPayed) *
+    if (purchase.purchaseType == PurchaseType.currentDebtorPurchase) {
+      final amount = (purchase.numberOfQuotas - purchase.payedQuotas) *
           purchase.amountPerQuota;
       if (purchase.currencyType == CurrencyType.pesoArgentino) {
         monto -= amount / euroValue;
@@ -123,8 +123,8 @@ double totalAmountEuro({
       } else {
         monto -= amount;
       }
-    } else if (purchase.type == PurchaseType.currentCreditorPurchase) {
-      final amount = purchase.amountOfQuotas * purchase.amountPerQuota;
+    } else if (purchase.purchaseType == PurchaseType.currentCreditorPurchase) {
+      final amount = purchase.numberOfQuotas * purchase.amountPerQuota;
       if (purchase.currencyType == CurrencyType.pesoArgentino) {
         monto += amount / euroValue;
       } else if (purchase.currencyType == CurrencyType.usDollar) {

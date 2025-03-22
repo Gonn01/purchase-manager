@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars, public_member_api_docs
+
 import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/functions/generate_text_2.dart';
 import 'package:purchase_manager/utilities/functions/total_amount.dart';
@@ -312,14 +314,14 @@ String cuotasEuros({
   required double euroValue,
 }) {
   if (purchase.currencyType == CurrencyType.pesoArgentino) {
-    return '${purchase.nameOfProduct}: ${purchase.amountPerQuota.formatAmount} EUR\n'
-        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
+    return '${purchase.name}: ${purchase.amountPerQuota.formatAmount} EUR\n'
+        'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n';
   } else if (purchase.currencyType == CurrencyType.usDollar) {
-    return '${purchase.nameOfProduct}: ${((purchase.amountPerQuota * dollarValue) / euroValue).formatAmount} EUR (${purchase.amountPerQuota} USD)\n'
-        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
+    return '${purchase.name}: ${((purchase.amountPerQuota * dollarValue) / euroValue).formatAmount} EUR (${purchase.amountPerQuota} USD)\n'
+        'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n';
   } else {
-    return '${purchase.nameOfProduct}: ${(purchase.amountPerQuota / euroValue).formatAmount} EUR (${purchase.amountPerQuota} ARS)\n'
-        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
+    return '${purchase.name}: ${(purchase.amountPerQuota / euroValue).formatAmount} EUR (${purchase.amountPerQuota} ARS)\n'
+        'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n';
   }
 }
 
@@ -329,14 +331,14 @@ String cuotasDollars({
   required double euroValue,
 }) {
   if (purchase.currencyType == CurrencyType.usDollar) {
-    return '${purchase.nameOfProduct}: ${purchase.amountPerQuota.formatAmount} USD\n'
-        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
+    return '${purchase.name}: ${purchase.amountPerQuota.formatAmount} USD\n'
+        'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n';
   } else if (purchase.currencyType == CurrencyType.euro) {
-    return '${purchase.nameOfProduct}: ${((purchase.amountPerQuota * euroValue) / dollarValue).formatAmount} USD(${purchase.amountPerQuota} EUR)\n'
-        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
+    return '${purchase.name}: ${((purchase.amountPerQuota * euroValue) / dollarValue).formatAmount} USD(${purchase.amountPerQuota} EUR)\n'
+        'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n';
   } else {
-    return '${purchase.nameOfProduct}: ${(purchase.amountPerQuota / dollarValue).formatAmount} USD(${purchase.amountPerQuota} ARS)\n'
-        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
+    return '${purchase.name}: ${(purchase.amountPerQuota / dollarValue).formatAmount} USD(${purchase.amountPerQuota} ARS)\n'
+        'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n';
   }
 }
 
@@ -346,13 +348,13 @@ String cuotasPesos({
   required double euroValue,
 }) {
   if (purchase.currencyType == CurrencyType.usDollar) {
-    return '${purchase.nameOfProduct}: ${(purchase.amountPerQuota * dollarValue).formatAmount} ARS (${purchase.amountPerQuota} USD)\n'
-        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
+    return '${purchase.name}: ${(purchase.amountPerQuota * dollarValue).formatAmount} ARS (${purchase.amountPerQuota} USD)\n'
+        'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n';
   } else if (purchase.currencyType == CurrencyType.euro) {
-    return '${purchase.nameOfProduct}: ${(purchase.amountPerQuota * euroValue).formatAmount} ARS (${purchase.amountPerQuota} EUR)\n'
-        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
+    return '${purchase.name}: ${(purchase.amountPerQuota * euroValue).formatAmount} ARS (${purchase.amountPerQuota} EUR)\n'
+        'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n';
   } else {
-    return '${purchase.nameOfProduct}: ${purchase.amountPerQuota.formatAmount} ${purchase.currencyType.abreviation}\n'
-        'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n';
+    return '${purchase.name}: ${purchase.amountPerQuota.formatAmount} ${purchase.currencyType.abreviation}\n'
+        'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n';
   }
 }

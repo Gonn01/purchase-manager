@@ -123,8 +123,8 @@ class RutaLogin extends _i8.PageRouteInfo<void> {
 /// [_i7.PagePurchaseDetails]
 class RutaPurchaseDetails extends _i8.PageRouteInfo<RutaPurchaseDetailsArgs> {
   RutaPurchaseDetails({
-    required String idPurchase,
-    required String idFinancialEntity,
+    required int idPurchase,
+    required int idFinancialEntity,
     _i9.Key? key,
     List<_i8.PageRouteInfo>? children,
   }) : super(
@@ -150,8 +150,8 @@ class RutaPurchaseDetails extends _i8.PageRouteInfo<RutaPurchaseDetailsArgs> {
       final args = data.argsAs<RutaPurchaseDetailsArgs>(
         orElse:
             () => RutaPurchaseDetailsArgs(
-              idPurchase: pathParams.getString('idPurchase'),
-              idFinancialEntity: pathParams.getString('idFinancialEntity'),
+              idPurchase: pathParams.getInt('idPurchase'),
+              idFinancialEntity: pathParams.getInt('idFinancialEntity'),
             ),
       );
       return _i7.PagePurchaseDetails(
@@ -170,9 +170,9 @@ class RutaPurchaseDetailsArgs {
     this.key,
   });
 
-  final String idPurchase;
+  final int idPurchase;
 
-  final String idFinancialEntity;
+  final int idFinancialEntity;
 
   final _i9.Key? key;
 

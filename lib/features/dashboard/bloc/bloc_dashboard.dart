@@ -6,14 +6,15 @@ import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:purchase_manager/utilities/extensions/date_time.dart';
+import 'package:purchase_manager/features/dashboard/repositories/dashboard_repository.dart';
+import 'package:purchase_manager/features/dashboard/repositories/financial_entities_repository.dart';
+import 'package:purchase_manager/features/dashboard/repositories/purchases_repository.dart';
 import 'package:purchase_manager/utilities/models/currency.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
 import 'package:purchase_manager/utilities/services/currency_service.dart';
-import 'package:purchase_manager/utilities/services/firebase_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'bloc_dashboard_event.dart';
@@ -53,8 +54,12 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
   /// FirebaseAuth instance
   final auth = FirebaseAuth.instance;
 
-  final _firebaseService = FirebaseService();
+  // final _firebaseService = FirebaseService();
+  final _dashboardRepository = DashboardRepository();
 
+  final _purchasesRepository = PurchasesRepository();
+
+  final _financialEntitiesRepository = FinancialEntitiesRepository();
   Future<void> _onSignOut(
     BlocDashboardEventSignOut event,
     Emitter<BlocDashboardState> emit,
@@ -74,11 +79,10 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
   ) async {
     emit(BlocDashboardStateLoading.from(state));
     try {
-      await _firebaseService.crearValorCuotasPagadasYIgnored();
-      await _firebaseService.actualizarFechaCreacionComoString();
-      await _firebaseService.actualizarFechasComoString();
-      await _firebaseService
-          .fetchUserFinancialData(auth.currentUser?.uid ?? '');
+      final responseListFinancialeEntity =
+          await _dashboardRepository.getDashboardData(
+        firebaseUserId: auth.currentUser?.uid,
+      );
 
       final preferences = await SharedPreferences.getInstance();
 
@@ -86,17 +90,13 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
 
       final currencyTypeSelected = CurrencyType.type(currencyTypeValue ?? 0);
 
-      final listFinancialeEntity = await _firebaseService.readFinancialEntities(
-        idUser: auth.currentUser?.uid ?? '',
-      );
-
       final dolar = await DolarService().getDollarData();
 
       emit(
         BlocDashboardStateSuccess.from(
           state,
           currency: dolar,
-          financialEntityList: listFinancialeEntity,
+          financialEntityList: responseListFinancialeEntity.body,
           selectedCurrency: currencyTypeSelected,
         ),
       );
@@ -112,7 +112,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
     emit(
       BlocDashboardStateLoadingPurchase.from(
         state,
-        purchaseLoadingId: event.idPurchase,
+        purchaseLoadingId: event.purchaseId,
       ),
     );
 
@@ -122,24 +122,23 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
 
       final financialEntityModified = listFinancialEntity.firstWhere(
         (financialEntity) => financialEntity.purchases
-            .any((compra) => compra.id == event.idPurchase),
+            .any((compra) => compra.id == event.purchaseId),
       );
 
       final purchaseToModify = financialEntityModified.purchases.firstWhere(
-        (compra) => compra.id == event.idPurchase,
-      )
-        ..quotasPayed -= 1
-        ..type = event.purchaseType.isCurrent
+        (compra) => compra.id == event.purchaseId,
+      );
+      purchaseToModify.copyWith(
+        payedQuotas: purchaseToModify.payedQuotas + 1,
+        purchaseType: event.purchaseType.isCurrent
             ? event.purchaseType
             : event.purchaseType == PurchaseType.settledDebtorPurchase
                 ? PurchaseType.currentDebtorPurchase
-                : PurchaseType.currentCreditorPurchase
-        ..logs.add('Se agregó una cuota.${DateTime.now().formatWithHour}');
+                : PurchaseType.currentCreditorPurchase,
+      );
 
-      await _firebaseService.updatePurchase(
-        idUser: auth.currentUser?.uid ?? '',
-        idFinancialEntity: financialEntityModified.id,
-        newPurchase: purchaseToModify,
+      await _purchasesRepository.payQuota(
+        purchaseId: purchaseToModify.id,
       );
 
       final index = listFinancialEntity.indexOf(financialEntityModified);
@@ -192,14 +191,15 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
   ) async {
     emit(BlocDashboardStateLoading.from(state));
     try {
-      final newFinancialEntity = await _firebaseService.createFinancialEntity(
+      final newFinancialEntityResponse =
+          await _financialEntitiesRepository.createFinancialEntity(
         financialEntityName: event.financialEntityName,
-        idUser: auth.currentUser?.uid ?? '',
+        firebaseUserId: auth.currentUser?.uid ?? '',
       );
 
       final list = List<FinancialEntity>.from(state.financialEntityList)
         ..add(
-          newFinancialEntity,
+          newFinancialEntityResponse.body,
         );
 
       emit(BlocDashboardStateSuccess.from(state, financialEntityList: list));
@@ -214,9 +214,8 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
   ) async {
     emit(BlocDashboardStateLoading.from(state));
     try {
-      await _firebaseService.deleteFinancialEntity(
-        idFinancialEntity: event.idFinancialEntity,
-        idUsuario: auth.currentUser?.uid ?? '',
+      await _financialEntitiesRepository.deleteFinancialEntity(
+        financialEntityId: event.idFinancialEntity,
       );
 
       final list = List<FinancialEntity>.from(state.financialEntityList)
@@ -241,22 +240,16 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
         url = await uploadImage(state.images.first, event.productName);
       }
 
-      final nuevaCompra = Purchase(
-        creationDate: DateTime.now().formatWithHour,
-        amountOfQuotas: event.amountQuotas,
-        totalAmount: event.totalAmount,
+      final newPurchaseId = await _purchasesRepository.createPurchase(
+        amount: event.totalAmount,
         amountPerQuota: event.totalAmount / event.amountQuotas,
-        nameOfProduct: event.productName,
-        type: event.purchaseType,
         currencyType: event.currency,
-        logs: ['Se creó la compra. ${DateTime.now().formatWithHour}'],
+        firebaseUserId: auth.currentUser?.uid ?? '',
+        fixedExpenses: event.isFixedExpenses,
         image: url,
-      );
-
-      final newPurchaseId = await _firebaseService.createPurchase(
-        idUser: auth.currentUser?.uid ?? '',
-        idFinancialEntity: event.financialEntity.id,
-        newPurchase: nuevaCompra,
+        purchaseName: event.productName,
+        payedQuotas: event.payedQuotas,
+        purchaseType: event.purchaseType,
       );
 
       final newList = List<FinancialEntity>.from(state.financialEntityList);
@@ -268,11 +261,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
       final updatedEntity = newList[index].copyWith(
         purchases: [
           ...newList[index].purchases,
-          nuevaCompra..id = newPurchaseId,
-        ],
-        logs: [
-          ...newList[index].logs,
-          'Se creó la compra ${event.productName}. ${DateTime.now().formatWithHour}',
+          newPurchaseId.body,
         ],
       );
 
@@ -303,26 +292,23 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
     try {
       if (state.images.isNotEmpty) {
         await deleteImage(
-          'public/purchase-manager/${event.purchase.nameOfProduct}',
+          'public/purchase-manager/${event.purchase.name}',
         );
         await uploadImage(
           state.images.first,
-          event.productName,
+          event.name,
         );
       }
-      final nuevaCompra = event.purchase
-        ..amountOfQuotas = event.amountOfQuotas
-        ..totalAmount = event.amount
-        ..nameOfProduct = event.productName
-        ..type = event.purchaseType
-        ..amountPerQuota = event.amount / event.amountOfQuotas
-        ..currencyType = event.currency
-        ..logs.add('Se editó la compra. ${DateTime.now().formatWithHour}');
 
-      await _firebaseService.updatePurchase(
-        idUser: auth.currentUser?.uid ?? '',
-        idFinancialEntity: event.idFinancialEntity,
-        newPurchase: nuevaCompra,
+      final modifiedPurchaseResponse = await _purchasesRepository.editPurchase(
+        amount: event.amount,
+        amountPerQuota: event.amount / event.amountOfQuotas,
+        currencyType: event.currency,
+        fixedExpenses: event.isFixedExpenses,
+        payedQuotas: event.payedQuotas,
+        purchaseId: event.purchase.id,
+        purchaseName: event.name,
+        purchaseType: event.purchaseType,
       );
 
       final listFinancialEntity =
@@ -337,7 +323,9 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
         final updatedEntity = listFinancialEntity[index].copyWith(
           purchases: [
             ...listFinancialEntity[index].purchases.map((compra) {
-              return compra.id == event.purchase.id ? nuevaCompra : compra;
+              return compra.id == event.purchase.id
+                  ? modifiedPurchaseResponse.body
+                  : compra;
             }),
           ],
         );
@@ -368,10 +356,8 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
       ),
     );
     try {
-      await _firebaseService.deletePurchase(
-        idFinancialEntity: event.idFinancialEntity,
-        idUser: auth.currentUser?.uid ?? '',
-        idPurchase: event.purchase.id ?? '',
+      await _purchasesRepository.deletePurchase(
+        purchaseId: event.purchase.id,
       );
 
       final list = List<FinancialEntity>.from(state.financialEntityList);
@@ -380,18 +366,11 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
         (financialEntity) => financialEntity.id == event.idFinancialEntity,
       );
 
-      final log = 'Se eliminó la compra ${event.purchase.nameOfProduct}. '
-          '${DateTime.now().formatWithHour}';
-
       final updatedEntity = list[index].copyWith(
         purchases: [
           ...list[index]
               .purchases
               .where((purchase) => purchase.id != event.purchase.id),
-        ],
-        logs: [
-          ...list[index].logs,
-          log,
         ],
       );
 
@@ -416,8 +395,8 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
           ),
         );
         await payQuota(
-          idPurchase: purchase.id ?? '',
-          purchaseType: purchase.type,
+          idPurchase: purchase.id,
+          purchaseType: purchase.purchaseType,
         );
         emit(
           BlocDashboardStateSuccess.from(
@@ -433,7 +412,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
 
   /// Paga una cuota de una compra
   Future<List<FinancialEntity>> payQuota({
-    required String idPurchase,
+    required int idPurchase,
     required PurchaseType purchaseType,
   }) async {
     final listFinancialEntity =
@@ -448,38 +427,28 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
       (compra) => compra.id == idPurchase,
     );
 
-    if (purchaseToModify.quotasPayed < purchaseToModify.amountOfQuotas &&
-        (purchaseToModify.amountOfQuotas - 1) != purchaseToModify.quotasPayed) {
-      purchaseToModify
-        ..quotasPayed += 1
-        ..logs.add(
-          'Se pago una cuota.${DateTime.now().formatWithHour}',
-        );
-      if (purchaseToModify.quotasPayed == 1) {
-        purchaseToModify.firstQuotaDate = DateTime.now().formatWithHour;
-      }
-      await _firebaseService.updatePurchase(
-        idUser: auth.currentUser?.uid ?? '',
-        idFinancialEntity: financialEntityModified.id,
-        newPurchase: purchaseToModify,
-      );
-    } else {
-      purchaseToModify
-        ..type = purchaseType == PurchaseType.currentDebtorPurchase
-            ? PurchaseType.settledDebtorPurchase
-            : PurchaseType.settledCreditorPurchase
-        ..quotasPayed += 1
-        ..lastQuotaDate = DateTime.now().formatWithHour
-        ..logs.add(
-          'Se pago la ultima cuota. ${DateTime.now().formatWithHour}',
-        );
+    final modfiedPurchaseResponse = await _purchasesRepository.payQuota(
+      purchaseId: purchaseToModify.id,
+    );
 
-      await _firebaseService.updatePurchase(
-        idUser: auth.currentUser?.uid ?? '',
-        idFinancialEntity: financialEntityModified.id,
-        newPurchase: purchaseToModify,
-      );
-    }
+    listFinancialEntity
+        .where(
+      (financialEntity) => financialEntity.id == financialEntityModified.id,
+    )
+        .map((financialEntity) {
+      financialEntity.purchases.map((purchase) {
+        if (purchase.id == idPurchase) {
+          purchase.copyWith(
+            payedQuotas: purchase.payedQuotas + 1,
+            purchaseType: purchaseType.isCurrent
+                ? purchaseType
+                : purchaseType == PurchaseType.settledDebtorPurchase
+                    ? PurchaseType.currentDebtorPurchase
+                    : PurchaseType.currentCreditorPurchase,
+          );
+        }
+      });
+    });
 
     final index = listFinancialEntity.indexOf(financialEntityModified);
 
@@ -510,13 +479,11 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
         (compra) => compra.id == event.purchaseId,
       );
 
-      purchaseToModify.ignored = !purchaseToModify.ignored;
-
-      await _firebaseService.updatePurchase(
-        idUser: auth.currentUser?.uid ?? '',
-        idFinancialEntity: financialEntityModified.id,
-        newPurchase: purchaseToModify,
+      await _purchasesRepository.ignorePurchase(
+        purchaseId: purchaseToModify.id,
       );
+
+      purchaseToModify.copyWith(ignored: !purchaseToModify.ignored);
 
       final index = listFinancialEntity.indexOf(financialEntityModified);
 

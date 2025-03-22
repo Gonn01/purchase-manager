@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/models/currency.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
@@ -19,13 +21,13 @@ String generateTextPesos({
 
   final purchasesCreditor = purchases.where(
     (purchase) =>
-        purchase.type == PurchaseType.currentCreditorPurchase &&
+        purchase.purchaseType == PurchaseType.currentCreditorPurchase &&
         !purchase.ignored,
   );
 
   final purchasesDebtor = purchases.where(
     (purchase) =>
-        purchase.type == PurchaseType.currentDebtorPurchase &&
+        purchase.purchaseType == PurchaseType.currentDebtorPurchase &&
         !purchase.ignored,
   );
 
@@ -72,18 +74,18 @@ String generateTextPesos({
     for (final purchase in purchasesDebtor) {
       if (purchase.currencyType == CurrencyType.usDollar) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota * dollarValue).formatAmount} ARS (${purchase.amountPerQuota} USD)\n'
-          'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+          '${purchase.name}: ${(purchase.amountPerQuota * dollarValue).formatAmount} ARS (${purchase.amountPerQuota} USD)\n'
+          'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n',
         );
       } else if (purchase.currencyType == CurrencyType.euro) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota * euroValue).formatAmount} ARS (${purchase.amountPerQuota} EUR)\n'
-          'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+          '${purchase.name}: ${(purchase.amountPerQuota * euroValue).formatAmount} ARS (${purchase.amountPerQuota} EUR)\n'
+          'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n',
         );
       } else {
         buffer.write(
-          '${purchase.nameOfProduct}: ${purchase.amountPerQuota} ${purchase.currencyType.abreviation}\n'
-          'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+          '${purchase.name}: ${purchase.amountPerQuota} ${purchase.currencyType.abreviation}\n'
+          'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n',
         );
       }
     }
@@ -97,18 +99,18 @@ String generateTextPesos({
     for (final purchase in purchasesCreditor) {
       if (purchase.currencyType == CurrencyType.usDollar) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota * dollarValue).formatAmount} ARS (${purchase.amountPerQuota} USD)\n'
-          'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+          '${purchase.name}: ${(purchase.amountPerQuota * dollarValue).formatAmount} ARS (${purchase.amountPerQuota} USD)\n'
+          'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n',
         );
       } else if (purchase.currencyType == CurrencyType.euro) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota * euroValue).formatAmount} ARS (${purchase.amountPerQuota} EUR)\n'
-          'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+          '${purchase.name}: ${(purchase.amountPerQuota * euroValue).formatAmount} ARS (${purchase.amountPerQuota} EUR)\n'
+          'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n',
         );
       } else {
         buffer.write(
-          '${purchase.nameOfProduct}: ${purchase.amountPerQuota} ${purchase.currencyType.abreviation}\n'
-          'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+          '${purchase.name}: ${purchase.amountPerQuota} ${purchase.currencyType.abreviation}\n'
+          'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n',
         );
       }
     }
@@ -165,13 +167,13 @@ String generateTextInDollars({
 
   final purchasesCreditor = purchases.where(
     (purchase) =>
-        purchase.type == PurchaseType.currentCreditorPurchase &&
+        purchase.purchaseType == PurchaseType.currentCreditorPurchase &&
         !purchase.ignored,
   );
 
   final purchasesDebtor = purchases.where(
     (purchase) =>
-        purchase.type == PurchaseType.currentDebtorPurchase &&
+        purchase.purchaseType == PurchaseType.currentDebtorPurchase &&
         !purchase.ignored,
   );
 
@@ -219,18 +221,18 @@ String generateTextInDollars({
     for (final purchase in purchasesDebtor) {
       if (purchase.currencyType == CurrencyType.usDollar) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${purchase.amountPerQuota.formatAmount} USD\n'
-          'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+          '${purchase.name}: ${purchase.amountPerQuota.formatAmount} USD\n'
+          'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n',
         );
       } else if (purchase.currencyType == CurrencyType.euro) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${((purchase.amountPerQuota * euroValue) / dollarValue).formatAmount} USD(${purchase.amountPerQuota} EUR)\n'
-          'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+          '${purchase.name}: ${((purchase.amountPerQuota * euroValue) / dollarValue).formatAmount} USD(${purchase.amountPerQuota} EUR)\n'
+          'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n',
         );
       } else {
         buffer.write(
-          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota / dollarValue).formatAmount} USD(${purchase.amountPerQuota} ARS)\n'
-          'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+          '${purchase.name}: ${(purchase.amountPerQuota / dollarValue).formatAmount} USD(${purchase.amountPerQuota} ARS)\n'
+          'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n',
         );
       }
     }
@@ -244,18 +246,18 @@ String generateTextInDollars({
     for (final purchase in purchasesCreditor) {
       if (purchase.currencyType == CurrencyType.usDollar) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${purchase.amountPerQuota.formatAmount} USD\n'
-          'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+          '${purchase.name}: ${purchase.amountPerQuota.formatAmount} USD\n'
+          'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n',
         );
       } else if (purchase.currencyType == CurrencyType.euro) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${((purchase.amountPerQuota * euroValue) / dollarValue).formatAmount} USD(${purchase.amountPerQuota} EUR)\n'
-          'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+          '${purchase.name}: ${((purchase.amountPerQuota * euroValue) / dollarValue).formatAmount} USD(${purchase.amountPerQuota} EUR)\n'
+          'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n',
         );
       } else {
         buffer.write(
-          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota / dollarValue).formatAmount} USD(${purchase.amountPerQuota} ARS)\n'
-          'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+          '${purchase.name}: ${(purchase.amountPerQuota / dollarValue).formatAmount} USD(${purchase.amountPerQuota} ARS)\n'
+          'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n',
         );
       }
     }
@@ -315,13 +317,13 @@ String generateTextInEuros({
 
   final purchasesCreditor = purchases.where(
     (purchase) =>
-        purchase.type == PurchaseType.currentCreditorPurchase &&
+        purchase.purchaseType == PurchaseType.currentCreditorPurchase &&
         !purchase.ignored,
   );
 
   final purchasesDebtor = purchases.where(
     (purchase) =>
-        purchase.type == PurchaseType.currentDebtorPurchase &&
+        purchase.purchaseType == PurchaseType.currentDebtorPurchase &&
         !purchase.ignored,
   );
 
@@ -370,18 +372,18 @@ String generateTextInEuros({
     for (final purchase in purchasesDebtor) {
       if (purchase.currencyType == CurrencyType.pesoArgentino) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${purchase.amountPerQuota.formatAmount} EUR\n'
-          'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+          '${purchase.name}: ${purchase.amountPerQuota.formatAmount} EUR\n'
+          'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n',
         );
       } else if (purchase.currencyType == CurrencyType.usDollar) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${((purchase.amountPerQuota * dollarValue) / euroValue).formatAmount} EUR (${purchase.amountPerQuota} USD)\n'
-          'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+          '${purchase.name}: ${((purchase.amountPerQuota * dollarValue) / euroValue).formatAmount} EUR (${purchase.amountPerQuota} USD)\n'
+          'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n',
         );
       } else {
         buffer.write(
-          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota / euroValue).formatAmount} EUR (${purchase.amountPerQuota} ARS)\n'
-          'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+          '${purchase.name}: ${(purchase.amountPerQuota / euroValue).formatAmount} EUR (${purchase.amountPerQuota} ARS)\n'
+          'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n',
         );
       }
     }
@@ -395,18 +397,18 @@ String generateTextInEuros({
     for (final purchase in purchasesCreditor) {
       if (purchase.currencyType == CurrencyType.euro) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${purchase.amountPerQuota.formatAmount} EUR\n'
-          'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+          '${purchase.name}: ${purchase.amountPerQuota.formatAmount} EUR\n'
+          'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n',
         );
       } else if (purchase.currencyType == CurrencyType.usDollar) {
         buffer.write(
-          '${purchase.nameOfProduct}: ${((purchase.amountPerQuota * dollarValue) / euroValue).formatAmount} EUR (${purchase.amountPerQuota} USD)\n'
-          'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+          '${purchase.name}: ${((purchase.amountPerQuota * dollarValue) / euroValue).formatAmount} EUR (${purchase.amountPerQuota} USD)\n'
+          'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n',
         );
       } else {
         buffer.write(
-          '${purchase.nameOfProduct}: ${(purchase.amountPerQuota / euroValue).formatAmount} EUR (${purchase.amountPerQuota} ARS)\n'
-          'Cuota ${purchase.quotasPayed + 1}/${purchase.amountOfQuotas}\n\n',
+          '${purchase.name}: ${(purchase.amountPerQuota / euroValue).formatAmount} EUR (${purchase.amountPerQuota} ARS)\n'
+          'Cuota ${purchase.payedQuotas + 1}/${purchase.numberOfQuotas}\n\n',
         );
       }
     }
