@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:purchase_manager/utilities/extensions/date_time.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
@@ -17,6 +20,69 @@ class FirebaseService {
 
   /// ID del usuario actual
   final userId = FirebaseAuth.instance.currentUser!.uid;
+  Future<Map<String, dynamic>> fetchUserFinancialData(String idUser) async {
+    var firestore = FirebaseFirestore.instance;
+
+    try {
+      final QuerySnapshot categorySnapshot = await firestore
+          .collection('usuarios')
+          .doc(idUser)
+          .collection('categorias')
+          .get();
+
+      final List<Map<String, dynamic>> categories = await Future.wait(
+        categorySnapshot.docs.map((doc) async {
+          final QuerySnapshot purchaseSnapshot =
+              await doc.reference.collection('compras').get();
+
+          final List<Map<String, dynamic>> purchases =
+              purchaseSnapshot.docs.map((purchaseDoc) {
+            final purchaseData = purchaseDoc.data() as Map<String, dynamic>;
+
+            return {
+              "id": purchaseDoc.id,
+              "currencyType": purchaseData['currency'] as int,
+              "amountOfQuotas": purchaseData['cantidadCuotas'] as int,
+              "quotasPayed": purchaseData['cuotasPagadas'] as int,
+              "totalAmount": (purchaseData['monto'] as num).toDouble(),
+              "amountPerQuota": purchaseData['montoPorCuota'] as double,
+              "nameOfProduct": purchaseData['producto'] as String,
+              "type": purchaseData['type'] as int,
+              "creationDate": purchaseData['fechaCreacion'] as String,
+              "lastQuotaDate": purchaseData['fechaFinalizacion'] as String?,
+              "logs": (purchaseData['logs'] as List<dynamic>).cast<String>(),
+              "firstQuotaDate": purchaseData['fechaPrimeraCuota'] as String?,
+              "ignored": purchaseData['ignored'] as bool,
+              "image": purchaseData['image'] as String?,
+            };
+          }).toList();
+
+          return {
+            "id": doc.id,
+            "name": doc['nombre'] as String,
+            "logs": (doc['logs'] as List<dynamic>).cast<String>(),
+            "compras": purchases,
+          };
+        }).toList(),
+      );
+
+      final Map<String, dynamic> result = {
+        "idUser": idUser,
+        "categorias": categories,
+      };
+
+      final String jsonData = jsonEncode(result);
+
+      // ✅ Copy JSON to clipboard
+      await Clipboard.setData(ClipboardData(text: jsonData));
+      debugPrint("📋 JSON copied to clipboard!");
+
+      return result;
+    } catch (e) {
+      debugPrint('❌ Error fetching data: $e');
+      return {};
+    }
+  }
 
   /// Actualiza las compras en Firestore.
   Future<void> actualizarFechaCreacionComoString() async {
@@ -36,7 +102,6 @@ class FirebaseService {
         }
 
         for (final compraDoc in comprasSnapshot.docs) {
-
           // Revisa si el campo "fechaCreacion" existe y es un Timestamp
           final data = compraDoc.data();
           if (data.containsKey('fechaCreacion') &&
@@ -48,7 +113,6 @@ class FirebaseService {
           }
         }
       }
-
     } on Exception catch (e) {
       debugPrint('Error al actualizar las compras: $e');
     }
@@ -73,7 +137,6 @@ class FirebaseService {
         }
 
         for (final compraDoc in comprasSnapshot.docs) {
-
           final data = compraDoc.data();
 
           // Lista de campos de fecha a verificar
@@ -94,7 +157,6 @@ class FirebaseService {
           }
         }
       }
-
     } on Exception catch (e) {
       debugPrint('Error al actualizar las fechas en las compras: $e');
     }
@@ -118,7 +180,6 @@ class FirebaseService {
         }
 
         for (final compraDoc in comprasSnapshot.docs) {
-
           // Revisa si el campo "cuotasPagadas" no existe
           if (!compraDoc.data().containsKey('cuotasPagadas')) {
             // Actualiza la compra con "cuotasPagadas" establecido en 0
@@ -130,7 +191,6 @@ class FirebaseService {
           }
         }
       }
-
     } on Exception catch (e) {
       debugPrint('Error al actualizar las compras: $e');
     }
@@ -366,7 +426,7 @@ class FirebaseService {
               id: purchaseDoc.id,
               amountOfQuotas: purchaseData['cantidadCuotas'] as int,
               quotasPayed: purchaseData['cuotasPagadas'] as int,
-              totalAmount: purchaseData['monto'] as double,
+              totalAmount: (purchaseData['monto'] as num).toDouble(),
               amountPerQuota: purchaseData['montoPorCuota'] as double,
               nameOfProduct: purchaseData['producto'] as String,
               type: PurchaseType.type(purchaseData['type'] as int),

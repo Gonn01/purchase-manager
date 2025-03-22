@@ -77,6 +77,8 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
       await _firebaseService.crearValorCuotasPagadasYIgnored();
       await _firebaseService.actualizarFechaCreacionComoString();
       await _firebaseService.actualizarFechasComoString();
+      await _firebaseService
+          .fetchUserFinancialData(auth.currentUser?.uid ?? '');
 
       final preferences = await SharedPreferences.getInstance();
 
