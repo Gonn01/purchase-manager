@@ -25,7 +25,7 @@ class Purchase {
     required this.currencyType,
     required this.name,
     required this.type,
-    required this.fixesExpenses,
+    required this.fixedExpense,
     required this.logs,
   });
 
@@ -48,7 +48,7 @@ class Purchase {
       currencyType: CurrencyType.type(json['currency_type'] as int),
       name: json['name'] as String,
       type: PurchaseType.type(json['type'] as int),
-      fixesExpenses: json['fixed_expense'] as bool,
+      fixedExpense: json['fixed_expense'] as bool,
       logs: json['logs'] != null
           ? (json['logs'] as List)
               .map((e) => PurchaseLog.fromJson(e as Map<String, dynamic>))
@@ -69,7 +69,7 @@ class Purchase {
   final CurrencyType currencyType;
   final String name;
   final PurchaseType type;
-  final bool fixesExpenses;
+  final bool fixedExpense;
   final List<PurchaseLog> logs;
 
   /// Copia de la compra con los nuevos valores
@@ -106,7 +106,7 @@ class Purchase {
       currencyType: currencyType ?? this.currencyType,
       name: name ?? this.name,
       type: type ?? this.type,
-      fixesExpenses: fixesExpenses ?? this.fixesExpenses,
+      fixedExpense: fixesExpenses ?? this.fixedExpense,
       logs: logs ?? this.logs,
     );
   }

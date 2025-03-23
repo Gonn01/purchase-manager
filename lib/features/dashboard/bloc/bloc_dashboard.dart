@@ -166,15 +166,44 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
       ),
     );
     try {
-      final listFinancialEntity = await payQuota(
-        idPurchase: event.idPurchase,
-        purchaseType: event.purchaseType,
+      final listFinancialEntity =
+          List<FinancialEntity>.from(state.financialEntityList);
+
+      final modifiedFinancialEntity = listFinancialEntity.firstWhere(
+        (financialEntity) => financialEntity.purchases
+            .any((compra) => compra.id == event.idPurchase),
       );
 
+      final purchaseToModify = modifiedFinancialEntity.purchases.firstWhere(
+        (compra) => compra.id == event.idPurchase,
+      );
+
+      final modfiedPurchaseResponse = await _purchasesRepository.payQuota(
+        purchaseId: purchaseToModify.id,
+      );
+
+      final modifedPurchase = modfiedPurchaseResponse.body;
+
+      modifiedFinancialEntity.copyWith(
+        purchases: [
+          ...modifiedFinancialEntity.purchases.map(
+            (compra) =>
+                compra.id == event.idPurchase ? modifedPurchase : compra,
+          ),
+        ],
+      );
+
+      final newList = List<FinancialEntity>.from(
+        listFinancialEntity.map(
+          (financialEntity) => financialEntity.id == modifiedFinancialEntity.id
+              ? modifiedFinancialEntity
+              : financialEntity,
+        ),
+      );
       emit(
         BlocDashboardStateSuccess.from(
           state,
-          financialEntityList: listFinancialEntity,
+          financialEntityList: newList,
           deleteSelectedShipmentId: true,
         ),
       );
@@ -392,10 +421,10 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
             purchaseLoadingId: purchase.id,
           ),
         );
-        await payQuota(
-          idPurchase: purchase.id,
-          purchaseType: purchase.type,
-        );
+        // await payQuota(
+        //   idPurchase: purchase.id,
+        //   purchaseType: purchase.type,
+        // );
         emit(
           BlocDashboardStateSuccess.from(
             state,
@@ -406,52 +435,6 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
     } on Exception catch (e) {
       emit(BlocDashboardStateError.from(state, error: e.toString()));
     }
-  }
-
-  /// Paga una cuota de una compra
-  Future<List<FinancialEntity>> payQuota({
-    required int idPurchase,
-    required PurchaseType purchaseType,
-  }) async {
-    final listFinancialEntity =
-        List<FinancialEntity>.from(state.financialEntityList);
-
-    final financialEntityModified = listFinancialEntity.firstWhere(
-      (financialEntity) =>
-          financialEntity.purchases.any((compra) => compra.id == idPurchase),
-    );
-
-    final purchaseToModify = financialEntityModified.purchases.firstWhere(
-      (compra) => compra.id == idPurchase,
-    );
-
-    final modfiedPurchaseResponse = await _purchasesRepository.payQuota(
-      purchaseId: purchaseToModify.id,
-    );
-
-    listFinancialEntity
-        .where(
-      (financialEntity) => financialEntity.id == financialEntityModified.id,
-    )
-        .map((financialEntity) {
-      financialEntity.purchases.map((purchase) {
-        if (purchase.id == idPurchase) {
-          purchase.copyWith(
-            payedQuotas: purchase.payedQuotas + 1,
-            type: purchaseType.isCurrent
-                ? purchaseType
-                : purchaseType == PurchaseType.settledDebtorPurchase
-                    ? PurchaseType.currentDebtorPurchase
-                    : PurchaseType.currentCreditorPurchase,
-          );
-        }
-      });
-    });
-
-    final index = listFinancialEntity.indexOf(financialEntityModified);
-
-    listFinancialEntity[index] = financialEntityModified;
-    return listFinancialEntity;
   }
 
   Future<void> _onAlternateIgnorePurchase(

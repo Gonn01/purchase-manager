@@ -13,8 +13,11 @@ class DashboardRepository {
   Future<PMResponse<List<FinancialEntity>>> getDashboardData() async {
     try {
       final preferences = await SharedPreferences.getInstance();
+
       final userId = preferences.getInt('user_id');
+
       final url = Uri.parse('$baseUrl$userId');
+
       final response = await http.get(
         url,
         headers: {'Content-Type': 'application/json'},

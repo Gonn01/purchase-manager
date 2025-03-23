@@ -224,23 +224,25 @@ class PurchasesRepository {
     }
   }
 
-  Future<void> payQuota({
+  Future<PMResponse<Purchase>> payQuota({
     required int purchaseId,
   }) async {
     final url = Uri.parse('$baseUrl$purchaseId/pay-quota');
     try {
-      final response = await http.get(
+      final response = await http.put(
         url,
         headers: {'Content-Type': 'application/json'},
       );
 
       final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
 
-      handleResponse(
+      return handleResponse(
         response,
         PMResponse.fromJson(
           jsonData,
-          (json) {},
+          (json) => Purchase.fromJson(
+            jsonData['body'] as Map<String, dynamic>,
+          ),
         ),
         jsonData,
       );
