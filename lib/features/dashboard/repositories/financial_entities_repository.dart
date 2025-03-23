@@ -7,22 +7,26 @@ import 'package:purchase_manager/utilities/constants/config.dart';
 import 'package:purchase_manager/utilities/models/custom_exception.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/pm_response.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FinancialEntitiesRepository {
-  final baseUrl = '${Config.apiUrl}financialEntities/';
+  final baseUrl = '${Config.apiUrl}/financial-entities/';
 
   Future<PMResponse<FinancialEntity>> createFinancialEntity({
     required String financialEntityName,
     required String firebaseUserId,
   }) async {
     final url = Uri.parse(baseUrl);
+    final preferences = await SharedPreferences.getInstance();
+
+    final userId = preferences.getInt('user_id');
     try {
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'name': financialEntityName,
-          'firebaseUserId': firebaseUserId,
+          'userId': userId,
         }),
       );
 

@@ -26,9 +26,11 @@ class FinancialEntity {
       id: json['id'] as int,
       createdAt: DateTime.parse(json['created_at'] as String),
       name: json['name'] as String,
-      purchases: (json['purchases'] as List)
-          .map((e) => Purchase.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      purchases: json['purchases'] != null
+          ? (json['purchases'] as List)
+              .map((e) => Purchase.fromJson(e as Map<String, dynamic>))
+              .toList()
+          : [],
       logs: json['logs'] != null
           ? (json['logs'] as List)
               .map(

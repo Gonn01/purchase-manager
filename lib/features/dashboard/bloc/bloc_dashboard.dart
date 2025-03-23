@@ -165,6 +165,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
         purchaseLoadingId: event.idPurchase,
       ),
     );
+
     try {
       final listFinancialEntity =
           List<FinancialEntity>.from(state.financialEntityList);
@@ -178,28 +179,29 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
         (compra) => compra.id == event.idPurchase,
       );
 
-      final modfiedPurchaseResponse = await _purchasesRepository.payQuota(
+      final modifiedPurchaseResponse = await _purchasesRepository.payQuota(
         purchaseId: purchaseToModify.id,
       );
 
-      final modifedPurchase = modfiedPurchaseResponse.body;
+      final modifiedPurchase = modifiedPurchaseResponse.body;
 
-      modifiedFinancialEntity.copyWith(
+      final updatedFinancialEntity = modifiedFinancialEntity.copyWith(
         purchases: [
           ...modifiedFinancialEntity.purchases.map(
             (compra) =>
-                compra.id == event.idPurchase ? modifedPurchase : compra,
+                compra.id == event.idPurchase ? modifiedPurchase : compra,
           ),
         ],
       );
 
       final newList = List<FinancialEntity>.from(
         listFinancialEntity.map(
-          (financialEntity) => financialEntity.id == modifiedFinancialEntity.id
-              ? modifiedFinancialEntity
+          (financialEntity) => financialEntity.id == updatedFinancialEntity.id
+              ? updatedFinancialEntity
               : financialEntity,
         ),
       );
+
       emit(
         BlocDashboardStateSuccess.from(
           state,

@@ -61,7 +61,7 @@ class PurchasesRepository {
     }
   }
 
-  Future<PMResponse<Purchase>> deletePurchase({
+  Future<void> deletePurchase({
     required int purchaseId,
   }) async {
     final url = Uri.parse(baseUrl + purchaseId.toString());
@@ -73,18 +73,14 @@ class PurchasesRepository {
 
       final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
 
-      final result = handleResponse(
+      handleResponse(
         response,
         PMResponse.fromJson(
           jsonData,
-          (json) => Purchase.fromJson(
-            jsonData['body'] as Map<String, dynamic>,
-          ),
+          (json) => <void>{},
         ),
         jsonData,
       );
-
-      return result;
     } catch (e, st) {
       handleException(e, st);
     }
