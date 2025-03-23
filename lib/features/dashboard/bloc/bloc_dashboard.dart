@@ -80,9 +80,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
     emit(BlocDashboardStateLoading.from(state));
     try {
       final responseListFinancialeEntity =
-          await _dashboardRepository.getDashboardData(
-        firebaseUserId: auth.currentUser?.uid,
-      );
+          await _dashboardRepository.getDashboardData();
 
       final preferences = await SharedPreferences.getInstance();
 
@@ -130,7 +128,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
       );
       purchaseToModify.copyWith(
         payedQuotas: purchaseToModify.payedQuotas + 1,
-        purchaseType: event.purchaseType.isCurrent
+        type: event.purchaseType.isCurrent
             ? event.purchaseType
             : event.purchaseType == PurchaseType.settledDebtorPurchase
                 ? PurchaseType.currentDebtorPurchase
@@ -396,7 +394,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
         );
         await payQuota(
           idPurchase: purchase.id,
-          purchaseType: purchase.purchaseType,
+          purchaseType: purchase.type,
         );
         emit(
           BlocDashboardStateSuccess.from(
@@ -440,7 +438,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
         if (purchase.id == idPurchase) {
           purchase.copyWith(
             payedQuotas: purchase.payedQuotas + 1,
-            purchaseType: purchaseType.isCurrent
+            type: purchaseType.isCurrent
                 ? purchaseType
                 : purchaseType == PurchaseType.settledDebtorPurchase
                     ? PurchaseType.currentDebtorPurchase
@@ -483,11 +481,19 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
         purchaseId: purchaseToModify.id,
       );
 
-      purchaseToModify.copyWith(ignored: !purchaseToModify.ignored);
-
       final index = listFinancialEntity.indexOf(financialEntityModified);
 
-      listFinancialEntity[index] = financialEntityModified;
+      listFinancialEntity[index] = financialEntityModified.copyWith(
+        purchases: financialEntityModified.purchases
+            .map(
+              (compra) => compra.id == event.purchaseId
+                  ? purchaseToModify.copyWith(
+                      ignored: !purchaseToModify.ignored,
+                    )
+                  : compra,
+            )
+            .toList(),
+      );
 
       emit(
         BlocDashboardStateSuccess.from(

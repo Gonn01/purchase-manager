@@ -24,7 +24,7 @@ double totalAmountPerMonthPesos({
   final euroValue = currency.euroBlue.valueSell;
 
   for (final purchase in ps) {
-    if (purchase.purchaseType == PurchaseType.currentDebtorPurchase) {
+    if (purchase.type == PurchaseType.currentDebtorPurchase) {
       final amount = purchase.amountPerQuota;
       if (purchase.currencyType == CurrencyType.usDollar) {
         monto -= amount * dollarValue;
@@ -33,7 +33,7 @@ double totalAmountPerMonthPesos({
       } else {
         monto -= amount;
       }
-    } else if (purchase.purchaseType == PurchaseType.currentCreditorPurchase) {
+    } else if (purchase.type == PurchaseType.currentCreditorPurchase) {
       final amount = purchase.amountPerQuota;
       if (purchase.currencyType == CurrencyType.usDollar) {
         monto += amount * dollarValue;
@@ -68,7 +68,7 @@ double totalAmountPerMonthDolar({
   for (final purchase in ps) {
     final amount = purchase.amountPerQuota;
 
-    if (purchase.purchaseType == PurchaseType.currentDebtorPurchase) {
+    if (purchase.type == PurchaseType.currentDebtorPurchase) {
       if (purchase.currencyType == CurrencyType.pesoArgentino) {
         monto -= amount / dollarValue;
       } else if (purchase.currencyType == CurrencyType.euro) {
@@ -76,7 +76,7 @@ double totalAmountPerMonthDolar({
       } else {
         monto -= amount;
       }
-    } else if (purchase.purchaseType == PurchaseType.currentCreditorPurchase) {
+    } else if (purchase.type == PurchaseType.currentCreditorPurchase) {
       if (purchase.currencyType == CurrencyType.pesoArgentino) {
         monto += amount / dollarValue;
       } else if (purchase.currencyType == CurrencyType.euro) {
@@ -110,7 +110,7 @@ double totalAmountPerMonthEuro({
   for (final purchase in ps) {
     final amount = purchase.amountPerQuota;
 
-    if (purchase.purchaseType == PurchaseType.currentDebtorPurchase) {
+    if (purchase.type == PurchaseType.currentDebtorPurchase) {
       if (purchase.currencyType == CurrencyType.pesoArgentino) {
         monto -= amount / euroValue;
       } else if (purchase.currencyType == CurrencyType.usDollar) {
@@ -118,7 +118,7 @@ double totalAmountPerMonthEuro({
       } else {
         monto -= amount;
       }
-    } else if (purchase.purchaseType == PurchaseType.currentCreditorPurchase) {
+    } else if (purchase.type == PurchaseType.currentCreditorPurchase) {
       if (purchase.currencyType == CurrencyType.pesoArgentino) {
         monto += amount / euroValue;
       } else if (purchase.currencyType == CurrencyType.usDollar) {

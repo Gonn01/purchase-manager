@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:purchase_manager/features/dashboard/repositories/purchases_repository.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
-import 'package:purchase_manager/utilities/services/firebase_service.dart';
 
 part 'bloc_purchase_details_event.dart';
 part 'bloc_purchase_details_state.dart';
@@ -22,14 +21,14 @@ class BlocPurchaseDetails
   ) async {
     emit(BlocPurchaseDetailsStateLoading.from(state));
     try {
-      final purchase = await _purchasesRepository.getPurchaseById(
+      final purchaseResponse = await _purchasesRepository.getPurchaseById(
         purchaseId: event.idPurchase,
       );
 
       emit(
         BlocPurchaseDetailsStateSuccess.from(
           state,
-          purchase: purchase,
+          purchase: purchaseResponse.body,
         ),
       );
     } on Exception catch (e) {

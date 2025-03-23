@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:purchase_manager/features/dashboard/repositories/AUTH_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'bloc_login_state.dart';
 part 'bloc_login_event.dart';
@@ -15,7 +17,7 @@ class BlocLogin extends Bloc<BlocLoginEvent, BlocLoginState> {
   BlocLogin() : super(BlocLoginStateInitial()) {
     on<BlocLoginEventLogin>(_onInitialize);
   }
-
+  final authRepository = AuthRepository();
   Future<void> _onInitialize(
     BlocLoginEventLogin event,
     Emitter<BlocLoginState> emit,
@@ -23,14 +25,22 @@ class BlocLogin extends Bloc<BlocLoginEvent, BlocLoginState> {
     emit(BlocLoginStateLoading.from(state));
     try {
       final auth = FirebaseAuth.instance;
+
       final googleProvider = GoogleAuthProvider();
 
       if (kIsWeb) {
-        // Para web, usa el popup
         await FirebaseAuth.instance.signInWithPopup(googleProvider);
       } else {
         await auth.signInWithProvider(googleProvider);
       }
+      final preferences = await SharedPreferences.getInstance();
+      final loginResponse = await authRepository.login(
+        firebaseUserId: auth.currentUser!.uid,
+        email: auth.currentUser!.email,
+        name: auth.currentUser!.displayName,
+      );
+      await preferences.setInt('user_id', loginResponse.body);
+
       emit(BlocLoginStateSuccess.from(state));
     } on Exception catch (e) {
       emit(

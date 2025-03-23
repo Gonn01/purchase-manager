@@ -74,8 +74,8 @@ class BlocDashboardState {
           .where(
             (financialEntity) => financialEntity.purchases.any(
               (purchase) =>
-                  purchase.purchaseType == PurchaseType.currentDebtorPurchase ||
-                  purchase.purchaseType == PurchaseType.currentCreditorPurchase,
+                  purchase.type == PurchaseType.currentDebtorPurchase ||
+                  purchase.type == PurchaseType.currentCreditorPurchase,
             ),
           )
           .toList();
@@ -91,8 +91,8 @@ class BlocDashboardState {
       financialEntity.purchases
           .where(
             (purchase) =>
-                purchase.purchaseType == PurchaseType.currentCreditorPurchase ||
-                purchase.purchaseType == PurchaseType.currentDebtorPurchase,
+                purchase.type == PurchaseType.currentCreditorPurchase ||
+                purchase.type == PurchaseType.currentDebtorPurchase,
           )
           .toList();
 
@@ -106,8 +106,8 @@ class BlocDashboardState {
           .where(
             (financialEntity) => financialEntity.purchases.any(
               (purchase) =>
-                  purchase.purchaseType == PurchaseType.settledDebtorPurchase ||
-                  purchase.purchaseType == PurchaseType.settledCreditorPurchase,
+                  purchase.type == PurchaseType.settledDebtorPurchase ||
+                  purchase.type == PurchaseType.settledCreditorPurchase,
             ),
           )
           .toList();
@@ -123,8 +123,8 @@ class BlocDashboardState {
       financialEntity.purchases
           .where(
             (purchase) =>
-                purchase.purchaseType == PurchaseType.settledDebtorPurchase ||
-                purchase.purchaseType == PurchaseType.settledCreditorPurchase,
+                purchase.type == PurchaseType.settledDebtorPurchase ||
+                purchase.type == PurchaseType.settledCreditorPurchase,
           )
           .toList();
 }

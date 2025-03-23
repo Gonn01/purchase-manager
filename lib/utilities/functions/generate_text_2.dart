@@ -22,13 +22,13 @@ String generateText2({
 
   final purchasesCreditor = purchases.where(
     (purchase) =>
-        purchase.purchaseType == PurchaseType.currentCreditorPurchase &&
+        purchase.type == PurchaseType.currentCreditorPurchase &&
         !purchase.ignored,
   );
 
   final purchasesDebtor = purchases.where(
     (purchase) =>
-        purchase.purchaseType == PurchaseType.currentDebtorPurchase &&
+        purchase.type == PurchaseType.currentDebtorPurchase &&
         !purchase.ignored,
   );
 

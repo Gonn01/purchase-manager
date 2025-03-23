@@ -24,8 +24,7 @@ class Purchase {
     required this.payedQuotas,
     required this.currencyType,
     required this.name,
-    required this.purchaseType,
-    required this.financialEntityId,
+    required this.type,
     required this.fixesExpenses,
     required this.logs,
   });
@@ -33,24 +32,23 @@ class Purchase {
   factory Purchase.fromJson(Map<String, dynamic> json) {
     return Purchase(
       id: json['id'] as int,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      finalizationDate: json['finalizationDate'] == null
+      createdAt: DateTime.parse(json['created_at'] as String),
+      finalizationDate: json['finalization_date'] == null
           ? null
-          : DateTime.parse(json['finalizationDate'] as String),
-      firstQuotaDate: json['firstQuotaDate'] == null
+          : DateTime.parse(json['finalization_date'] as String),
+      firstQuotaDate: json['first_quota_date'] == null
           ? null
-          : DateTime.parse(json['firstQuotaDate'] as String),
+          : DateTime.parse(json['first_quota_date'] as String),
       ignored: json['ignored'] as bool,
       image: json['image'] as String?,
-      amount: json['amount'] as double,
-      amountPerQuota: json['amountPerQuota'] as double,
-      numberOfQuotas: json['numberOfQuotas'] as int,
-      payedQuotas: json['payedQuotas'] as int,
-      currencyType: json['currencyType'] as CurrencyType,
+      amount: (json['amount'] as num).toDouble(),
+      amountPerQuota: (json['amount_per_quota'] as num).toDouble(),
+      numberOfQuotas: json['number_of_quotas'] as int,
+      payedQuotas: json['payed_quotas'] as int,
+      currencyType: CurrencyType.type(json['currency_type'] as int),
       name: json['name'] as String,
-      purchaseType: json['purchaseType'] as PurchaseType,
-      financialEntityId: json['financialEntityId'] as int,
-      fixesExpenses: json['fixesExpenses'] as bool,
+      type: PurchaseType.type(json['type'] as int),
+      fixesExpenses: json['fixed_expense'] as bool,
       logs: json['logs'] != null
           ? (json['logs'] as List)
               .map((e) => PurchaseLog.fromJson(e as Map<String, dynamic>))
@@ -70,8 +68,7 @@ class Purchase {
   final int payedQuotas;
   final CurrencyType currencyType;
   final String name;
-  final PurchaseType purchaseType;
-  final int financialEntityId;
+  final PurchaseType type;
   final bool fixesExpenses;
   final List<PurchaseLog> logs;
 
@@ -91,8 +88,7 @@ class Purchase {
     int? payedQuotas,
     CurrencyType? currencyType,
     String? name,
-    PurchaseType? purchaseType,
-    int? financialEntityId,
+    PurchaseType? type,
     bool? fixesExpenses,
     List<PurchaseLog>? logs,
   }) {
@@ -109,8 +105,7 @@ class Purchase {
       payedQuotas: payedQuotas ?? this.payedQuotas,
       currencyType: currencyType ?? this.currencyType,
       name: name ?? this.name,
-      purchaseType: purchaseType ?? this.purchaseType,
-      financialEntityId: financialEntityId ?? this.financialEntityId,
+      type: type ?? this.type,
       fixesExpenses: fixesExpenses ?? this.fixesExpenses,
       logs: logs ?? this.logs,
     );

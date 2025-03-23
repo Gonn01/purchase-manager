@@ -14,7 +14,6 @@ class FinancialEntity {
     required this.id,
     required this.createdAt,
     required this.name,
-    required this.deleted,
     required this.purchases,
     required this.logs,
   });
@@ -25,9 +24,8 @@ class FinancialEntity {
   factory FinancialEntity.fromJson(Map<String, dynamic> json) {
     return FinancialEntity(
       id: json['id'] as int,
-      createdAt: DateTime.parse(json['createdAt'] as String),
+      createdAt: DateTime.parse(json['created_at'] as String),
       name: json['name'] as String,
-      deleted: json['deleted'] as bool,
       purchases: (json['purchases'] as List)
           .map((e) => Purchase.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -51,7 +49,6 @@ class FinancialEntity {
   ///
   /// Name of the financial entity
   final String name;
-  final bool deleted;
 
   /// Compras de la entidad financiera
   ///
@@ -70,7 +67,6 @@ class FinancialEntity {
     int? id,
     DateTime? createdAt,
     String? name,
-    bool? deleted,
     List<Purchase>? purchases,
     List<FinancialEntityLog>? logs,
   }) {
@@ -78,7 +74,6 @@ class FinancialEntity {
       id: id ?? this.id,
       createdAt: createdAt ?? this.createdAt,
       name: name ?? this.name,
-      deleted: deleted ?? this.deleted,
       purchases: purchases ?? this.purchases,
       logs: logs ?? this.logs,
     );

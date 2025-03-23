@@ -69,6 +69,9 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
             purchaseType: _purchaseType[0]
                 ? PurchaseType.currentDebtorPurchase
                 : PurchaseType.currentCreditorPurchase,
+            // TODO(Gon):
+            isFixedExpenses: false,
+            payedQuotas: 0,
           ),
         );
     Navigator.pop(context);

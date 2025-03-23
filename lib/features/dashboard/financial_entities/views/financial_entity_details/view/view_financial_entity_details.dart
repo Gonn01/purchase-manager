@@ -64,7 +64,7 @@ class ViewFinancialEntityDetails extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                    decoration: purchase.purchaseType.isCurrent
+                                    decoration: purchase.type.isCurrent
                                         ? null
                                         : TextDecoration.lineThrough,
                                   ),

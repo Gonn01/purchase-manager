@@ -73,7 +73,7 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
             amount: double.parse(_controllerAmount.text),
             amountOfQuotas: int.parse(_controllerQuotas.text),
             idFinancialEntity: widget.financialEntity.id,
-            purchaseType: widget.purchase.purchaseType.isCurrent
+            purchaseType: widget.purchase.type.isCurrent
                 ? _debtorOrCreditor[0]
                     ? PurchaseType.currentDebtorPurchase
                     : PurchaseType.currentCreditorPurchase
@@ -85,6 +85,9 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
                 : _currency[1]
                     ? CurrencyType.usDollar
                     : CurrencyType.euro,
+            // TODO(Gon):
+            isFixedExpenses: false,
+            payedQuotas: 0,
           ),
         );
     Navigator.pop(context);
@@ -97,8 +100,8 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
     _controllerAmount.text = widget.purchase.amount.toString();
     _controllerQuotas.text = widget.purchase.numberOfQuotas.toString();
     _debtorOrCreditor = [
-      widget.purchase.purchaseType.isDebtor,
-      !widget.purchase.purchaseType.isDebtor,
+      widget.purchase.type.isDebtor,
+      !widget.purchase.type.isDebtor,
     ];
     _currency = [
       widget.purchase.currencyType.isPesoArgentino,

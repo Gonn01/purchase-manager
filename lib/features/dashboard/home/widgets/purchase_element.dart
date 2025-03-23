@@ -49,14 +49,14 @@ class PurchaseElement extends StatelessWidget {
                     onTap: () => ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         duration: Durations.long4,
-                        backgroundColor: purchase.purchaseType ==
+                        backgroundColor: purchase.type ==
                                 PurchaseType.currentCreditorPurchase
                             ? const Color.fromARGB(255, 0, 189, 25)
                             : const Color.fromARGB(255, 255, 81, 81),
                         content: Text(
-                          purchase.purchaseType ==
+                          purchase.type ==
                                       PurchaseType.currentCreditorPurchase ||
-                                  purchase.purchaseType ==
+                                  purchase.type ==
                                       PurchaseType.settledCreditorPurchase
                               ? 'Te deben'
                               : 'Debes',
@@ -80,7 +80,7 @@ class PurchaseElement extends StatelessWidget {
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
-                              colors: purchase.purchaseType ==
+                              colors: purchase.type ==
                                       PurchaseType.currentCreditorPurchase
                                   ? [
                                       const Color.fromARGB(255, 0, 189, 25),
@@ -340,7 +340,7 @@ class Campos extends StatelessWidget {
                   ],
                 ),
               ),
-              if (!purchase.purchaseType.isCurrent)
+              if (!purchase.type.isCurrent)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: DetailField(
@@ -386,12 +386,12 @@ class Campos extends StatelessWidget {
                     hint: 'Restantes:',
                     isLoading: false,
                   ),
-                  if (!purchase.purchaseType.isCurrent)
+                  if (!purchase.type.isCurrent)
                     GestureDetector(
                       onTap: () => context.read<BlocDashboard>().add(
                             BlocDashboardEventIncreaseAmountOfQuotas(
                               purchaseId: purchase.id,
-                              purchaseType: purchase.purchaseType,
+                              purchaseType: purchase.type,
                             ),
                           ),
                       child: const Icon(
@@ -421,7 +421,7 @@ class Campos extends StatelessWidget {
                   // ),
                 ],
               ),
-              if (purchase.purchaseType.isCurrent)
+              if (purchase.type.isCurrent)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -435,7 +435,7 @@ class Campos extends StatelessWidget {
                           context.read<BlocDashboard>().add(
                                 BlocDashboardEventPayQuota(
                                   idPurchase: purchase.id,
-                                  purchaseType: purchase.purchaseType,
+                                  purchaseType: purchase.type,
                                 ),
                               );
                         } else {

@@ -25,7 +25,7 @@ double totalAmountPesos({
   final euroValue = currency.euroBlue.valueSell;
 
   for (final purchase in ps) {
-    if (purchase.purchaseType == PurchaseType.currentDebtorPurchase) {
+    if (purchase.type == PurchaseType.currentDebtorPurchase) {
       final amount = (purchase.numberOfQuotas - purchase.payedQuotas) *
           purchase.amountPerQuota;
       if (purchase.currencyType == CurrencyType.usDollar) {
@@ -35,7 +35,7 @@ double totalAmountPesos({
       } else {
         monto -= amount;
       }
-    } else if (purchase.purchaseType == PurchaseType.currentCreditorPurchase) {
+    } else if (purchase.type == PurchaseType.currentCreditorPurchase) {
       final amount = purchase.numberOfQuotas * purchase.amountPerQuota;
       if (purchase.currencyType == CurrencyType.usDollar) {
         monto += amount * dollarValue;
@@ -69,7 +69,7 @@ double totalAmountDolar({
   final euroValue = currency.euroBlue.valueSell;
 
   for (final purchase in ps) {
-    if (purchase.purchaseType == PurchaseType.currentDebtorPurchase) {
+    if (purchase.type == PurchaseType.currentDebtorPurchase) {
       final amount = (purchase.numberOfQuotas - purchase.payedQuotas) *
           purchase.amountPerQuota;
       if (purchase.currencyType == CurrencyType.pesoArgentino) {
@@ -79,7 +79,7 @@ double totalAmountDolar({
       } else {
         monto -= amount;
       }
-    } else if (purchase.purchaseType == PurchaseType.currentCreditorPurchase) {
+    } else if (purchase.type == PurchaseType.currentCreditorPurchase) {
       final amount = purchase.numberOfQuotas * purchase.amountPerQuota;
       if (purchase.currencyType == CurrencyType.pesoArgentino) {
         monto += amount / dollarValue;
@@ -113,7 +113,7 @@ double totalAmountEuro({
   final euroValue = currency.euroBlue.valueSell;
 
   for (final purchase in ps) {
-    if (purchase.purchaseType == PurchaseType.currentDebtorPurchase) {
+    if (purchase.type == PurchaseType.currentDebtorPurchase) {
       final amount = (purchase.numberOfQuotas - purchase.payedQuotas) *
           purchase.amountPerQuota;
       if (purchase.currencyType == CurrencyType.pesoArgentino) {
@@ -123,7 +123,7 @@ double totalAmountEuro({
       } else {
         monto -= amount;
       }
-    } else if (purchase.purchaseType == PurchaseType.currentCreditorPurchase) {
+    } else if (purchase.type == PurchaseType.currentCreditorPurchase) {
       final amount = purchase.numberOfQuotas * purchase.amountPerQuota;
       if (purchase.currencyType == CurrencyType.pesoArgentino) {
         monto += amount / euroValue;
