@@ -11,6 +11,7 @@ import 'package:purchase_manager/utilities/models/purchase.dart';
 import 'package:purchase_manager/utilities/widgets/dialogs/delete_image_dialog.dart';
 import 'package:purchase_manager/utilities/widgets/dialogs/upload_image_dialog.dart';
 import 'package:purchase_manager/utilities/widgets/pm_buttons.dart';
+import 'package:purchase_manager/utilities/widgets/pm_dropdown.dart';
 import 'package:purchase_manager/utilities/widgets/pm_textfields.dart';
 
 /// {@template EditPurchaseModal}
@@ -46,6 +47,7 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
   final _controllerProductName = TextEditingController();
 
   final _controllerQuotas = TextEditingController();
+  final _controllerPayedQuotas = TextEditingController();
 
   final _controllerAmount = TextEditingController();
 
@@ -85,17 +87,27 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
                 : _currency[1]
                     ? CurrencyType.usDollar
                     : CurrencyType.euro,
-            // TODO(Gon):
-            isFixedExpenses: false,
-            payedQuotas: 0,
+            isFixedExpenses: widget.purchase.fixedExpense,
+            payedQuotas: int.parse(_controllerPayedQuotas.text),
+            ignored: widget.purchase.ignored,
+            image: context.read<BlocDashboard>().state.images.isNotEmpty
+                ? context.read<BlocDashboard>().state.images[0].path
+                : '',
           ),
         );
     Navigator.pop(context);
   }
 
+  int idSelectedFinancialEntity = 0;
+  bool isFixedExpense = false;
+  bool ignored = false;
   @override
   void initState() {
     super.initState();
+    idSelectedFinancialEntity = widget.financialEntity.id;
+    _controllerPayedQuotas.text = widget.purchase.payedQuotas.toString();
+    isFixedExpense = widget.purchase.fixedExpense;
+    ignored = widget.purchase.ignored;
     _controllerProductName.text = widget.purchase.name;
     _controllerAmount.text = widget.purchase.amount.toString();
     _controllerQuotas.text = widget.purchase.numberOfQuotas.toString();
@@ -138,25 +150,26 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                // PMDropdown<FinancialEntity>(
-                //   initialItem: PMDropdownItem(
-                //     value: widget.financialEntity,
-                //     text: widget.financialEntity.name,
-                //   ),
-                //   hintText: 'Elegi una entidad financiera',
-                //   items: state.financialEntityList
-                //       .map(
-                //         (financialEntity) => PMDropdownItem(
-                //           value: financialEntity,
-                //           text: financialEntity.name,
-                //         ),
-                //       )
-                //       .toList(),
-                //   onChanged: (value) => setState(
-                //     () => idSelectedFinancialEntity = value?.value.id,
-                //   ),
-                // ),
-                // const SizedBox(height: 10),
+                PMDropdown<FinancialEntity>(
+                  initialItem: PMDropdownItem(
+                    value: widget.financialEntity,
+                    text: widget.financialEntity.name,
+                  ),
+                  hintText: 'Elegi una entidad financiera',
+                  items: state.financialEntityList
+                      .map(
+                        (financialEntity) => PMDropdownItem(
+                          value: financialEntity,
+                          text: financialEntity.name,
+                        ),
+                      )
+                      .toList(),
+                  onChanged: (value) => setState(
+                    () => idSelectedFinancialEntity =
+                        value?.value.id ?? widget.financialEntity.id,
+                  ),
+                ),
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -205,6 +218,32 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
                         color: Colors.red,
                       ),
                     ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: isFixedExpense,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isFixedExpense = value ?? false;
+                        });
+                      },
+                    ),
+                    const Text('Es un gasto fijo'),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: ignored,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          ignored = value ?? false;
+                        });
+                      },
+                    ),
+                    const Text('Ignorar'),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -290,7 +329,6 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
                     widget.purchase.image!,
                     height: 150,
                   ),
-
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

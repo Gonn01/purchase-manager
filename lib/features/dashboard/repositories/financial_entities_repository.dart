@@ -49,7 +49,7 @@ class FinancialEntitiesRepository {
     }
   }
 
-  Future<PMResponse<FinancialEntity>> deleteFinancialEntity({
+  Future<void> deleteFinancialEntity({
     required int financialEntityId,
   }) async {
     final url = Uri.parse(baseUrl + financialEntityId.toString());
@@ -61,18 +61,14 @@ class FinancialEntitiesRepository {
 
       final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
 
-      final result = handleResponse(
+      handleResponse(
         response,
         PMResponse.fromJson(
           jsonData,
-          (json) => FinancialEntity.fromJson(
-            jsonData['body'] as Map<String, dynamic>,
-          ),
+          (json) => <void>{},
         ),
         jsonData,
       );
-
-      return result;
     } catch (e, st) {
       handleException(e, st);
     }

@@ -134,6 +134,7 @@ class BlocDashboardEventCreatePurchase extends BlocDashboardEvent {
     required this.currency,
     required this.isFixedExpenses,
     required this.payedQuotas,
+    required this.ignored,
   });
 
   /// Nombre del producto a comprar.
@@ -161,6 +162,7 @@ class BlocDashboardEventCreatePurchase extends BlocDashboardEvent {
   final CurrencyType currency;
 
   final bool isFixedExpenses;
+  final bool ignored;
 
   final int payedQuotas;
 }
@@ -181,6 +183,8 @@ class BlocDashboardEventEditPurchase extends BlocDashboardEvent {
     required this.currency,
     required this.isFixedExpenses,
     required this.payedQuotas,
+    required this.ignored,
+    required this.image,
   });
 
   /// Compra a editar.
@@ -213,6 +217,9 @@ class BlocDashboardEventEditPurchase extends BlocDashboardEvent {
 
   final bool isFixedExpenses;
   final int payedQuotas;
+
+  final bool ignored;
+  final String image;
 }
 
 /// {@template BlocDashboardEventoPayMonth}

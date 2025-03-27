@@ -21,8 +21,10 @@ class PurchasesRepository {
     required CurrencyType currencyType,
     required String purchaseName,
     required PurchaseType purchaseType,
-    required String firebaseUserId,
-    required bool fixedExpenses,
+    required bool fixedExpense,
+    required bool ignored,
+    required int numberOfQuotas,
+    required int financialEntityId,
   }) async {
     final url = Uri.parse(baseUrl);
     try {
@@ -32,13 +34,15 @@ class PurchasesRepository {
         body: jsonEncode({
           'image': image,
           'amount': amount,
+          'numberOfQuotas': numberOfQuotas,
           'amountPerQuota': amountPerQuota,
           'payedQuotas': payedQuotas,
-          'currencyType': currencyType.index,
+          'currencyType': currencyType.value,
           'name': purchaseName,
-          'purchaseType': purchaseType.index,
-          'firebaseUserId': firebaseUserId,
-          'fixedExpenses': fixedExpenses,
+          'purchaseType': purchaseType.value,
+          'fixedExpense': fixedExpense,
+          'ignored': ignored,
+          'financialEntityId': financialEntityId,
         }),
       );
 
@@ -87,14 +91,17 @@ class PurchasesRepository {
   }
 
   Future<PMResponse<Purchase>> editPurchase({
+    required int purchaseId,
+    required String? image,
     required double amount,
-    required double amountPerQuota,
     required int payedQuotas,
     required CurrencyType currencyType,
     required String purchaseName,
     required PurchaseType purchaseType,
-    required int purchaseId,
-    required bool fixedExpenses,
+    required bool fixedExpense,
+    required bool ignored,
+    required int numberOfQuotas,
+    required int financialEntityId,
   }) async {
     final url = Uri.parse(baseUrl + purchaseId.toString());
     try {
@@ -104,13 +111,17 @@ class PurchasesRepository {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
+          'ignored': ignored,
+          'image': image,
           'amount': amount,
-          'amountPerQuota': amountPerQuota,
+          'numberOfQuotas': numberOfQuotas,
           'payedQuotas': payedQuotas,
           'currencyType': currencyType.index,
           'name': purchaseName,
+          'amountPerQuota': amount / numberOfQuotas,
           'purchaseType': purchaseType.index,
-          'fixedExpenses': fixedExpenses,
+          'financialEntityId': financialEntityId,
+          'fixedExpense': fixedExpense,
         }),
       );
 
@@ -224,6 +235,33 @@ class PurchasesRepository {
     required int purchaseId,
   }) async {
     final url = Uri.parse('$baseUrl$purchaseId/pay-quota');
+    try {
+      final response = await http.put(
+        url,
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
+
+      return handleResponse(
+        response,
+        PMResponse.fromJson(
+          jsonData,
+          (json) => Purchase.fromJson(
+            jsonData['body'] as Map<String, dynamic>,
+          ),
+        ),
+        jsonData,
+      );
+    } catch (e, st) {
+      handleException(e, st);
+    }
+  }
+
+  Future<PMResponse<Purchase>> unpayQuota({
+    required int purchaseId,
+  }) async {
+    final url = Uri.parse('$baseUrl$purchaseId/unpay-quota');
     try {
       final response = await http.put(
         url,

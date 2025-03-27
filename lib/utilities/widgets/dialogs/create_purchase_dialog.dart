@@ -35,6 +35,7 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
   final _controllerProductName = TextEditingController();
 
   final _controllerQuotas = TextEditingController();
+  final _controllerPayedQuotas = TextEditingController();
 
   final _controllerAmount = TextEditingController();
 
@@ -69,9 +70,9 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
             purchaseType: _purchaseType[0]
                 ? PurchaseType.currentDebtorPurchase
                 : PurchaseType.currentCreditorPurchase,
-            // TODO(Gon):
-            isFixedExpenses: false,
-            payedQuotas: 0,
+            isFixedExpenses: isFixedExpense,
+            payedQuotas: int.parse(_controllerPayedQuotas.text),
+            ignored: ignored,
           ),
         );
     Navigator.pop(context);
@@ -93,9 +94,13 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
   void dispose() {
     _controllerProductName.dispose();
     _controllerQuotas.dispose();
+    _controllerPayedQuotas.dispose();
     _controllerAmount.dispose();
     super.dispose();
   }
+
+  bool isFixedExpense = false;
+  bool ignored = false;
 
   @override
   Widget build(BuildContext context) {
@@ -146,6 +151,32 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
                   ],
                 ),
                 const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: isFixedExpense,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isFixedExpense = value ?? false;
+                        });
+                      },
+                    ),
+                    const Text('Es un gasto fijo'),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: ignored,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          ignored = value ?? false;
+                        });
+                      },
+                    ),
+                    const Text('Ignorar'),
+                  ],
+                ),
                 PMTextFormFields.lettersAndNumbers(
                   controller: _controllerProductName,
                   hintText: 'Producto',
@@ -197,6 +228,11 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
                 PMTextFormFields.onlyNumbers(
                   controller: _controllerQuotas,
                   hintText: 'Cantidad de cuotas',
+                  onChanged: (value) => setState(() {}),
+                ),
+                PMTextFormFields.onlyNumbers(
+                  controller: _controllerPayedQuotas,
+                  hintText: 'Cantidad de cuotas pagadas',
                   onChanged: (value) => setState(() {}),
                 ),
                 const SizedBox(height: 10),

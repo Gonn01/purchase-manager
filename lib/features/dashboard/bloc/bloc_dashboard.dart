@@ -26,6 +26,7 @@ part 'bloc_dashboard_state.dart';
 class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
   /// {@macro BlocInicio}
   BlocDashboard() : super(BlocDashboardStateInitial()) {
+    on<BlocDashboardEventSignOut>(_onSignOut);
     on<BlocDashboardEventInitialize>(_onInitialize);
     on<BlocDashboardEventIncreaseAmountOfQuotas>(_onIncreaseAmountOfQuotas);
     on<BlocDashboardEventPayQuota>(_onPayQuota);
@@ -38,7 +39,6 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
     on<BlocDashboardEventAlternateIgnorePurchase>(_onAlternateIgnorePurchase);
     on<BlocDashboardEventAddImage>(_onAddImage);
     on<BlocDashboardEventDeleteImageAt>(_onDeleteImageAt);
-    on<BlocDashboardEventSignOut>(_onSignOut);
     on<BlocDashboardEventSelectFinancialEntity>(
       _onSelectFinancialEntity,
     );
@@ -118,35 +118,42 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
       final listFinancialEntity =
           List<FinancialEntity>.from(state.financialEntityList);
 
-      final financialEntityModified = listFinancialEntity.firstWhere(
+      final modifiedFinancialEntity = listFinancialEntity.firstWhere(
         (financialEntity) => financialEntity.purchases
             .any((compra) => compra.id == event.purchaseId),
       );
 
-      final purchaseToModify = financialEntityModified.purchases.firstWhere(
+      final purchaseToModify = modifiedFinancialEntity.purchases.firstWhere(
         (compra) => compra.id == event.purchaseId,
       );
-      purchaseToModify.copyWith(
-        payedQuotas: purchaseToModify.payedQuotas + 1,
-        type: event.purchaseType.isCurrent
-            ? event.purchaseType
-            : event.purchaseType == PurchaseType.settledDebtorPurchase
-                ? PurchaseType.currentDebtorPurchase
-                : PurchaseType.currentCreditorPurchase,
-      );
 
-      await _purchasesRepository.payQuota(
+      final modifiedPurchaseResponse = await _purchasesRepository.unpayQuota(
         purchaseId: purchaseToModify.id,
       );
 
-      final index = listFinancialEntity.indexOf(financialEntityModified);
+      final modifiedPurchase = modifiedPurchaseResponse.body;
 
-      listFinancialEntity[index] = financialEntityModified;
+      final updatedFinancialEntity = modifiedFinancialEntity.copyWith(
+        purchases: [
+          ...modifiedFinancialEntity.purchases.map(
+            (compra) =>
+                compra.id == event.purchaseId ? modifiedPurchase : compra,
+          ),
+        ],
+      );
+
+      final newList = List<FinancialEntity>.from(
+        listFinancialEntity.map(
+          (financialEntity) => financialEntity.id == updatedFinancialEntity.id
+              ? updatedFinancialEntity
+              : financialEntity,
+        ),
+      );
 
       emit(
         BlocDashboardStateSuccess.from(
           state,
-          financialEntityList: listFinancialEntity,
+          financialEntityList: newList,
           deleteSelectedShipmentId: true,
         ),
       );
@@ -273,12 +280,14 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
         amount: event.totalAmount,
         amountPerQuota: event.totalAmount / event.amountQuotas,
         currencyType: event.currency,
-        firebaseUserId: auth.currentUser?.uid ?? '',
-        fixedExpenses: event.isFixedExpenses,
+        fixedExpense: event.isFixedExpenses,
         image: url,
         purchaseName: event.productName,
         payedQuotas: event.payedQuotas,
         purchaseType: event.purchaseType,
+        financialEntityId: event.financialEntity.id,
+        ignored: event.ignored,
+        numberOfQuotas: event.amountQuotas,
       );
 
       final newList = List<FinancialEntity>.from(state.financialEntityList);
@@ -331,13 +340,16 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
 
       final modifiedPurchaseResponse = await _purchasesRepository.editPurchase(
         amount: event.amount,
-        amountPerQuota: event.amount / event.amountOfQuotas,
+        numberOfQuotas: event.amountOfQuotas,
         currencyType: event.currency,
-        fixedExpenses: event.isFixedExpenses,
+        fixedExpense: event.isFixedExpenses,
         payedQuotas: event.payedQuotas,
         purchaseId: event.purchase.id,
         purchaseName: event.name,
         purchaseType: event.purchaseType,
+        financialEntityId: event.idFinancialEntity,
+        ignored: event.ignored,
+        image: event.image,
       );
 
       final listFinancialEntity =
