@@ -3,7 +3,7 @@
 abstract class Log {
   Log({required this.id, required this.content, required this.createdAt});
 
-  final String id;
+  final int id;
   final String content;
   final DateTime createdAt;
 }
@@ -17,13 +17,13 @@ class PurchaseLog extends Log {
   });
   factory PurchaseLog.fromJson(Map<String, dynamic> json) {
     return PurchaseLog(
-      id: json['id'] as String,
+      id: json['id'] as int,
       content: json['content'] as String,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      purchaseId: json['purchaseId'] as String,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      purchaseId: json['purchase_id'] as int,
     );
   }
-  final String purchaseId;
+  final int purchaseId;
 }
 
 class FinancialEntityLog extends Log {
@@ -35,12 +35,12 @@ class FinancialEntityLog extends Log {
   });
   factory FinancialEntityLog.fromJson(Map<String, dynamic> json) {
     return FinancialEntityLog(
-      id: json['id'] as String,
+      id: json['id'] as int,
       content: json['content'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
-      financialEntityId: json['financialEntityId'] as String,
+      financialEntityId: json['financialEntityId'] as int,
     );
   }
 
-  final String financialEntityId;
+  final int financialEntityId;
 }

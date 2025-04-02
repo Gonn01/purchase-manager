@@ -278,7 +278,11 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
 
       final newPurchaseId = await _purchasesRepository.createPurchase(
         amount: event.totalAmount,
-        amountPerQuota: event.totalAmount / event.amountQuotas,
+        amountPerQuota: event.isFixedExpenses
+            ? event.totalAmount
+            : event.amountQuotas == 0
+                ? 0
+                : event.totalAmount / event.amountQuotas,
         currencyType: event.currency,
         fixedExpense: event.isFixedExpenses,
         image: url,
@@ -428,24 +432,50 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
     Emitter<BlocDashboardState> emit,
   ) async {
     try {
-      for (final purchase in event.purchaseList) {
-        emit(
-          BlocDashboardStateLoadingPurchase.from(
-            state,
-            purchaseLoadingId: purchase.id,
-          ),
-        );
-        // await payQuota(
-        //   idPurchase: purchase.id,
-        //   purchaseType: purchase.type,
-        // );
-        emit(
-          BlocDashboardStateSuccess.from(
-            state,
-            deleteSelectedShipmentId: true,
-          ),
-        );
-      }
+      final purchaseIds = event.purchaseList.map((e) => e.id).toList();
+      emit(
+        BlocDashboardStateLoadingPurchase.from(
+          state,
+          purchasesLoadingsIds: purchaseIds,
+        ),
+      );
+
+      final modifiedPurchasesResponse = await _purchasesRepository.payMonth(
+        purchaseIds: purchaseIds,
+      );
+
+      final listFinancialEntity =
+          List<FinancialEntity>.from(state.financialEntityList);
+
+      final index = listFinancialEntity.indexWhere(
+        (financialEntity) => financialEntity.purchases
+            .any((compra) => compra.id == event.purchaseList.first.id),
+      );
+
+      final modifiedFinancialEntity = listFinancialEntity[index];
+
+      final updatedEntity = modifiedFinancialEntity.copyWith(
+        purchases: [
+          ...modifiedFinancialEntity.purchases.map((compra) {
+            return event.purchaseList
+                    .any((purchase) => purchase.id == compra.id)
+                ? modifiedPurchasesResponse.body.firstWhere(
+                    (purchase) => purchase.id == compra.id,
+                  )
+                : compra;
+          }),
+        ],
+      );
+
+      listFinancialEntity[index] = updatedEntity;
+
+      emit(
+        BlocDashboardStateSuccess.from(
+          state,
+          financialEntityList: listFinancialEntity,
+          deleteSelectedShipmentId: true,
+        ),
+      );
     } on Exception catch (e) {
       emit(BlocDashboardStateError.from(state, error: e.toString()));
     }

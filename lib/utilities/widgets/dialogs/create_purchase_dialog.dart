@@ -60,7 +60,9 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
           BlocDashboardEventCreatePurchase(
             productName: _controllerProductName.text,
             totalAmount: double.parse(_controllerAmount.text),
-            amountQuotas: int.parse(_controllerQuotas.text),
+            amountQuotas: int.parse(
+              _controllerQuotas.text == '' ? '0' : _controllerQuotas.text,
+            ),
             financialEntity: financialEntity,
             currency: _currency[0]
                 ? CurrencyType.pesoArgentino
@@ -71,7 +73,11 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
                 ? PurchaseType.currentDebtorPurchase
                 : PurchaseType.currentCreditorPurchase,
             isFixedExpenses: isFixedExpense,
-            payedQuotas: int.parse(_controllerPayedQuotas.text),
+            payedQuotas: int.parse(
+              _controllerPayedQuotas.text == ''
+                  ? '0'
+                  : _controllerPayedQuotas.text,
+            ),
             ignored: ignored,
           ),
         );
@@ -191,7 +197,8 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
                       Flexible(
                         child: PMTextFormFields.onlyNumbers(
                           controller: _controllerAmount,
-                          hintText: 'Monto total',
+                          hintText:
+                              !isFixedExpense ? 'Monto total' : 'Monto fijo',
                           onChanged: (value) => setState(() {}),
                         ),
                       ),
@@ -225,16 +232,19 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
                     ],
                   ),
                 ),
-                PMTextFormFields.onlyNumbers(
-                  controller: _controllerQuotas,
-                  hintText: 'Cantidad de cuotas',
-                  onChanged: (value) => setState(() {}),
-                ),
-                PMTextFormFields.onlyNumbers(
-                  controller: _controllerPayedQuotas,
-                  hintText: 'Cantidad de cuotas pagadas',
-                  onChanged: (value) => setState(() {}),
-                ),
+                if (!isFixedExpense)
+                  PMTextFormFields.onlyNumbers(
+                    controller: _controllerQuotas,
+                    hintText: 'Cantidad de cuotas',
+                    onChanged: (value) => setState(() {}),
+                  ),
+                const SizedBox(height: 10),
+                if (!isFixedExpense)
+                  PMTextFormFields.onlyNumbers(
+                    controller: _controllerPayedQuotas,
+                    hintText: 'Cantidad de cuotas pagadas',
+                    onChanged: (value) => setState(() {}),
+                  ),
                 const SizedBox(height: 10),
                 if (state.images.isEmpty)
                   GestureDetector(
@@ -295,6 +305,19 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
                     PMButtons.text(
                       isEnabled: true,
                       onTap: () {
+                        if (idSelectedFinancialEntity == null) {
+                          showDialog<void>(
+                            context: context,
+                            builder: (_) {
+                              return const AlertDialog(
+                                content: Text(
+                                  'Por favor, seleccione una entidad financiera',
+                                ),
+                              );
+                            },
+                          );
+                          return;
+                        }
                         if (state.financialEntityList.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(

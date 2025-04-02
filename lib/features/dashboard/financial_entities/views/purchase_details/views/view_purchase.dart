@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/financial_entities/views/purchase_details/bloc/bloc_purchase_details.dart';
+import 'package:purchase_manager/utilities/extensions/date_time.dart';
 
 /// {@template ViewPurchaseDetails}
 /// Vista que contiene los detalles de una compra
@@ -45,9 +46,33 @@ class ViewPurchaseDetails extends StatelessWidget {
                         .map(
                           (e) => Padding(
                             padding: const EdgeInsets.only(bottom: 8),
-                            child: Text(
-                              '- $e',
-                              textAlign: TextAlign.start,
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        '- ${e.content}',
+                                        textAlign: TextAlign.start,
+                                      ),
+                                    ),
+                                    Text(
+                                      '- ${e.createdAt.formatWithHour}',
+                                      textAlign: TextAlign.end,
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.blueAccent,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Divider(
+                                  color: Colors.grey,
+                                  thickness: 1,
+                                ),
+                              ],
                             ),
                           ),
                         )

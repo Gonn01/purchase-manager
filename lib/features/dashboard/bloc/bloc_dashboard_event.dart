@@ -219,7 +219,7 @@ class BlocDashboardEventEditPurchase extends BlocDashboardEvent {
   final int payedQuotas;
 
   final bool ignored;
-  final String image;
+  final String? image;
 }
 
 /// {@template BlocDashboardEventoPayMonth}

@@ -325,6 +325,13 @@ class _PMTextFormFieldsState extends State<PMTextFormFields> {
         inputFormatters: widget.inputFormatters,
         decoration: widget.decoration ??
             InputDecoration(
+              label: widget.hintText != null
+                  ? Text(
+                      widget.hintText!,
+                      style: const TextStyle(color: Colors.grey),
+                    )
+                  : null,
+              floatingLabelBehavior: FloatingLabelBehavior.auto,
               hintText: widget.hintText,
               hintStyle: const TextStyle(color: Colors.grey),
               enabledBorder: OutlineInputBorder(

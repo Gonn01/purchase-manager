@@ -10,6 +10,7 @@ int caducanEsteMes({required List<FinancialEntity> financialEntities}) {
     final purchases = financialEntity.purchases.where(
       (p) =>
           !p.ignored &&
+          !p.fixedExpense &&
           (p.type == PurchaseType.currentDebtorPurchase ||
               p.type == PurchaseType.currentCreditorPurchase),
     );
@@ -35,6 +36,7 @@ double caducanEsteMesDinero({
         .where(
           (p) =>
               !p.ignored &&
+              !p.fixedExpense &&
               (p.type == PurchaseType.currentDebtorPurchase ||
                   p.type == PurchaseType.currentCreditorPurchase) &&
               p.numberOfQuotas - p.payedQuotas == 1,

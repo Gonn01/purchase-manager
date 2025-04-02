@@ -33,12 +33,10 @@ class _PMFloatingActionButtonState extends State<PMFloatingActionButton> {
           context: context,
           isScrollControlled: true,
           useSafeArea: true,
-          builder: (_) {
-            return BlocProvider.value(
-              value: context.read<BlocDashboard>(),
-              child: const CreatePurchaseModal(),
-            );
-          },
+          builder: (_) => BlocProvider.value(
+            value: context.read<BlocDashboard>(),
+            child: const CreatePurchaseModal(),
+          ),
         );
       },
     );

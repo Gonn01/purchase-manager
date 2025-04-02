@@ -11,6 +11,7 @@ class BlocDashboardState {
     this.financialEntityList = const [],
     this.currency = const Currency.empty(),
     this.purchaseLoadingId,
+    this.purchasesLoadingsIds = const [],
     this.images = const [],
     this.financialEntitySelected,
     this.selectedCurrency = CurrencyType.pesoArgentino,
@@ -22,6 +23,7 @@ class BlocDashboardState {
     List<FinancialEntity>? financialEntityList,
     Currency? currency,
     int? purchaseLoadingId,
+    List<int> purchasesLoadingsIds = const [],
     bool deleteSelectedShipmentId = false,
     bool deleteImage = false,
     List<XFile>? images,
@@ -34,6 +36,8 @@ class BlocDashboardState {
           purchaseLoadingId: deleteSelectedShipmentId
               ? null
               : purchaseLoadingId ?? previousState.purchaseLoadingId,
+          purchasesLoadingsIds:
+              deleteSelectedShipmentId ? [] : purchasesLoadingsIds,
           images: deleteImage ? [] : images ?? previousState.images,
           financialEntitySelected:
               financialEntitySelected ?? previousState.financialEntitySelected,
@@ -55,6 +59,7 @@ class BlocDashboardState {
 
   /// Id de la compra que se está cargando.
   final int? purchaseLoadingId;
+  final List<int> purchasesLoadingsIds;
 
   /// List of images that will be uploaded
   final List<XFile> images;
@@ -153,6 +158,7 @@ class BlocDashboardStateLoadingPurchase extends BlocDashboardState {
   BlocDashboardStateLoadingPurchase.from(
     super.previusState, {
     super.purchaseLoadingId,
+    super.purchasesLoadingsIds,
   }) : super.from();
 }
 

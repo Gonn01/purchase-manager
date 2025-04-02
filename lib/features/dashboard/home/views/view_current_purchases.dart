@@ -22,9 +22,9 @@ class ViewCurrentPurchases extends StatefulWidget {
   });
 
   /// Indice de la entidad financiera
-  ///
   /// Index of the financial entity
   final int index;
+
   @override
   State<ViewCurrentPurchases> createState() => _ViewCurrentPurchasesState();
 }
@@ -37,7 +37,6 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
   Future<void> _refresh() async {
     _controller.add(SwipeRefreshState.loading);
     context.read<BlocDashboard>().add(BlocDashboardEventInitialize());
-
     _controller.sink.add(SwipeRefreshState.hidden);
   }
 
@@ -45,6 +44,14 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
   Widget build(BuildContext context) {
     return BlocBuilder<BlocDashboard, BlocDashboardState>(
       builder: (context, state) {
+        if (state is BlocDashboardStateLoading) {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Color(0xff02B3A3),
+            ),
+          );
+        }
+
         final totalEsteMes = state.selectedCurrency.totalAmountPerMonth(
           financialEntities: state.listFinancialEntitiesStatusCurrent,
           currency: state.currency,
@@ -68,26 +75,6 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
         final caducanEsteMesDinero2 = caducanEsteMesCount.isNegative
             ? caducanEsteMesCount * -1
             : caducanEsteMesCount;
-
-        if (state is BlocDashboardStateLoading) {
-          return const Center(
-            child: CircularProgressIndicator(
-              color: Color(0xff02B3A3),
-            ),
-          );
-        }
-
-        if (state.listFinancialEntitiesStatusCurrent.isEmpty) {
-          return const Center(
-            child: Text(
-              'No hay compras',
-              style: TextStyle(
-                color: Color(0xff047269),
-                fontSize: 20,
-              ),
-            ),
-          );
-        }
 
         return Column(
           children: [
@@ -145,22 +132,38 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
                 onRefresh: _refresh,
                 stateStream: _stream,
                 indicatorColor: const Color(0xff02B3A3),
-                children: state.listFinancialEntitiesStatusCurrent
-                    .map(
-                      (financialEntity) => financialEntity.purchases.isNotEmpty
-                          ? Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 15,
-                                vertical: 10,
+                children: state.listFinancialEntitiesStatusCurrent.isEmpty
+                    ? [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.5,
+                          child: const Center(
+                            child: Text(
+                              'No hay compras',
+                              style: TextStyle(
+                                color: Color(0xff047269),
+                                fontSize: 20,
                               ),
-                              child: FinancialEntityElement(
-                                financialEntity: financialEntity,
-                                index: widget.index,
-                              ),
-                            )
-                          : Container(),
-                    )
-                    .toList(),
+                            ),
+                          ),
+                        ),
+                      ]
+                    : state.listFinancialEntitiesStatusCurrent
+                        .map(
+                          (financialEntity) =>
+                              financialEntity.purchases.isNotEmpty
+                                  ? Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 15,
+                                        vertical: 10,
+                                      ),
+                                      child: FinancialEntityElement(
+                                        financialEntity: financialEntity,
+                                        index: widget.index,
+                                      ),
+                                    )
+                                  : Container(),
+                        )
+                        .toList(),
               ),
             ),
           ],

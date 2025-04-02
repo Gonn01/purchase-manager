@@ -36,7 +36,8 @@ class PurchaseElement extends StatelessWidget {
     return BlocBuilder<BlocDashboard, BlocDashboardState>(
       builder: (context, state) {
         final isLoading = state is BlocDashboardStateLoadingPurchase &&
-            state.purchaseLoadingId == purchase.id;
+                state.purchaseLoadingId == purchase.id ||
+            state.purchasesLoadingsIds.contains(purchase.id);
 
         return Padding(
           padding: const EdgeInsets.only(bottom: 10),
@@ -268,7 +269,9 @@ class Campos extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      purchase.name.capitalize,
+                      purchase.fixedExpense
+                          ? '${purchase.name.capitalize} (Gasto fijo)'
+                          : purchase.name.capitalize,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -288,53 +291,54 @@ class Campos extends StatelessWidget {
                             Icons.settings_outlined,
                           ),
                         ),
-                        SizedBox(
-                          height: 24,
-                          width: 24,
-                          child: Checkbox(
-                            value: purchase.ignored,
-                            activeColor: const Color(0xff02B3A3),
-                            checkColor: Colors.white,
-                            onChanged: (value) {
-                              if (value ?? false) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    duration: Durations.long4,
-                                    backgroundColor: Colors.grey,
-                                    content: Text(
-                                      'Compra ignorada',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
+                        if (!purchase.fixedExpense)
+                          SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: Checkbox(
+                              value: purchase.ignored,
+                              activeColor: const Color(0xff02B3A3),
+                              checkColor: Colors.white,
+                              onChanged: (value) {
+                                if (value ?? false) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      duration: Durations.long4,
+                                      backgroundColor: Colors.grey,
+                                      content: Text(
+                                        'Compra ignorada',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    duration: Durations.long4,
-                                    backgroundColor: Colors.grey,
-                                    content: Text(
-                                      'La compra ya no está ignorada',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }
-                              context.read<BlocDashboard>().add(
-                                    BlocDashboardEventAlternateIgnorePurchase(
-                                      purchaseId: purchase.id,
                                     ),
                                   );
-                            },
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      duration: Durations.long4,
+                                      backgroundColor: Colors.grey,
+                                      content: Text(
+                                        'La compra ya no está ignorada',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }
+                                context.read<BlocDashboard>().add(
+                                      BlocDashboardEventAlternateIgnorePurchase(
+                                        purchaseId: purchase.id,
+                                      ),
+                                    );
+                              },
+                            ),
                           ),
-                        ),
                       ],
                     ),
                   ],
@@ -349,78 +353,96 @@ class Campos extends StatelessWidget {
                     isLoading: false,
                   ),
                 ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Row(
-                  children: [
-                    DetailField(
-                      value: '${purchase.amount.formatAmount}'
-                          '${purchase.currencyType.abreviation}',
-                      hint: 'Total:',
-                      isLoading: false,
-                    ),
-                  ],
+              if (!purchase.fixedExpense)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Row(
+                    children: [
+                      DetailField(
+                        value: '${purchase.amount.formatAmount}'
+                            '${purchase.currencyType.abreviation}',
+                        hint: 'Total:',
+                        isLoading: false,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Row(
+              if (!purchase.fixedExpense)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '${purchase.numberOfQuotas} '
+                        'cuotas x ${purchase.amountPerQuota.formatAmount} '
+                        '${purchase.currencyType.abreviation}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+              if (purchase.fixedExpense)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Pagos de ${purchase.amountPerQuota.formatAmount} '
+                        '${purchase.currencyType.abreviation}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+              if (!purchase.fixedExpense)
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      '${purchase.numberOfQuotas} '
-                      'cuotas x ${purchase.amountPerQuota.formatAmount} '
-                      '${purchase.currencyType.abreviation}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                    DetailField(
+                      value: (purchase.numberOfQuotas - purchase.payedQuotas)
+                          .toString(),
+                      hint: 'Restantes:',
+                      isLoading: false,
                     ),
+                    if (!purchase.type.isCurrent)
+                      GestureDetector(
+                        onTap: () => context.read<BlocDashboard>().add(
+                              BlocDashboardEventIncreaseAmountOfQuotas(
+                                purchaseId: purchase.id,
+                                purchaseType: purchase.type,
+                              ),
+                            ),
+                        child: const Icon(
+                          Icons.restore,
+                          size: 25,
+                          color: Colors.black,
+                        ),
+                      ),
+                    // const Row(
+                    // children: [
+                    // GestureDetector(
+                    //onTap: () => context.read<BlocDashboard>().add
+                    //(
+                    //     BlocDashboardEventIncreaseAmountOfQuotas(
+                    //           idPurchase: purchase.id ?? '',
+                    //           purchaseType: purchase.type,
+                    //         ),
+                    //       ),
+                    //   child: const Icon(
+                    //     Icons.keyboard_double_arrow_up_sharp,
+                    //     size: 25,
+                    //     color: Colors.white,
+                    //   ),
+                    // ),
+                    // const SizedBox(width: 10),
+                    // ],
+                    // ),
                   ],
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  DetailField(
-                    value: (purchase.numberOfQuotas - purchase.payedQuotas)
-                        .toString(),
-                    hint: 'Restantes:',
-                    isLoading: false,
-                  ),
-                  if (!purchase.type.isCurrent)
-                    GestureDetector(
-                      onTap: () => context.read<BlocDashboard>().add(
-                            BlocDashboardEventIncreaseAmountOfQuotas(
-                              purchaseId: purchase.id,
-                              purchaseType: purchase.type,
-                            ),
-                          ),
-                      child: const Icon(
-                        Icons.restore,
-                        size: 25,
-                        color: Colors.black,
-                      ),
-                    ),
-                  // const Row(
-                  // children: [
-                  // GestureDetector(
-                  //onTap: () => context.read<BlocDashboard>().add
-                  //(
-                  //     BlocDashboardEventIncreaseAmountOfQuotas(
-                  //           idPurchase: purchase.id ?? '',
-                  //           purchaseType: purchase.type,
-                  //         ),
-                  //       ),
-                  //   child: const Icon(
-                  //     Icons.keyboard_double_arrow_up_sharp,
-                  //     size: 25,
-                  //     color: Colors.white,
-                  //   ),
-                  // ),
-                  // const SizedBox(width: 10),
-                  // ],
-                  // ),
-                ],
-              ),
               if (purchase.type.isCurrent)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

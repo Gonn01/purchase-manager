@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
+import 'package:purchase_manager/utilities/extensions/date_time.dart';
 import 'package:purchase_manager/utilities/extensions/string.dart';
 
 /// {@template ViewFinancialEntityDetails}
@@ -77,7 +78,7 @@ class ViewFinancialEntityDetails extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              purchase.createdAt.toString(),
+                              purchase.createdAt.formatWithHour,
                               style: const TextStyle(
                                 fontSize: 12,
                                 color: Colors.grey,

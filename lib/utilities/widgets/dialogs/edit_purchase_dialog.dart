@@ -92,7 +92,7 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
             ignored: widget.purchase.ignored,
             image: context.read<BlocDashboard>().state.images.isNotEmpty
                 ? context.read<BlocDashboard>().state.images[0].path
-                : '',
+                : null,
           ),
         );
     Navigator.pop(context);
@@ -261,7 +261,8 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
                       Flexible(
                         child: PMTextFormFields.onlyNumbers(
                           controller: _controllerAmount,
-                          hintText: 'Monto total',
+                          hintText:
+                              !isFixedExpense ? 'Monto total' : 'Monto fijo',
                           onChanged: (value) => setState(() {}),
                         ),
                       ),
@@ -295,11 +296,19 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
                     ],
                   ),
                 ),
-                PMTextFormFields.onlyNumbers(
-                  controller: _controllerQuotas,
-                  hintText: 'Cantidad de cuotas',
-                  onChanged: (value) => setState(() {}),
-                ),
+                if (!isFixedExpense)
+                  PMTextFormFields.onlyNumbers(
+                    controller: _controllerQuotas,
+                    hintText: 'Cantidad de cuotas',
+                    onChanged: (value) => setState(() {}),
+                  ),
+                const SizedBox(height: 10),
+                if (!isFixedExpense)
+                  PMTextFormFields.onlyNumbers(
+                    controller: _controllerPayedQuotas,
+                    hintText: 'Cantidad de cuotas pagadas',
+                    onChanged: (value) => setState(() {}),
+                  ),
                 const SizedBox(height: 10),
                 if (state.images.isEmpty && widget.purchase.image == null)
                   GestureDetector(

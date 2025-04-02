@@ -118,7 +118,7 @@ class PurchasesRepository {
           'payedQuotas': payedQuotas,
           'currencyType': currencyType.index,
           'name': purchaseName,
-          'amountPerQuota': amount / numberOfQuotas,
+          'amountPerQuota': numberOfQuotas == 0 ? 0 : amount / numberOfQuotas,
           'purchaseType': purchaseType.index,
           'financialEntityId': financialEntityId,
           'fixedExpense': fixedExpense,
@@ -176,7 +176,7 @@ class PurchasesRepository {
   Future<PMResponse<Purchase>> getPurchaseById({
     required int purchaseId,
   }) async {
-    final url = Uri.parse(baseUrl);
+    final url = Uri.parse(baseUrl + purchaseId.toString());
     try {
       final response = await http.get(
         url,
@@ -250,6 +250,36 @@ class PurchasesRepository {
           (json) => Purchase.fromJson(
             jsonData['body'] as Map<String, dynamic>,
           ),
+        ),
+        jsonData,
+      );
+    } catch (e, st) {
+      handleException(e, st);
+    }
+  }
+
+  Future<PMResponse<List<Purchase>>> payMonth({
+    required List<int> purchaseIds,
+  }) async {
+    final url = Uri.parse('$baseUrl' 'pay-month');
+    try {
+      final response = await http.put(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'purchaseIds': purchaseIds,
+        }),
+      );
+
+      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
+
+      return handleResponse(
+        response,
+        PMResponse.fromJson(
+          jsonData,
+          (json) => (jsonData['body'] as List)
+              .map((e) => Purchase.fromJson(e as Map<String, dynamic>))
+              .toList(),
         ),
         jsonData,
       );
