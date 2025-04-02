@@ -7,6 +7,7 @@ import 'package:purchase_manager/utilities/constants/config.dart';
 import 'package:purchase_manager/utilities/models/custom_exception.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
+import 'package:purchase_manager/utilities/models/logs.dart';
 import 'package:purchase_manager/utilities/models/pm_response.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
 
@@ -335,6 +336,35 @@ class PurchasesRepository {
         ),
         jsonData,
       );
+    } catch (e, st) {
+      handleException(e, st);
+    }
+  }
+
+  Future<PMResponse<List<LastMovementLog>>> getLastMovements({
+    required int financialEntityId,
+  }) async {
+    final url = Uri.parse('${baseUrl}logs/$financialEntityId');
+    try {
+      final response = await http.get(
+        url,
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
+
+      final result = handleResponse(
+        response,
+        PMResponse.fromJson(
+          jsonData,
+          (json) => (jsonData['body'] as List)
+              .map((e) => LastMovementLog.fromJson(e as Map<String, dynamic>))
+              .toList(),
+        ),
+        jsonData,
+      );
+
+      return result;
     } catch (e, st) {
       handleException(e, st);
     }

@@ -15,6 +15,7 @@ class BlocDashboardState {
     this.images = const [],
     this.financialEntitySelected,
     this.selectedCurrency = CurrencyType.pesoArgentino,
+    this.lastMovements = const [],
   });
 
   /// Estado previo.
@@ -29,6 +30,7 @@ class BlocDashboardState {
     List<XFile>? images,
     FinancialEntity? financialEntitySelected,
     CurrencyType? selectedCurrency,
+    List<LastMovementLog>? lastMovements,
   }) : this._(
           financialEntityList:
               financialEntityList ?? previousState.financialEntityList,
@@ -42,6 +44,7 @@ class BlocDashboardState {
           financialEntitySelected:
               financialEntitySelected ?? previousState.financialEntitySelected,
           selectedCurrency: selectedCurrency ?? previousState.selectedCurrency,
+          lastMovements: lastMovements ?? previousState.lastMovements,
         );
 
   ///
@@ -51,6 +54,7 @@ class BlocDashboardState {
   ///
   /// List of financial entities.
   final List<FinancialEntity> financialEntityList;
+  final List<LastMovementLog> lastMovements;
 
   /// Moneda actual.
   ///
@@ -176,6 +180,7 @@ class BlocDashboardStateSuccess extends BlocDashboardState {
     super.images,
     super.financialEntitySelected,
     super.selectedCurrency,
+    super.lastMovements,
   }) : super.from();
 }
 

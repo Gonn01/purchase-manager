@@ -32,7 +32,7 @@ class Purchase {
   factory Purchase.fromJson(Map<String, dynamic> json) {
     return Purchase(
       id: json['id'] as int,
-      createdAt: DateTime.parse(json['created_at'] as String),
+      createdAt: DateTime.parse(json['created_at'] as String).toLocal(),
       finalizationDate: json['finalization_date'] == null
           ? null
           : DateTime.parse(json['finalization_date'] as String),

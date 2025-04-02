@@ -8,6 +8,25 @@ abstract class Log {
   final DateTime createdAt;
 }
 
+class LastMovementLog extends Log {
+  LastMovementLog({
+    required this.purchaseName,
+    required super.content,
+    required super.createdAt,
+    required super.id,
+  });
+
+  factory LastMovementLog.fromJson(Map<String, dynamic> json) {
+    return LastMovementLog(
+      purchaseName: json['name'] as String,
+      content: json['content'] as String,
+      createdAt: DateTime.parse(json['created_at'] as String).toLocal(),
+      id: json['id'] as int,
+    );
+  }
+  final String purchaseName;
+}
+
 class PurchaseLog extends Log {
   PurchaseLog({
     required super.id,
@@ -19,7 +38,7 @@ class PurchaseLog extends Log {
     return PurchaseLog(
       id: json['id'] as int,
       content: json['content'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
+      createdAt: DateTime.parse(json['created_at'] as String).toLocal(),
       purchaseId: json['purchase_id'] as int,
     );
   }

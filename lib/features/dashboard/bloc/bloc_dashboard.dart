@@ -13,6 +13,7 @@ import 'package:purchase_manager/utilities/models/currency.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
+import 'package:purchase_manager/utilities/models/logs.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
 import 'package:purchase_manager/utilities/services/currency_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -552,15 +553,19 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
     emit(BlocDashboardStateSuccess.from(state, images: images));
   }
 
-  void _onSelectFinancialEntity(
+  Future<void> _onSelectFinancialEntity(
     BlocDashboardEventSelectFinancialEntity event,
     Emitter<BlocDashboardState> emit,
-  ) {
+  ) async {
+    final lastMovements = await _purchasesRepository.getLastMovements(
+      financialEntityId: event.financialEntity.id,
+    );
     add(BlocDashboardEventInitialize());
     emit(
       BlocDashboardStateSuccess.from(
         state,
         financialEntitySelected: event.financialEntity,
+        lastMovements: lastMovements.body,
       ),
     );
   }

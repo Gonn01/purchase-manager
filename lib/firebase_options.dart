@@ -50,12 +50,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyAp0Id91tqAyMvoCvA_qOtxrG_wRpXtVRk',
-    appId: '1:1033469084474:web:fd34c8a0f6027fbf64c603',
+    appId: '1:1033469084474:web:dddc1c14625ae3b764c603',
     messagingSenderId: '1033469084474',
     projectId: 'compras-3e47f',
     authDomain: 'compras-3e47f.firebaseapp.com',
     storageBucket: 'compras-3e47f.firebasestorage.app',
-    measurementId: 'G-0QGB2W5G5M',
+    measurementId: 'G-NPDPQCP8B4',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(

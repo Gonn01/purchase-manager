@@ -24,7 +24,7 @@ class FinancialEntity {
   factory FinancialEntity.fromJson(Map<String, dynamic> json) {
     return FinancialEntity(
       id: json['id'] as int,
-      createdAt: DateTime.parse(json['created_at'] as String),
+      createdAt: DateTime.parse(json['created_at'] as String).toLocal(),
       name: json['name'] as String,
       purchases: json['purchases'] != null
           ? (json['purchases'] as List)

@@ -59,7 +59,7 @@ class ViewPurchaseDetails extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      '- ${e.createdAt.formatWithHour}',
+                                      '- ${e.createdAt.toLocal().formatWithHour}',
                                       textAlign: TextAlign.end,
                                       style: const TextStyle(
                                         fontSize: 12,

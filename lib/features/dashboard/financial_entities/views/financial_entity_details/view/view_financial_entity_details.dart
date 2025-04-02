@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/utilities/extensions/date_time.dart';
 import 'package:purchase_manager/utilities/extensions/string.dart';
+import 'package:collection/collection.dart';
 
 /// {@template ViewFinancialEntityDetails}
 /// Pagina que contiene los detalles de una entidad financiera
@@ -27,6 +29,11 @@ class ViewFinancialEntityDetails extends StatelessWidget {
           ..sort(
             (a, b) => a.createdAt.compareTo(b.createdAt),
           );
+        final groupedByDate = groupBy(
+          state.lastMovements,
+          (e) => DateFormat('yyyy-MM-dd').format(e.createdAt),
+        );
+
         return ListView(
           shrinkWrap: true,
           children: [
@@ -104,6 +111,32 @@ class ViewFinancialEntityDetails extends StatelessWidget {
                       )
                       .toList() ??
                   [],
+            ),
+            ExpansionTile(
+              title: const Text('Últimos movimientos'),
+              childrenPadding: const EdgeInsets.symmetric(horizontal: 10),
+              expandedCrossAxisAlignment: CrossAxisAlignment.start,
+              children: groupedByDate.entries.expand((entry) {
+                final date =
+                    DateFormat('dd/MM/yyyy').format(DateTime.parse(entry.key));
+                final logs = entry.value;
+
+                return [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, bottom: 4),
+                    child: Text(
+                      date,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  ...logs.map(
+                    (e) => Text(
+                      '- ${e.purchaseName} - ${e.content} (${DateFormat.Hm().format(e.createdAt)})',
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ];
+              }).toList(),
             ),
           ],
         );
