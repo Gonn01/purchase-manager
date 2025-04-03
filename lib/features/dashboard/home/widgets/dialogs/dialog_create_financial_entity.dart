@@ -55,7 +55,7 @@ class _DialogCreateFinancialEntityState
       onTapConfirm: _crearFinancialEntity,
       title: 'Crear entidad financiera',
       content: PMTextFormFields.lettersAndNumbers(
-        onChanged: (value) => setState(() => _controller.text = value),
+        onChanged: (value) => setState(() {}),
         controller: _controller,
         hintText: 'Nombre de la entidad financiera',
       ),
