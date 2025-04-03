@@ -1,4 +1,4 @@
-package com.example.pruchase_manager
+package com.example.purchase_manager
 
 import io.flutter.embedding.android.FlutterActivity
 

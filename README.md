@@ -1,4 +1,4 @@
-# pruchase_manager
+# purchase_manager
 
 A new Flutter project.
 

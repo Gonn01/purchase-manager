@@ -1,6 +1,6 @@
 {
-    "name": "pruchase_manager",
-    "short_name": "pruchase_manager",
+    "name": "purchase_manager",
+    "short_name": "purchase_manager",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

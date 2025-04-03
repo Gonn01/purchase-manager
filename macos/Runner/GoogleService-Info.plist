@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.pruchaseManager.RunnerTests</string>
+	<string>com.example.purchaseManager.RunnerTests</string>
 	<key>PROJECT_ID</key>
 	<string>compras-3e47f</string>
 	<key>STORAGE_BUCKET</key>

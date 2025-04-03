@@ -50,7 +50,7 @@
               "client_id": "1033469084474-8550728r42vb01pckv2np4l62bb61vec.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.pruchaseManager.RunnerTests"
+                "bundle_id": "com.example.purchaseManager.RunnerTests"
               }
             }
           ]

@@ -64,9 +64,11 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1033469084474',
     projectId: 'compras-3e47f',
     storageBucket: 'compras-3e47f.firebasestorage.app',
-    androidClientId: '1033469084474-57bjr1l43uag4d9524ujh7c7to69pjr8.apps.googleusercontent.com',
-    iosClientId: '1033469084474-e749u4ldduv1shoojvqdtquef9tbe69c.apps.googleusercontent.com',
-    iosBundleId: 'com.example.pruchaseManager',
+    androidClientId:
+        '1033469084474-57bjr1l43uag4d9524ujh7c7to69pjr8.apps.googleusercontent.com',
+    iosClientId:
+        '1033469084474-e749u4ldduv1shoojvqdtquef9tbe69c.apps.googleusercontent.com',
+    iosBundleId: 'com.example.purchaseManager',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -75,9 +77,11 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1033469084474',
     projectId: 'compras-3e47f',
     storageBucket: 'compras-3e47f.firebasestorage.app',
-    androidClientId: '1033469084474-57bjr1l43uag4d9524ujh7c7to69pjr8.apps.googleusercontent.com',
-    iosClientId: '1033469084474-e749u4ldduv1shoojvqdtquef9tbe69c.apps.googleusercontent.com',
-    iosBundleId: 'com.example.pruchaseManager',
+    androidClientId:
+        '1033469084474-57bjr1l43uag4d9524ujh7c7to69pjr8.apps.googleusercontent.com',
+    iosClientId:
+        '1033469084474-e749u4ldduv1shoojvqdtquef9tbe69c.apps.googleusercontent.com',
+    iosBundleId: 'com.example.purchaseManager',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
@@ -89,5 +93,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'compras-3e47f.firebasestorage.app',
     measurementId: 'G-NPDPQCP8B4',
   );
-
 }
