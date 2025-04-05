@@ -348,7 +348,7 @@ class Campos extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: DetailField(
-                    value: purchase.finalizationDate?.formatWithHour,
+                    value: purchase.finalizationDate?.toLocal().formatWithHour,
                     hint: 'Fecha de finalización:',
                     isLoading: false,
                   ),
