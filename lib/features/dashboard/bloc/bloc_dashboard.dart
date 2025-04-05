@@ -457,14 +457,14 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
 
       final updatedEntity = modifiedFinancialEntity.copyWith(
         purchases: [
-          ...modifiedFinancialEntity.purchases.map((compra) {
-            return event.purchaseList
-                    .any((purchase) => purchase.id == compra.id)
-                ? modifiedPurchasesResponse.body.firstWhere(
-                    (purchase) => purchase.id == compra.id,
-                  )
-                : compra;
-          }),
+          ...modifiedFinancialEntity.purchases.map(
+            (compra) =>
+                event.purchaseList.any((purchase) => purchase.id == compra.id)
+                    ? modifiedPurchasesResponse.body.firstWhere(
+                        (purchase) => purchase.id == compra.id,
+                      )
+                    : compra,
+          ),
         ],
       );
 
