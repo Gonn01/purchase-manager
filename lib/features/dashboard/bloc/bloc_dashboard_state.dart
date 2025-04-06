@@ -65,24 +65,24 @@ class BlocDashboardStateSuccess extends BlocDashboardState {
   }) : super.from();
 }
 
-/// {@template BlocDashboardStateSuccessSignOut}
-/// State when the home is loaded successfully.
-/// {@endtemplate}
-class BlocDashboardStateSuccessSignOut extends BlocDashboardState {
-  /// {@macro BlocDashboardStateSuccessSignOut}
-  BlocDashboardStateSuccessSignOut.from(super.previusState) : super.from();
-}
-
 /// {@template BlocDashboardStateError}
 /// State when the home has an error.
 /// {@endtemplate}
 class BlocDashboardStateError extends BlocDashboardState {
   /// {@macro BlocDashboardStateError}
   BlocDashboardStateError.from(
-    super.previusState, {
-    required this.error,
-  }) : super.from();
+    super.previusState,
+    this.error,
+  ) : super.from();
 
   /// Error message.
-  final String error;
+  final String? error;
+}
+
+/// {@template BlocDashboardStateSuccessSignOut}
+/// State when the home is loaded successfully.
+/// {@endtemplate}
+class BlocDashboardStateSuccessSignOut extends BlocDashboardState {
+  /// {@macro BlocDashboardStateSuccessSignOut}
+  BlocDashboardStateSuccessSignOut.from(super.previusState) : super.from();
 }

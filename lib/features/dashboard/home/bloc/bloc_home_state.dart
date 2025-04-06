@@ -153,6 +153,19 @@ class BlocHomeStateSuccess extends BlocHomeState {
   }) : super.from();
 }
 
+/// {@template BlocHomeStateSuccess}
+/// State when the home is loaded successfully.
+/// {@endtemplate}
+class BlocHomeStateSuccessCreatingFinancialEntity extends BlocHomeState {
+  /// {@macro BlocHomeStateSuccess}
+  BlocHomeStateSuccessCreatingFinancialEntity.from(
+    super.previusState, {
+    required super.financialEntityList,
+    required this.financialEntity,
+  }) : super.from();
+  final FinancialEntity financialEntity;
+}
+
 /// {@template BlocHomeStateSuccessPayingMonth}
 /// State when the home is loaded successfully.
 /// {@endtemplate}

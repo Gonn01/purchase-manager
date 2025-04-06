@@ -44,7 +44,7 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
     final st = context.read<BlocDashboard>().state;
     return BlocBuilder<BlocHome, BlocHomeState>(
       builder: (context, state) {
-        if (state is BlocDashboardStateLoading) {
+        if (state is BlocHomeStateLoading) {
           return const Center(
             child: CircularProgressIndicator(
               color: Color(0xff02B3A3),

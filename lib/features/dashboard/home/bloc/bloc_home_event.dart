@@ -286,16 +286,6 @@ class BlocHomeEventDeleteImageAt extends BlocHomeEvent {
   final int index;
 }
 
-/// {@template BlocHomeEventSignOut}
-/// Cierra sesión.
-///
-/// Sign out.
-/// {@endtemplate}
-class BlocHomeEventSignOut extends BlocHomeEvent {
-  /// {@macro BlocDrawerEventSignOut}
-  const BlocHomeEventSignOut();
-}
-
 /// {@template BlocHomeEventSelectFinancialEntity}
 /// Selecciona una [FinancialEntity]
 ///

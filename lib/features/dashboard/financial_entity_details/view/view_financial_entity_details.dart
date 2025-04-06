@@ -21,8 +21,27 @@ class ViewFinancialEntityDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BlocFinancialEntityDetails,
+    return BlocConsumer<BlocFinancialEntityDetails,
         BlocFinancialEntityDetailsState>(
+      listener: (context, state) {
+        if (state is BlocFinancialEntityDetailsStateError) {
+          showDialog<void>(
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                title: const Text('Error'),
+                content: Text(state.error ?? 'Error desconocido'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      },
       builder: (context, state) {
         final purchases = state.financialEntity?.purchases ?? [];
 

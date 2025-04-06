@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:purchase_manager/utilities/models/currency.dart';
+import 'package:purchase_manager/utilities/models/custom_exception.dart';
 
 /// {@template DolarService}
 /// Servicio que se encarga de obtener el valor del dolar.
@@ -19,10 +20,12 @@ class DolarService {
 
         return Currency.fromJson(responseData);
       } else {
-        throw Exception('Failed to load data: ${response.statusCode}');
+        throw CustomException(
+          message: 'Failed to load data: ${response.body}',
+        );
       }
     } on Exception catch (e) {
-      throw Exception('Error occurred: $e');
+      throw CustomException(message: 'Error occurred: $e');
     }
   }
 }

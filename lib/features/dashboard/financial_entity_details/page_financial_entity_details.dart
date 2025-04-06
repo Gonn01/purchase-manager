@@ -16,7 +16,12 @@ class PageFinancialEntityDetails extends StatelessWidget {
     required this.idFinancialEntity,
     super.key,
   });
+
+  /// Identificador de la entidad financiera
+  ///
+  /// Identifier of the financial entity
   final int idFinancialEntity;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

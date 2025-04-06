@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:purchase_manager/utilities/models/currency.dart';
+import 'package:purchase_manager/utilities/models/custom_exception.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/services/currency_service.dart';
@@ -36,7 +37,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
       await auth.signOut();
       emit(BlocDashboardStateSuccessSignOut.from(state));
     } on Exception catch (e) {
-      emit(BlocDashboardStateError.from(state, error: e.toString()));
+      emit(BlocDashboardStateError.from(state, e.toString()));
     }
   }
 
@@ -61,8 +62,8 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
           selectedCurrency: currencyTypeSelected,
         ),
       );
-    } on Exception catch (e) {
-      emit(BlocDashboardStateError.from(state, error: e.toString()));
+    } on CustomException catch (e) {
+      emit(BlocDashboardStateError.from(state, e.message));
     }
   }
 
@@ -70,15 +71,19 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
     BlocDashboardEventSelectCurrency event,
     Emitter<BlocDashboardState> emit,
   ) async {
-    final preferences = await SharedPreferences.getInstance();
+    try {
+      final preferences = await SharedPreferences.getInstance();
 
-    await preferences.setInt('currency', event.selectedCurrency.value);
+      await preferences.setInt('currency', event.selectedCurrency.value);
 
-    emit(
-      BlocDashboardStateSuccess.from(
-        state,
-        selectedCurrency: event.selectedCurrency,
-      ),
-    );
+      emit(
+        BlocDashboardStateSuccess.from(
+          state,
+          selectedCurrency: event.selectedCurrency,
+        ),
+      );
+    } on Exception catch (e) {
+      emit(BlocDashboardStateError.from(state, e.toString()));
+    }
   }
 }

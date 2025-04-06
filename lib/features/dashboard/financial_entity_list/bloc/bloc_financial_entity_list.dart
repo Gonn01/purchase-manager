@@ -24,6 +24,9 @@ class BlocFinancialEntityList
     on<BlocFinancialEntityListEventDeleteFinancialEntity>(
       _onDeleteFinancialEntity,
     );
+    on<BlocFinancialEntityListEventAddFinancialEntity>(
+      _onAddFinancialEntity,
+    );
   }
 
   /// Instancia de FirebaseAuth
@@ -71,6 +74,27 @@ class BlocFinancialEntityList
         ..removeWhere(
           (financialEntity) => financialEntity.id == event.idFinancialEntity,
         );
+
+      emit(
+        BlocFinancialEntityListStateSuccessDeletingFinancialEntity.from(
+          state,
+          financialEntityList: list,
+          financialEntityDeletedId: event.idFinancialEntity,
+        ),
+      );
+    } on Exception catch (e) {
+      emit(BlocFinancialEntityListStateError.from(state, error: e.toString()));
+    }
+  }
+
+  Future<void> _onAddFinancialEntity(
+    BlocFinancialEntityListEventAddFinancialEntity event,
+    Emitter<BlocFinancialEntityListState> emit,
+  ) async {
+    emit(BlocFinancialEntityListStateLoading.from(state));
+    try {
+      final list = List<FinancialEntity>.from(state.financialEntityList)
+        ..add(event.financialEntity);
 
       emit(
         BlocFinancialEntityListStateSuccess.from(

@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:purchase_manager/features/dashboard/financial_entity_list/bloc/bloc_financial_entity_list.dart';
+import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/features/dashboard/home/views/view_home.dart';
 
 @RoutePage()
@@ -20,6 +23,34 @@ class PageHome extends StatefulWidget {
 class _PageHomeState extends State<PageHome> {
   @override
   Widget build(BuildContext context) {
-    return const ViewHome();
+    return BlocListener<BlocHome, BlocHomeState>(
+      listener: (context, state) {
+        if (state is BlocHomeStateSuccessCreatingFinancialEntity) {
+          context.read<BlocFinancialEntityList>().add(
+                BlocFinancialEntityListEventAddFinancialEntity(
+                  financialEntity: state.financialEntity,
+                ),
+              );
+        }
+        if (state is BlocHomeStateError) {
+          showDialog<void>(
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                title: const Text('Error'),
+                content: Text(state.error),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      },
+      child: const ViewHome(),
+    );
   }
 }

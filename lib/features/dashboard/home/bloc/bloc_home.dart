@@ -27,6 +27,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
     on<BlocHomeEventIncreaseAmountOfQuotas>(_onIncreaseAmountOfQuotas);
     on<BlocHomeEventPayQuota>(_onPayQuota);
     on<BlocHomeEventCreateFinancialEntity>(_onCreateFinancialEntity);
+    on<BlocHomeEventDeleteFinancialEntity>(_onDeleteFinancialEntity);
     on<BlocHomeEventCreatePurchase>(_onCreatePurchase);
     on<BlocHomeEventEditPurchase>(_onEditPurchase);
     on<BlocHomeEventDeletePurchase>(_onDeletePurchase);
@@ -34,8 +35,6 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
     on<BlocHomeEventAlternateIgnorePurchase>(_onAlternateIgnorePurchase);
     on<BlocHomeEventAddImage>(_onAddImage);
     on<BlocHomeEventDeleteImageAt>(_onDeleteImageAt);
-
-    add(BlocHomeEventInitialize());
   }
 
   /// Instancia de FirebaseAuth
@@ -203,7 +202,35 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           newFinancialEntityResponse.body,
         );
 
-      emit(BlocHomeStateSuccess.from(state, financialEntityList: list));
+      emit(
+        BlocHomeStateSuccessCreatingFinancialEntity.from(
+          state,
+          financialEntity: newFinancialEntityResponse.body,
+          financialEntityList: list,
+        ),
+      );
+    } on Exception catch (e) {
+      emit(BlocHomeStateError.from(state, error: e.toString()));
+    }
+  }
+
+  Future<void> _onDeleteFinancialEntity(
+    BlocHomeEventDeleteFinancialEntity event,
+    Emitter<BlocHomeState> emit,
+  ) async {
+    emit(BlocHomeStateLoading.from(state));
+    try {
+      final list = List<FinancialEntity>.from(state.financialEntityList)
+        ..removeWhere(
+          (financialEntity) => financialEntity.id == event.idFinancialEntity,
+        );
+
+      emit(
+        BlocHomeStateSuccess.from(
+          state,
+          financialEntityList: list,
+        ),
+      );
     } on Exception catch (e) {
       emit(BlocHomeStateError.from(state, error: e.toString()));
     }

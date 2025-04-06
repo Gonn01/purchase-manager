@@ -30,3 +30,18 @@ class BlocFinancialEntityListEventDeleteFinancialEntity
   /// ID de la categoría a eliminar.
   final int idFinancialEntity;
 }
+
+/// {@template BlocFinancialEntityListEventAddFinancialEntity}
+/// Elimina una categoría.
+/// Deletes a category.
+/// {@endtemplate}
+class BlocFinancialEntityListEventAddFinancialEntity
+    extends BlocFinancialEntityListEvent {
+  ///{@macro BlocFinancialEntityListEventAddFinancialEntity}
+  const BlocFinancialEntityListEventAddFinancialEntity({
+    required this.financialEntity,
+  });
+
+  /// ID de la categoría a eliminar.
+  final FinancialEntity financialEntity;
+}

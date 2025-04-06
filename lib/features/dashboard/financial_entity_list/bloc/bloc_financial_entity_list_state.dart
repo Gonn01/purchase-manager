@@ -46,15 +46,29 @@ class BlocFinancialEntityListStateLoading extends BlocFinancialEntityListState {
   BlocFinancialEntityListStateLoading.from(super.previusState) : super.from();
 }
 
-/// {@template BlocFinancialEntityListStateSuccessSignOut}
+/// {@template BlocFinancialEntityListStateSuccessDeletingFinancialEntity}
 /// State when the home is loaded successfully.
 /// {@endtemplate}
 class BlocFinancialEntityListStateSuccess extends BlocFinancialEntityListState {
-  /// {@macro BlocFinancialEntityListStateSuccessSignOut}
+  /// {@macro BlocFinancialEntityListStateSuccessDeletingFinancialEntity}
   BlocFinancialEntityListStateSuccess.from(
     super.previusState, {
-    super.financialEntityList,
+    required super.financialEntityList,
   }) : super.from();
+}
+
+/// {@template BlocFinancialEntityListStateSuccessDeletingFinancialEntity}
+/// State when the home is loaded successfully.
+/// {@endtemplate}
+class BlocFinancialEntityListStateSuccessDeletingFinancialEntity
+    extends BlocFinancialEntityListState {
+  /// {@macro BlocFinancialEntityListStateSuccessDeletingFinancialEntity}
+  BlocFinancialEntityListStateSuccessDeletingFinancialEntity.from(
+    super.previusState, {
+    required super.financialEntityList,
+    required this.financialEntityDeletedId,
+  }) : super.from();
+  final int financialEntityDeletedId;
 }
 
 /// {@template BlocFinancialEntityListStateError}
