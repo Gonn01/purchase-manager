@@ -15,4 +15,6 @@ extension FormatearDoubleExtension on double {
     ).format(this);
     return formattedNumber;
   }
+
+  String get percentFormat => '$this%';
 }

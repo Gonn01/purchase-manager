@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/financial_entities/views/purchase_details/bloc/bloc_purchase_details.dart';
-import 'package:purchase_manager/features/dashboard/financial_entities/views/purchase_details/views/view_purchase.dart';
+import 'package:purchase_manager/features/dashboard/purchase_details/bloc/bloc_purchase_details.dart';
+import 'package:purchase_manager/features/dashboard/purchase_details/views/view_purchase.dart';
 
 /// {@template PagePurchaseDetails}
 /// Pagina de detalles de una compra

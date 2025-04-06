@@ -32,7 +32,7 @@ class _LDBottomNavigationBarState extends State<LDBottomNavigationBar> {
         context.router.push(const RutaHome());
 
       case 1:
-        context.router.push(const RutaFinancialEntities());
+        context.router.push(const RutaHome());
     }
   }
 
@@ -54,7 +54,7 @@ class _LDBottomNavigationBarState extends State<LDBottomNavigationBar> {
             ),
             LDBottomNavigationBarItem(
               isSelected:
-                  context.router.current.name == RutaFinancialEntities.name,
+                  context.router.current.name == RutaFinancialEntitiesList.name,
               value: 1,
               onTap: _handleTap,
               icon: Icons.list,

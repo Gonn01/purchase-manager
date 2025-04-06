@@ -87,9 +87,9 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
                 : _currency[1]
                     ? CurrencyType.usDollar
                     : CurrencyType.euro,
-            isFixedExpenses: widget.purchase.fixedExpense,
+            isFixedExpenses: isFixedExpense,
             payedQuotas: int.parse(_controllerPayedQuotas.text),
-            ignored: widget.purchase.ignored,
+            ignored: ignored,
             image: context.read<BlocDashboard>().state.images.isNotEmpty
                 ? context.read<BlocDashboard>().state.images[0].path
                 : null,

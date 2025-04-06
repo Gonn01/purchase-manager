@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:purchase_manager/features/dashboard/financial_entities/views/financial_entities_list/view/view_financial_entities_list.dart';
+import 'package:purchase_manager/features/dashboard/financial_entities/views/view_financial_entities_list.dart';
 
 /// {@template PageFinancialEntitiesList}
 /// Pagina que contiene las entidades financieras

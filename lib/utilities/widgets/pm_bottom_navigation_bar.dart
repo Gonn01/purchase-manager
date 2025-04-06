@@ -63,8 +63,7 @@ class PMBottomNavigationBar extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: () =>
-                    context.router.replace(const RutaFinancialEntities()),
+                onTap: () => context.router.replace(const RutaHome()),
                 child: Column(
                   children: [
                     Container(

@@ -21,7 +21,7 @@ class PageDashboard extends StatelessWidget {
         return PMScaffold(
           body: switch (context.router.current.name) {
             RutaHome.name => content,
-            RutaFinancialEntities.name => content,
+            RutaFinancialEntitiesList.name => content,
             _ => const SizedBox.shrink()
           },
         );

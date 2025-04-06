@@ -95,28 +95,20 @@ class AppRouter extends RootStackRouter {
               title: (context, data) => 'Inicio',
             ),
             AutoRoute(
-              page: RutaFinancialEntities.page,
-              path: 'financial-entities',
-              guards: [authGuard],
-              title: (context, data) => 'Entidades Financieras',
-              children: [
-                AutoRoute(
-                  page: RutaFinancialEntitiesList.page,
-                  initial: true,
-                  path: 'list',
-                  title: (context, data) => 'Lista de entidades financieras',
-                ),
-                AutoRoute(
-                  page: RutaFinancialEntityDetails.page,
-                  path: 'details',
-                  title: (context, data) => 'Detalles de la entidad financiera',
-                ),
-                AutoRoute(
-                  page: RutaPurchaseDetails.page,
-                  path: 'purchase',
-                  title: (context, data) => 'Detalles de la compra',
-                ),
-              ],
+              page: RutaFinancialEntitiesList.page,
+              initial: true,
+              path: 'list',
+              title: (context, data) => 'Lista de entidades financieras',
+            ),
+            AutoRoute(
+              page: RutaFinancialEntityDetails.page,
+              path: 'details',
+              title: (context, data) => 'Detalles de la entidad financiera',
+            ),
+            AutoRoute(
+              page: RutaPurchaseDetails.page,
+              path: 'purchase',
+              title: (context, data) => 'Detalles de la compra',
             ),
           ],
         ),

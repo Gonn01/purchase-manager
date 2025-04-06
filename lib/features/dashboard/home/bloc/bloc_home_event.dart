@@ -1,0 +1,314 @@
+part of 'bloc_home.dart';
+
+/// {@template BlocInicioEvento}
+/// Define los eventos que pueden ocurrir en la página de inicio.
+/// Defines the events that can occur on the home page.
+/// {@endtemplate}
+abstract class BlocHomeEvent {
+  /// {@macro BlocInicioEvento}
+  const BlocHomeEvent();
+}
+
+/// {@template BlocInicioEventoInicializar}
+/// Inicializa la página de home.
+/// Initialize the home page.
+/// {@endtemplate}
+class BlocDashboardEventInitialize extends BlocHomeEvent {}
+
+/// {@template BlocDashboardEventModifyAmountOfQuotas}
+/// Modifica la cantidad de cuotas de una compra.
+/// Modify the number of quotas of a purchase.
+/// {@endtemplate}
+class BlocDashboardEventIncreaseAmountOfQuotas extends BlocHomeEvent {
+  ///{@macro BlocDashboardEventModifyAmountOfQuotas}
+  const BlocDashboardEventIncreaseAmountOfQuotas({
+    required this.purchaseId,
+    required this.purchaseType,
+  });
+
+  /// ID de la compra a modificar.
+  /// ID of the purchase to modify.
+  final int purchaseId;
+
+  /// Tipo de compra a modificar.
+  /// Type of purchase to modify.
+  final PurchaseType purchaseType;
+}
+
+/// {@template BlocDashboardEventPayQuota}
+/// Modifica la cantidad de cuotas de una compra.
+/// Modify the number of quotas of a purchase.
+/// {@endtemplate}
+class BlocDashboardEventPayQuota extends BlocHomeEvent {
+  ///{@macro BlocDashboardEventPayQuota}
+  const BlocDashboardEventPayQuota({
+    required this.idPurchase,
+    required this.purchaseType,
+  });
+
+  /// ID de la compra a modificar.
+  /// ID of the purchase to modify.
+  final int idPurchase;
+
+  /// Tipo de compra a modificar.
+  /// Type of purchase to modify.
+  final PurchaseType purchaseType;
+}
+
+/// {@template BlocDashboardEventCreateFinancialEntity}
+/// Crea una nueva categoría.
+/// Creates a new category.
+/// {@endtemplate}
+class BlocDashboardEventCreateFinancialEntity extends BlocHomeEvent {
+  ///{@macro BlocDashboardEventCreateFinancialEntity}
+  const BlocDashboardEventCreateFinancialEntity({
+    required this.financialEntityName,
+  });
+
+  /// Nombre de la categoría a crear.
+  /// Name of the category to create.
+  final String financialEntityName;
+}
+
+/// {@template BlocDashboardEventDeleteFinancialEntity}
+/// Elimina una categoría.
+/// Deletes a category.
+/// {@endtemplate}
+class BlocDashboardEventDeleteFinancialEntity extends BlocHomeEvent {
+  ///{@macro BlocDashboardEventDeleteFinancialEntity}
+  const BlocDashboardEventDeleteFinancialEntity({
+    required this.idFinancialEntity,
+  });
+
+  /// ID de la categoría a eliminar.
+  final int idFinancialEntity;
+}
+
+/// {@template BlocDashboardEventDeletePurchase}
+/// Elimina una compra.
+/// Deletes a purchase.
+/// {@endtemplate}
+class BlocDashboardEventDeletePurchase extends BlocHomeEvent {
+  ///{@macro BlocDashboardEventDeletePurchase}
+  const BlocDashboardEventDeletePurchase({
+    required this.idFinancialEntity,
+    required this.purchase,
+  });
+
+  /// ID de la categoría a la que pertenece la compra.
+  /// ID of the category to which the purchase belongs.
+  final int idFinancialEntity;
+
+  /// ID de la compra a eliminar.
+  /// ID of the purchase to delete.
+  final Purchase purchase;
+}
+
+/// {@template BlocDashboardEventSelectCurrency}
+/// Elimina una compra.
+/// Deletes a purchase.
+/// {@endtemplate}
+class BlocDashboardEventSelectCurrency extends BlocHomeEvent {
+  ///{@macro BlocDashboardEventSelectCurrency}
+  const BlocDashboardEventSelectCurrency({
+    required this.selectedCurrency,
+  });
+
+  /// ID de la categoría a la que pertenece la compra.
+  /// ID of the category to which the purchase belongs.
+  final CurrencyType selectedCurrency;
+}
+
+/// {@template BlocDashboardEventCreatePurchase}
+/// Crea una nueva compra.
+/// Creates a new purchase.
+/// {@endtemplate}
+class BlocDashboardEventCreatePurchase extends BlocHomeEvent {
+  ///{@macro BlocDashboardEventCreatePurchase}
+  const BlocDashboardEventCreatePurchase({
+    required this.productName,
+    required this.totalAmount,
+    required this.amountQuotas,
+    required this.financialEntity,
+    required this.purchaseType,
+    required this.currency,
+    required this.isFixedExpenses,
+    required this.payedQuotas,
+    required this.ignored,
+  });
+
+  /// Nombre del producto a comprar.
+  /// Name of the product to buy.
+  final String productName;
+
+  /// Monto total de la compra.
+  /// Total amount of the purchase.
+  final double totalAmount;
+
+  /// Cantidad de cuotas de la compra.
+  /// Number of quotas of the purchase.
+  final int amountQuotas;
+
+  /// ID de la categoría a la que pertenece la compra.
+  /// ID of the category to which the purchase belongs.
+  final FinancialEntity financialEntity;
+
+  /// Tipo de compra.
+  /// Type of purchase.
+  final PurchaseType purchaseType;
+
+  /// Tipo de moneda.
+  /// Type of currency.
+  final CurrencyType currency;
+
+  final bool isFixedExpenses;
+  final bool ignored;
+
+  final int payedQuotas;
+}
+
+/// {@template BlocDashboardEventEditPurchase}
+/// Edita una compra.
+/// Edit a purchase.
+/// {@endtemplate}
+class BlocDashboardEventEditPurchase extends BlocHomeEvent {
+  ///{@macro BlocDashboardEventEditPurchase}
+  const BlocDashboardEventEditPurchase({
+    required this.purchase,
+    required this.name,
+    required this.amount,
+    required this.amountOfQuotas,
+    required this.idFinancialEntity,
+    required this.purchaseType,
+    required this.currency,
+    required this.isFixedExpenses,
+    required this.payedQuotas,
+    required this.ignored,
+    required this.image,
+  });
+
+  /// Compra a editar.
+  /// Purchase to edit.
+  final Purchase purchase;
+
+  /// Nombre del producto a comprar.
+  /// Name of the product to buy.
+  final String name;
+
+  /// Monto total de la compra.
+  /// Total amount of the purchase.
+  final double amount;
+
+  /// Cantidad de cuotas de la compra.
+  /// Number of quotas of the purchase.
+  final int amountOfQuotas;
+
+  /// ID de la categoría a la que pertenece la compra.
+  /// ID of the category to which the purchase belongs.
+  final int idFinancialEntity;
+
+  /// Tipo de compra.
+  /// Type of purchase.
+  final PurchaseType purchaseType;
+
+  /// Tipo de moneda.
+  /// Type of currency.
+  final CurrencyType currency;
+
+  final bool isFixedExpenses;
+  final int payedQuotas;
+
+  final bool ignored;
+  final String? image;
+}
+
+/// {@template BlocDashboardEventoPayMonth}
+/// Paga una cuota de una compra.
+/// Pay a quota of a purchase.
+/// {@endtemplate}
+class BlocDashboardEventPayMonth extends BlocHomeEvent {
+  ///{@macro BlocDashboardEventoPayMonth}
+  const BlocDashboardEventPayMonth({
+    required this.purchaseList,
+    required this.idFinancialEntity,
+  });
+
+  /// ID de la categoría a la que pertenece la compra.
+  ///
+  /// ID of the category to which the purchase belongs.
+  final List<Purchase> purchaseList;
+
+  /// Lista de compras a pagar.
+  ///
+  /// List of purchases to pay.
+  final int idFinancialEntity;
+}
+
+/// {@template BlocDashboardEventAlternateIgnorePurchase}
+/// Ignora una compra.
+///
+/// Ignore a purchase.
+/// {@endtemplate}
+class BlocDashboardEventAlternateIgnorePurchase extends BlocHomeEvent {
+  ///{@macro BlocDashboardEventAlternateIgnorePurchase}
+  const BlocDashboardEventAlternateIgnorePurchase({
+    required this.purchaseId,
+  });
+
+  /// Compra a editar.
+  /// Purchase to edit.
+  final int purchaseId;
+}
+
+/// {@template BlocDashboardEventAddImage}
+/// Add an image to the visit
+/// {@endtemplate}
+class BlocDashboardEventAddImage extends BlocHomeEvent {
+  /// {@macro BlocDashboardEventAddImage}
+  const BlocDashboardEventAddImage({
+    required this.image,
+  });
+
+  /// The id of the shipment
+  final XFile image;
+}
+
+/// {@template BlocDashboardEventDeleteImageAt}
+/// Delete an image from the visit
+/// {@endtemplate}
+class BlocDashboardEventDeleteImageAt extends BlocHomeEvent {
+  /// {@macro BlocDashboardEventDeleteImageAt}
+  const BlocDashboardEventDeleteImageAt({
+    required this.index,
+  });
+
+  /// The id of the shipment
+  final int index;
+}
+
+/// {@template BlocDashboardEventSignOut}
+/// Cierra sesión.
+///
+/// Sign out.
+/// {@endtemplate}
+class BlocDashboardEventSignOut extends BlocHomeEvent {
+  /// {@macro BlocDrawerEventSignOut}
+  const BlocDashboardEventSignOut();
+}
+
+/// {@template BlocDashboardEventSelectFinancialEntity}
+/// Selecciona una [FinancialEntity]
+///
+/// Select a [FinancialEntity]
+/// {@endtemplate}
+class BlocDashboardEventSelectFinancialEntity extends BlocHomeEvent {
+  ///{@macro BlocDashboardEventSelectFinancialEntity}
+  const BlocDashboardEventSelectFinancialEntity({
+    required this.financialEntity,
+  });
+
+  /// [FinancialEntity] seleccionada
+  ///
+  /// Selected [FinancialEntity]
+  final FinancialEntity financialEntity;
+}

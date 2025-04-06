@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/financial_entities/views/purchase_details/bloc/bloc_purchase_details.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:purchase_manager/features/dashboard/purchase_details/bloc/bloc_purchase_details.dart';
 import 'package:purchase_manager/utilities/extensions/date_time.dart';
 
 /// {@template ViewPurchaseDetails}
@@ -19,33 +20,58 @@ class ViewPurchaseDetails extends StatelessWidget {
         return SingleChildScrollView(
           child: Column(
             children: [
-              Text(
-                'Nombre de la compra: ${state.purchase?.name ?? ''}',
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              if (state.purchase?.image != null)
-                Image.network(
-                  state.purchase?.image ?? '',
-                  height: 200,
-                  width: 200,
-                )
-              else
-                const Center(
-                  child: Icon(
-                    Icons.image_not_supported_outlined,
-                    size: 50,
+              CircularPercentIndicator(
+                radius: 50,
+                lineWidth: 10,
+                percent: state.purchase?.numberOfQuotas != null
+                    ? state.purchase!.payedQuotas /
+                        state.purchase!.numberOfQuotas
+                    : 0,
+                header: Text(
+                  state.purchase?.name ?? '',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                     color: Color(0xff02B4A3),
                   ),
                 ),
+                center: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (state.purchase?.image != null)
+                      Image.network(
+                        state.purchase?.image ?? '',
+                        height: 200,
+                        width: 200,
+                      )
+                    else
+                      const Center(
+                        child: Icon(
+                          Icons.image_not_supported_outlined,
+                          size: 50,
+                          color: Color(0xff02B4A3),
+                        ),
+                      ),
+                    Text(
+                      '${(state.purchase?.payedQuotas != null ? (state.purchase!.payedQuotas / state.purchase!.numberOfQuotas) : 0).toStringAsFixed(2)}%',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.blueAccent,
+                      ),
+                    )
+                  ],
+                ),
+                backgroundColor: Colors.grey,
+                progressColor: const Color(0xff02B4A3),
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: state.purchase?.logs
                         .map(
                           (e) => Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 10)
+                                .copyWith(bottom: 8),
                             child: Column(
                               children: [
                                 Row(
@@ -68,7 +94,7 @@ class ViewPurchaseDetails extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                Divider(
+                                const Divider(
                                   color: Colors.grey,
                                   thickness: 1,
                                 ),
