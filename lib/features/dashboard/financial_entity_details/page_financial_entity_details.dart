@@ -20,7 +20,12 @@ class PageFinancialEntityDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => BlocFinancialEntityDetails(),
+      create: (context) => BlocFinancialEntityDetails()
+        ..add(
+          BlocFinancialEntityDetailsEventInitialize(
+            financialEntityId: idFinancialEntity,
+          ),
+        ),
       child: const ViewFinancialEntityDetails(),
     );
   }

@@ -71,13 +71,11 @@ class ViewFinancialEntitiesList extends StatelessWidget {
               children: state.financialEntityList
                   .map(
                     (financialEntity) => GestureDetector(
-                      onTap: () {
-                        context.router.push(
-                          RutaFinancialEntityDetails(
-                            idFinancialEntity: financialEntity.id,
-                          ),
-                        );
-                      },
+                      onTap: () => context.router.push(
+                        RutaFinancialEntityDetails(
+                          idFinancialEntity: financialEntity.id,
+                        ),
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Row(

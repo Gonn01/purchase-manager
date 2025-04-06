@@ -35,7 +35,7 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
 
   Future<void> _refresh() async {
     _controller.add(SwipeRefreshState.loading);
-    context.read<BlocDashboard>().add(BlocDashboardEventInitialize());
+    context.read<BlocHome>().add(BlocHomeEventInitialize());
     _controller.sink.add(SwipeRefreshState.hidden);
   }
 

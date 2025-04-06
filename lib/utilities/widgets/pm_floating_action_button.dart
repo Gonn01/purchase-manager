@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
+import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/utilities/widgets/dialogs/create_purchase_dialog.dart';
 
 /// {@template PMFloatingActionButton}
@@ -34,7 +34,7 @@ class _PMFloatingActionButtonState extends State<PMFloatingActionButton> {
           isScrollControlled: true,
           useSafeArea: true,
           builder: (_) => BlocProvider.value(
-            value: context.read<BlocDashboard>(),
+            value: context.read<BlocHome>(),
             child: const CreatePurchaseModal(),
           ),
         );
