@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
+import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/utilities/widgets/pm_dialogs.dart';
 
 /// {@template DialogDeleteImage}
@@ -17,8 +17,8 @@ class DialogDeleteImage extends StatelessWidget {
     return PMDialogs.actionRequest(
       content: const Text('¿Estás seguro que deseas eliminar la imagen?'),
       onTapConfirm: () {
-        context.read<BlocDashboard>().add(
-              const BlocDashboardEventDeleteImageAt(
+        context.read<BlocHome>().add(
+              const BlocHomeEventDeleteImageAt(
                 index: 0,
               ),
             );

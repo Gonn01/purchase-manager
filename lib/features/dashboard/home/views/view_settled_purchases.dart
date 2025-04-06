@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
+import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/financial_entity_element.dart';
 import 'package:swipe_refresh/swipe_refresh.dart';
 
@@ -40,7 +41,7 @@ class _ViewSettledPurchasesState extends State<ViewSettledPurchases> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BlocDashboard, BlocDashboardState>(
+    return BlocBuilder<BlocHome, BlocHomeState>(
       builder: (context, state) {
         if (state is BlocDashboardStateLoading) {
           return const Center(

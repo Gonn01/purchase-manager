@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
-import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
+import 'package:purchase_manager/features/dashboard/financial_entity_details/bloc/bloc_financial_entity_details.dart';
 import 'package:purchase_manager/utilities/extensions/date_time.dart';
 import 'package:purchase_manager/utilities/extensions/string.dart';
-import 'package:collection/collection.dart';
 
 /// {@template ViewFinancialEntityDetails}
 /// Pagina que contiene los detalles de una entidad financiera
@@ -21,14 +21,16 @@ class ViewFinancialEntityDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BlocDashboard, BlocDashboardState>(
+    return BlocBuilder<BlocFinancialEntityDetails,
+        BlocFinancialEntityDetailsState>(
       builder: (context, state) {
-        final fe = state.financialEntitySelected;
-        final purchases = state.financialEntitySelected?.purchases ?? [];
+        final purchases = state.financialEntity?.purchases ?? [];
+
         final ordenadas = purchases
           ..sort(
             (a, b) => a.createdAt.compareTo(b.createdAt),
           );
+
         final groupedByDate = groupBy(
           state.lastMovements,
           (e) => DateFormat('yyyy-MM-dd').format(e.createdAt),
@@ -39,7 +41,7 @@ class ViewFinancialEntityDetails extends StatelessWidget {
           children: [
             Center(
               child: Text(
-                'Nombre: ${fe?.name ?? ''}',
+                'Nombre: ${state.financialEntity?.name ?? ''}',
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -56,8 +58,7 @@ class ViewFinancialEntityDetails extends StatelessWidget {
                       onTap: () => context.router.push(
                         RutaPurchaseDetails(
                           idPurchase: purchase.id,
-                          idFinancialEntity:
-                              state.financialEntitySelected?.id ?? 0,
+                          idFinancialEntity: state.financialEntity?.id ?? 0,
                         ),
                       ),
                       child: Padding(
@@ -102,7 +103,7 @@ class ViewFinancialEntityDetails extends StatelessWidget {
               title: const Text('Logs'),
               childrenPadding: const EdgeInsets.symmetric(horizontal: 10),
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
-              children: state.financialEntitySelected?.logs
+              children: state.financialEntity?.logs
                       .map(
                         (e) => Text(
                           '- $e',

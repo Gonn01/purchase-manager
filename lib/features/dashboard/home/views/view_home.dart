@@ -17,8 +17,19 @@ class ViewHome extends StatefulWidget {
   State<ViewHome> createState() => _ViewHomeState();
 }
 
-class _ViewHomeState extends State<ViewHome> {
+class _ViewHomeState extends State<ViewHome>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+
+    _tabController.addListener(() {
+      setState(() {});
+    });
+  }
 
   @override
   void dispose() {

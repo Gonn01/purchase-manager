@@ -13,15 +13,15 @@ abstract class BlocHomeEvent {
 /// Inicializa la página de home.
 /// Initialize the home page.
 /// {@endtemplate}
-class BlocDashboardEventInitialize extends BlocHomeEvent {}
+class BlocHomeEventInitialize extends BlocHomeEvent {}
 
-/// {@template BlocDashboardEventModifyAmountOfQuotas}
+/// {@template BlocHomeEventModifyAmountOfQuotas}
 /// Modifica la cantidad de cuotas de una compra.
 /// Modify the number of quotas of a purchase.
 /// {@endtemplate}
-class BlocDashboardEventIncreaseAmountOfQuotas extends BlocHomeEvent {
-  ///{@macro BlocDashboardEventModifyAmountOfQuotas}
-  const BlocDashboardEventIncreaseAmountOfQuotas({
+class BlocHomeEventIncreaseAmountOfQuotas extends BlocHomeEvent {
+  ///{@macro BlocHomeEventModifyAmountOfQuotas}
+  const BlocHomeEventIncreaseAmountOfQuotas({
     required this.purchaseId,
     required this.purchaseType,
   });
@@ -35,13 +35,13 @@ class BlocDashboardEventIncreaseAmountOfQuotas extends BlocHomeEvent {
   final PurchaseType purchaseType;
 }
 
-/// {@template BlocDashboardEventPayQuota}
+/// {@template BlocHomeEventPayQuota}
 /// Modifica la cantidad de cuotas de una compra.
 /// Modify the number of quotas of a purchase.
 /// {@endtemplate}
-class BlocDashboardEventPayQuota extends BlocHomeEvent {
-  ///{@macro BlocDashboardEventPayQuota}
-  const BlocDashboardEventPayQuota({
+class BlocHomeEventPayQuota extends BlocHomeEvent {
+  ///{@macro BlocHomeEventPayQuota}
+  const BlocHomeEventPayQuota({
     required this.idPurchase,
     required this.purchaseType,
   });
@@ -55,13 +55,13 @@ class BlocDashboardEventPayQuota extends BlocHomeEvent {
   final PurchaseType purchaseType;
 }
 
-/// {@template BlocDashboardEventCreateFinancialEntity}
+/// {@template BlocHomeEventCreateFinancialEntity}
 /// Crea una nueva categoría.
 /// Creates a new category.
 /// {@endtemplate}
-class BlocDashboardEventCreateFinancialEntity extends BlocHomeEvent {
-  ///{@macro BlocDashboardEventCreateFinancialEntity}
-  const BlocDashboardEventCreateFinancialEntity({
+class BlocHomeEventCreateFinancialEntity extends BlocHomeEvent {
+  ///{@macro BlocHomeEventCreateFinancialEntity}
+  const BlocHomeEventCreateFinancialEntity({
     required this.financialEntityName,
   });
 
@@ -70,13 +70,13 @@ class BlocDashboardEventCreateFinancialEntity extends BlocHomeEvent {
   final String financialEntityName;
 }
 
-/// {@template BlocDashboardEventDeleteFinancialEntity}
+/// {@template BlocHomeEventDeleteFinancialEntity}
 /// Elimina una categoría.
 /// Deletes a category.
 /// {@endtemplate}
-class BlocDashboardEventDeleteFinancialEntity extends BlocHomeEvent {
-  ///{@macro BlocDashboardEventDeleteFinancialEntity}
-  const BlocDashboardEventDeleteFinancialEntity({
+class BlocHomeEventDeleteFinancialEntity extends BlocHomeEvent {
+  ///{@macro BlocHomeEventDeleteFinancialEntity}
+  const BlocHomeEventDeleteFinancialEntity({
     required this.idFinancialEntity,
   });
 
@@ -84,13 +84,13 @@ class BlocDashboardEventDeleteFinancialEntity extends BlocHomeEvent {
   final int idFinancialEntity;
 }
 
-/// {@template BlocDashboardEventDeletePurchase}
+/// {@template BlocHomeEventDeletePurchase}
 /// Elimina una compra.
 /// Deletes a purchase.
 /// {@endtemplate}
-class BlocDashboardEventDeletePurchase extends BlocHomeEvent {
-  ///{@macro BlocDashboardEventDeletePurchase}
-  const BlocDashboardEventDeletePurchase({
+class BlocHomeEventDeletePurchase extends BlocHomeEvent {
+  ///{@macro BlocHomeEventDeletePurchase}
+  const BlocHomeEventDeletePurchase({
     required this.idFinancialEntity,
     required this.purchase,
   });
@@ -104,13 +104,13 @@ class BlocDashboardEventDeletePurchase extends BlocHomeEvent {
   final Purchase purchase;
 }
 
-/// {@template BlocDashboardEventSelectCurrency}
+/// {@template BlocHomeEventSelectCurrency}
 /// Elimina una compra.
 /// Deletes a purchase.
 /// {@endtemplate}
-class BlocDashboardEventSelectCurrency extends BlocHomeEvent {
-  ///{@macro BlocDashboardEventSelectCurrency}
-  const BlocDashboardEventSelectCurrency({
+class BlocHomeEventSelectCurrency extends BlocHomeEvent {
+  ///{@macro BlocHomeEventSelectCurrency}
+  const BlocHomeEventSelectCurrency({
     required this.selectedCurrency,
   });
 
@@ -119,13 +119,13 @@ class BlocDashboardEventSelectCurrency extends BlocHomeEvent {
   final CurrencyType selectedCurrency;
 }
 
-/// {@template BlocDashboardEventCreatePurchase}
+/// {@template BlocHomeEventCreatePurchase}
 /// Crea una nueva compra.
 /// Creates a new purchase.
 /// {@endtemplate}
-class BlocDashboardEventCreatePurchase extends BlocHomeEvent {
-  ///{@macro BlocDashboardEventCreatePurchase}
-  const BlocDashboardEventCreatePurchase({
+class BlocHomeEventCreatePurchase extends BlocHomeEvent {
+  ///{@macro BlocHomeEventCreatePurchase}
+  const BlocHomeEventCreatePurchase({
     required this.productName,
     required this.totalAmount,
     required this.amountQuotas,
@@ -167,13 +167,13 @@ class BlocDashboardEventCreatePurchase extends BlocHomeEvent {
   final int payedQuotas;
 }
 
-/// {@template BlocDashboardEventEditPurchase}
+/// {@template BlocHomeEventEditPurchase}
 /// Edita una compra.
 /// Edit a purchase.
 /// {@endtemplate}
-class BlocDashboardEventEditPurchase extends BlocHomeEvent {
-  ///{@macro BlocDashboardEventEditPurchase}
-  const BlocDashboardEventEditPurchase({
+class BlocHomeEventEditPurchase extends BlocHomeEvent {
+  ///{@macro BlocHomeEventEditPurchase}
+  const BlocHomeEventEditPurchase({
     required this.purchase,
     required this.name,
     required this.amount,
@@ -222,13 +222,13 @@ class BlocDashboardEventEditPurchase extends BlocHomeEvent {
   final String? image;
 }
 
-/// {@template BlocDashboardEventoPayMonth}
+/// {@template BlocHomeEventoPayMonth}
 /// Paga una cuota de una compra.
 /// Pay a quota of a purchase.
 /// {@endtemplate}
-class BlocDashboardEventPayMonth extends BlocHomeEvent {
-  ///{@macro BlocDashboardEventoPayMonth}
-  const BlocDashboardEventPayMonth({
+class BlocHomeEventPayMonth extends BlocHomeEvent {
+  ///{@macro BlocHomeEventoPayMonth}
+  const BlocHomeEventPayMonth({
     required this.purchaseList,
     required this.idFinancialEntity,
   });
@@ -244,14 +244,14 @@ class BlocDashboardEventPayMonth extends BlocHomeEvent {
   final int idFinancialEntity;
 }
 
-/// {@template BlocDashboardEventAlternateIgnorePurchase}
+/// {@template BlocHomeEventAlternateIgnorePurchase}
 /// Ignora una compra.
 ///
 /// Ignore a purchase.
 /// {@endtemplate}
-class BlocDashboardEventAlternateIgnorePurchase extends BlocHomeEvent {
-  ///{@macro BlocDashboardEventAlternateIgnorePurchase}
-  const BlocDashboardEventAlternateIgnorePurchase({
+class BlocHomeEventAlternateIgnorePurchase extends BlocHomeEvent {
+  ///{@macro BlocHomeEventAlternateIgnorePurchase}
+  const BlocHomeEventAlternateIgnorePurchase({
     required this.purchaseId,
   });
 
@@ -260,12 +260,12 @@ class BlocDashboardEventAlternateIgnorePurchase extends BlocHomeEvent {
   final int purchaseId;
 }
 
-/// {@template BlocDashboardEventAddImage}
+/// {@template BlocHomeEventAddImage}
 /// Add an image to the visit
 /// {@endtemplate}
-class BlocDashboardEventAddImage extends BlocHomeEvent {
-  /// {@macro BlocDashboardEventAddImage}
-  const BlocDashboardEventAddImage({
+class BlocHomeEventAddImage extends BlocHomeEvent {
+  /// {@macro BlocHomeEventAddImage}
+  const BlocHomeEventAddImage({
     required this.image,
   });
 
@@ -273,12 +273,12 @@ class BlocDashboardEventAddImage extends BlocHomeEvent {
   final XFile image;
 }
 
-/// {@template BlocDashboardEventDeleteImageAt}
+/// {@template BlocHomeEventDeleteImageAt}
 /// Delete an image from the visit
 /// {@endtemplate}
-class BlocDashboardEventDeleteImageAt extends BlocHomeEvent {
-  /// {@macro BlocDashboardEventDeleteImageAt}
-  const BlocDashboardEventDeleteImageAt({
+class BlocHomeEventDeleteImageAt extends BlocHomeEvent {
+  /// {@macro BlocHomeEventDeleteImageAt}
+  const BlocHomeEventDeleteImageAt({
     required this.index,
   });
 
@@ -286,24 +286,24 @@ class BlocDashboardEventDeleteImageAt extends BlocHomeEvent {
   final int index;
 }
 
-/// {@template BlocDashboardEventSignOut}
+/// {@template BlocHomeEventSignOut}
 /// Cierra sesión.
 ///
 /// Sign out.
 /// {@endtemplate}
-class BlocDashboardEventSignOut extends BlocHomeEvent {
+class BlocHomeEventSignOut extends BlocHomeEvent {
   /// {@macro BlocDrawerEventSignOut}
-  const BlocDashboardEventSignOut();
+  const BlocHomeEventSignOut();
 }
 
-/// {@template BlocDashboardEventSelectFinancialEntity}
+/// {@template BlocHomeEventSelectFinancialEntity}
 /// Selecciona una [FinancialEntity]
 ///
 /// Select a [FinancialEntity]
 /// {@endtemplate}
-class BlocDashboardEventSelectFinancialEntity extends BlocHomeEvent {
-  ///{@macro BlocDashboardEventSelectFinancialEntity}
-  const BlocDashboardEventSelectFinancialEntity({
+class BlocHomeEventSelectFinancialEntity extends BlocHomeEvent {
+  ///{@macro BlocHomeEventSelectFinancialEntity}
+  const BlocHomeEventSelectFinancialEntity({
     required this.financialEntity,
   });
 

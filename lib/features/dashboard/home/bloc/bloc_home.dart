@@ -6,17 +6,13 @@ import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:purchase_manager/features/dashboard/repositories/dashboard_repository.dart';
+import 'package:purchase_manager/features/dashboard/home/repositories/home_repository.dart';
 import 'package:purchase_manager/features/dashboard/repositories/financial_entities_repository.dart';
 import 'package:purchase_manager/features/dashboard/repositories/purchases_repository.dart';
-import 'package:purchase_manager/utilities/models/currency.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
-import 'package:purchase_manager/utilities/models/logs.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
-import 'package:purchase_manager/utilities/services/currency_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'bloc_home_event.dart';
 part 'bloc_home_state.dart';
@@ -26,20 +22,20 @@ part 'bloc_home_state.dart';
 /// {@endtemplate}
 class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
   /// {@macro BlocInicio}
-  BlocHome() : super(BlocDashboardStateInitial()) {
-    on<BlocDashboardEventInitialize>(_onInitialize);
-    on<BlocDashboardEventIncreaseAmountOfQuotas>(_onIncreaseAmountOfQuotas);
-    on<BlocDashboardEventPayQuota>(_onPayQuota);
-    on<BlocDashboardEventCreateFinancialEntity>(_onCreateFinancialEntity);
-    on<BlocDashboardEventCreatePurchase>(_onCreatePurchase);
-    on<BlocDashboardEventEditPurchase>(_onEditPurchase);
-    on<BlocDashboardEventDeletePurchase>(_onDeletePurchase);
-    on<BlocDashboardEventPayMonth>(_onPayMonth);
-    on<BlocDashboardEventAlternateIgnorePurchase>(_onAlternateIgnorePurchase);
-    on<BlocDashboardEventAddImage>(_onAddImage);
-    on<BlocDashboardEventDeleteImageAt>(_onDeleteImageAt);
+  BlocHome() : super(BlocHomeStateInitial()) {
+    on<BlocHomeEventInitialize>(_onInitialize);
+    on<BlocHomeEventIncreaseAmountOfQuotas>(_onIncreaseAmountOfQuotas);
+    on<BlocHomeEventPayQuota>(_onPayQuota);
+    on<BlocHomeEventCreateFinancialEntity>(_onCreateFinancialEntity);
+    on<BlocHomeEventCreatePurchase>(_onCreatePurchase);
+    on<BlocHomeEventEditPurchase>(_onEditPurchase);
+    on<BlocHomeEventDeletePurchase>(_onDeletePurchase);
+    on<BlocHomeEventPayMonth>(_onPayMonth);
+    on<BlocHomeEventAlternateIgnorePurchase>(_onAlternateIgnorePurchase);
+    on<BlocHomeEventAddImage>(_onAddImage);
+    on<BlocHomeEventDeleteImageAt>(_onDeleteImageAt);
 
-    add(BlocDashboardEventInitialize());
+    add(BlocHomeEventInitialize());
   }
 
   /// Instancia de FirebaseAuth
@@ -47,49 +43,37 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
   /// FirebaseAuth instance
   final auth = FirebaseAuth.instance;
 
-  // final _firebaseService = FirebaseService();
-  final _dashboardRepository = DashboardRepository();
-
   final _purchasesRepository = PurchasesRepository();
 
   final _financialEntitiesRepository = FinancialEntitiesRepository();
 
+  final _homeRepository = HomeRepository();
+
   Future<void> _onInitialize(
-    BlocDashboardEventInitialize event,
+    BlocHomeEventInitialize event,
     Emitter<BlocHomeState> emit,
   ) async {
-    emit(BlocDashboardStateLoading.from(state));
+    emit(BlocHomeStateLoading.from(state));
     try {
-      final responseListFinancialeEntity =
-          await _dashboardRepository.getDashboardData();
-
-      final preferences = await SharedPreferences.getInstance();
-
-      final currencyTypeValue = preferences.getInt('currency');
-
-      final currencyTypeSelected = CurrencyType.type(currencyTypeValue ?? 0);
-
-      final dolar = await DolarService().getDollarData();
+      final responseListFinancialeEntity = await _homeRepository.getHomeData();
 
       emit(
-        BlocDashboardStateSuccess.from(
+        BlocHomeStateSuccess.from(
           state,
-          currency: dolar,
           financialEntityList: responseListFinancialeEntity.body,
-          selectedCurrency: currencyTypeSelected,
         ),
       );
     } on Exception catch (e) {
-      emit(BlocDashboardStateError.from(state, error: e.toString()));
+      emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
 
   Future<void> _onIncreaseAmountOfQuotas(
-    BlocDashboardEventIncreaseAmountOfQuotas event,
+    BlocHomeEventIncreaseAmountOfQuotas event,
     Emitter<BlocHomeState> emit,
   ) async {
     emit(
-      BlocDashboardStateLoadingPurchase.from(
+      BlocHomeStateLoadingPurchase.from(
         state,
         purchaseLoadingId: event.purchaseId,
       ),
@@ -132,23 +116,23 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       );
 
       emit(
-        BlocDashboardStateSuccess.from(
+        BlocHomeStateSuccess.from(
           state,
           financialEntityList: newList,
           deleteSelectedShipmentId: true,
         ),
       );
     } on Exception catch (e) {
-      emit(BlocDashboardStateError.from(state, error: e.toString()));
+      emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
 
   Future<void> _onPayQuota(
-    BlocDashboardEventPayQuota event,
+    BlocHomeEventPayQuota event,
     Emitter<BlocHomeState> emit,
   ) async {
     emit(
-      BlocDashboardStateLoadingPurchase.from(
+      BlocHomeStateLoadingPurchase.from(
         state,
         purchaseLoadingId: event.idPurchase,
       ),
@@ -191,22 +175,22 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       );
 
       emit(
-        BlocDashboardStateSuccess.from(
+        BlocHomeStateSuccess.from(
           state,
           financialEntityList: newList,
           deleteSelectedShipmentId: true,
         ),
       );
     } on Exception catch (e) {
-      emit(BlocDashboardStateError.from(state, error: e.toString()));
+      emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
 
   Future<void> _onCreateFinancialEntity(
-    BlocDashboardEventCreateFinancialEntity event,
+    BlocHomeEventCreateFinancialEntity event,
     Emitter<BlocHomeState> emit,
   ) async {
-    emit(BlocDashboardStateLoading.from(state));
+    emit(BlocHomeStateLoading.from(state));
     try {
       final newFinancialEntityResponse =
           await _financialEntitiesRepository.createFinancialEntity(
@@ -219,14 +203,14 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           newFinancialEntityResponse.body,
         );
 
-      emit(BlocDashboardStateSuccess.from(state, financialEntityList: list));
+      emit(BlocHomeStateSuccess.from(state, financialEntityList: list));
     } on Exception catch (e) {
-      emit(BlocDashboardStateError.from(state, error: e.toString()));
+      emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
 
   Future<void> _onCreatePurchase(
-    BlocDashboardEventCreatePurchase event,
+    BlocHomeEventCreatePurchase event,
     Emitter<BlocHomeState> emit,
   ) async {
     try {
@@ -270,23 +254,23 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       newList[index] = updatedEntity;
 
       emit(
-        BlocDashboardStateSuccess.from(
+        BlocHomeStateSuccess.from(
           state,
           financialEntityList: newList,
           deleteImage: true,
         ),
       );
     } on Exception catch (e) {
-      emit(BlocDashboardStateError.from(state, error: e.toString()));
+      emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
 
   Future<void> _onEditPurchase(
-    BlocDashboardEventEditPurchase event,
+    BlocHomeEventEditPurchase event,
     Emitter<BlocHomeState> emit,
   ) async {
     emit(
-      BlocDashboardStateLoadingPurchase.from(
+      BlocHomeStateLoadingPurchase.from(
         state,
         purchaseLoadingId: event.purchase.id,
       ),
@@ -338,7 +322,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
         listFinancialEntity[index] = updatedEntity;
       }
       emit(
-        BlocDashboardStateSuccess.from(
+        BlocHomeStateSuccess.from(
           state,
           financialEntityList: listFinancialEntity,
           deleteSelectedShipmentId: true,
@@ -346,16 +330,16 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
         ),
       );
     } on Exception catch (e) {
-      emit(BlocDashboardStateError.from(state, error: e.toString()));
+      emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
 
   Future<void> _onDeletePurchase(
-    BlocDashboardEventDeletePurchase event,
+    BlocHomeEventDeletePurchase event,
     Emitter<BlocHomeState> emit,
   ) async {
     emit(
-      BlocDashboardStateLoadingPurchase.from(
+      BlocHomeStateLoadingPurchase.from(
         state,
         purchaseLoadingId: event.purchase.id,
       ),
@@ -381,20 +365,20 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
 
       list[index] = updatedEntity;
 
-      emit(BlocDashboardStateSuccess.from(state, financialEntityList: list));
+      emit(BlocHomeStateSuccess.from(state, financialEntityList: list));
     } on Exception catch (e) {
-      emit(BlocDashboardStateError.from(state, error: e.toString()));
+      emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
 
   Future<void> _onPayMonth(
-    BlocDashboardEventPayMonth event,
+    BlocHomeEventPayMonth event,
     Emitter<BlocHomeState> emit,
   ) async {
     try {
       final purchaseIds = event.purchaseList.map((e) => e.id).toList();
       emit(
-        BlocDashboardStateLoadingPurchase.from(
+        BlocHomeStateLoadingPurchase.from(
           state,
           purchasesLoadingsIds: purchaseIds,
         ),
@@ -430,23 +414,23 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       listFinancialEntity[index] = updatedEntity;
 
       emit(
-        BlocDashboardStateSuccess.from(
+        BlocHomeStateSuccess.from(
           state,
           financialEntityList: listFinancialEntity,
           deleteSelectedShipmentId: true,
         ),
       );
     } on Exception catch (e) {
-      emit(BlocDashboardStateError.from(state, error: e.toString()));
+      emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
 
   Future<void> _onAlternateIgnorePurchase(
-    BlocDashboardEventAlternateIgnorePurchase event,
+    BlocHomeEventAlternateIgnorePurchase event,
     Emitter<BlocHomeState> emit,
   ) async {
     emit(
-      BlocDashboardStateLoadingPurchase.from(
+      BlocHomeStateLoadingPurchase.from(
         state,
         purchaseLoadingId: event.purchaseId,
       ),
@@ -483,33 +467,33 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       );
 
       emit(
-        BlocDashboardStateSuccess.from(
+        BlocHomeStateSuccess.from(
           state,
           financialEntityList: listFinancialEntity,
           deleteSelectedShipmentId: true,
         ),
       );
     } on Exception catch (e) {
-      emit(BlocDashboardStateError.from(state, error: e.toString()));
+      emit(BlocHomeStateError.from(state, error: e.toString()));
     }
   }
 
   void _onAddImage(
-    BlocDashboardEventAddImage event,
+    BlocHomeEventAddImage event,
     Emitter<BlocHomeState> emit,
   ) {
     final images = List<XFile>.from(state.images)..add(event.image);
 
-    emit(BlocDashboardStateSuccess.from(state, images: images));
+    emit(BlocHomeStateSuccess.from(state, images: images));
   }
 
   void _onDeleteImageAt(
-    BlocDashboardEventDeleteImageAt event,
+    BlocHomeEventDeleteImageAt event,
     Emitter<BlocHomeState> emit,
   ) {
     final images = List<XFile>.from(state.images)..removeAt(event.index);
 
-    emit(BlocDashboardStateSuccess.from(state, images: images));
+    emit(BlocHomeStateSuccess.from(state, images: images));
   }
 }
 

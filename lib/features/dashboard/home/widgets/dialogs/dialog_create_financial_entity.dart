@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
+import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/widgets/pm_dialogs.dart';
 import 'package:purchase_manager/utilities/widgets/pm_textfields.dart';
@@ -33,8 +33,8 @@ class _DialogCreateFinancialEntityState
   /// Shows the dialog to create a new [FinancialEntity]
   void _crearFinancialEntity() {
     if (_controller.text.isNotEmpty) {
-      context.read<BlocDashboard>().add(
-            BlocDashboardEventCreateFinancialEntity(
+      context.read<BlocHome>().add(
+            BlocHomeEventCreateFinancialEntity(
               financialEntityName: _controller.text,
             ),
           );

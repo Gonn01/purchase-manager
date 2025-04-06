@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
+import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/dialogs/dialog_pay_month_alert.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/purchase_element.dart';
 import 'package:purchase_manager/gen/assets.gen.dart';
@@ -37,7 +38,7 @@ class FinancialEntityElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BlocDashboard, BlocDashboardState>(
+    return BlocBuilder<BlocHome, BlocHomeState>(
       builder: (context, state) {
         var lista = <Purchase>[];
         if (index == 1) {
@@ -45,9 +46,10 @@ class FinancialEntityElement extends StatelessWidget {
         } else {
           lista = state.listPurchaseStatusCurrent(financialEntity);
         }
-        final total = state.selectedCurrency.totalAmountPerFinancialEntity(
+        final st = context.read<BlocDashboard>().state;
+        final total = st.selectedCurrency.totalAmountPerFinancialEntity(
           purchases: lista,
-          currency: state.currency,
+          currency: st.currency,
         );
         final hasAnyPurchaseToPay = lista.any((element) => !element.ignored);
         return ExpansionTile(
@@ -104,7 +106,7 @@ class FinancialEntityElement extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${total.isNegative ? 'Me debe en' : 'Le debo en'} total ${(total.isNegative ? total * -1 : total).formatAmount} ${state.selectedCurrency.abreviation}',
+                      '${total.isNegative ? 'Me debe en' : 'Le debo en'} total ${(total.isNegative ? total * -1 : total).formatAmount} ${st.selectedCurrency.abreviation}',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -131,13 +133,13 @@ class FinancialEntityElement extends StatelessWidget {
                           context: context,
                           financialEntityName: financialEntity.name,
                           purchases: lista,
-                          total: state.selectedCurrency
-                              .totalAmountPerFinancialEntity(
+                          total:
+                              st.selectedCurrency.totalAmountPerFinancialEntity(
                             purchases: lista,
-                            currency: state.currency,
+                            currency: st.currency,
                           ),
-                          currency: state.currency,
-                          selectedCurrency: state.selectedCurrency,
+                          currency: st.currency,
+                          selectedCurrency: st.selectedCurrency,
                         );
                       },
                       child: Image.asset(

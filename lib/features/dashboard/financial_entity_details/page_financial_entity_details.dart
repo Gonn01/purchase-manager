@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:purchase_manager/features/dashboard/financial_entity_details/bloc/bloc_financial_entity_details.dart';
 import 'package:purchase_manager/features/dashboard/financial_entity_details/view/view_financial_entity_details.dart';
 
 /// {@template PageFinancialEntityDetails}
@@ -11,11 +13,15 @@ import 'package:purchase_manager/features/dashboard/financial_entity_details/vie
 class PageFinancialEntityDetails extends StatelessWidget {
   /// {@macro PageFinancialEntityDetails}
   const PageFinancialEntityDetails({
+    required this.idFinancialEntity,
     super.key,
   });
-
+  final int idFinancialEntity;
   @override
   Widget build(BuildContext context) {
-    return const ViewFinancialEntityDetails();
+    return BlocProvider(
+      create: (context) => BlocFinancialEntityDetails(),
+      child: const ViewFinancialEntityDetails(),
+    );
   }
 }

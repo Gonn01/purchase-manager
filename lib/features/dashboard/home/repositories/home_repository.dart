@@ -7,10 +7,10 @@ import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/pm_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DashboardRepository {
+class HomeRepository {
   final baseUrl = '${Config.apiUrl}/home/';
 
-  Future<PMResponse<List<FinancialEntity>>> getDashboardData() async {
+  Future<PMResponse<List<FinancialEntity>>> getHomeData() async {
     try {
       final preferences = await SharedPreferences.getInstance();
 

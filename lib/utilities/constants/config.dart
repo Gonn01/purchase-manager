@@ -5,4 +5,5 @@ class Config {
   static String get apiUrl =>
       dotenv.env['API_URL'] ??
       'https://api-purchase-manager.netlify.app/.netlify/functions/server';
+  static String get userId => 'user_id';
 }

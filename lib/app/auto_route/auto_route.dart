@@ -64,12 +64,6 @@ class MyObserver extends AutoRouterObserver {
 /// {@endtemplate}
 class AppRouter extends RootStackRouter {
   /// Se encarga de proteger las rutas que requieren
-  /// que el usuario este deslogueado, en caso de que
-  /// el usuario este logueado y quiera dirigirse a este tipo
-  /// de paginas, sera redireccionado a [RutaLogin]
-  InitialGuard get initialGuard => InitialGuard();
-
-  /// Se encarga de proteger las rutas que requieren
   /// que el usuario este logeado, en caso de que
   /// el usuario este deslogueado y quiera dirigirse a este tipo
   /// de paginas, sera redireccionado a [RutaLogin]
@@ -80,13 +74,12 @@ class AppRouter extends RootStackRouter {
         AutoRoute(
           page: RutaLogin.page,
           path: '/login',
-          guards: [initialGuard],
+          guards: [authGuard],
+          initial: true,
         ),
         AutoRoute(
           page: RutaDashboard.page,
           path: '/dashboard',
-          guards: [authGuard],
-          initial: true,
           children: [
             AutoRoute(
               page: RutaHome.page,
@@ -96,7 +89,6 @@ class AppRouter extends RootStackRouter {
             ),
             AutoRoute(
               page: RutaFinancialEntitiesList.page,
-              initial: true,
               path: 'list',
               title: (context, data) => 'Lista de entidades financieras',
             ),

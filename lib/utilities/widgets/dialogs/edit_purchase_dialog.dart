@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
+import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/dialogs/dialog_delete_purchase.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
@@ -58,8 +59,8 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
         value: context.read<BlocDashboard>(),
         child: UploadImageDialog(
           onImageSelected: (value) {
-            context.read<BlocDashboard>().add(
-                  BlocDashboardEventAddImage(image: value),
+            context.read<BlocHome>().add(
+                  BlocHomeEventAddImage(image: value),
                 );
           },
         ),
@@ -68,8 +69,8 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
   }
 
   void _editPurchase({required FinancialEntity financialEntity}) {
-    context.read<BlocDashboard>().add(
-          BlocDashboardEventEditPurchase(
+    context.read<BlocHome>().add(
+          BlocHomeEventEditPurchase(
             purchase: widget.purchase,
             name: _controllerProductName.text,
             amount: double.parse(_controllerAmount.text),
@@ -90,8 +91,8 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
             isFixedExpenses: isFixedExpense,
             payedQuotas: int.parse(_controllerPayedQuotas.text),
             ignored: ignored,
-            image: context.read<BlocDashboard>().state.images.isNotEmpty
-                ? context.read<BlocDashboard>().state.images[0].path
+            image: context.read<BlocHome>().state.images.isNotEmpty
+                ? context.read<BlocHome>().state.images[0].path
                 : null,
           ),
         );
@@ -142,7 +143,7 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BlocDashboard, BlocDashboardState>(
+    return BlocBuilder<BlocHome, BlocHomeState>(
       builder: (context, state) {
         return Container(
           color: Colors.white,

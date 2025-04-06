@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
+import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/utilities/extensions/date_time.dart';
 import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/extensions/string.dart';
@@ -33,9 +34,9 @@ class PurchaseElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BlocDashboard, BlocDashboardState>(
+    return BlocBuilder<BlocHome, BlocHomeState>(
       builder: (context, state) {
-        final isLoading = state is BlocDashboardStateLoadingPurchase &&
+        final isLoading = state is BlocHomeStateLoadingPurchase &&
                 state.purchaseLoadingId == purchase.id ||
             state.purchasesLoadingsIds.contains(purchase.id);
 
@@ -331,8 +332,8 @@ class Campos extends StatelessWidget {
                                     ),
                                   );
                                 }
-                                context.read<BlocDashboard>().add(
-                                      BlocDashboardEventAlternateIgnorePurchase(
+                                context.read<BlocHome>().add(
+                                      BlocHomeEventAlternateIgnorePurchase(
                                         purchaseId: purchase.id,
                                       ),
                                     );
@@ -410,8 +411,8 @@ class Campos extends StatelessWidget {
                     ),
                     if (!purchase.type.isCurrent)
                       GestureDetector(
-                        onTap: () => context.read<BlocDashboard>().add(
-                              BlocDashboardEventIncreaseAmountOfQuotas(
+                        onTap: () => context.read<BlocHome>().add(
+                              BlocHomeEventIncreaseAmountOfQuotas(
                                 purchaseId: purchase.id,
                                 purchaseType: purchase.type,
                               ),
@@ -454,8 +455,8 @@ class Campos extends StatelessWidget {
                       isEnabled: true,
                       onTap: () {
                         if (!purchase.ignored) {
-                          context.read<BlocDashboard>().add(
-                                BlocDashboardEventPayQuota(
+                          context.read<BlocHome>().add(
+                                BlocHomeEventPayQuota(
                                   idPurchase: purchase.id,
                                   purchaseType: purchase.type,
                                 ),

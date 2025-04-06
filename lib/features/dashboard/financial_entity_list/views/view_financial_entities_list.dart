@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
-import 'package:purchase_manager/features/dashboard/financial_entities/widgets/dialogs/dialog_delete_financial_entity.dart';
+import 'package:purchase_manager/features/dashboard/financial_entity_list/bloc/bloc_financial_entity_list.dart';
+import 'package:purchase_manager/features/dashboard/financial_entity_list/widgets/dialogs/dialog_delete_financial_entity.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 
 /// {@template ViewFinancialEntitiesList}
@@ -25,7 +26,7 @@ class ViewFinancialEntitiesList extends StatelessWidget {
     return showDialog(
       context: context,
       builder: (_) => BlocProvider.value(
-        value: context.read<BlocDashboard>(),
+        value: context.read<BlocFinancialEntityList>(),
         child: DialogDeleteFinancialEntity(financialEntity: financialEntity),
       ),
     );
@@ -33,7 +34,7 @@ class ViewFinancialEntitiesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BlocDashboard, BlocDashboardState>(
+    return BlocBuilder<BlocFinancialEntityList, BlocFinancialEntityListState>(
       builder: (context, state) {
         if (state.financialEntityList.isEmpty) {
           return const Column(
@@ -71,13 +72,10 @@ class ViewFinancialEntitiesList extends StatelessWidget {
                   .map(
                     (financialEntity) => GestureDetector(
                       onTap: () {
-                        context.read<BlocDashboard>().add(
-                              BlocDashboardEventSelectFinancialEntity(
-                                financialEntity: financialEntity,
-                              ),
-                            );
                         context.router.push(
-                          const RutaFinancialEntityDetails(),
+                          RutaFinancialEntityDetails(
+                            idFinancialEntity: financialEntity.id,
+                          ),
                         );
                       },
                       child: Padding(

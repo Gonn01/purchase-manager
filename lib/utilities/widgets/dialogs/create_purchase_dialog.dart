@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
+import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
@@ -46,8 +47,8 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
         value: context.read<BlocDashboard>(),
         child: UploadImageDialog(
           onImageSelected: (value) {
-            context.read<BlocDashboard>().add(
-                  BlocDashboardEventAddImage(image: value),
+            context.read<BlocHome>().add(
+                  BlocHomeEventAddImage(image: value),
                 );
           },
         ),
@@ -56,8 +57,8 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
   }
 
   void _createPurchase({required FinancialEntity financialEntity}) {
-    context.read<BlocDashboard>().add(
-          BlocDashboardEventCreatePurchase(
+    context.read<BlocHome>().add(
+          BlocHomeEventCreatePurchase(
             productName: _controllerProductName.text,
             totalAmount: double.parse(_controllerAmount.text),
             amountQuotas: int.parse(
@@ -110,7 +111,7 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BlocDashboard, BlocDashboardState>(
+    return BlocBuilder<BlocHome, BlocHomeState>(
       builder: (context, state) {
         return Container(
           color: Colors.white,

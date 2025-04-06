@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:purchase_manager/utilities/constants/config.dart';
 import 'package:purchase_manager/utilities/models/custom_exception.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
+import 'package:purchase_manager/utilities/models/logs.dart';
 import 'package:purchase_manager/utilities/models/pm_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -112,7 +113,7 @@ class FinancialEntitiesRepository {
   Future<PMResponse<List<FinancialEntity>>> getFinancialEntities({
     required int userId,
   }) async {
-    final url = Uri.parse(baseUrl);
+    final url = Uri.parse('$baseUrl$userId');
     try {
       final response = await http.get(
         url,
@@ -127,6 +128,64 @@ class FinancialEntitiesRepository {
           jsonData,
           (json) => (jsonData['body'] as List)
               .map((e) => FinancialEntity.fromJson(e as Map<String, dynamic>))
+              .toList(),
+        ),
+        jsonData,
+      );
+
+      return result;
+    } catch (e, st) {
+      handleException(e, st);
+    }
+  }
+
+  Future<PMResponse<FinancialEntity>> getFinancialEntity({
+    required int financialEntityId,
+  }) async {
+    final url = Uri.parse(baseUrl + financialEntityId.toString());
+    try {
+      final response = await http.get(
+        url,
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
+
+      final result = handleResponse(
+        response,
+        PMResponse.fromJson(
+          jsonData,
+          (json) => FinancialEntity.fromJson(
+            jsonData['body'] as Map<String, dynamic>,
+          ),
+        ),
+        jsonData,
+      );
+
+      return result;
+    } catch (e, st) {
+      handleException(e, st);
+    }
+  }
+
+  Future<PMResponse<List<LastMovementLog>>> getLastMovements({
+    required int financialEntityId,
+  }) async {
+    final url = Uri.parse('${baseUrl}logs/$financialEntityId');
+    try {
+      final response = await http.get(
+        url,
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
+
+      final result = handleResponse(
+        response,
+        PMResponse.fromJson(
+          jsonData,
+          (json) => (jsonData['body'] as List)
+              .map((e) => LastMovementLog.fromJson(e as Map<String, dynamic>))
               .toList(),
         ),
         jsonData,

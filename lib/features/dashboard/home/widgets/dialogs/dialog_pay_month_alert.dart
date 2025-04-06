@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
+import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/utilities/functions/share_result.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
@@ -30,8 +31,8 @@ class DialogPayMonthAlert extends StatelessWidget {
     return PMDialogs.actionRequest(
       onTapConfirm: () {
         final state = context.read<BlocDashboard>().state;
-        context.read<BlocDashboard>().add(
-              BlocDashboardEventPayMonth(
+        context.read<BlocHome>().add(
+              BlocHomeEventPayMonth(
                 purchaseList: purchaseList,
                 idFinancialEntity: financialEntity.id,
               ),

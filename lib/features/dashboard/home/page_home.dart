@@ -23,7 +23,7 @@ class _PageHomeState extends State<PageHome> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => BlocHome(),
+      create: (context) => BlocHome()..add(BlocHomeEventInitialize()),
       child: const ViewHome(),
     );
   }

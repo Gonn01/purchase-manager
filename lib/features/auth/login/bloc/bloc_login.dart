@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:purchase_manager/features/dashboard/repositories/AUTH_repository.dart';
+import 'package:purchase_manager/features/auth/login/repositories/auth_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'bloc_login_state.dart';
@@ -18,6 +18,7 @@ class BlocLogin extends Bloc<BlocLoginEvent, BlocLoginState> {
     on<BlocLoginEventLogin>(_onInitialize);
   }
   final authRepository = AuthRepository();
+
   Future<void> _onInitialize(
     BlocLoginEventLogin event,
     Emitter<BlocLoginState> emit,
