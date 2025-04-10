@@ -40,6 +40,7 @@ class PageDashboard extends StatelessWidget {
             body: switch (context.router.current.name) {
               RutaHome.name => content,
               RutaFinancialEntitiesList.name => content,
+              RutaFinancialEntityDetails.name => content,
               _ => const SizedBox.shrink()
             },
           );

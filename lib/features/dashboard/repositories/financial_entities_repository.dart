@@ -139,11 +139,11 @@ class FinancialEntitiesRepository {
     }
   }
 
-  Future<PMResponse<FinancialEntity>> getFinancialEntity({
-    required int financialEntityId,
-  }) async {
-    final url = Uri.parse(baseUrl + financialEntityId.toString());
+  Future<PMResponse<FinancialEntity>> getFinancialEntity() async {
     try {
+      final preferences = await SharedPreferences.getInstance();
+      final userId = preferences.getInt('user_id');
+      final url = Uri.parse(baseUrl + userId.toString());
       final response = await http.get(
         url,
         headers: {'Content-Type': 'application/json'},

@@ -13,7 +13,7 @@ import 'package:purchase_manager/features/dashboard/financial_entity_details/vie
 class PageFinancialEntityDetails extends StatelessWidget {
   /// {@macro PageFinancialEntityDetails}
   const PageFinancialEntityDetails({
-    required this.idFinancialEntity,
+    @PathParam('idFinancialEntity') required this.idFinancialEntity,
     super.key,
   });
 

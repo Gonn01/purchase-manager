@@ -81,16 +81,18 @@ class AppRouter extends RootStackRouter {
           page: RutaDashboard.page,
           path: '/dashboard',
           children: [
-            AutoRoute(
+            CustomRoute<AutoRoute>(
               page: RutaHome.page,
               initial: true,
               path: 'home',
               title: (context, data) => 'Inicio',
+              transitionsBuilder: TransitionsBuilders.zoomIn,
             ),
-            AutoRoute(
+            CustomRoute<AutoRoute>(
               page: RutaFinancialEntitiesList.page,
               path: 'list',
               title: (context, data) => 'Lista de entidades financieras',
+              transitionsBuilder: TransitionsBuilders.zoomIn,
             ),
             AutoRoute(
               page: RutaFinancialEntityDetails.page,

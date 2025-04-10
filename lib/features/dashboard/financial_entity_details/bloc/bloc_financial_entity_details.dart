@@ -35,9 +35,7 @@ class BlocFinancialEntityDetails extends Bloc<BlocFinancialEntityDetailsEvent,
     emit(BlocFinancialEntityDetailsStateLoading.from(state));
     try {
       final financialEntity =
-          await _financialEntitiesRepository.getFinancialEntity(
-        financialEntityId: event.financialEntityId,
-      );
+          await _financialEntitiesRepository.getFinancialEntity();
       final lastMovements = await _financialEntitiesRepository.getLastMovements(
         financialEntityId: event.financialEntityId,
       );

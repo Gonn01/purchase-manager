@@ -23,6 +23,7 @@ class PMBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final connectionStates = Provider.of<List<ConnectivityResult>>(context);
+    print(context.router.stack.map((e) => e.name).toList());
     return BottomAppBar(
       child: Column(
         children: [
@@ -30,7 +31,11 @@ class PMBottomNavigationBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               InkWell(
-                onTap: () => context.router.replace(const RutaHome()),
+                onTap: () {
+                  if (route.path != 'home') {
+                    context.router.popAndPush(const RutaHome());
+                  }
+                },
                 child: Column(
                   children: [
                     Container(
@@ -63,8 +68,12 @@ class PMBottomNavigationBar extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: () =>
-                    context.router.replace(const RutaFinancialEntitiesList()),
+                onTap: () {
+                  if (route.path == 'home') {
+                    context.router
+                        .popAndPush(const RutaFinancialEntitiesList());
+                  }
+                },
                 child: Column(
                   children: [
                     Container(

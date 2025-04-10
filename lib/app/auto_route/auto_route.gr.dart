@@ -67,6 +67,7 @@ class RutaFinancialEntityDetails
            idFinancialEntity: idFinancialEntity,
            key: key,
          ),
+         rawPathParams: {'idFinancialEntity': idFinancialEntity},
          initialChildren: children,
        );
 
@@ -75,7 +76,13 @@ class RutaFinancialEntityDetails
   static _i7.PageInfo page = _i7.PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<RutaFinancialEntityDetailsArgs>();
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<RutaFinancialEntityDetailsArgs>(
+        orElse:
+            () => RutaFinancialEntityDetailsArgs(
+              idFinancialEntity: pathParams.getInt('idFinancialEntity'),
+            ),
+      );
       return _i3.PageFinancialEntityDetails(
         idFinancialEntity: args.idFinancialEntity,
         key: args.key,
