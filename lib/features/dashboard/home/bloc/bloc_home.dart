@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:purchase_manager/features/dashboard/home/repositories/home_repository.dart';
 import 'package:purchase_manager/features/dashboard/repositories/financial_entities_repository.dart';
 import 'package:purchase_manager/features/dashboard/repositories/purchases_repository.dart';
+import 'package:purchase_manager/utilities/models/custom_exception.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
@@ -62,8 +63,11 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           financialEntityList: responseListFinancialeEntity.body,
         ),
       );
+    } on CustomException catch (e) {
+      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocHomeStateError.from(state,
+          exception: CustomException(message: e.toString())));
     }
   }
 
@@ -121,8 +125,11 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           deleteSelectedShipmentId: true,
         ),
       );
+    } on CustomException catch (e) {
+      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocHomeStateError.from(state,
+          exception: CustomException(message: e.toString())));
     }
   }
 
@@ -180,8 +187,11 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           deleteSelectedShipmentId: true,
         ),
       );
+    } on CustomException catch (e) {
+      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocHomeStateError.from(state,
+          exception: CustomException(message: e.toString())));
     }
   }
 
@@ -209,8 +219,11 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           financialEntityList: list,
         ),
       );
+    } on CustomException catch (e) {
+      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocHomeStateError.from(state,
+          exception: CustomException(message: e.toString())));
     }
   }
 
@@ -231,8 +244,11 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           financialEntityList: list,
         ),
       );
+    } on CustomException catch (e) {
+      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocHomeStateError.from(state,
+          exception: CustomException(message: e.toString())));
     }
   }
 
@@ -287,8 +303,11 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           deleteImage: true,
         ),
       );
+    } on CustomException catch (e) {
+      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocHomeStateError.from(state,
+          exception: CustomException(message: e.toString())));
     }
   }
 
@@ -356,8 +375,11 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           deleteImage: true,
         ),
       );
+    } on CustomException catch (e) {
+      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocHomeStateError.from(state,
+          exception: CustomException(message: e.toString())));
     }
   }
 
@@ -393,8 +415,11 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       list[index] = updatedEntity;
 
       emit(BlocHomeStateSuccess.from(state, financialEntityList: list));
+    } on CustomException catch (e) {
+      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocHomeStateError.from(state,
+          exception: CustomException(message: e.toString())));
     }
   }
 
@@ -447,8 +472,11 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           deleteSelectedShipmentId: true,
         ),
       );
+    } on CustomException catch (e) {
+      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocHomeStateError.from(state,
+          exception: CustomException(message: e.toString())));
     }
   }
 
@@ -500,8 +528,11 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           deleteSelectedShipmentId: true,
         ),
       );
+    } on CustomException catch (e) {
+      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state, error: e.toString()));
+      emit(BlocHomeStateError.from(state,
+          exception: CustomException(message: e.toString())));
     }
   }
 

@@ -38,12 +38,9 @@ class _PageHomeState extends State<PageHome> {
             builder: (_) {
               return AlertDialog(
                 title: const Text('Error'),
-                content: Text(state.error),
+                content: Text(state.exception.message ?? ''),
                 actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('OK'),
-                  ),
+                  const Text('OK'),
                 ],
               );
             },

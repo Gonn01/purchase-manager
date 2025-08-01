@@ -185,9 +185,9 @@ class BlocHomeStateError extends BlocHomeState {
   /// {@macro BlocHomeStateError}
   BlocHomeStateError.from(
     super.previusState, {
-    required this.error,
+    required this.exception,
   }) : super.from();
 
   /// Error message.
-  final String error;
+  final CustomException exception;
 }
