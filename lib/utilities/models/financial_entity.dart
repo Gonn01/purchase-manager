@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:purchase_manager/utilities/models/logs.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
 

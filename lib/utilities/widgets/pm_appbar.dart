@@ -22,7 +22,7 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
   /// Ruta actual
   ///
   /// Current route
-  final RouteData route;
+  final RouteData<dynamic> route;
 
   /// Titulo de la appbar
   ///

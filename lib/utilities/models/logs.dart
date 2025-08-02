@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 abstract class Log {
   Log({required this.id, required this.content, required this.createdAt});
 

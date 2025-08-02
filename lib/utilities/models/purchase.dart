@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/logs.dart';
@@ -89,7 +87,7 @@ class Purchase {
     CurrencyType? currencyType,
     String? name,
     PurchaseType? type,
-    bool? fixesExpenses,
+    bool? fixesExpense,
     List<PurchaseLog>? logs,
   }) {
     return Purchase(
@@ -106,7 +104,7 @@ class Purchase {
       currencyType: currencyType ?? this.currencyType,
       name: name ?? this.name,
       type: type ?? this.type,
-      fixedExpense: fixesExpenses ?? this.fixedExpense,
+      fixedExpense: fixesExpense ?? this.fixedExpense,
       logs: logs ?? this.logs,
     );
   }

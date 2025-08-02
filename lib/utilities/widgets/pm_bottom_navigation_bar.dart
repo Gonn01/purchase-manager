@@ -17,7 +17,7 @@ class PMBottomNavigationBar extends StatelessWidget {
   /// Ruta actual
   ///
   /// Current route
-  final RouteData route;
+  final RouteData<dynamic> route;
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(

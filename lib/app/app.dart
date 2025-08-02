@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.dart';
-import 'package:purchase_manager/utilities/extensions/build_context.dart';
+import 'package:purchase_manager/l10n/arb/app_localizations.dart';
 
 /// {@template App}
 /// Aplicación principal
@@ -19,7 +19,7 @@ class App extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-        StreamProvider<RouteData?>(
+        StreamProvider<RouteData<dynamic>?>(
           create: (_) => routeTitleManager.stream,
           initialData: null,
         ),

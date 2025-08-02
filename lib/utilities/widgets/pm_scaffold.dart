@@ -24,7 +24,7 @@ class PMScaffold extends StatelessWidget {
   final Widget body;
   @override
   Widget build(BuildContext context) {
-    final rutaa = Provider.of<RouteData?>(context);
+    final rutaa = Provider.of<RouteData<dynamic>?>(context);
     final ruta = context.router.current.name;
     return Scaffold(
       backgroundColor: const Color(0xfff2f2f2),

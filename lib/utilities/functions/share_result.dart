@@ -27,8 +27,8 @@ Future<void> onShareWithResult({
   //   ),
   // );
 
-  await Share.share(
-    selectedCurrency.generateText(
+  await SharePlus.instance.share(ShareParams(
+    text: selectedCurrency.generateText(
       financialEntityName: financialEntityName,
       purchases: purchases,
       total: total,
@@ -36,5 +36,5 @@ Future<void> onShareWithResult({
       selectedCurrency: selectedCurrency,
     ),
     sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
-  );
+  ));
 }
