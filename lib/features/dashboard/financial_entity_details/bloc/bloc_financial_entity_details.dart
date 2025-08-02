@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:purchase_manager/features/dashboard/financial_entity_details/dtos/financial_entity_details_dto.dart';
 import 'package:purchase_manager/features/dashboard/repositories/financial_entities_repository.dart';
 import 'package:purchase_manager/utilities/models/exception.dart';
-import 'package:purchase_manager/utilities/models/financial_entity.dart';
-import 'package:purchase_manager/utilities/models/logs.dart';
 
 part 'bloc_financial_entity_details_event.dart';
 part 'bloc_financial_entity_details_state.dart';
@@ -24,7 +23,7 @@ class BlocFinancialEntityDetails extends Bloc<BlocFinancialEntityDetailsEvent,
   /// Instancia de FirebaseAuth
   ///
   /// FirebaseAuth instance
-  final auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   Future<void> _onInitialize(
     BlocFinancialEntityDetailsEventInitialize event,
@@ -34,13 +33,9 @@ class BlocFinancialEntityDetails extends Bloc<BlocFinancialEntityDetailsEvent,
     try {
       final financialEntity =
           await FinancialEntitiesRepository.getFinancialEntity();
-      final lastMovements = await FinancialEntitiesRepository.getLastMovements(
-        financialEntityId: event.financialEntityId,
-      );
       emit(
         BlocFinancialEntityDetailsStateSuccess.from(
           financialEntity: financialEntity.body,
-          lastMovements: lastMovements.body,
           state,
         ),
       );

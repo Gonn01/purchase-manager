@@ -9,25 +9,21 @@ class BlocFinancialEntityListState {
   /// {@macro BlocInicioEstado}
   const BlocFinancialEntityListState._({
     this.financialEntityList = const [],
-    this.lastMovements = const [],
   });
 
   /// Estado previo.
   BlocFinancialEntityListState.from(
     BlocFinancialEntityListState previousState, {
-    List<FinancialEntity>? financialEntityList,
-    List<LastMovementLog>? lastMovements,
+    List<FinancialEntityDto>? financialEntityList,
   }) : this._(
           financialEntityList:
               financialEntityList ?? previousState.financialEntityList,
-          lastMovements: lastMovements ?? previousState.lastMovements,
         );
 
   /// Lista de entidades financieras.
   ///
   /// List of financial entities.
-  final List<FinancialEntity> financialEntityList;
-  final List<LastMovementLog> lastMovements;
+  final List<FinancialEntityDto> financialEntityList;
 }
 
 /// {@template BlocFinancialEntityListStateInitial}

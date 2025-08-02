@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/financial_entity_list/bloc/bloc_financial_entity_list.dart';
-import 'package:purchase_manager/utilities/models/financial_entity.dart';
+import 'package:purchase_manager/features/dashboard/financial_entity_list/dtos/financial_entity_list_dto.dart';
 import 'package:purchase_manager/utilities/widgets/pm_dialogs.dart';
 
 /// {@template DialogDeleteFinancialEntity}
@@ -17,7 +17,7 @@ class DialogDeleteFinancialEntity extends StatelessWidget {
   });
 
   /// Entidad financiera a eliminar
-  final FinancialEntity financialEntity;
+  final FinancialEntityDto financialEntity;
 
   @override
   Widget build(BuildContext context) {

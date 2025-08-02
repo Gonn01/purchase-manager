@@ -49,14 +49,14 @@ class _LDBottomNavigationBarState extends State<LDBottomNavigationBar> {
               icon: Icons.home_outlined,
               text: 'Inicio',
             ),
-            // LDBottomNavigationBarItem(
-            //   isSelected:
-            //       context.router.current.name == RutaFinancialEntitiesList.name,
-            //   value: 1,
-            //   onTap: _handleTap,
-            //   icon: Icons.list,
-            //   text: 'Entidades Financieras',
-            // ),
+            LDBottomNavigationBarItem(
+              isSelected:
+                  context.router.current.name == RutaFinancialEntitiesList.name,
+              value: 1,
+              onTap: _handleTap,
+              icon: Icons.list,
+              text: 'Entidades Financieras',
+            ),
           ],
         ),
       ],

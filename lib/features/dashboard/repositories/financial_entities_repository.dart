@@ -1,7 +1,8 @@
+import 'package:purchase_manager/features/dashboard/financial_entity_details/dtos/financial_entity_details_dto.dart';
+import 'package:purchase_manager/features/dashboard/financial_entity_list/dtos/financial_entity_list_dto.dart';
 import 'package:purchase_manager/utilities/constants/config.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/ld_response.dart';
-import 'package:purchase_manager/utilities/models/logs.dart';
 import 'package:purchase_manager/utilities/models/repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -57,46 +58,34 @@ abstract class FinancialEntitiesRepository {
     return response;
   }
 
-  static Future<ResponseLD<List<FinancialEntity>>> getFinancialEntities({
-    required int userId,
-  }) async {
+  static Future<ResponseLD<List<FinancialEntityDto>>>
+      getFinancialEntities() async {
+    final preferences = await SharedPreferences.getInstance();
+    final userId = preferences.getInt('user_id');
+
     final url = baseUrl + userId.toString();
-    final response = await Repository.get<List<FinancialEntity>>(
+    final response = await Repository.get<List<FinancialEntityDto>>(
       url: url,
       fromJson: (jsonData) => (jsonData['body'] as List)
-          .map((e) => FinancialEntity.fromJson(e as Map<String, dynamic>))
+          .map((e) => FinancialEntityDto.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
     return response;
   }
 
-  static Future<ResponseLD<FinancialEntity>> getFinancialEntity() async {
+  static Future<ResponseLD<FinancialEntityDetailsDto>>
+      getFinancialEntity() async {
     final preferences = await SharedPreferences.getInstance();
     final userId = preferences.getInt('user_id');
 
     final url = baseUrl + userId.toString();
 
-    final response = await Repository.get<FinancialEntity>(
+    final response = await Repository.get<FinancialEntityDetailsDto>(
       url: url,
-      fromJson: (jsonData) => FinancialEntity.fromJson(
+      fromJson: (jsonData) => FinancialEntityDetailsDto.fromJson(
         jsonData['body'] as Map<String, dynamic>,
       ),
-    );
-
-    return response;
-  }
-
-  static Future<ResponseLD<List<LastMovementLog>>> getLastMovements({
-    required int financialEntityId,
-  }) async {
-    final url = '${baseUrl}logs/$financialEntityId';
-
-    final response = await Repository.get<List<LastMovementLog>>(
-      url: url,
-      fromJson: (jsonData) => (jsonData['body'] as List)
-          .map((e) => LastMovementLog.fromJson(e as Map<String, dynamic>))
-          .toList(),
     );
 
     return response;
