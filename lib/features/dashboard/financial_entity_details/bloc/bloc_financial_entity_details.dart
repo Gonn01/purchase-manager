@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:purchase_manager/features/dashboard/repositories/financial_entities_repository.dart';
-import 'package:purchase_manager/utilities/models/custom_exception.dart';
+import 'package:purchase_manager/utilities/models/exception.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/logs.dart';
 
@@ -26,8 +26,6 @@ class BlocFinancialEntityDetails extends Bloc<BlocFinancialEntityDetailsEvent,
   /// FirebaseAuth instance
   final auth = FirebaseAuth.instance;
 
-  final _financialEntitiesRepository = FinancialEntitiesRepository();
-
   Future<void> _onInitialize(
     BlocFinancialEntityDetailsEventInitialize event,
     Emitter<BlocFinancialEntityDetailsState> emit,
@@ -35,8 +33,8 @@ class BlocFinancialEntityDetails extends Bloc<BlocFinancialEntityDetailsEvent,
     emit(BlocFinancialEntityDetailsStateLoading.from(state));
     try {
       final financialEntity =
-          await _financialEntitiesRepository.getFinancialEntity();
-      final lastMovements = await _financialEntitiesRepository.getLastMovements(
+          await FinancialEntitiesRepository.getFinancialEntity();
+      final lastMovements = await FinancialEntitiesRepository.getLastMovements(
         financialEntityId: event.financialEntityId,
       );
       emit(
@@ -46,8 +44,18 @@ class BlocFinancialEntityDetails extends Bloc<BlocFinancialEntityDetailsEvent,
           state,
         ),
       );
-    } on CustomException catch (e) {
-      emit(BlocFinancialEntityDetailsStateError.from(state, e.message));
+    } on Exception catch (e) {
+      emit(
+        BlocFinancialEntityDetailsStateError.from(
+          state,
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during processing.',
+                ),
+        ),
+      );
     }
   }
 }

@@ -14,14 +14,14 @@ class BlocPurchaseDetails
   BlocPurchaseDetails() : super(BlocPurchaseDetailsStateInitial()) {
     on<BlocPurchaseDetailsEventInitialize>(_onInitialize);
   }
-  final _purchasesRepository = PurchasesRepository();
+
   Future<void> _onInitialize(
     BlocPurchaseDetailsEventInitialize event,
     Emitter<BlocPurchaseDetailsState> emit,
   ) async {
     emit(BlocPurchaseDetailsStateLoading.from(state));
     try {
-      final purchaseResponse = await _purchasesRepository.getPurchaseById(
+      final purchaseResponse = await PurchasesRepository.getPurchaseById(
         purchaseId: event.idPurchase,
       );
 

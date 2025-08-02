@@ -40,7 +40,7 @@ class BlocLogin extends Bloc<BlocLoginEvent, BlocLoginState> {
         email: auth.currentUser!.email,
         name: auth.currentUser!.displayName,
       );
-      await preferences.setInt('user_id', loginResponse.body);
+      await preferences.setInt('user_id', loginResponse.body ?? 0);
 
       emit(BlocLoginStateSuccess.from(state));
     } on Exception catch (e) {

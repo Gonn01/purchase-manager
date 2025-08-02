@@ -1,26 +1,23 @@
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
 import 'package:purchase_manager/utilities/constants/config.dart';
-import 'package:purchase_manager/utilities/models/custom_exception.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
-import 'package:purchase_manager/utilities/models/pm_response.dart';
+import 'package:purchase_manager/utilities/models/ld_response.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
+import 'package:purchase_manager/utilities/models/repository.dart';
 
 /// {@template PurchasesRepository}
 /// Repositorio de compras
 ///
 /// /// Purchases repository
 /// {@endtemplate}
-class PurchasesRepository {
+abstract class PurchasesRepository {
   /// Base URL de la API
-  final baseUrl = '${Config.apiUrl}/purchases/';
+  static final baseUrl = '${Config.apiUrl}/purchases/';
 
   /// Metodo para crear una compra
   ///
   /// Method to create a purchase
-  Future<PMResponse<Purchase>> createPurchase({
+  static Future<ResponseLD<Purchase>> createPurchase({
     required String? image,
     required double amount,
     required double amountPerQuota,
@@ -33,71 +30,46 @@ class PurchasesRepository {
     required int numberOfQuotas,
     required int financialEntityId,
   }) async {
-    final url = Uri.parse(baseUrl);
-    try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'image': image,
-          'amount': amount,
-          'numberOfQuotas': numberOfQuotas,
-          'amountPerQuota': amountPerQuota,
-          'payedQuotas': payedQuotas,
-          'currencyType': currencyType.value,
-          'name': purchaseName,
-          'purchaseType': purchaseType.value,
-          'fixedExpense': fixedExpense,
-          'ignored': ignored,
-          'financialEntityId': financialEntityId,
-        }),
-      );
+    final url = baseUrl;
+    final response = await Repository.post(
+      url: url,
+      fromJson: (jsonData) => Purchase.fromJson(
+        jsonData['body'] as Map<String, dynamic>,
+      ),
+      body: {
+        'image': image,
+        'amount': amount,
+        'numberOfQuotas': numberOfQuotas,
+        'amountPerQuota': amountPerQuota,
+        'payedQuotas': payedQuotas,
+        'currencyType': currencyType.value,
+        'name': purchaseName,
+        'purchaseType': purchaseType.value,
+        'fixedExpense': fixedExpense,
+        'ignored': ignored,
+        'financialEntityId': financialEntityId,
+      },
+    );
 
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
-
-      final result = handleResponse(
-        response,
-        PMResponse.fromJson(
-          jsonData,
-          (json) => Purchase.fromJson(
-            jsonData['body'] as Map<String, dynamic>,
-          ),
-        ),
-        jsonData,
-      );
-
-      return result;
-    } catch (e, st) {
-      handleException(e, st);
-    }
+    return response;
   }
 
-  Future<void> deletePurchase({
+  static Future<ResponseLD<void>> deletePurchase({
     required int purchaseId,
   }) async {
-    final url = Uri.parse(baseUrl + purchaseId.toString());
-    try {
-      final response = await http.delete(
-        url,
-        headers: {'Content-Type': 'application/json'},
-      );
+    final url = baseUrl + purchaseId.toString();
 
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
-
-      handleResponse(
-        response,
-        PMResponse.fromJson(
-          jsonData,
-          (json) => <void>{},
-        ),
+    final response = await Repository.delete(
+      url: url,
+      fromJson: (jsonData) => ResponseLD.fromJson(
         jsonData,
-      );
-    } catch (e, st) {
-      handleException(e, st);
-    }
+        (json) => <void>{},
+      ),
+    );
+    return response;
   }
 
-  Future<PMResponse<Purchase>> editPurchase({
+  static Future<ResponseLD<Purchase>> editPurchase({
     required int purchaseId,
     required String? image,
     required double amount,
@@ -110,240 +82,129 @@ class PurchasesRepository {
     required int numberOfQuotas,
     required int financialEntityId,
   }) async {
-    final url = Uri.parse(baseUrl + purchaseId.toString());
-    try {
-      final response = await http.put(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode({
-          'ignored': ignored,
-          'image': image,
-          'amount': amount,
-          'numberOfQuotas': numberOfQuotas,
-          'payedQuotas': payedQuotas,
-          'currencyType': currencyType.index,
-          'name': purchaseName,
-          'amountPerQuota': numberOfQuotas == 0 ? 0 : amount / numberOfQuotas,
-          'purchaseType': purchaseType.index,
-          'financialEntityId': financialEntityId,
-          'fixedExpense': fixedExpense,
-        }),
-      );
+    final url = baseUrl + purchaseId.toString();
 
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
-
-      final result = handleResponse(
-        response,
-        PMResponse.fromJson(
-          jsonData,
-          (json) => Purchase.fromJson(
-            jsonData['body'] as Map<String, dynamic>,
-          ),
-        ),
-        jsonData,
-      );
-
-      return result;
-    } catch (e, st) {
-      handleException(e, st);
-    }
+    final response = await Repository.put(
+      url: url,
+      fromJson: (jsonData) => Purchase.fromJson(
+        jsonData['body'] as Map<String, dynamic>,
+      ),
+      body: {
+        'ignored': ignored,
+        'image': image,
+        'amount': amount,
+        'numberOfQuotas': numberOfQuotas,
+        'payedQuotas': payedQuotas,
+        'currencyType': currencyType.value,
+        'name': purchaseName,
+        'amountPerQuota': numberOfQuotas == 0 ? 0 : amount / numberOfQuotas,
+        'purchaseType': purchaseType.value,
+        'financialEntityId': financialEntityId,
+        'fixedExpense': fixedExpense,
+      },
+    );
+    return response;
   }
 
-  Future<PMResponse<List<Purchase>>> getPurchasesByFinancialEntityId({
+  static Future<ResponseLD<List<Purchase>>> getPurchasesByFinancialEntityId({
     required int userId,
   }) async {
-    final url = Uri.parse(baseUrl);
-    try {
-      final response = await http.get(
-        url,
-        headers: {'Content-Type': 'application/json'},
-      );
+    final url = baseUrl;
 
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
+    final response = await Repository.get(
+      url: url,
+      fromJson: (jsonData) => (jsonData['body'] as List)
+          .map((e) => Purchase.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
-      final result = handleResponse(
-        response,
-        PMResponse.fromJson(
-          jsonData,
-          (json) => (jsonData['body'] as List)
-              .map((e) => Purchase.fromJson(e as Map<String, dynamic>))
-              .toList(),
-        ),
-        jsonData,
-      );
-
-      return result;
-    } catch (e, st) {
-      handleException(e, st);
-    }
+    return response;
   }
 
-  Future<PMResponse<Purchase>> getPurchaseById({
+  static Future<ResponseLD<Purchase>> getPurchaseById({
     required int purchaseId,
   }) async {
-    final url = Uri.parse(baseUrl + purchaseId.toString());
-    try {
-      final response = await http.get(
-        url,
-        headers: {'Content-Type': 'application/json'},
-      );
+    final url = baseUrl + purchaseId.toString();
 
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
+    final response = await Repository.get(
+      url: url,
+      fromJson: (jsonData) => Purchase.fromJson(
+        jsonData['body'] as Map<String, dynamic>,
+      ),
+    );
 
-      final result = handleResponse(
-        response,
-        PMResponse.fromJson(
-          jsonData,
-          (json) => Purchase.fromJson(
-            jsonData['body'] as Map<String, dynamic>,
-          ),
-        ),
-        jsonData,
-      );
-
-      return result;
-    } catch (e, st) {
-      handleException(e, st);
-    }
+    return response;
   }
 
-  Future<PMResponse<List<Purchase>>> getPurchasesByUserId({
+  static Future<ResponseLD<List<Purchase>>> getPurchasesByUserId({
     required int userId,
   }) async {
-    final url = Uri.parse(baseUrl);
-    try {
-      final response = await http.get(
-        url,
-        headers: {'Content-Type': 'application/json'},
-      );
+    final url = baseUrl;
 
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
+    final response = await Repository.get(
+      url: url,
+      fromJson: (jsonData) => (jsonData['body'] as List)
+          .map((e) => Purchase.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
-      final result = handleResponse(
-        response,
-        PMResponse.fromJson(
-          jsonData,
-          (json) => (jsonData['body'] as List)
-              .map((e) => Purchase.fromJson(e as Map<String, dynamic>))
-              .toList(),
-        ),
-        jsonData,
-      );
-
-      return result;
-    } catch (e, st) {
-      handleException(e, st);
-    }
+    return response;
   }
 
-  Future<PMResponse<Purchase>> payQuota({
+  static Future<ResponseLD<Purchase>> payQuota({
     required int purchaseId,
   }) async {
-    final url = Uri.parse('$baseUrl$purchaseId/pay-quota');
-    try {
-      final response = await http.put(
-        url,
-        headers: {'Content-Type': 'application/json'},
-      );
+    final url = '$baseUrl$purchaseId/pay-quota';
+    final response = await Repository.put(
+      url: url,
+      fromJson: (jsonData) => Purchase.fromJson(
+        jsonData['body'] as Map<String, dynamic>,
+      ),
+    );
 
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
-
-      return handleResponse(
-        response,
-        PMResponse.fromJson(
-          jsonData,
-          (json) => Purchase.fromJson(
-            jsonData['body'] as Map<String, dynamic>,
-          ),
-        ),
-        jsonData,
-      );
-    } catch (e, st) {
-      handleException(e, st);
-    }
+    return response;
   }
 
-  Future<PMResponse<List<Purchase>>> payMonth({
+  static Future<ResponseLD<List<Purchase>>> payMonth({
     required List<int> purchaseIds,
   }) async {
-    final url = Uri.parse('$baseUrl' 'pay-month');
-    try {
-      final response = await http.put(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'purchaseIds': purchaseIds,
-        }),
-      );
-
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
-
-      return handleResponse(
-        response,
-        PMResponse.fromJson(
-          jsonData,
-          (json) => (jsonData['body'] as List)
-              .map((e) => Purchase.fromJson(e as Map<String, dynamic>))
-              .toList(),
-        ),
-        jsonData,
-      );
-    } catch (e, st) {
-      handleException(e, st);
-    }
+    final url = '$baseUrl/pay-month';
+    final response = await Repository.put(
+      url: url,
+      fromJson: (jsonData) => (jsonData['body'] as List)
+          .map((e) => Purchase.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      body: {
+        'purchaseIds': purchaseIds,
+      },
+    );
+    return response;
   }
 
-  Future<PMResponse<Purchase>> unpayQuota({
+  static Future<ResponseLD<Purchase>> unpayQuota({
     required int purchaseId,
   }) async {
-    final url = Uri.parse('$baseUrl$purchaseId/unpay-quota');
-    try {
-      final response = await http.put(
-        url,
-        headers: {'Content-Type': 'application/json'},
-      );
-
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
-
-      return handleResponse(
-        response,
-        PMResponse.fromJson(
-          jsonData,
-          (json) => Purchase.fromJson(
-            jsonData['body'] as Map<String, dynamic>,
-          ),
-        ),
-        jsonData,
-      );
-    } catch (e, st) {
-      handleException(e, st);
-    }
+    final url = '$baseUrl$purchaseId/unpay-quota';
+    final response = await Repository.put(
+      url: url,
+      fromJson: (jsonData) => Purchase.fromJson(
+        jsonData['body'] as Map<String, dynamic>,
+      ),
+    );
+    return response;
   }
 
-  Future<void> ignorePurchase({
+  static Future<ResponseLD<Purchase>> ignorePurchase({
     required int purchaseId,
   }) async {
-    final url = Uri.parse('$baseUrl$purchaseId/ignore');
-    try {
-      final response = await http.put(
-        url,
-        headers: {'Content-Type': 'application/json'},
-      );
+    final url = '$baseUrl$purchaseId/ignore';
+    final response = await Repository.put(
+      url: url,
+      fromJson: (jsonData) => Purchase.fromJson(
+        jsonData['body'] as Map<String, dynamic>,
+      ),
+    );
 
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
-
-      handleResponse(
-        response,
-        PMResponse.fromJson(
-          jsonData,
-          (json) {},
-        ),
-        jsonData,
-      );
-    } catch (e, st) {
-      handleException(e, st);
-    }
+    return response;
   }
 }

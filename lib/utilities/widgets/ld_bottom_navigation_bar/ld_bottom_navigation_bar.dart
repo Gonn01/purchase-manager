@@ -1,7 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/utilities/widgets/ld_bottom_navigation_bar/widgets/bottom_navigation_bar_item.dart';
 
@@ -32,13 +30,12 @@ class _LDBottomNavigationBarState extends State<LDBottomNavigationBar> {
         context.router.push(const RutaHome());
 
       case 1:
-        context.router.push(const RutaHome());
+        context.router.push(const RutaFinancialEntitiesList());
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final connectionStates = Provider.of<List<ConnectivityResult>>(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -62,21 +59,6 @@ class _LDBottomNavigationBarState extends State<LDBottomNavigationBar> {
             ),
           ],
         ),
-        if (connectionStates.contains(ConnectivityResult.none))
-          Container(
-            height: 25,
-            width: MediaQuery.of(context).size.width,
-            color: Colors.red,
-            child: const Center(
-              child: Text(
-                'No internet connection',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                ),
-              ),
-            ),
-          ),
       ],
     );
   }

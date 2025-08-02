@@ -9,9 +9,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:purchase_manager/features/dashboard/home/repositories/home_repository.dart';
 import 'package:purchase_manager/features/dashboard/repositories/financial_entities_repository.dart';
 import 'package:purchase_manager/features/dashboard/repositories/purchases_repository.dart';
-import 'package:purchase_manager/utilities/models/custom_exception.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
+import 'package:purchase_manager/utilities/models/exception.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
 
@@ -43,19 +43,13 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
   /// FirebaseAuth instance
   final auth = FirebaseAuth.instance;
 
-  final _purchasesRepository = PurchasesRepository();
-
-  final _financialEntitiesRepository = FinancialEntitiesRepository();
-
-  final _homeRepository = HomeRepository();
-
   Future<void> _onInitialize(
     BlocHomeEventInitialize event,
     Emitter<BlocHomeState> emit,
   ) async {
     emit(BlocHomeStateLoading.from(state));
     try {
-      final responseListFinancialeEntity = await _homeRepository.getHomeData();
+      final responseListFinancialeEntity = await HomeRepository.getHomeData();
 
       emit(
         BlocHomeStateSuccess.from(
@@ -63,11 +57,18 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           financialEntityList: responseListFinancialeEntity.body,
         ),
       );
-    } on CustomException catch (e) {
-      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state,
-          exception: CustomException(message: e.toString())));
+      emit(
+        BlocHomeStateError.from(
+          state,
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during initialization.',
+                ),
+        ),
+      );
     }
   }
 
@@ -95,7 +96,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
         (compra) => compra.id == event.purchaseId,
       );
 
-      final modifiedPurchaseResponse = await _purchasesRepository.unpayQuota(
+      final modifiedPurchaseResponse = await PurchasesRepository.unpayQuota(
         purchaseId: purchaseToModify.id,
       );
 
@@ -105,7 +106,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
         purchases: [
           ...modifiedFinancialEntity.purchases.map(
             (compra) =>
-                compra.id == event.purchaseId ? modifiedPurchase : compra,
+                compra.id == event.purchaseId ? modifiedPurchase! : compra,
           ),
         ],
       );
@@ -125,11 +126,18 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           deleteSelectedShipmentId: true,
         ),
       );
-    } on CustomException catch (e) {
-      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state,
-          exception: CustomException(message: e.toString())));
+      emit(
+        BlocHomeStateError.from(
+          state,
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during processing.',
+                ),
+        ),
+      );
     }
   }
 
@@ -157,7 +165,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
         (compra) => compra.id == event.idPurchase,
       );
 
-      final modifiedPurchaseResponse = await _purchasesRepository.payQuota(
+      final modifiedPurchaseResponse = await PurchasesRepository.payQuota(
         purchaseId: purchaseToModify.id,
       );
 
@@ -167,7 +175,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
         purchases: [
           ...modifiedFinancialEntity.purchases.map(
             (compra) =>
-                compra.id == event.idPurchase ? modifiedPurchase : compra,
+                compra.id == event.idPurchase ? modifiedPurchase! : compra,
           ),
         ],
       );
@@ -187,11 +195,18 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           deleteSelectedShipmentId: true,
         ),
       );
-    } on CustomException catch (e) {
-      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state,
-          exception: CustomException(message: e.toString())));
+      emit(
+        BlocHomeStateError.from(
+          state,
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during processing.',
+                ),
+        ),
+      );
     }
   }
 
@@ -202,28 +217,35 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
     emit(BlocHomeStateLoading.from(state));
     try {
       final newFinancialEntityResponse =
-          await _financialEntitiesRepository.createFinancialEntity(
+          await FinancialEntitiesRepository.createFinancialEntity(
         financialEntityName: event.financialEntityName,
         firebaseUserId: auth.currentUser?.uid ?? '',
       );
 
       final list = List<FinancialEntity>.from(state.financialEntityList)
         ..add(
-          newFinancialEntityResponse.body,
+          newFinancialEntityResponse.body!,
         );
 
       emit(
         BlocHomeStateSuccessCreatingFinancialEntity.from(
           state,
-          financialEntity: newFinancialEntityResponse.body,
+          financialEntity: newFinancialEntityResponse.body!,
           financialEntityList: list,
         ),
       );
-    } on CustomException catch (e) {
-      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state,
-          exception: CustomException(message: e.toString())));
+      emit(
+        BlocHomeStateError.from(
+          state,
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during processing.',
+                ),
+        ),
+      );
     }
   }
 
@@ -244,11 +266,18 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           financialEntityList: list,
         ),
       );
-    } on CustomException catch (e) {
-      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state,
-          exception: CustomException(message: e.toString())));
+      emit(
+        BlocHomeStateError.from(
+          state,
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during processing.',
+                ),
+        ),
+      );
     }
   }
 
@@ -263,7 +292,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
         url = await uploadImage(state.images.first, event.productName);
       }
 
-      final newPurchaseId = await _purchasesRepository.createPurchase(
+      final newPurchaseId = await PurchasesRepository.createPurchase(
         amount: event.totalAmount,
         amountPerQuota: event.isFixedExpenses
             ? event.totalAmount
@@ -290,7 +319,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       final updatedEntity = newList[index].copyWith(
         purchases: [
           ...newList[index].purchases,
-          newPurchaseId.body,
+          newPurchaseId.body!,
         ],
       );
 
@@ -303,11 +332,18 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           deleteImage: true,
         ),
       );
-    } on CustomException catch (e) {
-      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state,
-          exception: CustomException(message: e.toString())));
+      emit(
+        BlocHomeStateError.from(
+          state,
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during processing.',
+                ),
+        ),
+      );
     }
   }
 
@@ -332,7 +368,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
         );
       }
 
-      final modifiedPurchaseResponse = await _purchasesRepository.editPurchase(
+      final modifiedPurchaseResponse = await PurchasesRepository.editPurchase(
         amount: event.amount,
         numberOfQuotas: event.amountOfQuotas,
         currencyType: event.currency,
@@ -359,7 +395,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           purchases: [
             ...listFinancialEntity[index].purchases.map((compra) {
               return compra.id == event.purchase.id
-                  ? modifiedPurchaseResponse.body
+                  ? modifiedPurchaseResponse.body!
                   : compra;
             }),
           ],
@@ -375,11 +411,18 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           deleteImage: true,
         ),
       );
-    } on CustomException catch (e) {
-      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state,
-          exception: CustomException(message: e.toString())));
+      emit(
+        BlocHomeStateError.from(
+          state,
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during processing.',
+                ),
+        ),
+      );
     }
   }
 
@@ -394,7 +437,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       ),
     );
     try {
-      await _purchasesRepository.deletePurchase(
+      await PurchasesRepository.deletePurchase(
         purchaseId: event.purchase.id,
       );
 
@@ -415,11 +458,18 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       list[index] = updatedEntity;
 
       emit(BlocHomeStateSuccess.from(state, financialEntityList: list));
-    } on CustomException catch (e) {
-      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state,
-          exception: CustomException(message: e.toString())));
+      emit(
+        BlocHomeStateError.from(
+          state,
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during processing.',
+                ),
+        ),
+      );
     }
   }
 
@@ -436,7 +486,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
         ),
       );
 
-      final modifiedPurchasesResponse = await _purchasesRepository.payMonth(
+      final modifiedPurchasesResponse = await PurchasesRepository.payMonth(
         purchaseIds: purchaseIds,
       );
 
@@ -455,7 +505,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           ...modifiedFinancialEntity.purchases.map(
             (compra) =>
                 event.purchaseList.any((purchase) => purchase.id == compra.id)
-                    ? modifiedPurchasesResponse.body.firstWhere(
+                    ? modifiedPurchasesResponse.body!.firstWhere(
                         (purchase) => purchase.id == compra.id,
                       )
                     : compra,
@@ -472,11 +522,18 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           deleteSelectedShipmentId: true,
         ),
       );
-    } on CustomException catch (e) {
-      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state,
-          exception: CustomException(message: e.toString())));
+      emit(
+        BlocHomeStateError.from(
+          state,
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during processing.',
+                ),
+        ),
+      );
     }
   }
 
@@ -503,7 +560,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
         (compra) => compra.id == event.purchaseId,
       );
 
-      await _purchasesRepository.ignorePurchase(
+      await PurchasesRepository.ignorePurchase(
         purchaseId: purchaseToModify.id,
       );
 
@@ -528,11 +585,18 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           deleteSelectedShipmentId: true,
         ),
       );
-    } on CustomException catch (e) {
-      emit(BlocHomeStateError.from(state, exception: e));
     } on Exception catch (e) {
-      emit(BlocHomeStateError.from(state,
-          exception: CustomException(message: e.toString())));
+      emit(
+        BlocHomeStateError.from(
+          state,
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during processing.',
+                ),
+        ),
+      );
     }
   }
 

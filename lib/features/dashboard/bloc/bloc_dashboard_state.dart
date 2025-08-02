@@ -71,12 +71,12 @@ class BlocDashboardStateSuccess extends BlocDashboardState {
 class BlocDashboardStateError extends BlocDashboardState {
   /// {@macro BlocDashboardStateError}
   BlocDashboardStateError.from(
-    super.previusState,
-    this.error,
-  ) : super.from();
+    super.previusState, {
+    required this.exception,
+  }) : super.from();
 
   /// Error message.
-  final String? error;
+  final CustomException? exception;
 }
 
 /// {@template BlocDashboardStateSuccessSignOut}

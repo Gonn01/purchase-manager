@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:purchase_manager/features/dashboard/repositories/financial_entities_repository.dart';
 import 'package:purchase_manager/utilities/constants/config.dart';
+import 'package:purchase_manager/utilities/models/exception.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/logs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,8 +35,6 @@ class BlocFinancialEntityList
   /// FirebaseAuth instance
   final auth = FirebaseAuth.instance;
 
-  final _financialEntitiesRepository = FinancialEntitiesRepository();
-
   Future<void> _onInitialize(
     BlocFinancialEntityListEventInitialize event,
     Emitter<BlocFinancialEntityListState> emit,
@@ -46,8 +45,9 @@ class BlocFinancialEntityList
 
       final userId = preferences.getInt(Config.userId) ?? 0;
 
-      final responseListFinancialeEntity = await _financialEntitiesRepository
-          .getFinancialEntities(userId: userId);
+      final responseListFinancialeEntity =
+          await FinancialEntitiesRepository.getFinancialEntities(
+              userId: userId);
 
       emit(
         BlocFinancialEntityListStateSuccess.from(
@@ -56,7 +56,17 @@ class BlocFinancialEntityList
         ),
       );
     } on Exception catch (e) {
-      emit(BlocFinancialEntityListStateError.from(state, error: e.toString()));
+      emit(
+        BlocFinancialEntityListStateError.from(
+          state,
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during processing.',
+                ),
+        ),
+      );
     }
   }
 
@@ -66,7 +76,7 @@ class BlocFinancialEntityList
   ) async {
     emit(BlocFinancialEntityListStateLoading.from(state));
     try {
-      await _financialEntitiesRepository.deleteFinancialEntity(
+      await FinancialEntitiesRepository.deleteFinancialEntity(
         financialEntityId: event.idFinancialEntity,
       );
 
@@ -83,7 +93,17 @@ class BlocFinancialEntityList
         ),
       );
     } on Exception catch (e) {
-      emit(BlocFinancialEntityListStateError.from(state, error: e.toString()));
+      emit(
+        BlocFinancialEntityListStateError.from(
+          state,
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during processing.',
+                ),
+        ),
+      );
     }
   }
 
@@ -103,7 +123,17 @@ class BlocFinancialEntityList
         ),
       );
     } on Exception catch (e) {
-      emit(BlocFinancialEntityListStateError.from(state, error: e.toString()));
+      emit(
+        BlocFinancialEntityListStateError.from(
+          state,
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during processing.',
+                ),
+        ),
+      );
     }
   }
 }

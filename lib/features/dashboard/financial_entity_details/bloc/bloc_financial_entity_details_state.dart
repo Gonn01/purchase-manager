@@ -68,10 +68,10 @@ class BlocFinancialEntityDetailsStateError
     extends BlocFinancialEntityDetailsState {
   /// {@macro BlocFinancialEntityDetailsStateError}
   BlocFinancialEntityDetailsStateError.from(
-    super.previusState,
-    this.error,
-  ) : super.from();
+    super.previusState, {
+    required this.exception,
+  }) : super.from();
 
   /// Error message.
-  final String? error;
+  final CustomException exception;
 }

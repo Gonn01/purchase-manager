@@ -1,29 +1,33 @@
-import 'package:purchase_manager/utilities/models/custom_exception.dart';
+import 'package:purchase_manager/utilities/models/exception.dart';
 
 /// {@template ResponseLD}
 /// Generic response model
 /// {@endtemplate}
-class PMResponse<T> {
+class ResponseLD<T> {
   /// {@macro ResponseLD}
-  PMResponse({
+  const ResponseLD({
     required this.message,
-    required this.body,
     this.success,
+    this.body,
   });
 
-  /// Create a [PMResponse] from json
-  factory PMResponse.fromJson(
+  /// Create a [ResponseLD] from json
+  factory ResponseLD.fromJson(
     Map<String, dynamic> json,
-    T Function(Object? json) fromJsonT,
+    T Function(Map<String, dynamic> json) fromJsonT,
   ) {
     try {
-      return PMResponse(
+      return ResponseLD(
         success: json['success'] != null ? json['success'] as bool : null,
-        body: fromJsonT(json['body']),
+        body: json['body'] != null ? fromJsonT(json) : null,
         message: json['message'] as String,
       );
-    } on CustomException catch (e) {
-      throw CustomException(message: e.message);
+    } catch (e, st) {
+      throw CustomException(
+        title: 'Error en la respuesta',
+        message: 'Error al parsear la respuesta: $e',
+        stack: st.toString(),
+      );
     }
   }
 
@@ -31,18 +35,18 @@ class PMResponse<T> {
   final bool? success;
 
   /// The response body
-  final T body;
+  final T? body;
 
   /// The response message
   final String? message;
 
-  /// Copy the current [PMResponse] with some changes
-  PMResponse<T> copyWith({
+  /// Copy the current [ResponseLD] with some changes
+  ResponseLD<T> copyWith({
     bool? estadoRespuesta,
     T? body,
     String? message,
   }) {
-    return PMResponse(
+    return ResponseLD(
       success: success ?? this.success,
       body: body ?? this.body,
       message: message,

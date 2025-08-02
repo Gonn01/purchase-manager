@@ -1,199 +1,104 @@
-// ignore_for_file: public_member_api_docs
-
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
 import 'package:purchase_manager/utilities/constants/config.dart';
-import 'package:purchase_manager/utilities/models/custom_exception.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
+import 'package:purchase_manager/utilities/models/ld_response.dart';
 import 'package:purchase_manager/utilities/models/logs.dart';
-import 'package:purchase_manager/utilities/models/pm_response.dart';
+import 'package:purchase_manager/utilities/models/repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class FinancialEntitiesRepository {
-  final baseUrl = '${Config.apiUrl}/financial-entities/';
+abstract class FinancialEntitiesRepository {
+  static final baseUrl = '${Config.apiUrl}/financial-entities/';
 
-  Future<PMResponse<FinancialEntity>> createFinancialEntity({
+  static Future<ResponseLD<FinancialEntity>> createFinancialEntity({
     required String financialEntityName,
     required String firebaseUserId,
   }) async {
-    final url = Uri.parse(baseUrl);
     final preferences = await SharedPreferences.getInstance();
-
     final userId = preferences.getInt('user_id');
-    try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'name': financialEntityName,
-          'userId': userId,
-        }),
-      );
 
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
+    final response = await Repository.post<FinancialEntity>(
+      url: baseUrl,
+      fromJson: (jsonData) => FinancialEntity.fromJson(
+        jsonData['body'] as Map<String, dynamic>,
+      ),
+      body: {
+        'name': financialEntityName,
+        'userId': userId,
+      },
+    );
 
-      final result = handleResponse(
-        response,
-        PMResponse.fromJson(
-          jsonData,
-          (json) => FinancialEntity.fromJson(
-            jsonData['body'] as Map<String, dynamic>,
-          ),
-        ),
-        jsonData,
-      );
-
-      return result;
-    } catch (e, st) {
-      handleException(e, st);
-    }
+    return response;
   }
 
-  Future<void> deleteFinancialEntity({
+  static Future<ResponseLD<void>> deleteFinancialEntity({
     required int financialEntityId,
   }) async {
-    final url = Uri.parse(baseUrl + financialEntityId.toString());
-    try {
-      final response = await http.delete(
-        url,
-        headers: {'Content-Type': 'application/json'},
-      );
-
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
-
-      handleResponse(
-        response,
-        PMResponse.fromJson(
-          jsonData,
-          (json) => <void>{},
-        ),
-        jsonData,
-      );
-    } catch (e, st) {
-      handleException(e, st);
-    }
+    final url = baseUrl + financialEntityId.toString();
+    final response = await Repository.delete<void>(
+        url: url, fromJson: (jsonData) => <void>{});
+    return response;
   }
 
-  Future<PMResponse<FinancialEntity>> editFinancialEntity({
+  static Future<ResponseLD<FinancialEntity>> editFinancialEntity({
     required String financialEntityId,
     required String newName,
   }) async {
-    final url = Uri.parse(baseUrl + financialEntityId);
-    try {
-      final response = await http.put(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: {
-          'name': newName,
-        },
-      );
+    final url = baseUrl + financialEntityId;
 
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
+    final response = await Repository.put<FinancialEntity>(
+      url: url,
+      fromJson: (jsonData) => FinancialEntity.fromJson(
+        jsonData['body'] as Map<String, dynamic>,
+      ),
+      body: {
+        'name': newName,
+      },
+    );
 
-      final result = handleResponse(
-        response,
-        PMResponse.fromJson(
-          jsonData,
-          (json) => FinancialEntity.fromJson(
-            jsonData['body'] as Map<String, dynamic>,
-          ),
-        ),
-        jsonData,
-      );
-
-      return result;
-    } catch (e, st) {
-      handleException(e, st);
-    }
+    return response;
   }
 
-  Future<PMResponse<List<FinancialEntity>>> getFinancialEntities({
+  static Future<ResponseLD<List<FinancialEntity>>> getFinancialEntities({
     required int userId,
   }) async {
-    final url = Uri.parse('$baseUrl$userId');
-    try {
-      final response = await http.get(
-        url,
-        headers: {'Content-Type': 'application/json'},
-      );
+    final url = baseUrl + userId.toString();
+    final response = await Repository.get<List<FinancialEntity>>(
+      url: url,
+      fromJson: (jsonData) => (jsonData['body'] as List)
+          .map((e) => FinancialEntity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
-
-      final result = handleResponse(
-        response,
-        PMResponse.fromJson(
-          jsonData,
-          (json) => (jsonData['body'] as List)
-              .map((e) => FinancialEntity.fromJson(e as Map<String, dynamic>))
-              .toList(),
-        ),
-        jsonData,
-      );
-
-      return result;
-    } catch (e, st) {
-      handleException(e, st);
-    }
+    return response;
   }
 
-  Future<PMResponse<FinancialEntity>> getFinancialEntity() async {
-    try {
-      final preferences = await SharedPreferences.getInstance();
-      final userId = preferences.getInt('user_id');
-      final url = Uri.parse(baseUrl + userId.toString());
-      final response = await http.get(
-        url,
-        headers: {'Content-Type': 'application/json'},
-      );
+  static Future<ResponseLD<FinancialEntity>> getFinancialEntity() async {
+    final preferences = await SharedPreferences.getInstance();
+    final userId = preferences.getInt('user_id');
 
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
+    final url = baseUrl + userId.toString();
 
-      final result = handleResponse(
-        response,
-        PMResponse.fromJson(
-          jsonData,
-          (json) => FinancialEntity.fromJson(
-            jsonData['body'] as Map<String, dynamic>,
-          ),
-        ),
-        jsonData,
-      );
+    final response = await Repository.get<FinancialEntity>(
+      url: url,
+      fromJson: (jsonData) => FinancialEntity.fromJson(
+        jsonData['body'] as Map<String, dynamic>,
+      ),
+    );
 
-      return result;
-    } catch (e, st) {
-      handleException(e, st);
-    }
+    return response;
   }
 
-  Future<PMResponse<List<LastMovementLog>>> getLastMovements({
+  static Future<ResponseLD<List<LastMovementLog>>> getLastMovements({
     required int financialEntityId,
   }) async {
-    final url = Uri.parse('${baseUrl}logs/$financialEntityId');
-    try {
-      final response = await http.get(
-        url,
-        headers: {'Content-Type': 'application/json'},
-      );
+    final url = '${baseUrl}logs/$financialEntityId';
 
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
+    final response = await Repository.get<List<LastMovementLog>>(
+      url: url,
+      fromJson: (jsonData) => (jsonData['body'] as List)
+          .map((e) => LastMovementLog.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
-      final result = handleResponse(
-        response,
-        PMResponse.fromJson(
-          jsonData,
-          (json) => (jsonData['body'] as List)
-              .map((e) => LastMovementLog.fromJson(e as Map<String, dynamic>))
-              .toList(),
-        ),
-        jsonData,
-      );
-
-      return result;
-    } catch (e, st) {
-      handleException(e, st);
-    }
+    return response;
   }
 }

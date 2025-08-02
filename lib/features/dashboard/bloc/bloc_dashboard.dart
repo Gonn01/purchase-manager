@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:purchase_manager/utilities/models/currency.dart';
-import 'package:purchase_manager/utilities/models/custom_exception.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
+import 'package:purchase_manager/utilities/models/exception.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/services/currency_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,7 +37,17 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
       await auth.signOut();
       emit(BlocDashboardStateSuccessSignOut.from(state));
     } on Exception catch (e) {
-      emit(BlocDashboardStateError.from(state, e.toString()));
+      emit(
+        BlocDashboardStateError.from(
+          state,
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during processing.',
+                ),
+        ),
+      );
     }
   }
 
@@ -53,7 +63,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
 
       final currencyTypeSelected = CurrencyType.type(currencyTypeValue ?? 0);
 
-      final dolar = await DolarService().getDollarData();
+      final dolar = await DolarService.getDollarData();
 
       emit(
         BlocDashboardStateSuccess.from(
@@ -62,8 +72,18 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
           selectedCurrency: currencyTypeSelected,
         ),
       );
-    } on CustomException catch (e) {
-      emit(BlocDashboardStateError.from(state, e.message));
+    } on Exception catch (e) {
+      emit(
+        BlocDashboardStateError.from(
+          state,
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during processing.',
+                ),
+        ),
+      );
     }
   }
 
@@ -83,7 +103,17 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
         ),
       );
     } on Exception catch (e) {
-      emit(BlocDashboardStateError.from(state, e.toString()));
+      emit(
+        BlocDashboardStateError.from(
+          state,
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during processing.',
+                ),
+        ),
+      );
     }
   }
 }

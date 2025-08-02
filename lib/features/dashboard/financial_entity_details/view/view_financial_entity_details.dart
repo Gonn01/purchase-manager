@@ -30,7 +30,7 @@ class ViewFinancialEntityDetails extends StatelessWidget {
             builder: (_) {
               return AlertDialog(
                 title: const Text('Error'),
-                content: Text(state.error ?? 'Error desconocido'),
+                content: Text(state.exception.title ?? 'Error desconocido'),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(),

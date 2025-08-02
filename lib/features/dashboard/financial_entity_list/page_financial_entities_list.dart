@@ -33,7 +33,7 @@ class PageFinancialEntitiesList extends StatelessWidget {
             builder: (_) {
               return AlertDialog(
                 title: const Text('Error'),
-                content: Text(state.error),
+                content: Text(state.exception.title ?? 'An error occurred'),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(),
