@@ -32,7 +32,8 @@ class BlocFinancialEntityDetails extends Bloc<BlocFinancialEntityDetailsEvent,
     emit(BlocFinancialEntityDetailsStateLoading.from(state));
     try {
       final financialEntity =
-          await FinancialEntitiesRepository.getFinancialEntity();
+          await FinancialEntitiesRepository.getFinancialEntity(
+              financialEntityId: event.financialEntityId);
       emit(
         BlocFinancialEntityDetailsStateSuccess.from(
           financialEntity: financialEntity.body,

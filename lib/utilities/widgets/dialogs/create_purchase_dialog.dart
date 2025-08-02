@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
-import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_with_purchases_dto.dart';
+import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_home_dto.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/widgets/dialogs/delete_image_dialog.dart';

@@ -1,15 +1,15 @@
+import 'package:purchase_manager/features/dashboard/home/dtos/purchase_home_dto.dart';
 import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/models/currency.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
-import 'package:purchase_manager/utilities/models/purchase.dart';
 
 /// Genera el texto a enviar por whatsapp
 ///
 /// Generates the text to send by whatsapp
 String generateText2({
   required String financialEntityName,
-  required List<Purchase> purchases,
+  required List<PurchaseHomeDto> purchases,
   required double total,
   required Currency currency,
   required CurrencyType selectedCurrency,

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
-import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_with_purchases_dto.dart';
+import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_home_dto.dart';
+import 'package:purchase_manager/features/dashboard/home/dtos/purchase_home_dto.dart';
 import 'package:purchase_manager/utilities/extensions/date_time.dart';
 import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/extensions/string.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
-import 'package:purchase_manager/utilities/models/purchase.dart';
 import 'package:purchase_manager/utilities/widgets/dialogs/edit_purchase_dialog.dart';
 import 'package:purchase_manager/utilities/widgets/pm_buttons.dart';
 
@@ -26,7 +26,7 @@ class PurchaseElement extends StatelessWidget {
 
   /// Compra a mostrar
   /// Purchase to show
-  final Purchase purchase;
+  final PurchaseHomeDto purchase;
 
   /// Entidad financiera a la que pertenece la compra
   /// Financial entity to which the purchase belongs
@@ -222,7 +222,7 @@ class Campos extends StatelessWidget {
   /// Compra a mostrar
   ///
   /// Purchase to show
-  final Purchase purchase;
+  final PurchaseHomeDto purchase;
 
   /// Entidad financiera a la que pertenece la compra
   ///
@@ -232,7 +232,7 @@ class Campos extends StatelessWidget {
   Future<void> _editPurchase(
     BuildContext context,
     FinancialEntityWithPurchasesDto financialEntity,
-    Purchase purchase,
+    PurchaseHomeDto purchase,
   ) async {
     await showModalBottomSheet<void>(
       context: context,

@@ -1,3 +1,4 @@
+import 'package:purchase_manager/features/dashboard/home/dtos/purchase_home_dto.dart';
 import 'package:purchase_manager/utilities/models/currency.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
@@ -10,7 +11,7 @@ import 'package:purchase_manager/utilities/models/purchase.dart';
 /// Calculates the total amount per quota of all the [Purchase] of a list of
 /// [FinancialEntity].
 double totalAmountPerMonthPesos({
-  required List<Purchase> purchases,
+  required List<PurchaseHomeDto> purchases,
   required Currency currency,
 }) {
   var monto = 0.0;
@@ -51,7 +52,7 @@ double totalAmountPerMonthPesos({
 /// Calculates the total amount per quota of all the [Purchase] of a list of
 /// [FinancialEntity] in USD.
 double totalAmountPerMonthDolar({
-  required List<Purchase> purchases,
+  required List<PurchaseHomeDto> purchases,
   required Currency currency,
 }) {
   var monto = 0.0;
@@ -91,7 +92,7 @@ double totalAmountPerMonthDolar({
 /// Calculates the total amount per quota of all the [Purchase] of a list of
 /// [FinancialEntity] in EUR.
 double totalAmountPerMonthEuro({
-  required List<Purchase> purchases,
+  required List<PurchaseHomeDto> purchases,
   required Currency currency,
 }) {
   var monto = 0.0;

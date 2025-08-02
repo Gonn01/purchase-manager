@@ -6,7 +6,8 @@ import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_with_purchases_dto.dart';
+import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_home_dto.dart';
+import 'package:purchase_manager/features/dashboard/home/dtos/purchase_home_dto.dart';
 import 'package:purchase_manager/features/dashboard/home/repositories/home_repository.dart';
 import 'package:purchase_manager/features/dashboard/repositories/financial_entities_repository.dart';
 import 'package:purchase_manager/features/dashboard/repositories/purchases_repository.dart';
@@ -15,7 +16,6 @@ import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 import 'package:purchase_manager/utilities/models/exception.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
-import 'package:purchase_manager/utilities/models/purchase.dart';
 
 part 'bloc_home_event.dart';
 part 'bloc_home_state.dart';
@@ -43,7 +43,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
   /// Instancia de FirebaseAuth
   ///
   /// FirebaseAuth instance
-  final auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   Future<void> _onInitialize(
     BlocHomeEventInitialize event,
@@ -554,7 +554,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       );
 
       if (index == -1) {
-        throw CustomException(
+        throw const CustomException(
           title: 'Entidad no encontrada',
           message: 'No se encontró la entidad financiera para pagar el mes.',
         );
@@ -566,7 +566,6 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       final updatedCurrentPurchases = targetDto.currentPurchases.map((c) {
         final match = updatedPurchases.firstWhere(
           (u) => u.id == c.id,
-          orElse: () => c,
         );
         return match;
       }).toList();
@@ -575,7 +574,6 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       final updatedSettledPurchases = targetDto.settledPurchases.map((c) {
         final match = updatedPurchases.firstWhere(
           (u) => u.id == c.id,
-          orElse: () => c,
         );
         return match;
       }).toList();
@@ -780,7 +778,7 @@ Future<String> deleteImage(String publicId) async {
 }
 
 class PurchaseResult {
-  final Purchase purchase;
+  final PurchaseHomeDto purchase;
   final PurchaseType type; // "current" o "settled"
 
   PurchaseResult({required this.purchase, required this.type});
@@ -806,7 +804,7 @@ PurchaseResult? findPurchaseInDto(
 /// Retorna un nuevo DTO con la compra actualizada
 FinancialEntityWithPurchasesDto updatePurchaseInDto(
   FinancialEntityWithPurchasesDto dto,
-  Purchase updatedPurchase,
+  PurchaseHomeDto updatedPurchase,
 ) {
   return FinancialEntityWithPurchasesDto(
     id: dto.id,

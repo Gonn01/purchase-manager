@@ -19,6 +19,7 @@ class PageFinancialEntitiesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<BlocFinancialEntityList, BlocFinancialEntityListState>(
       listener: (context, state) {
+        print(state.financialEntityList);
         if (state
             is BlocFinancialEntityListStateSuccessDeletingFinancialEntity) {
           context.read<BlocHome>().add(

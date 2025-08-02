@@ -1,4 +1,4 @@
-import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_with_purchases_dto.dart';
+import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_home_dto.dart';
 import 'package:purchase_manager/utilities/constants/config.dart';
 import 'package:purchase_manager/utilities/models/repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';

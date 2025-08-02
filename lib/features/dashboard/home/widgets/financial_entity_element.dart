@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
-import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_with_purchases_dto.dart';
+import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_home_dto.dart';
+import 'package:purchase_manager/features/dashboard/home/dtos/purchase_home_dto.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/dialogs/dialog_pay_month_alert.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/purchase_element.dart';
 import 'package:purchase_manager/gen/assets.gen.dart';
@@ -11,7 +12,6 @@ import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/extensions/string.dart';
 import 'package:purchase_manager/utilities/functions/share_result.dart';
 import 'package:purchase_manager/utilities/models/financial_entity.dart';
-import 'package:purchase_manager/utilities/models/purchase.dart';
 import 'package:purchase_manager/utilities/widgets/pm_buttons.dart';
 
 /// {@template FinancialEntityElement}
@@ -41,7 +41,7 @@ class FinancialEntityElement extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<BlocHome, BlocHomeState>(
       builder: (context, state) {
-        var lista = <Purchase>[];
+        var lista = <PurchaseHomeDto>[];
         if (index == 1) {
           lista = financialEntity.settledPurchases;
         } else {

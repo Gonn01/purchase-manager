@@ -1,3 +1,4 @@
+import 'package:purchase_manager/features/dashboard/home/dtos/purchase_home_dto.dart';
 import 'package:purchase_manager/utilities/models/currency.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
@@ -11,7 +12,7 @@ import 'package:purchase_manager/utilities/models/purchase.dart';
 /// [FinancialEntity].
 double totalAmountPerFinancialEntityPesos({
   required Currency currency,
-  required List<Purchase> purchases,
+  required List<PurchaseHomeDto> purchases,
 }) {
   var monto = 0.0;
 
@@ -50,7 +51,7 @@ double totalAmountPerFinancialEntityPesos({
 /// [FinancialEntity] in USD.
 double totalAmountPerFinancialEntityDolar({
   required Currency currency,
-  required List<Purchase> purchases,
+  required List<PurchaseHomeDto> purchases,
 }) {
   var monto = 0.0;
 
@@ -91,7 +92,7 @@ double totalAmountPerFinancialEntityDolar({
 /// [FinancialEntity] in euros.
 double totalAmountPerFinancialEntityEuro({
   required Currency currency,
-  required List<Purchase> purchases,
+  required List<PurchaseHomeDto> purchases,
 }) {
   var monto = 0.0;
 

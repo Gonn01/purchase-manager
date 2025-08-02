@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
-import 'package:purchase_manager/utilities/models/purchase.dart';
+import 'package:purchase_manager/features/dashboard/home/dtos/purchase_home_dto.dart';
 import 'package:purchase_manager/utilities/widgets/pm_dialogs.dart';
 
 /// {@template DialogDeletePurchase}
@@ -20,7 +20,7 @@ class DialogDeletePurchase extends StatelessWidget {
   /// Compra a eliminar
   ///
   /// purchase to delete
-  final Purchase purchase;
+  final PurchaseHomeDto purchase;
 
   /// Id de la entidad financiera a la que pertenece la compra
   ///

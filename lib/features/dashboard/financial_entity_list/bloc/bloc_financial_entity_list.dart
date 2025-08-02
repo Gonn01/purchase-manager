@@ -25,7 +25,7 @@ class BlocFinancialEntityList
   /// Instancia de FirebaseAuth
   ///
   /// FirebaseAuth instance
-  final auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   Future<void> _onInitialize(
     BlocFinancialEntityListEventInitialize event,

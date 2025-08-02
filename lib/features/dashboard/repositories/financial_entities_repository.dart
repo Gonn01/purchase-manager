@@ -63,7 +63,7 @@ abstract class FinancialEntitiesRepository {
     final preferences = await SharedPreferences.getInstance();
     final userId = preferences.getInt('user_id');
 
-    final url = baseUrl + userId.toString();
+    final url = baseUrl + 'user/' + userId.toString();
     final response = await Repository.get<List<FinancialEntityDto>>(
       url: url,
       fromJson: (jsonData) => (jsonData['body'] as List)
@@ -74,12 +74,9 @@ abstract class FinancialEntitiesRepository {
     return response;
   }
 
-  static Future<ResponseLD<FinancialEntityDetailsDto>>
-      getFinancialEntity() async {
-    final preferences = await SharedPreferences.getInstance();
-    final userId = preferences.getInt('user_id');
-
-    final url = baseUrl + userId.toString();
+  static Future<ResponseLD<FinancialEntityDetailsDto>> getFinancialEntity(
+      {required int financialEntityId}) async {
+    final url = baseUrl + financialEntityId.toString() + '/detail/';
 
     final response = await Repository.get<FinancialEntityDetailsDto>(
       url: url,

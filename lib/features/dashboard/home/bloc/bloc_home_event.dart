@@ -101,7 +101,7 @@ class BlocHomeEventDeletePurchase extends BlocHomeEvent {
 
   /// ID de la compra a eliminar.
   /// ID of the purchase to delete.
-  final Purchase purchase;
+  final PurchaseHomeDto purchase;
 }
 
 /// {@template BlocHomeEventSelectCurrency}
@@ -189,7 +189,7 @@ class BlocHomeEventEditPurchase extends BlocHomeEvent {
 
   /// Compra a editar.
   /// Purchase to edit.
-  final Purchase purchase;
+  final PurchaseHomeDto purchase;
 
   /// Nombre del producto a comprar.
   /// Name of the product to buy.
@@ -236,7 +236,7 @@ class BlocHomeEventPayMonth extends BlocHomeEvent {
   /// ID de la categoría a la que pertenece la compra.
   ///
   /// ID of the category to which the purchase belongs.
-  final List<Purchase> purchaseList;
+  final List<PurchaseHomeDto> purchaseList;
 
   /// Lista de compras a pagar.
   ///

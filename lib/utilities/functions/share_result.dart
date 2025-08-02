@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:purchase_manager/features/dashboard/home/dtos/purchase_home_dto.dart';
 import 'package:purchase_manager/utilities/models/currency.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
-import 'package:purchase_manager/utilities/models/purchase.dart';
 import 'package:share_plus/share_plus.dart';
 
 /// Comparte el texto generado con el usuario
@@ -10,7 +10,7 @@ import 'package:share_plus/share_plus.dart';
 Future<void> onShareWithResult({
   required BuildContext context,
   required String financialEntityName,
-  required List<Purchase> purchases,
+  required List<PurchaseHomeDto> purchases,
   required double total,
   required Currency currency,
   required CurrencyType selectedCurrency,

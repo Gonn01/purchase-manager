@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
-import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_with_purchases_dto.dart';
+import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_home_dto.dart';
+import 'package:purchase_manager/features/dashboard/home/dtos/purchase_home_dto.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/dialogs/dialog_delete_purchase.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
-import 'package:purchase_manager/utilities/models/purchase.dart';
 import 'package:purchase_manager/utilities/widgets/dialogs/delete_image_dialog.dart';
 import 'package:purchase_manager/utilities/widgets/dialogs/upload_image_dialog.dart';
 import 'package:purchase_manager/utilities/widgets/pm_buttons.dart';
@@ -31,7 +31,7 @@ class EditPurchaseModal extends StatefulWidget {
   /// Compra a editar
   ///
   /// Purchase to edit
-  final Purchase purchase;
+  final PurchaseHomeDto purchase;
 
   /// Entidad financiera a la que pertenece la compra
   ///

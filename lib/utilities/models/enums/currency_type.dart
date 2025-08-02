@@ -1,4 +1,5 @@
-import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_with_purchases_dto.dart';
+import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_home_dto.dart';
+import 'package:purchase_manager/features/dashboard/home/dtos/purchase_home_dto.dart';
 import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/functions/generate_text_2.dart';
 import 'package:purchase_manager/utilities/functions/total_amount_per_financial_entity.dart';
@@ -61,7 +62,7 @@ enum CurrencyType {
   ///
   /// Returns the total amount of a list of [Purchase] of a financial entity.
   double totalAmountPerFinancialEntity({
-    required List<Purchase> purchases,
+    required List<PurchaseHomeDto> purchases,
     required Currency currency,
   }) {
     return switch (this) {
@@ -84,7 +85,7 @@ enum CurrencyType {
   ///
   /// Returns the total amount of a list of [FinancialEntity] in a month.
   double totalAmountPerMonth({
-    required List<Purchase> purchases,
+    required List<PurchaseHomeDto> purchases,
     required Currency currency,
   }) {
     return switch (this) {
@@ -138,7 +139,7 @@ enum CurrencyType {
   /// Returns the generated text to share with the user.
   String generateText({
     required String financialEntityName,
-    required List<Purchase> purchases,
+    required List<PurchaseHomeDto> purchases,
     required double total,
     required Currency currency,
     required CurrencyType selectedCurrency,
@@ -176,7 +177,7 @@ enum CurrencyType {
   }
 
   double totalCreditor({
-    required List<Purchase> purchases,
+    required List<PurchaseHomeDto> purchases,
     required Currency currency,
   }) {
     final dollarValue = currency.dolarBlue.valueSell;
@@ -222,7 +223,7 @@ enum CurrencyType {
   }
 
   double totalDebtor({
-    required List<Purchase> purchases,
+    required List<PurchaseHomeDto> purchases,
     required Currency currency,
   }) {
     final dollarValue = currency.dolarBlue.valueSell;
@@ -269,7 +270,7 @@ enum CurrencyType {
 
   String textoParaCards({
     required Currency currency,
-    required Purchase purchase,
+    required PurchaseHomeDto purchase,
   }) {
     final dollarValue = currency.dolarBlue.valueSell;
 
@@ -305,7 +306,7 @@ enum CurrencyType {
 }
 
 String cuotasEuros({
-  required Purchase purchase,
+  required PurchaseHomeDto purchase,
   required double dollarValue,
   required double euroValue,
 }) {
@@ -322,7 +323,7 @@ String cuotasEuros({
 }
 
 String cuotasDollars({
-  required Purchase purchase,
+  required PurchaseHomeDto purchase,
   required double dollarValue,
   required double euroValue,
 }) {
@@ -339,7 +340,7 @@ String cuotasDollars({
 }
 
 String cuotasPesos({
-  required Purchase purchase,
+  required PurchaseHomeDto purchase,
   required double dollarValue,
   required double euroValue,
 }) {

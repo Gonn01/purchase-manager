@@ -1,4 +1,4 @@
-import 'package:purchase_manager/utilities/models/purchase.dart';
+import 'package:purchase_manager/features/dashboard/home/dtos/purchase_home_dto.dart';
 
 /// Wrapper que extiende una FinancialEntity con sus compras
 class FinancialEntityWithPurchasesDto {
@@ -14,15 +14,15 @@ class FinancialEntityWithPurchasesDto {
       id: json['id'] as int,
       name: json['name'] as String,
       currentPurchases: (json['current_purchases'] as List<dynamic>)
-          .map((e) => Purchase.fromJson(e as Map<String, dynamic>))
+          .map((e) => PurchaseHomeDto.fromJson(e as Map<String, dynamic>))
           .toList(),
       settledPurchases: (json['settled_purchases'] as List<dynamic>)
-          .map((e) => Purchase.fromJson(e as Map<String, dynamic>))
+          .map((e) => PurchaseHomeDto.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
   final int id;
   final String name;
-  final List<Purchase> currentPurchases;
-  final List<Purchase> settledPurchases;
+  final List<PurchaseHomeDto> currentPurchases;
+  final List<PurchaseHomeDto> settledPurchases;
 }

@@ -46,8 +46,8 @@ class BlocHomeState {
   /// List of images that will be uploaded
   final List<XFile> images;
 
-  double totalAmountPerMonth(
-          List<Purchase> list, Currency currency, CurrencyType currencyType) =>
+  double totalAmountPerMonth(List<PurchaseHomeDto> list, Currency currency,
+          CurrencyType currencyType) =>
       currencyType.totalAmountPerMonth(
         purchases: list,
         currency: currency,
@@ -60,11 +60,11 @@ class BlocHomeState {
       get financialEntitiesWithSettledPurchases => financialEntityList
           .where((e) => e.settledPurchases.isNotEmpty)
           .toList();
-  List<Purchase> currentPurchasesFromFinancialEntity(
+  List<PurchaseHomeDto> currentPurchasesFromFinancialEntity(
           FinancialEntityWithPurchasesDto financialEntity) =>
       financialEntity.currentPurchases;
 
-  List<Purchase> settledPurchasesFromFinancialEntity(
+  List<PurchaseHomeDto> settledPurchasesFromFinancialEntity(
           FinancialEntityWithPurchasesDto financialEntity) =>
       financialEntity.settledPurchases;
 

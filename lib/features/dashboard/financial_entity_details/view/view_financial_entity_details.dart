@@ -41,13 +41,6 @@ class ViewFinancialEntityDetails extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        final purchases = state.financialEntity?.purchases ?? [];
-
-        final ordenadas = purchases
-          ..sort(
-            (a, b) => a.createdAt.compareTo(b.createdAt),
-          );
-
         return ListView(
           shrinkWrap: true,
           children: [
@@ -64,52 +57,53 @@ class ViewFinancialEntityDetails extends StatelessWidget {
               title: const Text('Compras'),
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
               expandedAlignment: Alignment.centerLeft,
-              children: ordenadas
-                  .map(
-                    (purchase) => GestureDetector(
-                      onTap: () => context.router.push(
-                        RutaPurchaseDetails(
-                          idPurchase: purchase.id,
-                          idFinancialEntity: state.financialEntity?.id ?? 0,
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
+              children: state.financialEntity?.purchases
+                      .map(
+                        (purchase) => GestureDetector(
+                          onTap: () => context.router.push(
+                            RutaPurchaseDetails(
+                              idPurchase: purchase.id,
+                              idFinancialEntity: state.financialEntity?.id ?? 0,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  '- ${purchase.name.capitalize}',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    decoration: purchase.type.isCurrent
-                                        ? null
-                                        : TextDecoration.lineThrough,
-                                  ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '- ${purchase.name.capitalize}',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        decoration: purchase.type.isCurrent
+                                            ? null
+                                            : TextDecoration.lineThrough,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    const Icon(
+                                      Icons.launch,
+                                      size: 20,
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(width: 8),
-                                const Icon(
-                                  Icons.launch,
-                                  size: 20,
+                                Text(
+                                  purchase.createdAt.formatWithHour,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ],
                             ),
-                            Text(
-                              purchase.createdAt.formatWithHour,
-                              style: const TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  )
-                  .toList(),
+                      )
+                      .toList() ??
+                  [],
             ),
             ExpansionTile(
               title: const Text('Logs'),
@@ -118,7 +112,7 @@ class ViewFinancialEntityDetails extends StatelessWidget {
               children: state.financialEntity?.logs
                       .map(
                         (e) => Text(
-                          '- $e',
+                          '- ${e.content}',
                           textAlign: TextAlign.start,
                         ),
                       )
