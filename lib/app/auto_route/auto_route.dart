@@ -88,17 +88,17 @@ class AppRouter extends RootStackRouter {
               title: (context, data) => 'Inicio',
               transitionsBuilder: TransitionsBuilders.zoomIn,
             ),
-            CustomRoute<AutoRoute>(
-              page: RutaFinancialEntitiesList.page,
-              path: 'list',
-              title: (context, data) => 'Lista de entidades financieras',
-              transitionsBuilder: TransitionsBuilders.zoomIn,
-            ),
-            AutoRoute(
-              page: RutaFinancialEntityDetails.page,
-              path: 'details',
-              title: (context, data) => 'Detalles de la entidad financiera',
-            ),
+            // CustomRoute<AutoRoute>(
+            //   page: RutaFinancialEntitiesList.page,
+            //   path: 'list',
+            //   title: (context, data) => 'Lista de entidades financieras',
+            //   transitionsBuilder: TransitionsBuilders.zoomIn,
+            // ),
+            // AutoRoute(
+            //   page: RutaFinancialEntityDetails.page,
+            //   path: 'details',
+            //   title: (context, data) => 'Detalles de la entidad financiera',
+            // ),
             AutoRoute(
               page: RutaPurchaseDetails.page,
               path: 'purchase',

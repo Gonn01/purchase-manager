@@ -42,6 +42,8 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
   @override
   Widget build(BuildContext context) {
     final st = context.read<BlocDashboard>().state;
+    final selectedCurrency = st.selectedCurrency;
+    final currency = st.currency;
     return BlocBuilder<BlocHome, BlocHomeState>(
       builder: (context, state) {
         if (state is BlocHomeStateLoading) {
@@ -52,35 +54,38 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
           );
         }
 
-        final totalEsteMes =
-            st.totalAmountPerMonth(state.listFinancialEntitiesStatusCurrent);
-
-        final total = st.selectedCurrency.totalAmount(
-          financialEntityList: state.listFinancialEntitiesStatusCurrent,
-          currency: st.currency,
+        final total = selectedCurrency.totalAmount(
+          financialEntityList: state.financialEntityList,
+          currency: currency,
         );
 
-        final caducanEsteMesa = caducanEsteMes(
+        final totalEsteMes = state.totalAmountPerMonth(
+            state.financialEntityList
+                .where((e) => e.currentPurchases.isNotEmpty)
+                .toList()
+                .expand((e) => e.currentPurchases)
+                .toList(),
+            currency,
+            selectedCurrency);
+
+        final caducanEsteMes = calculateCaducanEsteMes(
           financialEntities: state.financialEntityList,
         );
 
         final caducanEsteMesCount = caducanEsteMesDinero(
           financialEntities: state.financialEntityList,
-          currency: st.currency,
-          selectedCurrency: st.selectedCurrency,
+          currency: currency,
+          selectedCurrency: selectedCurrency,
         );
-
-        final caducanEsteMesDinero2 = caducanEsteMesCount.isNegative
-            ? caducanEsteMesCount * -1
-            : caducanEsteMesCount;
 
         return Column(
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                'En total ${total.isNegative ? 'debo' : 'me deben'}: '
-                '${(total.isNegative ? total * -1 : total).formatAmount} ${st.selectedCurrency.abreviation}',
+                'En total ${total.deboOrMeDeben}: '
+                '${total.abs().formatAmount} '
+                '${st.selectedCurrency.abreviation}',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -96,8 +101,9 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                'Este mes ${totalEsteMes.isNegative ? 'debo' : 'me deben'}: '
-                '${(totalEsteMes.isNegative ? totalEsteMes * -1 : totalEsteMes).formatAmount} ${st.selectedCurrency.abreviation}',
+                'Este mes ${totalEsteMes.deboOrMeDeben}: '
+                '${totalEsteMes.abs().formatAmount} '
+                '${st.selectedCurrency.abreviation}',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -113,8 +119,8 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                'Este mes caducan $caducanEsteMesa '
-                'compras\n(${caducanEsteMesDinero2.formatAmount} '
+                'Este mes caducan $caducanEsteMes '
+                'compras\n(${caducanEsteMesCount.abs().formatAmount} '
                 '${st.selectedCurrency.abreviation})',
                 style: const TextStyle(
                   fontSize: 16,
@@ -134,8 +140,22 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
                 onRefresh: _refresh,
                 stateStream: _stream,
                 indicatorColor: const Color(0xff02B3A3),
-                children: state.listFinancialEntitiesStatusCurrent.isEmpty
-                    ? [
+                children: state.hasCurrentPurchases
+                    ? state.financialEntitiesWithCurrentPurchases
+                        .map(
+                          (financialEntity) => Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 10,
+                            ),
+                            child: FinancialEntityElement(
+                              financialEntity: financialEntity,
+                              index: widget.index,
+                            ),
+                          ),
+                        )
+                        .toList()
+                    : [
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.5,
                           child: const Center(
@@ -148,24 +168,7 @@ class _ViewCurrentPurchasesState extends State<ViewCurrentPurchases> {
                             ),
                           ),
                         ),
-                      ]
-                    : state.listFinancialEntitiesStatusCurrent
-                        .map(
-                          (financialEntity) =>
-                              financialEntity.purchases.isNotEmpty
-                                  ? Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 15,
-                                        vertical: 10,
-                                      ),
-                                      child: FinancialEntityElement(
-                                        financialEntity: financialEntity,
-                                        index: widget.index,
-                                      ),
-                                    )
-                                  : Container(),
-                        )
-                        .toList(),
+                      ],
               ),
             ),
           ],

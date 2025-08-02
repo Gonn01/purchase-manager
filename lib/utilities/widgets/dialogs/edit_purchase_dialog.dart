@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_with_purchases_dto.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/dialogs/dialog_delete_purchase.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
-import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
 import 'package:purchase_manager/utilities/widgets/dialogs/delete_image_dialog.dart';
 import 'package:purchase_manager/utilities/widgets/dialogs/upload_image_dialog.dart';
@@ -36,7 +36,7 @@ class EditPurchaseModal extends StatefulWidget {
   /// Entidad financiera a la que pertenece la compra
   ///
   /// Financial entity to which the purchase belongs
-  final FinancialEntity financialEntity;
+  final FinancialEntityWithPurchasesDto financialEntity;
   @override
   State<EditPurchaseModal> createState() => _EditPurchaseModalState();
 }
@@ -68,7 +68,7 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
     );
   }
 
-  void _editPurchase({required FinancialEntity financialEntity}) {
+  void _editPurchase() {
     context.read<BlocHome>().add(
           BlocHomeEventEditPurchase(
             purchase: widget.purchase,
@@ -151,7 +151,7 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                PMDropdown<FinancialEntity>(
+                PMDropdown<FinancialEntityWithPurchasesDto>(
                   initialItem: PMDropdownItem(
                     value: widget.financialEntity,
                     text: widget.financialEntity.name,
@@ -372,9 +372,7 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
                     const Spacer(),
                     PMButtons.text(
                       isEnabled: true,
-                      onTap: () => _editPurchase(
-                        financialEntity: widget.financialEntity,
-                      ),
+                      onTap: _editPurchase,
                       text: 'Editar compra',
                       backgroundColor: Colors.green,
                     ),

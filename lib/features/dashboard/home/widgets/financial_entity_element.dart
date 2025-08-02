@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_with_purchases_dto.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/dialogs/dialog_pay_month_alert.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/purchase_element.dart';
 import 'package:purchase_manager/gen/assets.gen.dart';
@@ -29,7 +30,7 @@ class FinancialEntityElement extends StatelessWidget {
   /// Entidad financiera a mostrar
   ///
   /// Financial entity to show
-  final FinancialEntity financialEntity;
+  final FinancialEntityWithPurchasesDto financialEntity;
 
   /// Indice de la lista de entidades financieras
   ///
@@ -42,9 +43,9 @@ class FinancialEntityElement extends StatelessWidget {
       builder: (context, state) {
         var lista = <Purchase>[];
         if (index == 1) {
-          lista = state.listPurchaseStatusSettled(financialEntity);
+          lista = financialEntity.settledPurchases;
         } else {
-          lista = state.listPurchaseStatusCurrent(financialEntity);
+          lista = financialEntity.currentPurchases;
         }
         final st = context.read<BlocDashboard>().state;
         final total = st.selectedCurrency.totalAmountPerFinancialEntity(
@@ -177,7 +178,8 @@ class FinancialEntityElement extends StatelessWidget {
                       builder: (_) => BlocProvider.value(
                         value: context.read<BlocDashboard>(),
                         child: DialogPayMonthAlert(
-                          financialEntity: financialEntity,
+                          financialEntityId: financialEntity.id,
+                          financialEntityName: financialEntity.name,
                           purchaseList: lista,
                         ),
                       ),

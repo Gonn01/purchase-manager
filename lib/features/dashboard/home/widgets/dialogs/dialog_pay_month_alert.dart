@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/utilities/functions/share_result.dart';
-import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
 import 'package:purchase_manager/utilities/widgets/pm_dialogs.dart';
 
@@ -15,13 +14,15 @@ import 'package:purchase_manager/utilities/widgets/pm_dialogs.dart';
 class DialogPayMonthAlert extends StatelessWidget {
   /// {@macro DialogDeleteFinancialEntity}
   const DialogPayMonthAlert({
-    required this.financialEntity,
+    required this.financialEntityId,
+    required this.financialEntityName,
     required this.purchaseList,
     super.key,
   });
 
   /// Entidad financiera a eliminar
-  final FinancialEntity financialEntity;
+  final int financialEntityId;
+  final String financialEntityName;
 
   /// Lista de compras a pagar
   final List<Purchase> purchaseList;
@@ -34,12 +35,12 @@ class DialogPayMonthAlert extends StatelessWidget {
         context.read<BlocHome>().add(
               BlocHomeEventPayMonth(
                 purchaseList: purchaseList,
-                idFinancialEntity: financialEntity.id,
+                idFinancialEntity: financialEntityId,
               ),
             );
         onShareWithResult(
           context: context,
-          financialEntityName: financialEntity.name,
+          financialEntityName: financialEntityName,
           purchases: purchaseList,
           total: state.selectedCurrency.totalAmountPerFinancialEntity(
             purchases: purchaseList,

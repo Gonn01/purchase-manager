@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:purchase_manager/utilities/models/currency.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/exception.dart';
-import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/services/currency_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

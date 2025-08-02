@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_with_purchases_dto.dart';
 import 'package:purchase_manager/utilities/extensions/date_time.dart';
 import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/extensions/string.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
-import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/models/purchase.dart';
 import 'package:purchase_manager/utilities/widgets/dialogs/edit_purchase_dialog.dart';
 import 'package:purchase_manager/utilities/widgets/pm_buttons.dart';
@@ -30,7 +30,7 @@ class PurchaseElement extends StatelessWidget {
 
   /// Entidad financiera a la que pertenece la compra
   /// Financial entity to which the purchase belongs
-  final FinancialEntity financialEntity;
+  final FinancialEntityWithPurchasesDto financialEntity;
 
   @override
   Widget build(BuildContext context) {
@@ -227,11 +227,11 @@ class Campos extends StatelessWidget {
   /// Entidad financiera a la que pertenece la compra
   ///
   /// Financial entity to which the purchase belongs
-  final FinancialEntity financialEntity;
+  final FinancialEntityWithPurchasesDto financialEntity;
 
   Future<void> _editPurchase(
     BuildContext context,
-    FinancialEntity financialEntity,
+    FinancialEntityWithPurchasesDto financialEntity,
     Purchase purchase,
   ) async {
     await showModalBottomSheet<void>(
@@ -409,39 +409,24 @@ class Campos extends StatelessWidget {
                       hint: 'Restantes:',
                       isLoading: false,
                     ),
-                    if (!purchase.type.isCurrent)
-                      GestureDetector(
-                        onTap: () => context.read<BlocHome>().add(
-                              BlocHomeEventIncreaseAmountOfQuotas(
-                                purchaseId: purchase.id,
-                                purchaseType: purchase.type,
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () => context.read<BlocHome>().add(
+                                BlocHomeEventIncreaseAmountOfQuotas(
+                                  purchaseId: purchase.id,
+                                  financialEntityId: financialEntity.id,
+                                ),
                               ),
-                            ),
-                        child: const Icon(
-                          Icons.restore,
-                          size: 25,
-                          color: Colors.black,
+                          child: const Icon(
+                            Icons.keyboard_double_arrow_up_sharp,
+                            size: 25,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                    // const Row(
-                    // children: [
-                    // GestureDetector(
-                    //onTap: () => context.read<BlocDashboard>().add
-                    //(
-                    //     BlocDashboardEventIncreaseAmountOfQuotas(
-                    //           idPurchase: purchase.id ?? '',
-                    //           purchaseType: purchase.type,
-                    //         ),
-                    //       ),
-                    //   child: const Icon(
-                    //     Icons.keyboard_double_arrow_up_sharp,
-                    //     size: 25,
-                    //     color: Colors.white,
-                    //   ),
-                    // ),
-                    // const SizedBox(width: 10),
-                    // ],
-                    // ),
+                        const SizedBox(width: 10),
+                      ],
+                    ),
                   ],
                 ),
               if (purchase.type.isCurrent)

@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
+import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_with_purchases_dto.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
-import 'package:purchase_manager/utilities/models/financial_entity.dart';
 import 'package:purchase_manager/utilities/widgets/dialogs/delete_image_dialog.dart';
 import 'package:purchase_manager/utilities/widgets/dialogs/upload_image_dialog.dart';
 import 'package:purchase_manager/utilities/widgets/pm_buttons.dart';
@@ -56,7 +56,8 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
     );
   }
 
-  void _createPurchase({required FinancialEntity financialEntity}) {
+  void _createPurchase(
+      {required FinancialEntityWithPurchasesDto financialEntity}) {
     context.read<BlocHome>().add(
           BlocHomeEventCreatePurchase(
             productName: _controllerProductName.text,
@@ -119,7 +120,7 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                PMDropdown<FinancialEntity>(
+                PMDropdown<FinancialEntityWithPurchasesDto>(
                   hintText: 'Elegi una entidad financiera',
                   items: state.financialEntityList
                       .map(

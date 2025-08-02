@@ -10,12 +10,10 @@ import 'package:purchase_manager/utilities/models/purchase.dart';
 /// Calculates the total amount per quota of all the [Purchase] of a list of
 /// [FinancialEntity].
 double totalAmountPerMonthPesos({
-  required List<FinancialEntity> financialEntities,
+  required List<Purchase> purchases,
   required Currency currency,
 }) {
   var monto = 0.0;
-
-  final purchases = financialEntities.expand((category) => category.purchases);
 
   final ps = purchases.where((p) => !p.ignored);
 
@@ -53,12 +51,10 @@ double totalAmountPerMonthPesos({
 /// Calculates the total amount per quota of all the [Purchase] of a list of
 /// [FinancialEntity] in USD.
 double totalAmountPerMonthDolar({
-  required List<FinancialEntity> financialEntities,
+  required List<Purchase> purchases,
   required Currency currency,
 }) {
   var monto = 0.0;
-
-  final purchases = financialEntities.expand((category) => category.purchases);
 
   final ps = purchases.where((p) => !p.ignored);
 
@@ -95,12 +91,10 @@ double totalAmountPerMonthDolar({
 /// Calculates the total amount per quota of all the [Purchase] of a list of
 /// [FinancialEntity] in EUR.
 double totalAmountPerMonthEuro({
-  required List<FinancialEntity> financialEntities,
+  required List<Purchase> purchases,
   required Currency currency,
 }) {
   var monto = 0.0;
-
-  final purchases = financialEntities.expand((category) => category.purchases);
 
   final ps = purchases.where((p) => !p.ignored);
 

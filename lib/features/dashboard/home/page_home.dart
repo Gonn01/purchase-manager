@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/financial_entity_list/bloc/bloc_financial_entity_list.dart';
 import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/features/dashboard/home/views/view_home.dart';
 
@@ -25,13 +24,6 @@ class _PageHomeState extends State<PageHome> {
   Widget build(BuildContext context) {
     return BlocListener<BlocHome, BlocHomeState>(
       listener: (context, state) {
-        if (state is BlocHomeStateSuccessCreatingFinancialEntity) {
-          context.read<BlocFinancialEntityList>().add(
-                BlocFinancialEntityListEventAddFinancialEntity(
-                  financialEntity: state.financialEntity,
-                ),
-              );
-        }
         if (state is BlocHomeStateError) {
           showDialog<void>(
             context: context,
@@ -39,8 +31,8 @@ class _PageHomeState extends State<PageHome> {
               return AlertDialog(
                 title: const Text('Error'),
                 content: Text(state.exception.message ?? ''),
-                actions: [
-                  const Text('OK'),
+                actions: const [
+                  Text('OK'),
                 ],
               );
             },

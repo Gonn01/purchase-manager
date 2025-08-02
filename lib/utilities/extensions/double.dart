@@ -17,4 +17,5 @@ extension FormatearDoubleExtension on double {
   }
 
   String get percentFormat => '$this%';
+  String get deboOrMeDeben => isNegative ? 'debo' : 'me deben';
 }

@@ -51,7 +51,7 @@ class _ViewSettledPurchasesState extends State<ViewSettledPurchases> {
           );
         }
 
-        if (state.listFinancialEntityStatusSettled.isEmpty) {
+        if (!state.hasSettledPurchases) {
           return const Center(
             child: Text(
               'No hay compras',
@@ -67,20 +67,18 @@ class _ViewSettledPurchasesState extends State<ViewSettledPurchases> {
           onRefresh: _refresh,
           stateStream: _stream,
           indicatorColor: const Color(0xff02B3A3),
-          children: state.listFinancialEntityStatusSettled
+          children: state.financialEntitiesWithSettledPurchases
               .map(
-                (financialEntity) => financialEntity.purchases.isNotEmpty
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 10,
-                        ),
-                        child: FinancialEntityElement(
-                          financialEntity: financialEntity,
-                          index: widget.index,
-                        ),
-                      )
-                    : Container(),
+                (financialEntity) => Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 10,
+                  ),
+                  child: FinancialEntityElement(
+                    financialEntity: financialEntity,
+                    index: widget.index,
+                  ),
+                ),
               )
               .toList(),
         );

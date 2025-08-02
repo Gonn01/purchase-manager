@@ -1,6 +1,3 @@
-import 'package:purchase_manager/utilities/models/logs.dart';
-import 'package:purchase_manager/utilities/models/purchase.dart';
-
 /// {@template FinancialEntity}
 /// Entidad financiera que contiene las compras
 ///
@@ -12,8 +9,8 @@ class FinancialEntity {
     required this.id,
     required this.createdAt,
     required this.name,
-    required this.purchases,
-    required this.logs,
+    required this.userId,
+    required this.deleted,
   });
 
   /// Crea una [FinancialEntity] a partir de un json
@@ -24,18 +21,8 @@ class FinancialEntity {
       id: json['id'] as int,
       createdAt: DateTime.parse(json['created_at'] as String).toLocal(),
       name: json['name'] as String,
-      purchases: json['purchases'] != null
-          ? (json['purchases'] as List)
-              .map((e) => Purchase.fromJson(e as Map<String, dynamic>))
-              .toList()
-          : [],
-      logs: json['logs'] != null
-          ? (json['logs'] as List)
-              .map(
-                (e) => FinancialEntityLog.fromJson(e as Map<String, dynamic>),
-              )
-              .toList()
-          : [],
+      userId: json['user_id'] as int,
+      deleted: json['deleted'] as bool,
     );
   }
 
@@ -49,16 +36,8 @@ class FinancialEntity {
   ///
   /// Name of the financial entity
   final String name;
-
-  /// Compras de la entidad financiera
-  ///
-  /// Purchases of the financial entity
-  final List<Purchase> purchases;
-
-  /// Logs de la entidad financiera
-  ///
-  /// Logs of the financial entity
-  final List<FinancialEntityLog> logs;
+  final int userId;
+  final bool deleted;
 
   /// Copia de la entidad financiera con los nuevos valores
   ///
@@ -67,15 +46,15 @@ class FinancialEntity {
     int? id,
     DateTime? createdAt,
     String? name,
-    List<Purchase>? purchases,
-    List<FinancialEntityLog>? logs,
+    int? userId,
+    bool? deleted,
   }) {
     return FinancialEntity(
       id: id ?? this.id,
       createdAt: createdAt ?? this.createdAt,
       name: name ?? this.name,
-      purchases: purchases ?? this.purchases,
-      logs: logs ?? this.logs,
+      userId: userId ?? this.userId,
+      deleted: deleted ?? this.deleted,
     );
   }
 }

@@ -30,7 +30,7 @@ class _LDBottomNavigationBarState extends State<LDBottomNavigationBar> {
         context.router.push(const RutaHome());
 
       case 1:
-        context.router.push(const RutaFinancialEntitiesList());
+      // context.router.push(const RutaFinancialEntitiesList());
     }
   }
 
@@ -49,14 +49,14 @@ class _LDBottomNavigationBarState extends State<LDBottomNavigationBar> {
               icon: Icons.home_outlined,
               text: 'Inicio',
             ),
-            LDBottomNavigationBarItem(
-              isSelected:
-                  context.router.current.name == RutaFinancialEntitiesList.name,
-              value: 1,
-              onTap: _handleTap,
-              icon: Icons.list,
-              text: 'Entidades Financieras',
-            ),
+            // LDBottomNavigationBarItem(
+            //   isSelected:
+            //       context.router.current.name == RutaFinancialEntitiesList.name,
+            //   value: 1,
+            //   onTap: _handleTap,
+            //   icon: Icons.list,
+            //   text: 'Entidades Financieras',
+            // ),
           ],
         ),
       ],

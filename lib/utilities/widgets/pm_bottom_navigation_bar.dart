@@ -66,8 +66,8 @@ class PMBottomNavigationBar extends StatelessWidget {
               InkWell(
                 onTap: () {
                   if (route.path == 'home') {
-                    context.router
-                        .popAndPush(const RutaFinancialEntitiesList());
+                    // context.router
+                    //     .popAndPush(const RutaFinancialEntitiesList());
                   }
                 },
                 child: Column(

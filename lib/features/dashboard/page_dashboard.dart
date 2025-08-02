@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
-import 'package:purchase_manager/features/dashboard/financial_entity_list/bloc/bloc_financial_entity_list.dart';
 import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/utilities/widgets/pm_scaffold.dart';
 
@@ -29,18 +28,18 @@ class PageDashboard extends StatelessWidget {
         BlocProvider(
           create: (context) => BlocHome()..add(BlocHomeEventInitialize()),
         ),
-        BlocProvider(
-          create: (context) => BlocFinancialEntityList()
-            ..add(BlocFinancialEntityListEventInitialize()),
-        ),
+        // BlocProvider(
+        //   create: (context) => BlocFinancialEntityList()
+        //     ..add(BlocFinancialEntityListEventInitialize()),
+        // ),
       ],
       child: AutoRouter(
         builder: (context, content) {
           return PMScaffold(
             body: switch (context.router.current.name) {
               RutaHome.name => content,
-              RutaFinancialEntitiesList.name => content,
-              RutaFinancialEntityDetails.name => content,
+              // RutaFinancialEntitiesList.name => content,
+              // RutaFinancialEntityDetails.name => content,
               _ => const SizedBox.shrink()
             },
           );

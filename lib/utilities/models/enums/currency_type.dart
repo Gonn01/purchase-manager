@@ -1,8 +1,6 @@
-// ignore_for_file: lines_longer_than_80_chars, public_member_api_docs
-
+import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_with_purchases_dto.dart';
 import 'package:purchase_manager/utilities/extensions/double.dart';
 import 'package:purchase_manager/utilities/functions/generate_text_2.dart';
-import 'package:purchase_manager/utilities/functions/total_amount.dart';
 import 'package:purchase_manager/utilities/functions/total_amount_per_financial_entity.dart';
 import 'package:purchase_manager/utilities/functions/total_amount_per_month.dart';
 import 'package:purchase_manager/utilities/models/currency.dart';
@@ -66,75 +64,73 @@ enum CurrencyType {
     required List<Purchase> purchases,
     required Currency currency,
   }) {
-    switch (this) {
-      case CurrencyType.pesoArgentino:
-        return totalAmountPerFinancialEntityPesos(
+    return switch (this) {
+      CurrencyType.pesoArgentino => totalAmountPerFinancialEntityPesos(
           currency: currency,
           purchases: purchases,
-        );
-      case CurrencyType.usDollar:
-        return totalAmountPerFinancialEntityDolar(
+        ),
+      CurrencyType.usDollar => totalAmountPerFinancialEntityDolar(
           currency: currency,
           purchases: purchases,
-        );
-      case CurrencyType.euro:
-        return totalAmountPerFinancialEntityEuro(
+        ),
+      CurrencyType.euro => totalAmountPerFinancialEntityEuro(
           currency: currency,
           purchases: purchases,
-        );
-    }
+        )
+    };
   }
 
   /// Devuelve la cantidad total de una lista de [FinancialEntity] en un mes.
   ///
   /// Returns the total amount of a list of [FinancialEntity] in a month.
   double totalAmountPerMonth({
-    required List<FinancialEntity> financialEntities,
+    required List<Purchase> purchases,
     required Currency currency,
   }) {
-    switch (this) {
-      case CurrencyType.pesoArgentino:
-        return totalAmountPerMonthPesos(
-          financialEntities: financialEntities,
+    return switch (this) {
+      CurrencyType.pesoArgentino => totalAmountPerMonthPesos(
+          purchases: purchases,
           currency: currency,
-        );
-      case CurrencyType.usDollar:
-        return totalAmountPerMonthDolar(
-          financialEntities: financialEntities,
+        ),
+      CurrencyType.usDollar => totalAmountPerMonthDolar(
+          purchases: purchases,
           currency: currency,
-        );
-      case CurrencyType.euro:
-        return totalAmountPerMonthEuro(
-          financialEntities: financialEntities,
+        ),
+      CurrencyType.euro => totalAmountPerMonthEuro(
+          purchases: purchases,
           currency: currency,
-        );
-    }
+        )
+    };
   }
 
   /// Devuelve la cantidad total de una lista de [FinancialEntity].
   ///
   /// Returns the total amount of a list of [FinancialEntity].
   double totalAmount({
-    required List<FinancialEntity> financialEntityList,
+    required List<FinancialEntityWithPurchasesDto> financialEntityList,
     required Currency currency,
   }) {
     switch (this) {
       case CurrencyType.pesoArgentino:
-        return totalAmountPesos(
-          financialEntityList: financialEntityList,
-          currency: currency,
-        );
+      // return totalAmountPesos(
+      //   financialEntityList:
+      //       financialEntityList.map((e) => e).toList(),
+      //   currency: currency,
+      // );
       case CurrencyType.usDollar:
-        return totalAmountDolar(
-          financialEntityList: financialEntityList,
-          currency: currency,
-        );
+      // return totalAmountDolar(
+      //   financialEntityList:
+      //       financialEntityList.map((e) => e.entity).toList(),
+      //   currency: currency,
+      // );
       case CurrencyType.euro:
-        return totalAmountEuro(
-          financialEntityList: financialEntityList,
-          currency: currency,
-        );
+      // return totalAmountEuro(
+      //   financialEntityList:
+      //       financialEntityList.map((e) => e.entity).toList(),
+      //   currency: currency,
+      // );
     }
+    return 0; // Placeholder, actual implementation should be uncommented
   }
 
   /// Devuelve el texto generado para compartir con el usuario.

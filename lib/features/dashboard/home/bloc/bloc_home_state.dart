@@ -17,7 +17,7 @@ class BlocHomeState {
   /// Estado previo.
   BlocHomeState.from(
     BlocHomeState previousState, {
-    List<FinancialEntity>? financialEntityList,
+    List<FinancialEntityWithPurchasesDto>? financialEntityList,
     int? purchaseLoadingId,
     List<int> purchasesLoadingsIds = const [],
     bool deleteSelectedShipmentId = false,
@@ -37,7 +37,7 @@ class BlocHomeState {
   /// Lista de entidades financieras.
   ///
   /// List of financial entities.
-  final List<FinancialEntity> financialEntityList;
+  final List<FinancialEntityWithPurchasesDto> financialEntityList;
 
   /// Id de la compra que se está cargando.
   final int? purchaseLoadingId;
@@ -46,69 +46,35 @@ class BlocHomeState {
   /// List of images that will be uploaded
   final List<XFile> images;
 
-  /// Lista de [FinancialEntity] que tienen compras de
-  /// [PurchaseType.currentDebtorPurchase]
-  ///
-  /// List of financial entities that have purchases of
-  /// [PurchaseType.currentDebtorPurchase]
-  List<FinancialEntity> get listFinancialEntitiesStatusCurrent =>
-      financialEntityList
-          .where(
-            (financialEntity) => financialEntity.purchases.any(
-              (purchase) =>
-                  purchase.type == PurchaseType.currentDebtorPurchase ||
-                  purchase.type == PurchaseType.currentCreditorPurchase,
-            ),
-          )
+  double totalAmountPerMonth(
+          List<Purchase> list, Currency currency, CurrencyType currencyType) =>
+      currencyType.totalAmountPerMonth(
+        purchases: list,
+        currency: currency,
+      );
+  List<FinancialEntityWithPurchasesDto>
+      get financialEntitiesWithCurrentPurchases => financialEntityList
+          .where((e) => e.currentPurchases.isNotEmpty)
           .toList();
+  List<FinancialEntityWithPurchasesDto>
+      get financialEntitiesWithSettledPurchases => financialEntityList
+          .where((e) => e.settledPurchases.isNotEmpty)
+          .toList();
+  List<Purchase> currentPurchasesFromFinancialEntity(
+          FinancialEntityWithPurchasesDto financialEntity) =>
+      financialEntity.currentPurchases;
 
-  /// Lista de [Purchase] que tiene la [FinancialEntity] de
-  /// [PurchaseType.currentCreditorPurchase].
-  ///
-  /// List of [Purchase] that the [FinancialEntity] has with
-  /// [PurchaseType.currentCreditorPurchase].
-  List<Purchase> listPurchaseStatusCurrent(
-    FinancialEntity financialEntity,
-  ) =>
-      financialEntity.purchases
-          .where(
-            (purchase) =>
-                purchase.type == PurchaseType.currentCreditorPurchase ||
-                purchase.type == PurchaseType.currentDebtorPurchase,
-          )
-          .toList();
+  List<Purchase> settledPurchasesFromFinancialEntity(
+          FinancialEntityWithPurchasesDto financialEntity) =>
+      financialEntity.settledPurchases;
 
-  /// Lista de [FinancialEntity] que tienen compras de
-  /// [PurchaseType.settledDebtorPurchase]
-  ///
-  /// List of financial entities that have purchases of
-  /// [PurchaseType.settledDebtorPurchase]
-  List<FinancialEntity> get listFinancialEntityStatusSettled =>
-      financialEntityList
-          .where(
-            (financialEntity) => financialEntity.purchases.any(
-              (purchase) =>
-                  purchase.type == PurchaseType.settledDebtorPurchase ||
-                  purchase.type == PurchaseType.settledCreditorPurchase,
-            ),
-          )
-          .toList();
+  bool get hasCurrentPurchases => financialEntityList.any(
+        (e) => e.currentPurchases.isNotEmpty,
+      );
 
-  /// Lista de [Purchase] que tiene la [FinancialEntity] de
-  /// [PurchaseType.settledDebtorPurchase].
-  ///
-  /// List of [Purchase] that the [FinancialEntity] has with
-  /// [PurchaseType.settledDebtorPurchase].
-  List<Purchase> listPurchaseStatusSettled(
-    FinancialEntity financialEntity,
-  ) =>
-      financialEntity.purchases
-          .where(
-            (purchase) =>
-                purchase.type == PurchaseType.settledDebtorPurchase ||
-                purchase.type == PurchaseType.settledCreditorPurchase,
-          )
-          .toList();
+  bool get hasSettledPurchases => financialEntityList.any(
+        (e) => e.settledPurchases.isNotEmpty,
+      );
 }
 
 /// {@template BlocHomeStateInitial}
@@ -151,19 +117,6 @@ class BlocHomeStateSuccess extends BlocHomeState {
     super.deleteImage,
     super.images,
   }) : super.from();
-}
-
-/// {@template BlocHomeStateSuccess}
-/// State when the home is loaded successfully.
-/// {@endtemplate}
-class BlocHomeStateSuccessCreatingFinancialEntity extends BlocHomeState {
-  /// {@macro BlocHomeStateSuccess}
-  BlocHomeStateSuccessCreatingFinancialEntity.from(
-    super.previusState, {
-    required super.financialEntityList,
-    required this.financialEntity,
-  }) : super.from();
-  final FinancialEntity financialEntity;
 }
 
 /// {@template BlocHomeStateSuccessPayingMonth}

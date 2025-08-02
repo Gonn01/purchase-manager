@@ -1,18 +1,15 @@
+import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_with_purchases_dto.dart';
 import 'package:purchase_manager/utilities/models/currency.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
-import 'package:purchase_manager/utilities/models/financial_entity.dart';
 
-int caducanEsteMes({required List<FinancialEntity> financialEntities}) {
+int calculateCaducanEsteMes(
+    {required List<FinancialEntityWithPurchasesDto> financialEntities}) {
   var count = 0;
 
   for (final financialEntity in financialEntities) {
-    final purchases = financialEntity.purchases.where(
-      (p) =>
-          !p.ignored &&
-          !p.fixedExpense &&
-          (p.type == PurchaseType.currentDebtorPurchase ||
-              p.type == PurchaseType.currentCreditorPurchase),
+    final purchases = financialEntity.currentPurchases.where(
+      (p) => !p.ignored && !p.fixedExpense,
     );
     for (final purchase in purchases) {
       if (purchase.numberOfQuotas - purchase.payedQuotas == 1) {
@@ -25,14 +22,14 @@ int caducanEsteMes({required List<FinancialEntity> financialEntities}) {
 }
 
 double caducanEsteMesDinero({
-  required List<FinancialEntity> financialEntities,
+  required List<FinancialEntityWithPurchasesDto> financialEntities,
   required Currency currency,
   required CurrencyType selectedCurrency,
 }) {
   var count = 0.0;
 
   for (final financialEntity in financialEntities) {
-    final purchases = financialEntity.purchases
+    final purchases = financialEntity.currentPurchases
         .where(
           (p) =>
               !p.ignored &&

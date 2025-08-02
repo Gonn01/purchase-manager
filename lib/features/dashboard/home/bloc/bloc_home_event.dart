@@ -23,7 +23,7 @@ class BlocHomeEventIncreaseAmountOfQuotas extends BlocHomeEvent {
   ///{@macro BlocHomeEventModifyAmountOfQuotas}
   const BlocHomeEventIncreaseAmountOfQuotas({
     required this.purchaseId,
-    required this.purchaseType,
+    required this.financialEntityId,
   });
 
   /// ID de la compra a modificar.
@@ -32,7 +32,7 @@ class BlocHomeEventIncreaseAmountOfQuotas extends BlocHomeEvent {
 
   /// Tipo de compra a modificar.
   /// Type of purchase to modify.
-  final PurchaseType purchaseType;
+  final int financialEntityId;
 }
 
 /// {@template BlocHomeEventPayQuota}
@@ -151,7 +151,7 @@ class BlocHomeEventCreatePurchase extends BlocHomeEvent {
 
   /// ID de la categoría a la que pertenece la compra.
   /// ID of the category to which the purchase belongs.
-  final FinancialEntity financialEntity;
+  final FinancialEntityWithPurchasesDto financialEntity;
 
   /// Tipo de compra.
   /// Type of purchase.

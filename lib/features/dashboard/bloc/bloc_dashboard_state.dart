@@ -29,12 +29,6 @@ class BlocDashboardState {
   ///
   /// Current currency.
   final Currency currency;
-
-  double totalAmountPerMonth(List<FinancialEntity> list) =>
-      selectedCurrency.totalAmountPerMonth(
-        financialEntities: list,
-        currency: currency,
-      );
 }
 
 /// {@template BlocDashboardStateInitial}

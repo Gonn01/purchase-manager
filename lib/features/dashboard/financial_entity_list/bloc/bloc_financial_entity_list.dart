@@ -25,9 +25,6 @@ class BlocFinancialEntityList
     on<BlocFinancialEntityListEventDeleteFinancialEntity>(
       _onDeleteFinancialEntity,
     );
-    on<BlocFinancialEntityListEventAddFinancialEntity>(
-      _onAddFinancialEntity,
-    );
   }
 
   /// Instancia de FirebaseAuth
@@ -90,36 +87,6 @@ class BlocFinancialEntityList
           state,
           financialEntityList: list,
           financialEntityDeletedId: event.idFinancialEntity,
-        ),
-      );
-    } on Exception catch (e) {
-      emit(
-        BlocFinancialEntityListStateError.from(
-          state,
-          exception: e is CustomException
-              ? e
-              : CustomException(
-                  title: e.toString(),
-                  message: 'An error occurred during processing.',
-                ),
-        ),
-      );
-    }
-  }
-
-  Future<void> _onAddFinancialEntity(
-    BlocFinancialEntityListEventAddFinancialEntity event,
-    Emitter<BlocFinancialEntityListState> emit,
-  ) async {
-    emit(BlocFinancialEntityListStateLoading.from(state));
-    try {
-      final list = List<FinancialEntity>.from(state.financialEntityList)
-        ..add(event.financialEntity);
-
-      emit(
-        BlocFinancialEntityListStateSuccess.from(
-          state,
-          financialEntityList: list,
         ),
       );
     } on Exception catch (e) {
