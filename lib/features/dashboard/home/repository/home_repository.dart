@@ -5,14 +5,8 @@ import 'package:purchase_manager/utilities/models/repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class HomeRepository {
-  static final baseUrl = '${Config.apiUrl}/home/';
-
   static Future<List<FinancialEntityHomeDto>> getHomeData() async {
-    final preferences = await SharedPreferences.getInstance();
-
-    final userId = preferences.getInt('user_id');
-
-    final url = '$baseUrl$userId';
+    final url = '${Config.apiUrl}/home/';
 
     final response = await Repository.get(
       url: url,
@@ -33,7 +27,7 @@ abstract class HomeRepository {
     final userId = preferences.getInt('user_id');
 
     final response = await Repository.post<FinancialEntityHomeDto>(
-      url: baseUrl,
+      url: '${Config.apiUrl}/financial-entity/',
       fromJson: (jsonData) => FinancialEntityHomeDto.fromJson(
         jsonData['body'] as Map<String, dynamic>,
       ),

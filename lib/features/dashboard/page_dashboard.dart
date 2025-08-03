@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
-import 'package:purchase_manager/features/dashboard/financial_entity_list/bloc/bloc_financial_entity_list.dart';
-import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/utilities/widgets/pm_scaffold.dart';
 
 @RoutePage()
@@ -20,20 +18,8 @@ class PageDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) =>
-              BlocDashboard()..add(BlocDashboardEventInitialize()),
-        ),
-        BlocProvider(
-          create: (context) => BlocHome()..add(BlocHomeEventInitialize()),
-        ),
-        BlocProvider(
-          create: (context) => BlocFinancialEntityList()
-            ..add(BlocFinancialEntityListEventInitialize()),
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => BlocDashboard()..add(BlocDashboardEventInitialize()),
       child: AutoRouter(
         builder: (context, content) {
           return PMScaffold(

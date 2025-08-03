@@ -7,22 +7,12 @@ part of 'bloc_login.dart';
 /// {@endtemplate}
 class BlocLoginState {
   /// {@macro BlocLoginEstado}
-  const BlocLoginState._({
-    this.errorMessage,
-  });
+  const BlocLoginState._();
 
   /// Estado previo.
   BlocLoginState.from(
-    BlocLoginState? previusState, {
-    String? errorMessage,
-  }) : this._(
-          errorMessage: errorMessage ?? previusState?.errorMessage,
-        );
-
-  /// Mensaje de error en caso de que haya ocurrido un error.
-  ///
-  /// Error message in case an error has occurred.
-  final String? errorMessage;
+    BlocLoginState? previusState,
+  ) : this._();
 }
 
 /// {@template BlocLoginStateInitial}
@@ -56,6 +46,7 @@ class BlocLoginStateError extends BlocLoginState {
   /// {@macro BlocLoginStateError}
   BlocLoginStateError.from(
     super.previusState, {
-    super.errorMessage,
+    required this.exception,
   }) : super.from();
+  final CustomException exception;
 }

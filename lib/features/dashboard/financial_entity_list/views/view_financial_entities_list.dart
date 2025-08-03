@@ -34,7 +34,34 @@ class ViewFinancialEntitiesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BlocFinancialEntityList, BlocFinancialEntityListState>(
+    return BlocConsumer<BlocFinancialEntityList, BlocFinancialEntityListState>(
+      listener: (context, state) {
+        if (state
+            is BlocFinancialEntityListStateSuccessDeletingFinancialEntity) {
+          context.read<BlocFinancialEntityList>().add(
+                BlocFinancialEntityListEventDeleteFinancialEntity(
+                  idFinancialEntity: state.financialEntityDeletedId,
+                ),
+              );
+        }
+        if (state is BlocFinancialEntityListStateError) {
+          showDialog<void>(
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                title: const Text('Error'),
+                content: Text(state.exception.title ?? 'An error occurred'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      },
       builder: (context, state) {
         if (state.financialEntityList.isEmpty) {
           return const Column(

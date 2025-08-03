@@ -22,23 +22,8 @@ class PageHome extends StatefulWidget {
 class _PageHomeState extends State<PageHome> {
   @override
   Widget build(BuildContext context) {
-    return BlocListener<BlocHome, BlocHomeState>(
-      listener: (context, state) {
-        if (state is BlocHomeStateError) {
-          showDialog<void>(
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: const Text('Error'),
-                content: Text(state.exception.message ?? ''),
-                actions: const [
-                  Text('OK'),
-                ],
-              );
-            },
-          );
-        }
-      },
+    return BlocProvider<BlocHome>(
+      create: (context) => BlocHome(),
       child: const ViewHome(),
     );
   }

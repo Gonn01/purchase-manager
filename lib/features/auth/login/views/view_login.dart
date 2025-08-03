@@ -29,7 +29,7 @@ class _ViewLoginState extends State<ViewLogin> {
         if (state is BlocLoginStateError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(state.errorMessage ?? ''),
+              content: Text(state.exception.title ?? 'Error'),
               backgroundColor: Colors.red,
             ),
           );

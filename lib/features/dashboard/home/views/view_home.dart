@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/features/dashboard/home/views/view_current_purchases.dart';
 import 'package:purchase_manager/features/dashboard/home/views/view_settled_purchases.dart';
 
@@ -39,107 +41,125 @@ class _ViewHomeState extends State<ViewHome>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Flexible(
-              child: InkWell(
-                onTap: () => _tabController.animateTo(0),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  color: _tabController.index == 0
-                      ? const Color(0xff00B3A3)
-                      : Colors.transparent,
-                  child: Column(
-                    children: [
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Icon(
-                            Icons.shopping_cart_outlined,
-                            color: _tabController.index == 0
-                                ? Colors.white
-                                : Colors.grey,
-                          ),
-                        ),
-                      ),
-                      AnimatedOpacity(
-                        duration: const Duration(milliseconds: 300),
-                        opacity: _tabController.index == 0 ? 1.0 : 0.0,
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 5),
-                          height: 5,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: const Color(0xff006F66),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Flexible(
-              child: InkWell(
-                onTap: () => _tabController.animateTo(1),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  color: _tabController.index == 1
-                      ? const Color(0xff00B3A3)
-                      : Colors.transparent,
-                  child: Column(
-                    children: [
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Icon(
-                            Icons.history,
-                            color: _tabController.index == 1
-                                ? Colors.white
-                                : Colors.grey,
-                          ),
-                        ),
-                      ),
-                      AnimatedOpacity(
-                        duration: const Duration(milliseconds: 300),
-                        opacity: _tabController.index == 1 ? 1.0 : 0.0,
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 5),
-                          height: 5,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: const Color(0xff006F66),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        Expanded(
-          child: TabBarView(
-            controller: _tabController,
+    return BlocListener<BlocHome, BlocHomeState>(
+      listener: (context, state) {
+        if (state is BlocHomeStateError) {
+          showDialog<void>(
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                title: const Text('Error'),
+                content: Text(state.exception.message ?? ''),
+                actions: const [
+                  Text('OK'),
+                ],
+              );
+            },
+          );
+        }
+      },
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              ViewCurrentPurchases(
-                index: _tabController.index,
+              Flexible(
+                child: InkWell(
+                  onTap: () => _tabController.animateTo(0),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    color: _tabController.index == 0
+                        ? const Color(0xff00B3A3)
+                        : Colors.transparent,
+                    child: Column(
+                      children: [
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Icon(
+                              Icons.shopping_cart_outlined,
+                              color: _tabController.index == 0
+                                  ? Colors.white
+                                  : Colors.grey,
+                            ),
+                          ),
+                        ),
+                        AnimatedOpacity(
+                          duration: const Duration(milliseconds: 300),
+                          opacity: _tabController.index == 0 ? 1.0 : 0.0,
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 5),
+                            height: 5,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: const Color(0xff006F66),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-              ViewSettledPurchases(
-                index: _tabController.index,
+              Flexible(
+                child: InkWell(
+                  onTap: () => _tabController.animateTo(1),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    color: _tabController.index == 1
+                        ? const Color(0xff00B3A3)
+                        : Colors.transparent,
+                    child: Column(
+                      children: [
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Icon(
+                              Icons.history,
+                              color: _tabController.index == 1
+                                  ? Colors.white
+                                  : Colors.grey,
+                            ),
+                          ),
+                        ),
+                        AnimatedOpacity(
+                          duration: const Duration(milliseconds: 300),
+                          opacity: _tabController.index == 1 ? 1.0 : 0.0,
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 5),
+                            height: 5,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: const Color(0xff006F66),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
-        ),
-      ],
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                ViewCurrentPurchases(
+                  index: _tabController.index,
+                ),
+                ViewSettledPurchases(
+                  index: _tabController.index,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

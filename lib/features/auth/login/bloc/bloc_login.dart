@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:purchase_manager/features/auth/login/repositories/auth_repository.dart';
+import 'package:purchase_manager/features/auth/login/repository/auth_repository.dart';
+import 'package:purchase_manager/utilities/models/exception.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'bloc_login_state.dart';
@@ -17,7 +18,6 @@ class BlocLogin extends Bloc<BlocLoginEvent, BlocLoginState> {
   BlocLogin() : super(BlocLoginStateInitial()) {
     on<BlocLoginEventLogin>(_onInitialize);
   }
-  final authRepository = AuthRepository();
 
   Future<void> _onInitialize(
     BlocLoginEventLogin event,
@@ -35,19 +35,25 @@ class BlocLogin extends Bloc<BlocLoginEvent, BlocLoginState> {
         await auth.signInWithProvider(googleProvider);
       }
       final preferences = await SharedPreferences.getInstance();
-      final loginResponse = await authRepository.login(
+      final loginResponse = await AuthRepository.login(
         firebaseUserId: auth.currentUser!.uid,
         email: auth.currentUser!.email,
         name: auth.currentUser!.displayName,
       );
-      await preferences.setInt('user_id', loginResponse.body ?? 0);
+      await preferences.setString('token', loginResponse.body?.token ?? '');
+      await preferences.setInt('user_id', loginResponse.body?.id ?? 0);
 
       emit(BlocLoginStateSuccess.from(state));
     } on Exception catch (e) {
       emit(
         BlocLoginStateError.from(
           state,
-          errorMessage: 'Error al iniciar sesión con Google: $e',
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during initialization.',
+                ),
         ),
       );
     }

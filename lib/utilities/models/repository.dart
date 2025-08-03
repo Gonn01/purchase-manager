@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:purchase_manager/utilities/models/exception.dart';
 import 'package:purchase_manager/utilities/models/ld_response.dart';
 import 'package:purchase_manager/utilities/models/status.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// {@template Repository}
 /// Base class for repositories
@@ -95,11 +96,14 @@ abstract class Repository {
     required T Function(Map<String, dynamic>) fromJson,
   }) async {
     try {
+      final preferences = await SharedPreferences.getInstance();
+      final token = preferences.getString('token');
       final urlUri = Uri.parse(url);
       final response = await http.get(
         urlUri,
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
         },
       );
 

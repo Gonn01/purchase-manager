@@ -37,6 +37,8 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
     on<BlocHomeEventAlternateIgnorePurchase>(_onAlternateIgnorePurchase);
     on<BlocHomeEventAddImage>(_onAddImage);
     on<BlocHomeEventDeleteImageAt>(_onDeleteImageAt);
+
+    add(BlocHomeEventInitialize());
   }
 
   /// Instancia de FirebaseAuth

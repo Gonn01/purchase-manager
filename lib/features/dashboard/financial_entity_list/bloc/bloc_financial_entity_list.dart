@@ -20,6 +20,8 @@ class BlocFinancialEntityList
     on<BlocFinancialEntityListEventDeleteFinancialEntity>(
       _onDeleteFinancialEntity,
     );
+
+    add(BlocFinancialEntityListEventInitialize());
   }
 
   /// Instancia de FirebaseAuth
