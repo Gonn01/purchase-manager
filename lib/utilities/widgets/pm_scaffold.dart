@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:purchase_manager/utilities/widgets/drawer/pm_drawer.dart';
 import 'package:purchase_manager/utilities/widgets/pm_appbar.dart';
 import 'package:purchase_manager/utilities/widgets/pm_bottom_navigation_bar.dart';
-import 'package:purchase_manager/utilities/widgets/pm_floating_action_button.dart';
 
 /// {@template PMScaffold}
 /// Plantilla de Scaffold para la aplicacion
@@ -15,6 +14,7 @@ class PMScaffold extends StatelessWidget {
   /// {@macro PMScaffold}
   const PMScaffold({
     required this.body,
+    this.floatingActionButton,
     super.key,
   });
 
@@ -22,10 +22,10 @@ class PMScaffold extends StatelessWidget {
   ///
   /// Scaffold body
   final Widget body;
+  final Widget? floatingActionButton;
   @override
   Widget build(BuildContext context) {
     final rutaa = Provider.of<RouteData<dynamic>?>(context);
-    final ruta = context.router.current.name;
     return Scaffold(
       backgroundColor: const Color(0xfff2f2f2),
       drawer: const PMDrawer(),
@@ -33,12 +33,9 @@ class PMScaffold extends StatelessWidget {
         route: context.router.current,
         title: rutaa?.title(context) ?? '',
       ),
-      floatingActionButton:
-          ruta == 'RutaHome' ? const PMFloatingActionButton() : null,
-      bottomNavigationBar: SafeArea(
-        child: PMBottomNavigationBar(
-          route: context.router.current,
-        ),
+      floatingActionButton: floatingActionButton,
+      bottomNavigationBar: const SafeArea(
+        child: PMBottomNavigationBar(),
       ),
       body: body,
     );

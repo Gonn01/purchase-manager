@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
 
 /// {@template PMBottomNavigationBar}
@@ -10,16 +11,12 @@ import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
 class PMBottomNavigationBar extends StatelessWidget {
   /// {@macro PMBottomNavigationBar}
   const PMBottomNavigationBar({
-    required this.route,
     super.key,
   });
 
-  /// Ruta actual
-  ///
-  /// Current route
-  final RouteData<dynamic> route;
   @override
   Widget build(BuildContext context) {
+    final rutaa = Provider.of<RouteData<dynamic>?>(context);
     return BottomAppBar(
       child: Column(
         children: [
@@ -28,7 +25,7 @@ class PMBottomNavigationBar extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  if (route.path != 'home') {
+                  if (rutaa?.path != 'home') {
                     context.router.popAndPush(const RutaHome());
                   }
                 },
@@ -37,7 +34,7 @@ class PMBottomNavigationBar extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        color: route.path == 'home'
+                        color: rutaa?.path == 'home'
                             ? const Color(0xff00B3A3)
                             : Colors.transparent,
                       ),
@@ -45,12 +42,13 @@ class PMBottomNavigationBar extends StatelessWidget {
                         padding: const EdgeInsets.all(8),
                         child: Icon(
                           Icons.home,
-                          color:
-                              route.path == 'home' ? Colors.white : Colors.grey,
+                          color: rutaa?.path == 'home'
+                              ? Colors.white
+                              : Colors.grey,
                         ),
                       ),
                     ),
-                    if (route.path == 'home')
+                    if (rutaa?.path == 'home')
                       Container(
                         margin: const EdgeInsets.only(top: 5),
                         width: 30,
@@ -65,7 +63,7 @@ class PMBottomNavigationBar extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  if (route.path == 'home') {
+                  if (rutaa?.path == 'home') {
                     context.router
                         .popAndPush(const RutaFinancialEntitiesList());
                   }
@@ -75,7 +73,7 @@ class PMBottomNavigationBar extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        color: route.path == 'home'
+                        color: rutaa?.path == 'home'
                             ? Colors.transparent
                             : const Color(0xff00B3A3),
                       ),
@@ -83,12 +81,13 @@ class PMBottomNavigationBar extends StatelessWidget {
                         padding: const EdgeInsets.all(8),
                         child: Icon(
                           Icons.groups_2_outlined,
-                          color:
-                              route.path == 'home' ? Colors.grey : Colors.white,
+                          color: rutaa?.path == 'home'
+                              ? Colors.grey
+                              : Colors.white,
                         ),
                       ),
                     ),
-                    if (route.path != 'home')
+                    if (rutaa?.path != 'home')
                       Container(
                         margin: const EdgeInsets.only(top: 5),
                         width: 30,

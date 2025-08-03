@@ -20,6 +20,8 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
     on<BlocDashboardEventSignOut>(_onSignOut);
     on<BlocDashboardEventInitialize>(_onInitialize);
     on<BlocDashboardEventSelectCurrency>(_onSelectCurrency);
+
+    add(BlocDashboardEventInitialize());
   }
 
   /// Instancia de FirebaseAuth
