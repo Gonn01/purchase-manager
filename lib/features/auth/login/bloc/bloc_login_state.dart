@@ -10,9 +10,7 @@ class BlocLoginState {
   const BlocLoginState._();
 
   /// Estado previo.
-  BlocLoginState.from(
-    BlocLoginState? previusState,
-  ) : this._();
+  BlocLoginState.from() : this._();
 }
 
 /// {@template BlocLoginStateInitial}
@@ -28,7 +26,7 @@ class BlocLoginStateInitial extends BlocLoginState {
 /// {@endtemplate}
 class BlocLoginStateLoading extends BlocLoginState {
   /// {@macro BlocLoginStateLoading}
-  BlocLoginStateLoading.from(super.previusState) : super.from();
+  BlocLoginStateLoading.from() : super.from();
 }
 
 /// {@template BlocLoginStateSuccess}
@@ -36,7 +34,7 @@ class BlocLoginStateLoading extends BlocLoginState {
 /// {@endtemplate}
 class BlocLoginStateSuccess extends BlocLoginState {
   /// {@macro BlocLoginStateSuccess}
-  BlocLoginStateSuccess.from(super.previusState) : super.from();
+  BlocLoginStateSuccess.from() : super.from();
 }
 
 /// {@template BlocLoginStateError}
@@ -44,8 +42,7 @@ class BlocLoginStateSuccess extends BlocLoginState {
 /// {@endtemplate}
 class BlocLoginStateError extends BlocLoginState {
   /// {@macro BlocLoginStateError}
-  BlocLoginStateError.from(
-    super.previusState, {
+  BlocLoginStateError.from({
     required this.exception,
   }) : super.from();
   final CustomException exception;

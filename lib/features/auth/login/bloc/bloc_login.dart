@@ -23,7 +23,7 @@ class BlocLogin extends Bloc<BlocLoginEvent, BlocLoginState> {
     BlocLoginEventLogin event,
     Emitter<BlocLoginState> emit,
   ) async {
-    emit(BlocLoginStateLoading.from(state));
+    emit(BlocLoginStateLoading.from());
     try {
       final auth = FirebaseAuth.instance;
 
@@ -43,11 +43,10 @@ class BlocLogin extends Bloc<BlocLoginEvent, BlocLoginState> {
       await preferences.setString('token', loginResponse.body?.token ?? '');
       await preferences.setInt('user_id', loginResponse.body?.id ?? 0);
 
-      emit(BlocLoginStateSuccess.from(state));
+      emit(BlocLoginStateSuccess.from());
     } on Exception catch (e) {
       emit(
         BlocLoginStateError.from(
-          state,
           exception: e is CustomException
               ? e
               : CustomException(
