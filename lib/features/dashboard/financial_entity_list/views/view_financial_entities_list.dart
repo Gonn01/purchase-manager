@@ -36,14 +36,6 @@ class ViewFinancialEntitiesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<BlocFinancialEntityList, BlocFinancialEntityListState>(
       listener: (context, state) {
-        if (state
-            is BlocFinancialEntityListStateSuccessDeletingFinancialEntity) {
-          context.read<BlocFinancialEntityList>().add(
-                BlocFinancialEntityListEventDeleteFinancialEntity(
-                  idFinancialEntity: state.financialEntityDeletedId,
-                ),
-              );
-        }
         if (state is BlocFinancialEntityListStateError) {
           showDialog<void>(
             context: context,

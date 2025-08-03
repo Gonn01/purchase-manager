@@ -6,13 +6,13 @@ import 'package:purchase_manager/features/dashboard/home/dtos/purchase_home_dto.
 import 'package:purchase_manager/utilities/functions/share_result.dart';
 import 'package:purchase_manager/utilities/widgets/pm_dialogs.dart';
 
-/// {@template DialogDeleteFinancialEntity}
-/// DialDialogogo para eliminar una entidad financiera
+/// {@template DialogPayMonthAlert}
+/// Dialogo para pagar el mes de una entidad financiera
 ///
-/// Dialog to delete a financial entity
+/// Dialog to pay the month of a financial entity
 /// {@endtemplate}
 class DialogPayMonthAlert extends StatelessWidget {
-  /// {@macro DialogDeleteFinancialEntity}
+  /// {@macro DialogPayMonthAlert}
   const DialogPayMonthAlert({
     required this.financialEntityId,
     required this.financialEntityName,

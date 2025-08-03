@@ -65,10 +65,13 @@ abstract class Repository {
   }) async {
     try {
       final urlUri = Uri.parse(url);
+      final preferences = await SharedPreferences.getInstance();
+      final token = preferences.getString('token');
       final response = await http.post(
         urlUri,
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
         },
         body: jsonEncode(body),
       );
@@ -132,10 +135,13 @@ abstract class Repository {
   }) async {
     try {
       final urlUri = Uri.parse(url);
+      final preferences = await SharedPreferences.getInstance();
+      final token = preferences.getString('token');
       final response = await http.put(
         urlUri,
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
         },
         body: jsonEncode(body),
       );
@@ -164,10 +170,13 @@ abstract class Repository {
   }) async {
     try {
       final urlUri = Uri.parse(url);
+      final preferences = await SharedPreferences.getInstance();
+      final token = preferences.getString('token');
       final response = await http.delete(
         urlUri,
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
         },
       );
 

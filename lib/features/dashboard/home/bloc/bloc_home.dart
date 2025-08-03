@@ -29,7 +29,6 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
     on<BlocHomeEventIncreaseAmountOfQuotas>(_onIncreaseAmountOfQuotas);
     on<BlocHomeEventPayQuota>(_onPayQuota);
     on<BlocHomeEventCreateFinancialEntity>(_onCreateFinancialEntity);
-    on<BlocHomeEventDeleteFinancialEntity>(_onDeleteFinancialEntity);
     on<BlocHomeEventCreatePurchase>(_onCreatePurchase);
     on<BlocHomeEventEditPurchase>(_onEditPurchase);
     on<BlocHomeEventDeletePurchase>(_onDeletePurchase);
@@ -232,40 +231,6 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       final list = List<FinancialEntityHomeDto>.from(
         state.financialEntityList,
       )..add(newDto);
-
-      emit(
-        BlocHomeStateSuccess.from(
-          state,
-          financialEntityList: list,
-        ),
-      );
-    } on Exception catch (e) {
-      emit(
-        BlocHomeStateError.from(
-          state,
-          exception: e is CustomException
-              ? e
-              : CustomException(
-                  title: e.toString(),
-                  message: 'An error occurred during processing.',
-                ),
-        ),
-      );
-    }
-  }
-
-  Future<void> _onDeleteFinancialEntity(
-    BlocHomeEventDeleteFinancialEntity event,
-    Emitter<BlocHomeState> emit,
-  ) async {
-    emit(BlocHomeStateLoading.from(state));
-    try {
-      // Copiamos la lista de DTOs
-      final list = List<FinancialEntityHomeDto>.from(
-        state.financialEntityList,
-      )..removeWhere(
-          (dto) => dto.id == event.idFinancialEntity,
-        );
 
       emit(
         BlocHomeStateSuccess.from(

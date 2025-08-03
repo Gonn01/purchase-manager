@@ -70,20 +70,6 @@ class BlocHomeEventCreateFinancialEntity extends BlocHomeEvent {
   final String financialEntityName;
 }
 
-/// {@template BlocHomeEventDeleteFinancialEntity}
-/// Elimina una categoría.
-/// Deletes a category.
-/// {@endtemplate}
-class BlocHomeEventDeleteFinancialEntity extends BlocHomeEvent {
-  ///{@macro BlocHomeEventDeleteFinancialEntity}
-  const BlocHomeEventDeleteFinancialEntity({
-    required this.idFinancialEntity,
-  });
-
-  /// ID de la categoría a eliminar.
-  final int idFinancialEntity;
-}
-
 /// {@template BlocHomeEventDeletePurchase}
 /// Elimina una compra.
 /// Deletes a purchase.
