@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:purchase_manager/features/dashboard/financial_entity_list/dtos/financial_entity_list_dto.dart';
-import 'package:purchase_manager/features/dashboard/repositories/financial_entities_repository.dart';
+import 'package:purchase_manager/features/dashboard/financial_entity_list/repository/financial_entity_list_repository.dart';
 import 'package:purchase_manager/utilities/models/exception.dart';
 
 part 'bloc_financial_entity_list_state.dart';
@@ -34,7 +34,7 @@ class BlocFinancialEntityList
     emit(BlocFinancialEntityListStateLoading.from(state));
     try {
       final responseListFinancialeEntity =
-          await FinancialEntitiesRepository.getFinancialEntities();
+          await FinancialEntityListRepository.getFinancialEntities();
 
       emit(
         BlocFinancialEntityListStateSuccess.from(
@@ -63,7 +63,7 @@ class BlocFinancialEntityList
   ) async {
     emit(BlocFinancialEntityListStateLoading.from(state));
     try {
-      await FinancialEntitiesRepository.deleteFinancialEntity(
+      await FinancialEntityListRepository.deleteFinancialEntity(
         financialEntityId: event.idFinancialEntity,
       );
 

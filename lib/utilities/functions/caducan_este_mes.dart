@@ -4,7 +4,7 @@ import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
 
 int calculateCaducanEsteMes(
-    {required List<FinancialEntityWithPurchasesDto> financialEntities}) {
+    {required List<FinancialEntityHomeDto> financialEntities}) {
   var count = 0;
 
   for (final financialEntity in financialEntities) {
@@ -22,7 +22,7 @@ int calculateCaducanEsteMes(
 }
 
 double caducanEsteMesDinero({
-  required List<FinancialEntityWithPurchasesDto> financialEntities,
+  required List<FinancialEntityHomeDto> financialEntities,
   required Currency currency,
   required CurrencyType selectedCurrency,
 }) {

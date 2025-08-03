@@ -36,7 +36,7 @@ class EditPurchaseModal extends StatefulWidget {
   /// Entidad financiera a la que pertenece la compra
   ///
   /// Financial entity to which the purchase belongs
-  final FinancialEntityWithPurchasesDto financialEntity;
+  final FinancialEntityHomeDto financialEntity;
   @override
   State<EditPurchaseModal> createState() => _EditPurchaseModalState();
 }
@@ -151,7 +151,7 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                PMDropdown<FinancialEntityWithPurchasesDto>(
+                PMDropdown<FinancialEntityHomeDto>(
                   initialItem: PMDropdownItem(
                     value: widget.financialEntity,
                     text: widget.financialEntity.name,

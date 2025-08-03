@@ -108,7 +108,7 @@ enum CurrencyType {
   ///
   /// Returns the total amount of a list of [FinancialEntity].
   double totalAmount({
-    required List<FinancialEntityWithPurchasesDto> financialEntityList,
+    required List<FinancialEntityHomeDto> financialEntityList,
     required Currency currency,
   }) {
     switch (this) {

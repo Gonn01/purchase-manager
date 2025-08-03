@@ -56,8 +56,7 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
     );
   }
 
-  void _createPurchase(
-      {required FinancialEntityWithPurchasesDto financialEntity}) {
+  void _createPurchase({required FinancialEntityHomeDto financialEntity}) {
     context.read<BlocHome>().add(
           BlocHomeEventCreatePurchase(
             productName: _controllerProductName.text,
@@ -120,7 +119,7 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                PMDropdown<FinancialEntityWithPurchasesDto>(
+                PMDropdown<FinancialEntityHomeDto>(
                   hintText: 'Elegi una entidad financiera',
                   items: state.financialEntityList
                       .map(

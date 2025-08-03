@@ -151,7 +151,7 @@ class BlocHomeEventCreatePurchase extends BlocHomeEvent {
 
   /// ID de la categoría a la que pertenece la compra.
   /// ID of the category to which the purchase belongs.
-  final FinancialEntityWithPurchasesDto financialEntity;
+  final FinancialEntityHomeDto financialEntity;
 
   /// Tipo de compra.
   /// Type of purchase.

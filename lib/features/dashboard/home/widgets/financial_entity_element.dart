@@ -30,7 +30,7 @@ class FinancialEntityElement extends StatelessWidget {
   /// Entidad financiera a mostrar
   ///
   /// Financial entity to show
-  final FinancialEntityWithPurchasesDto financialEntity;
+  final FinancialEntityHomeDto financialEntity;
 
   /// Indice de la lista de entidades financieras
   ///

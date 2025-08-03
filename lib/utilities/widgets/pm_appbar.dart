@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/dialogs/dialog_create_financial_entity.dart';
@@ -74,17 +75,18 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 20),
-          child: GestureDetector(
-            onTap: () => _createFinancialEntity(context),
-            child: const Icon(
-              Icons.add,
-              size: 30,
-              color: Colors.white,
+        if (route.name == RutaHome.name)
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: GestureDetector(
+              onTap: () => _createFinancialEntity(context),
+              child: const Icon(
+                Icons.add,
+                size: 30,
+                color: Colors.white,
+              ),
             ),
           ),
-        ),
         Padding(
           padding: const EdgeInsets.only(right: 20),
           child: GestureDetector(

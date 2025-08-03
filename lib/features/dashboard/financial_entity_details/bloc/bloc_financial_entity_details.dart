@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:purchase_manager/features/dashboard/financial_entity_details/dtos/financial_entity_details_dto.dart';
-import 'package:purchase_manager/features/dashboard/repositories/financial_entities_repository.dart';
+import 'package:purchase_manager/features/dashboard/financial_entity_details/repository/financial_entity_detail_repository.dart';
 import 'package:purchase_manager/utilities/models/exception.dart';
 
 part 'bloc_financial_entity_details_event.dart';
@@ -15,10 +15,14 @@ part 'bloc_financial_entity_details_state.dart';
 class BlocFinancialEntityDetails extends Bloc<BlocFinancialEntityDetailsEvent,
     BlocFinancialEntityDetailsState> {
   /// {@macro BlocInicio}
-  BlocFinancialEntityDetails()
+  BlocFinancialEntityDetails(this.idFinancialEntity)
       : super(BlocFinancialEntityDetailsStateInitial()) {
     on<BlocFinancialEntityDetailsEventInitialize>(_onInitialize);
+
+    add(BlocFinancialEntityDetailsEventInitialize(idFinancialEntity));
   }
+
+  final int idFinancialEntity;
 
   /// Instancia de FirebaseAuth
   ///
@@ -32,7 +36,7 @@ class BlocFinancialEntityDetails extends Bloc<BlocFinancialEntityDetailsEvent,
     emit(BlocFinancialEntityDetailsStateLoading.from(state));
     try {
       final financialEntity =
-          await FinancialEntitiesRepository.getFinancialEntity(
+          await FinancialEntityDetailRepository.getFinancialEntity(
               financialEntityId: event.financialEntityId);
       emit(
         BlocFinancialEntityDetailsStateSuccess.from(

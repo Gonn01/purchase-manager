@@ -17,7 +17,7 @@ class BlocHomeState {
   /// Estado previo.
   BlocHomeState.from(
     BlocHomeState previousState, {
-    List<FinancialEntityWithPurchasesDto>? financialEntityList,
+    List<FinancialEntityHomeDto>? financialEntityList,
     int? purchaseLoadingId,
     List<int> purchasesLoadingsIds = const [],
     bool deleteSelectedShipmentId = false,
@@ -37,7 +37,7 @@ class BlocHomeState {
   /// Lista de entidades financieras.
   ///
   /// List of financial entities.
-  final List<FinancialEntityWithPurchasesDto> financialEntityList;
+  final List<FinancialEntityHomeDto> financialEntityList;
 
   /// Id de la compra que se está cargando.
   final int? purchaseLoadingId;
@@ -52,20 +52,16 @@ class BlocHomeState {
         purchases: list,
         currency: currency,
       );
-  List<FinancialEntityWithPurchasesDto>
-      get financialEntitiesWithCurrentPurchases => financialEntityList
-          .where((e) => e.currentPurchases.isNotEmpty)
-          .toList();
-  List<FinancialEntityWithPurchasesDto>
-      get financialEntitiesWithSettledPurchases => financialEntityList
-          .where((e) => e.settledPurchases.isNotEmpty)
-          .toList();
+  List<FinancialEntityHomeDto> get financialEntitiesWithCurrentPurchases =>
+      financialEntityList.where((e) => e.currentPurchases.isNotEmpty).toList();
+  List<FinancialEntityHomeDto> get financialEntitiesWithSettledPurchases =>
+      financialEntityList.where((e) => e.settledPurchases.isNotEmpty).toList();
   List<PurchaseHomeDto> currentPurchasesFromFinancialEntity(
-          FinancialEntityWithPurchasesDto financialEntity) =>
+          FinancialEntityHomeDto financialEntity) =>
       financialEntity.currentPurchases;
 
   List<PurchaseHomeDto> settledPurchasesFromFinancialEntity(
-          FinancialEntityWithPurchasesDto financialEntity) =>
+          FinancialEntityHomeDto financialEntity) =>
       financialEntity.settledPurchases;
 
   bool get hasCurrentPurchases => financialEntityList.any(

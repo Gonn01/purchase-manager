@@ -30,7 +30,7 @@ class PurchaseElement extends StatelessWidget {
 
   /// Entidad financiera a la que pertenece la compra
   /// Financial entity to which the purchase belongs
-  final FinancialEntityWithPurchasesDto financialEntity;
+  final FinancialEntityHomeDto financialEntity;
 
   @override
   Widget build(BuildContext context) {
@@ -227,11 +227,11 @@ class Campos extends StatelessWidget {
   /// Entidad financiera a la que pertenece la compra
   ///
   /// Financial entity to which the purchase belongs
-  final FinancialEntityWithPurchasesDto financialEntity;
+  final FinancialEntityHomeDto financialEntity;
 
   Future<void> _editPurchase(
     BuildContext context,
-    FinancialEntityWithPurchasesDto financialEntity,
+    FinancialEntityHomeDto financialEntity,
     PurchaseHomeDto purchase,
   ) async {
     await showModalBottomSheet<void>(

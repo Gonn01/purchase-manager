@@ -8,8 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_home_dto.dart';
 import 'package:purchase_manager/features/dashboard/home/dtos/purchase_home_dto.dart';
-import 'package:purchase_manager/features/dashboard/home/repositories/home_repository.dart';
-import 'package:purchase_manager/features/dashboard/repositories/financial_entities_repository.dart';
+import 'package:purchase_manager/features/dashboard/home/repository/home_repository.dart';
 import 'package:purchase_manager/features/dashboard/repositories/purchases_repository.dart';
 import 'package:purchase_manager/utilities/models/currency.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
@@ -149,7 +148,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
     try {
       // Copio la lista de DTOs (no FinancialEntity simple)
       final listFinancialEntity =
-          List<FinancialEntityWithPurchasesDto>.from(state.financialEntityList);
+          List<FinancialEntityHomeDto>.from(state.financialEntityList);
 
       // Busco el DTO que contiene la compra
       final modifiedDto = listFinancialEntity.firstWhere(
@@ -212,7 +211,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
     emit(BlocHomeStateLoading.from(state));
     try {
       final newFinancialEntityResponse =
-          await FinancialEntitiesRepository.createFinancialEntity(
+          await HomeRepository.createFinancialEntity(
         financialEntityName: event.financialEntityName,
         firebaseUserId: auth.currentUser?.uid ?? '',
       );
@@ -220,7 +219,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       final newEntity = newFinancialEntityResponse.body!;
 
       // Lo envuelvo en un DTO con listas vacías
-      final newDto = FinancialEntityWithPurchasesDto(
+      final newDto = FinancialEntityHomeDto(
         id: newEntity.id,
         name: newEntity.name,
         currentPurchases: [],
@@ -228,7 +227,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       );
 
       // Copio la lista y agrego el nuevo DTO
-      final list = List<FinancialEntityWithPurchasesDto>.from(
+      final list = List<FinancialEntityHomeDto>.from(
         state.financialEntityList,
       )..add(newDto);
 
@@ -260,7 +259,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
     emit(BlocHomeStateLoading.from(state));
     try {
       // Copiamos la lista de DTOs
-      final list = List<FinancialEntityWithPurchasesDto>.from(
+      final list = List<FinancialEntityHomeDto>.from(
         state.financialEntityList,
       )..removeWhere(
           (dto) => dto.id == event.idFinancialEntity,
@@ -320,7 +319,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
 
       // Copio la lista de DTOs
       final newList =
-          List<FinancialEntityWithPurchasesDto>.from(state.financialEntityList);
+          List<FinancialEntityHomeDto>.from(state.financialEntityList);
 
       // Busco la entidad a actualizar
       final index = newList.indexWhere(
@@ -335,7 +334,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       }
 
       // Actualizo la entidad con la nueva compra en currentPurchases
-      final updatedEntity = FinancialEntityWithPurchasesDto(
+      final updatedEntity = FinancialEntityHomeDto(
         id: newList[index].id,
         name: newList[index].name,
         currentPurchases: [...newList[index].currentPurchases, newPurchase],
@@ -403,7 +402,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
 
       // Copio la lista de DTOs
       final listFinancialEntity =
-          List<FinancialEntityWithPurchasesDto>.from(state.financialEntityList);
+          List<FinancialEntityHomeDto>.from(state.financialEntityList);
 
       // Busco la entidad a modificar
       final index = listFinancialEntity.indexWhere(
@@ -417,7 +416,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
         final targetDto = listFinancialEntity[index];
 
         // Actualizo la compra en la lista correspondiente
-        final updatedDto = FinancialEntityWithPurchasesDto(
+        final updatedDto = FinancialEntityHomeDto(
           id: targetDto.id,
           name: targetDto.name,
           currentPurchases: targetDto.currentPurchases.map((c) {
@@ -471,8 +470,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       );
 
       // Copiamos la lista de DTOs
-      final list =
-          List<FinancialEntityWithPurchasesDto>.from(state.financialEntityList);
+      final list = List<FinancialEntityHomeDto>.from(state.financialEntityList);
 
       // Buscamos la entidad financiera
       final index = list.indexWhere(
@@ -490,7 +488,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       final targetDto = list[index];
 
       // Creamos un nuevo DTO eliminando la compra tanto de current como de settled
-      final updatedEntity = FinancialEntityWithPurchasesDto(
+      final updatedEntity = FinancialEntityHomeDto(
         id: targetDto.id,
         name: targetDto.name,
         currentPurchases: targetDto.currentPurchases
@@ -542,7 +540,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
 
       // Copio la lista de DTOs
       final listFinancialEntity =
-          List<FinancialEntityWithPurchasesDto>.from(state.financialEntityList);
+          List<FinancialEntityHomeDto>.from(state.financialEntityList);
 
       // Encuentro la entidad financiera (usando el primer id como referencia)
       final index = listFinancialEntity.indexWhere(
@@ -579,7 +577,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       }).toList();
 
       // Nuevo DTO con listas actualizadas
-      final updatedEntity = FinancialEntityWithPurchasesDto(
+      final updatedEntity = FinancialEntityHomeDto(
         id: targetDto.id,
         name: targetDto.name,
         currentPurchases: updatedCurrentPurchases,
@@ -623,7 +621,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
     try {
       // Copiamos la lista de DTOs
       final listFinancialEntity =
-          List<FinancialEntityWithPurchasesDto>.from(state.financialEntityList);
+          List<FinancialEntityHomeDto>.from(state.financialEntityList);
 
       // Buscamos la entidad que contiene la compra
       final financialEntityModified = listFinancialEntity.firstWhere(
@@ -644,7 +642,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       );
 
       // Reemplazamos la compra ignorada en las listas correspondientes
-      final updatedDto = FinancialEntityWithPurchasesDto(
+      final updatedDto = FinancialEntityHomeDto(
         id: financialEntityModified.id,
         name: financialEntityModified.name,
         currentPurchases: financialEntityModified.currentPurchases.map((c) {
@@ -785,7 +783,7 @@ class PurchaseResult {
 }
 
 PurchaseResult? findPurchaseInDto(
-  FinancialEntityWithPurchasesDto dto,
+  FinancialEntityHomeDto dto,
   int purchaseId,
 ) {
   for (final p in dto.currentPurchases) {
@@ -802,11 +800,11 @@ PurchaseResult? findPurchaseInDto(
 }
 
 /// Retorna un nuevo DTO con la compra actualizada
-FinancialEntityWithPurchasesDto updatePurchaseInDto(
-  FinancialEntityWithPurchasesDto dto,
+FinancialEntityHomeDto updatePurchaseInDto(
+  FinancialEntityHomeDto dto,
   PurchaseHomeDto updatedPurchase,
 ) {
-  return FinancialEntityWithPurchasesDto(
+  return FinancialEntityHomeDto(
     id: dto.id,
     name: dto.name,
     currentPurchases: dto.currentPurchases

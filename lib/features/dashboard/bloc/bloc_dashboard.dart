@@ -25,7 +25,7 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
   /// Instancia de FirebaseAuth
   ///
   /// FirebaseAuth instance
-  final auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   Future<void> _onSignOut(
     BlocDashboardEventSignOut event,

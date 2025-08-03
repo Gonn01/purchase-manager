@@ -16,8 +16,6 @@ abstract class BlocFinancialEntityDetailsEvent {
 class BlocFinancialEntityDetailsEventInitialize
     extends BlocFinancialEntityDetailsEvent {
   /// {@macro BlocInicioEventoInicializar}
-  const BlocFinancialEntityDetailsEventInitialize({
-    required this.financialEntityId,
-  });
+  const BlocFinancialEntityDetailsEventInitialize(this.financialEntityId);
   final int financialEntityId;
 }
