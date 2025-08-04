@@ -55,21 +55,6 @@ class BlocHomeEventPayQuota extends BlocHomeEvent {
   final PurchaseType purchaseType;
 }
 
-/// {@template BlocHomeEventCreateFinancialEntity}
-/// Crea una nueva categoría.
-/// Creates a new category.
-/// {@endtemplate}
-class BlocHomeEventCreateFinancialEntity extends BlocHomeEvent {
-  ///{@macro BlocHomeEventCreateFinancialEntity}
-  const BlocHomeEventCreateFinancialEntity({
-    required this.financialEntityName,
-  });
-
-  /// Nombre de la categoría a crear.
-  /// Name of the category to create.
-  final String financialEntityName;
-}
-
 /// {@template BlocHomeEventDeletePurchase}
 /// Elimina una compra.
 /// Deletes a purchase.

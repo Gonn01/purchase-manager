@@ -80,3 +80,17 @@ class BlocDashboardStateSuccessSignOut extends BlocDashboardState {
   /// {@macro BlocDashboardStateSuccessSignOut}
   BlocDashboardStateSuccessSignOut.from(super.previusState) : super.from();
 }
+
+class BlocDashboardStateCreateFinancialEntityTriggered
+    extends BlocDashboardState {
+  /// {@macro BlocDashboardStateCreateFinancialEntityTriggered}
+  BlocDashboardStateCreateFinancialEntityTriggered.from(super.previusState)
+      : super.from();
+}
+
+class BlocDashboardStateSuccessCreatePurchaseTriggered
+    extends BlocDashboardState {
+  /// {@macro BlocDashboardStateSuccessCreatePurchaseTriggered}
+  BlocDashboardStateSuccessCreatePurchaseTriggered.from(super.previusState)
+      : super.from();
+}

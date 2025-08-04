@@ -1,10 +1,10 @@
-class FinancialEntityDto {
-  const FinancialEntityDto({
+class FinancialEntityListDto {
+  const FinancialEntityListDto({
     required this.id,
     required this.name,
   });
-  factory FinancialEntityDto.fromJson(Map<String, dynamic> json) {
-    return FinancialEntityDto(
+  factory FinancialEntityListDto.fromJson(Map<String, dynamic> json) {
+    return FinancialEntityListDto(
       id: json['id'] as int,
       name: json['name'] as String,
     );

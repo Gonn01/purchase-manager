@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
-import 'package:purchase_manager/utilities/widgets/dialogs/create_purchase_dialog.dart';
+import 'package:provider/provider.dart';
+import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
+import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 
 /// {@template PMFloatingActionButton}
 /// Boton flotante de la aplicacion que permite crear una compra
@@ -21,6 +23,7 @@ class PMFloatingActionButton extends StatefulWidget {
 class _PMFloatingActionButtonState extends State<PMFloatingActionButton> {
   @override
   Widget build(BuildContext context) {
+    final ruta = Provider.of<RouteData<dynamic>?>(context);
     return FloatingActionButton(
       backgroundColor: const Color(0xff02B3A3),
       child: const Icon(
@@ -29,15 +32,16 @@ class _PMFloatingActionButtonState extends State<PMFloatingActionButton> {
         size: 40,
       ),
       onPressed: () {
-        showModalBottomSheet<void>(
-          context: context,
-          isScrollControlled: true,
-          useSafeArea: true,
-          builder: (_) => BlocProvider.value(
-            value: context.read<BlocHome>(),
-            child: const CreatePurchaseModal(),
-          ),
-        );
+        if (ruta?.name == RutaHome.name) {
+          context.read<BlocDashboard>().add(
+                const BlocDashboardEventCreatePurchase(),
+              );
+        }
+        if (ruta?.name == RutaFinancialEntitiesList.name) {
+          context.read<BlocDashboard>().add(
+                const BlocDashboardEventCreateFinancialEntity(),
+              );
+        }
       },
     );
   }

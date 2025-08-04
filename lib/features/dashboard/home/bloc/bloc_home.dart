@@ -28,7 +28,6 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
     on<BlocHomeEventInitialize>(_onInitialize);
     on<BlocHomeEventIncreaseAmountOfQuotas>(_onIncreaseAmountOfQuotas);
     on<BlocHomeEventPayQuota>(_onPayQuota);
-    on<BlocHomeEventCreateFinancialEntity>(_onCreateFinancialEntity);
     on<BlocHomeEventCreatePurchase>(_onCreatePurchase);
     on<BlocHomeEventEditPurchase>(_onEditPurchase);
     on<BlocHomeEventDeletePurchase>(_onDeletePurchase);
@@ -188,54 +187,6 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
           state,
           financialEntityList: newList,
           deleteSelectedShipmentId: true,
-        ),
-      );
-    } on Exception catch (e) {
-      emit(
-        BlocHomeStateError.from(
-          state,
-          exception: e is CustomException
-              ? e
-              : CustomException(
-                  title: e.toString(),
-                  message: 'An error occurred during processing.',
-                ),
-        ),
-      );
-    }
-  }
-
-  Future<void> _onCreateFinancialEntity(
-    BlocHomeEventCreateFinancialEntity event,
-    Emitter<BlocHomeState> emit,
-  ) async {
-    emit(BlocHomeStateLoading.from(state));
-    try {
-      final newFinancialEntityResponse =
-          await HomeRepository.createFinancialEntity(
-        financialEntityName: event.financialEntityName,
-        firebaseUserId: auth.currentUser?.uid ?? '',
-      );
-
-      final newEntity = newFinancialEntityResponse.body!;
-
-      // Lo envuelvo en un DTO con listas vacías
-      final newDto = FinancialEntityHomeDto(
-        id: newEntity.id,
-        name: newEntity.name,
-        currentPurchases: [],
-        settledPurchases: [],
-      );
-
-      // Copio la lista y agrego el nuevo DTO
-      final list = List<FinancialEntityHomeDto>.from(
-        state.financialEntityList,
-      )..add(newDto);
-
-      emit(
-        BlocHomeStateSuccess.from(
-          state,
-          financialEntityList: list,
         ),
       );
     } on Exception catch (e) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/features/dashboard/home/views/view_current_purchases.dart';
 import 'package:purchase_manager/features/dashboard/home/views/view_settled_purchases.dart';
@@ -41,23 +42,34 @@ class _ViewHomeState extends State<ViewHome>
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<BlocHome, BlocHomeState>(
-      listener: (context, state) {
-        if (state is BlocHomeStateError) {
-          showDialog<void>(
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: const Text('Error'),
-                content: Text(state.exception.message ?? ''),
-                actions: const [
-                  Text('OK'),
-                ],
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<BlocHome, BlocHomeState>(
+          listener: (context, state) {
+            if (state is BlocHomeStateError) {
+              showDialog<void>(
+                context: context,
+                builder: (_) {
+                  return AlertDialog(
+                    title: const Text('Error'),
+                    content: Text(state.exception.message ?? ''),
+                    actions: const [
+                      Text('OK'),
+                    ],
+                  );
+                },
               );
-            },
-          );
-        }
-      },
+            }
+          },
+        ),
+        BlocListener<BlocDashboard, BlocDashboardState>(
+          listener: (context, state) {
+            if (state is BlocDashboardStateSuccessCreatePurchaseTriggered) {
+              print('Create purchase triggered');
+            }
+          },
+        ),
+      ],
       child: Column(
         children: [
           Row(

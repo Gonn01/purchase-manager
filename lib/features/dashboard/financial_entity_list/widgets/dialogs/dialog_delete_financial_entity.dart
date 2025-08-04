@@ -17,7 +17,7 @@ class DialogDeleteFinancialEntity extends StatelessWidget {
   });
 
   /// Entidad financiera a eliminar
-  final FinancialEntityDto financialEntity;
+  final FinancialEntityListDto financialEntity;
 
   @override
   Widget build(BuildContext context) {

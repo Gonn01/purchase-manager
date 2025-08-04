@@ -41,6 +41,7 @@ class MyObserver extends AutoRouterObserver {
   @override
   void didPush(Route route, Route? previousRoute) {
     final title = route.data;
+    if (title == null) return;
     routeTitleManager.updateTitle(title);
   }
 
@@ -52,7 +53,8 @@ class MyObserver extends AutoRouterObserver {
 
   @override
   void didPop(Route route, Route? previousRoute) {
-    routeTitleManager.updateTitle(previousRoute?.data);
+    if (previousRoute == null) return;
+    routeTitleManager.updateTitle(previousRoute.data);
   }
 }
 

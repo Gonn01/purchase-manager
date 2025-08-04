@@ -24,8 +24,10 @@ class PageDashboard extends StatelessWidget {
     return BlocProvider(
       create: (context) => BlocDashboard(),
       child: PMScaffold(
-        floatingActionButton:
-            ruta?.name == RutaHome.name ? const PMFloatingActionButton() : null,
+        floatingActionButton: ruta?.name == RutaHome.name ||
+                ruta?.name == RutaFinancialEntitiesList.name
+            ? const PMFloatingActionButton()
+            : null,
         body: const AutoRouter(),
       ),
     );

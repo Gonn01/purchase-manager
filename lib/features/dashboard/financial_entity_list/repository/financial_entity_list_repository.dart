@@ -6,13 +6,14 @@ import 'package:purchase_manager/utilities/models/repository.dart';
 abstract class FinancialEntityListRepository {
   static final baseUrl = '${Config.apiUrl}/financial-entities/';
 
-  static Future<ResponseLD<List<FinancialEntityDto>>>
+  static Future<ResponseLD<List<FinancialEntityListDto>>>
       getFinancialEntities() async {
     final url = baseUrl;
-    final response = await Repository.get<List<FinancialEntityDto>>(
+    final response = await Repository.get<List<FinancialEntityListDto>>(
       url: url,
       fromJson: (jsonData) => (jsonData['body'] as List)
-          .map((e) => FinancialEntityDto.fromJson(e as Map<String, dynamic>))
+          .map(
+              (e) => FinancialEntityListDto.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -25,6 +26,21 @@ abstract class FinancialEntityListRepository {
     final url = '$baseUrl$financialEntityId';
     final response = await Repository.delete<void>(
         url: url, fromJson: (jsonData) => <void>{});
+    return response;
+  }
+
+  static Future<ResponseLD<FinancialEntityListDto>> createFinancialEntity(
+      String financialEntityName) async {
+    final response = await Repository.post<FinancialEntityListDto>(
+      url: '${Config.apiUrl}/financial-entities/',
+      fromJson: (jsonData) => FinancialEntityListDto.fromJson(
+        jsonData['body'] as Map<String, dynamic>,
+      ),
+      body: {
+        'name': financialEntityName,
+      },
+    );
+
     return response;
   }
 }

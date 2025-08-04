@@ -31,7 +31,6 @@ class PMScaffold extends StatelessWidget {
       backgroundColor: const Color(0xfff2f2f2),
       drawer: const PMDrawer(),
       appBar: PMAppbar(
-        route: context.router.current,
         title: rutaa?.title(context) ?? '',
       ),
       floatingActionButton: floatingActionButton,

@@ -5,6 +5,7 @@ import 'package:purchase_manager/app/auto_route/auto_route.gr.dart';
 import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/financial_entity_list/bloc/bloc_financial_entity_list.dart';
 import 'package:purchase_manager/features/dashboard/financial_entity_list/dtos/financial_entity_list_dto.dart';
+import 'package:purchase_manager/features/dashboard/financial_entity_list/widgets/dialogs/dialog_create_financial_entity.dart';
 import 'package:purchase_manager/features/dashboard/financial_entity_list/widgets/dialogs/dialog_delete_financial_entity.dart';
 
 /// {@template ViewFinancialEntitiesList}
@@ -21,7 +22,7 @@ class ViewFinancialEntitiesList extends StatelessWidget {
   /// Show a dialog to delete a financial entity
   Future<void> _dialogDeleteFinancialEntity(
     BuildContext context,
-    FinancialEntityDto financialEntity,
+    FinancialEntityListDto financialEntity,
   ) {
     return showDialog(
       context: context,
@@ -32,102 +33,124 @@ class ViewFinancialEntitiesList extends StatelessWidget {
     );
   }
 
+  Future<void> _createFinancialEntity(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (_) => BlocProvider.value(
+        value: context.read<BlocFinancialEntityList>(),
+        child: const DialogCreateFinancialEntity(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<BlocFinancialEntityList, BlocFinancialEntityListState>(
-      listener: (context, state) {
-        if (state is BlocFinancialEntityListStateError) {
-          showDialog<void>(
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: const Text('Error'),
-                content: Text(state.exception.title ?? 'An error occurred'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('OK'),
-                  ),
-                ],
-              );
-            },
-          );
+    return BlocListener<BlocDashboard, BlocDashboardState>(
+      listener: (contextDash, state) {
+        if (state is BlocDashboardStateCreateFinancialEntityTriggered) {
+          _createFinancialEntity(context);
         }
       },
-      builder: (context, state) {
-        if (state.financialEntityList.isEmpty) {
-          return const Column(
-            children: [
-              Expanded(
-                child: Center(
-                  child: Text(
-                    'No hay entidades financieras',
-                    style: TextStyle(
-                      color: Color(0xff047269),
-                      fontSize: 20,
+      child:
+          BlocConsumer<BlocFinancialEntityList, BlocFinancialEntityListState>(
+        listener: (context, state) {
+          if (state
+              is BlocFinancialEntityListStateSuccessDeletingFinancialEntity) {
+            Navigator.of(context).pop();
+          }
+          if (state is BlocFinancialEntityListStateError) {
+            showDialog<void>(
+              context: context,
+              builder: (_) {
+                return AlertDialog(
+                  title: const Text('Error'),
+                  content: Text(state.exception.title ?? 'An error occurred'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text('OK'),
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state.financialEntityList.isEmpty) {
+            return const Column(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      'No hay entidades financieras',
+                      style: TextStyle(
+                        color: Color(0xff047269),
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          );
-        }
-        if (state is BlocDashboardStateLoading) {
-          return const Column(
-            children: [
-              Expanded(
-                child: Center(
-                  child: CircularProgressIndicator(),
+              ],
+            );
+          }
+          if (state is BlocDashboardStateLoading) {
+            return const Column(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 ),
+              ],
+            );
+          }
+          return Padding(
+            padding: const EdgeInsets.all(20),
+            child: SingleChildScrollView(
+              child: Column(
+                children: state.financialEntityList
+                    .map(
+                      (financialEntity) => GestureDetector(
+                        onTap: () => context.router.push(
+                          RutaFinancialEntityDetails(
+                            idFinancialEntity: financialEntity.id,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                financialEntity.name,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () => _dialogDeleteFinancialEntity(
+                                  context,
+                                  financialEntity,
+                                ),
+                                child: const Icon(
+                                  Icons.delete_forever_outlined,
+                                  size: 25,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                    .toList(),
               ),
-            ],
-          );
-        }
-        return Padding(
-          padding: const EdgeInsets.all(20),
-          child: SingleChildScrollView(
-            child: Column(
-              children: state.financialEntityList
-                  .map(
-                    (financialEntity) => GestureDetector(
-                      onTap: () => context.router.push(
-                        RutaFinancialEntityDetails(
-                          idFinancialEntity: financialEntity.id,
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              financialEntity.name,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () => _dialogDeleteFinancialEntity(
-                                context,
-                                financialEntity,
-                              ),
-                              child: const Icon(
-                                Icons.delete_forever_outlined,
-                                size: 25,
-                                color: Colors.red,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                  .toList(),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:purchase_manager/features/dashboard/financial_entity_list/dtos/financial_entity_list_dto.dart';
 import 'package:purchase_manager/features/dashboard/financial_entity_list/repository/financial_entity_list_repository.dart';
 import 'package:purchase_manager/utilities/models/exception.dart';
@@ -20,14 +19,12 @@ class BlocFinancialEntityList
     on<BlocFinancialEntityListEventDeleteFinancialEntity>(
       _onDeleteFinancialEntity,
     );
+    on<BlocFinancialEntityListEventCreateFinancialEntity>(
+      _onCreateFinancialEntity,
+    );
 
     add(BlocFinancialEntityListEventInitialize());
   }
-
-  /// Instancia de FirebaseAuth
-  ///
-  /// FirebaseAuth instance
-  final FirebaseAuth auth = FirebaseAuth.instance;
 
   Future<void> _onInitialize(
     BlocFinancialEntityListEventInitialize event,
@@ -69,7 +66,7 @@ class BlocFinancialEntityList
         financialEntityId: event.idFinancialEntity,
       );
 
-      final list = List<FinancialEntityDto>.from(state.financialEntityList)
+      final list = List<FinancialEntityListDto>.from(state.financialEntityList)
         ..removeWhere(
           (financialEntity) => financialEntity.id == event.idFinancialEntity,
         );
@@ -79,6 +76,42 @@ class BlocFinancialEntityList
           state,
           financialEntityList: list,
           financialEntityDeletedId: event.idFinancialEntity,
+        ),
+      );
+    } on Exception catch (e) {
+      emit(
+        BlocFinancialEntityListStateError.from(
+          state,
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during processing.',
+                ),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onCreateFinancialEntity(
+    BlocFinancialEntityListEventCreateFinancialEntity event,
+    Emitter<BlocFinancialEntityListState> emit,
+  ) async {
+    emit(BlocFinancialEntityListStateLoading.from(state));
+    try {
+      final newFinancialEntityResponse =
+          await FinancialEntityListRepository.createFinancialEntity(
+        event.financialEntityName,
+      );
+
+      final list = List<FinancialEntityListDto>.from(
+        state.financialEntityList,
+      )..add(newFinancialEntityResponse.body!);
+
+      emit(
+        BlocFinancialEntityListStateSuccessCreatingFinancialEntity.from(
+          state,
+          financialEntityList: list,
         ),
       );
     } on Exception catch (e) {

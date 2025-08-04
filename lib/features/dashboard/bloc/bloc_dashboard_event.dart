@@ -39,3 +39,19 @@ class BlocDashboardEventSignOut extends BlocDashboardEvent {
   /// {@macro BlocDrawerEventSignOut}
   const BlocDashboardEventSignOut();
 }
+
+/// {@template BlocDashboardEventCreateFinancialEntity}
+/// Crea una entidad financiera.
+/// {@endtemplate}
+class BlocDashboardEventCreateFinancialEntity extends BlocDashboardEvent {
+  /// {@macro BlocDashboardEventCreateFinancialEntity}
+  const BlocDashboardEventCreateFinancialEntity();
+}
+
+/// {@template BlocDashboardEventCreatePurchase}
+/// Crea una compra.
+/// {@endtemplate}
+class BlocDashboardEventCreatePurchase extends BlocDashboardEvent {
+  /// {@macro BlocDashboardEventCreatePurchase}
+  const BlocDashboardEventCreatePurchase();
+}

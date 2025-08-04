@@ -14,7 +14,7 @@ class BlocFinancialEntityListState {
   /// Estado previo.
   BlocFinancialEntityListState.from(
     BlocFinancialEntityListState previousState, {
-    List<FinancialEntityDto>? financialEntityList,
+    List<FinancialEntityListDto>? financialEntityList,
   }) : this._(
           financialEntityList:
               financialEntityList ?? previousState.financialEntityList,
@@ -23,7 +23,7 @@ class BlocFinancialEntityListState {
   /// Lista de entidades financieras.
   ///
   /// List of financial entities.
-  final List<FinancialEntityDto> financialEntityList;
+  final List<FinancialEntityListDto> financialEntityList;
 }
 
 /// {@template BlocFinancialEntityListStateInitial}
@@ -79,4 +79,16 @@ class BlocFinancialEntityListStateError extends BlocFinancialEntityListState {
 
   /// Error message.
   final CustomException exception;
+}
+
+/// {@template BlocFinancialEntityListStateSuccessDeletingFinancialEntity}
+/// State when the home is loaded successfully.
+/// {@endtemplate}
+class BlocFinancialEntityListStateSuccessCreatingFinancialEntity
+    extends BlocFinancialEntityListState {
+  /// {@macro BlocFinancialEntityListStateSuccessCreatingFinancialEntity}
+  BlocFinancialEntityListStateSuccessCreatingFinancialEntity.from(
+    super.previusState, {
+    required super.financialEntityList,
+  }) : super.from();
 }
