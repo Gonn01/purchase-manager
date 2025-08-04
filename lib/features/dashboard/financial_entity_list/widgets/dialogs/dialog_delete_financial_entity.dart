@@ -32,8 +32,9 @@ class DialogDeleteFinancialEntity extends StatelessWidget {
         Navigator.pop(context);
       },
       content: const Text(
-          '¿Estas seguro de eliminar esta entidad financiera? Se eliminara '
-          'toda su informacion'),
+        '¿Estas seguro de eliminar esta entidad financiera? Se eliminara '
+        'toda su informacion',
+      ),
       title: 'Eliminar entidad financiera',
       isEnabled: true,
     );

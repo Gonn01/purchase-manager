@@ -33,11 +33,13 @@ class _PMFloatingActionButtonState extends State<PMFloatingActionButton> {
       ),
       onPressed: () {
         if (ruta?.name == RutaHome.name) {
+          print('Ruta Home FAB pressed');
           context.read<BlocDashboard>().add(
                 const BlocDashboardEventCreatePurchase(),
               );
         }
         if (ruta?.name == RutaFinancialEntitiesList.name) {
+          print('Ruta Financial Entities List FAB pressed');
           context.read<BlocDashboard>().add(
                 const BlocDashboardEventCreateFinancialEntity(),
               );

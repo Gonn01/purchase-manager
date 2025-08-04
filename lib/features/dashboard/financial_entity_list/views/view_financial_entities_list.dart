@@ -26,6 +26,7 @@ class ViewFinancialEntitiesList extends StatelessWidget {
   ) {
     return showDialog(
       context: context,
+      useRootNavigator: false,
       builder: (_) => BlocProvider.value(
         value: context.read<BlocFinancialEntityList>(),
         child: DialogDeleteFinancialEntity(financialEntity: financialEntity),
@@ -36,6 +37,7 @@ class ViewFinancialEntitiesList extends StatelessWidget {
   Future<void> _createFinancialEntity(BuildContext context) {
     return showDialog<void>(
       context: context,
+      useRootNavigator: false,
       builder: (_) => BlocProvider.value(
         value: context.read<BlocFinancialEntityList>(),
         child: const DialogCreateFinancialEntity(),
@@ -46,7 +48,7 @@ class ViewFinancialEntitiesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<BlocDashboard, BlocDashboardState>(
-      listener: (contextDash, state) {
+      listener: (context, state) {
         if (state is BlocDashboardStateCreateFinancialEntityTriggered) {
           _createFinancialEntity(context);
         }
