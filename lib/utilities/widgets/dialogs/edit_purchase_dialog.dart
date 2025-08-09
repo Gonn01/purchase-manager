@@ -205,14 +205,14 @@ class _EditPurchaseModalState extends State<EditPurchaseModal> {
                       onTap: () {
                         showDialog<void>(
                           context: context,
-                          builder: (context) => DialogDeletePurchase(
-                            purchase: widget.purchase,
-                            idFinancialEntity: widget.financialEntity.id,
+                          builder: (_) => BlocProvider.value(
+                            value: context.read<BlocHome>(),
+                            child: DialogDeletePurchase(
+                              purchase: widget.purchase,
+                              idFinancialEntity: widget.financialEntity.id,
+                            ),
                           ),
-                        ).then((value) {
-                          // ignore: use_build_context_synchronously asd
-                          Navigator.pop(context);
-                        });
+                        );
                       },
                       child: const Icon(
                         Icons.delete_outline,

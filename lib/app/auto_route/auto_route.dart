@@ -42,19 +42,37 @@ class MyObserver extends AutoRouterObserver {
   void didPush(Route route, Route? previousRoute) {
     final title = route.data;
     if (title == null) return;
+    print('Route pushed: ${title.name}');
     routeTitleManager.updateTitle(title);
   }
 
   @override
   void didReplace({Route? newRoute, Route? oldRoute}) {
     final title = newRoute?.data;
+    if (title == null) return;
+    print('Route replaced: ${title.name}');
     routeTitleManager.updateTitle(title);
   }
 
   @override
   void didPop(Route route, Route? previousRoute) {
-    if (previousRoute == null) return;
-    routeTitleManager.updateTitle(previousRoute.data);
+    // Nombre de la ruta poppeada
+    String poppedName;
+    if (route.settings.name != null) {
+      poppedName = route.settings.name!;
+    } else if (route is AutoRoutePage) {
+      poppedName = route.data?.name ?? '';
+    } else {
+      poppedName = route.runtimeType.toString(); // p.ej. DialogRoute
+    }
+
+    // Nombre de la ruta visible después del pop (opcional)
+    final afterName = (previousRoute is AutoRoutePage)
+        ? previousRoute?.data?.name
+        : (previousRoute?.settings.name ??
+            previousRoute?.runtimeType.toString());
+
+    print('Route popped: $poppedName -> now: $afterName');
   }
 }
 

@@ -16,6 +16,7 @@ class PurchaseHomeDto {
     required this.name,
     required this.type,
     required this.fixedExpense,
+    required this.financialEntityId,
   });
   factory PurchaseHomeDto.fromJson(Map<String, dynamic> json) {
     return PurchaseHomeDto(
@@ -29,13 +30,14 @@ class PurchaseHomeDto {
       ignored: json['ignored'] as bool,
       image: json['image'] as String?,
       amount: (json['amount'] as num).toDouble(),
-      amountPerQuota: (json['amount_per_quota'] as num).toDouble(),
+      amountPerQuota: (json['amount_per_quota'] as num?)?.toDouble() ?? 0.0,
       numberOfQuotas: json['number_of_quotas'] as int,
       payedQuotas: json['payed_quotas'] as int,
       currencyType: CurrencyType.type(json['currency_type'] as int),
       name: json['name'] as String,
       type: PurchaseType.type(json['type'] as int),
       fixedExpense: json['fixed_expense'] as bool,
+      financialEntityId: json['financial_entity_id'] as int,
     );
   }
 
@@ -52,6 +54,7 @@ class PurchaseHomeDto {
   final String name;
   final PurchaseType type;
   final bool fixedExpense;
+  final int financialEntityId;
 
   Map<String, dynamic> toJson() {
     return {
@@ -68,6 +71,7 @@ class PurchaseHomeDto {
       'name': name,
       'type': type.value,
       'fixed_expense': fixedExpense,
+      'financial_entity_id': financialEntityId,
     };
   }
 
@@ -85,6 +89,7 @@ class PurchaseHomeDto {
     String? name,
     PurchaseType? type,
     bool? fixedExpense,
+    int? financialEntityId,
   }) {
     return PurchaseHomeDto(
       id: id ?? this.id,
@@ -100,6 +105,7 @@ class PurchaseHomeDto {
       name: name ?? this.name,
       type: type ?? this.type,
       fixedExpense: fixedExpense ?? this.fixedExpense,
+      financialEntityId: financialEntityId ?? this.financialEntityId,
     );
   }
 }

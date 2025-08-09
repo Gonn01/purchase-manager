@@ -7,6 +7,7 @@ import 'package:purchase_manager/features/dashboard/financial_entity_list/bloc/b
 import 'package:purchase_manager/features/dashboard/financial_entity_list/dtos/financial_entity_list_dto.dart';
 import 'package:purchase_manager/features/dashboard/financial_entity_list/widgets/dialogs/dialog_create_financial_entity.dart';
 import 'package:purchase_manager/features/dashboard/financial_entity_list/widgets/dialogs/dialog_delete_financial_entity.dart';
+import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 
 /// {@template ViewFinancialEntitiesList}
 /// Pagina que contiene las entidades financieras
@@ -56,10 +57,6 @@ class ViewFinancialEntitiesList extends StatelessWidget {
       child:
           BlocConsumer<BlocFinancialEntityList, BlocFinancialEntityListState>(
         listener: (context, state) {
-          if (state
-              is BlocFinancialEntityListStateSuccessDeletingFinancialEntity) {
-            Navigator.of(context).pop();
-          }
           if (state is BlocFinancialEntityListStateError) {
             showDialog<void>(
               context: context,
@@ -96,7 +93,7 @@ class ViewFinancialEntitiesList extends StatelessWidget {
               ],
             );
           }
-          if (state is BlocDashboardStateLoading) {
+          if (state is BlocHomeStateLoading) {
             return const Column(
               children: [
                 Expanded(

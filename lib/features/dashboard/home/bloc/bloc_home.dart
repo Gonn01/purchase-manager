@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:crypto/crypto.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_home_dto.dart';
@@ -38,11 +37,6 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
 
     add(BlocHomeEventInitialize());
   }
-
-  /// Instancia de FirebaseAuth
-  ///
-  /// FirebaseAuth instance
-  final FirebaseAuth auth = FirebaseAuth.instance;
 
   Future<void> _onInitialize(
     BlocHomeEventInitialize event,
@@ -146,46 +140,67 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
     );
 
     try {
-      // Copio la lista de DTOs (no FinancialEntity simple)
+      // Copia del estado
       final listFinancialEntity =
           List<FinancialEntityHomeDto>.from(state.financialEntityList);
 
-      // Busco el DTO que contiene la compra
-      final modifiedDto = listFinancialEntity.firstWhere(
+      // Encontrar la FE que contiene esa purchase (current o settled)
+      final feIndex = listFinancialEntity.indexWhere(
         (dto) =>
             dto.currentPurchases.any((c) => c.id == event.idPurchase) ||
             dto.settledPurchases.any((c) => c.id == event.idPurchase),
       );
 
-      final purchaseResult = findPurchaseInDto(modifiedDto, event.idPurchase);
-
-      if (purchaseResult == null) {
+      if (feIndex == -1) {
         throw CustomException(
           title: 'Compra no encontrada',
           message: 'No se encontró la compra con ID ${event.idPurchase}.',
         );
       }
 
+      // Llamada al back: devuelve la compra modificada
       final modifiedPurchaseResponse = await PurchasesRepository.payQuota(
-        purchaseId: purchaseResult.purchase.id,
+        purchaseId: event.idPurchase,
+      );
+      final updated = modifiedPurchaseResponse.body!; // PurchaseHomeDto
+
+      final targetDto = listFinancialEntity[feIndex];
+
+      // Unir ambas listas y reemplazar la compra por la versión actualizada
+      final allBefore = <PurchaseHomeDto>[
+        ...targetDto.currentPurchases,
+        ...targetDto.settledPurchases,
+      ];
+
+      final allAfter =
+          allBefore.map((p) => p.id == updated.id ? updated : p).toList();
+
+      // Re-clasificar según el type NUEVO
+      bool isCurrent(PurchaseHomeDto p) =>
+          p.type == PurchaseType.currentDebtorPurchase ||
+          p.type == PurchaseType.currentCreditorPurchase;
+
+      bool isSettled(PurchaseHomeDto p) =>
+          p.type == PurchaseType.settledDebtorPurchase ||
+          p.type == PurchaseType.settledCreditorPurchase;
+
+      final newCurrent = allAfter.where(isCurrent).toList();
+      final newSettled = allAfter.where(isSettled).toList();
+
+      // Armar FE actualizada
+      final updatedEntity = FinancialEntityHomeDto(
+        id: targetDto.id,
+        name: targetDto.name,
+        currentPurchases: newCurrent,
+        settledPurchases: newSettled,
       );
 
-      final modifiedPurchase = modifiedPurchaseResponse.body!;
-
-      // Creo un nuevo DTO actualizando solo la compra encontrada
-      final updatedDto = updatePurchaseInDto(modifiedDto, modifiedPurchase);
-
-      // Reemplazo el DTO en la lista
-      final newList = listFinancialEntity
-          .map(
-            (dto) => dto.id == updatedDto.id ? updatedDto : dto,
-          )
-          .toList();
+      listFinancialEntity[feIndex] = updatedEntity;
 
       emit(
         BlocHomeStateSuccess.from(
           state,
-          financialEntityList: newList,
+          financialEntityList: listFinancialEntity,
           deleteSelectedShipmentId: true,
         ),
       );
@@ -215,13 +230,8 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
         url = await uploadImage(state.images.first, event.productName);
       }
 
-      final newPurchaseResponse = await PurchasesRepository.createPurchase(
+      final newPurchaseResponse = await HomeRepository.createPurchase(
         amount: event.totalAmount,
-        amountPerQuota: event.isFixedExpenses
-            ? event.totalAmount
-            : event.amountQuotas == 0
-                ? 0
-                : event.totalAmount / event.amountQuotas,
         currencyType: event.currency,
         fixedExpense: event.isFixedExpenses,
         image: url,
@@ -420,7 +430,8 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       // Reemplazamos la entidad actualizada en la lista
       list[index] = updatedEntity;
 
-      emit(BlocHomeStateSuccess.from(state, financialEntityList: list));
+      emit(BlocHomeStateSuccessDeletingPurchase.from(state,
+          financialEntityList: list));
     } on Exception catch (e) {
       emit(
         BlocHomeStateError.from(
@@ -450,24 +461,20 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
         ),
       );
 
+      // Llamada al repo: ahora devuelve TODAS las purchases de la FE
       final modifiedPurchasesResponse = await PurchasesRepository.payMonth(
         purchaseIds: purchaseIds,
       );
 
-      final updatedPurchases = modifiedPurchasesResponse.body!;
+      final allPurchasesOfFE = modifiedPurchasesResponse.body!;
 
-      // Copio la lista de DTOs
+      // Copio la lista de DTOs actual
       final listFinancialEntity =
           List<FinancialEntityHomeDto>.from(state.financialEntityList);
 
-      // Encuentro la entidad financiera (usando el primer id como referencia)
-      final index = listFinancialEntity.indexWhere(
-        (dto) =>
-            dto.currentPurchases
-                .any((c) => c.id == event.purchaseList.first.id) ||
-            dto.settledPurchases
-                .any((c) => c.id == event.purchaseList.first.id),
-      );
+      // Encuentro la entidad financiera afectada (todas las purchases devueltas tienen mismo FE)
+      final feId = allPurchasesOfFE.first.financialEntityId;
+      final index = listFinancialEntity.indexWhere((dto) => dto.id == feId);
 
       if (index == -1) {
         throw const CustomException(
@@ -476,30 +483,29 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
         );
       }
 
-      final targetDto = listFinancialEntity[index];
+      // Repartir las compras según tipo
+      final updatedCurrent = allPurchasesOfFE
+          .where(
+            (p) =>
+                p.type == PurchaseType.currentDebtorPurchase ||
+                p.type == PurchaseType.currentCreditorPurchase,
+          )
+          .toList();
 
-      // Actualizo currentPurchases
-      final updatedCurrentPurchases = targetDto.currentPurchases.map((c) {
-        final match = updatedPurchases.firstWhere(
-          (u) => u.id == c.id,
-        );
-        return match;
-      }).toList();
-
-      // Actualizo settledPurchases
-      final updatedSettledPurchases = targetDto.settledPurchases.map((c) {
-        final match = updatedPurchases.firstWhere(
-          (u) => u.id == c.id,
-        );
-        return match;
-      }).toList();
+      final updatedSettled = allPurchasesOfFE
+          .where(
+            (p) =>
+                p.type == PurchaseType.settledDebtorPurchase ||
+                p.type == PurchaseType.settledCreditorPurchase,
+          )
+          .toList();
 
       // Nuevo DTO con listas actualizadas
       final updatedEntity = FinancialEntityHomeDto(
-        id: targetDto.id,
-        name: targetDto.name,
-        currentPurchases: updatedCurrentPurchases,
-        settledPurchases: updatedSettledPurchases,
+        id: listFinancialEntity[index].id,
+        name: listFinancialEntity[index].name,
+        currentPurchases: updatedCurrent,
+        settledPurchases: updatedSettled,
       );
 
       listFinancialEntity[index] = updatedEntity;

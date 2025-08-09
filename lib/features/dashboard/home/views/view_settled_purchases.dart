@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/features/dashboard/home/widgets/financial_entity_element.dart';
 import 'package:swipe_refresh/swipe_refresh.dart';
@@ -34,7 +33,7 @@ class _ViewSettledPurchasesState extends State<ViewSettledPurchases> {
 
   Future<void> _refresh() async {
     _controller.add(SwipeRefreshState.loading);
-    context.read<BlocDashboard>().add(BlocDashboardEventInitialize());
+    context.read<BlocHome>().add(BlocHomeEventInitialize());
 
     _controller.sink.add(SwipeRefreshState.hidden);
   }
@@ -43,7 +42,7 @@ class _ViewSettledPurchasesState extends State<ViewSettledPurchases> {
   Widget build(BuildContext context) {
     return BlocBuilder<BlocHome, BlocHomeState>(
       builder: (context, state) {
-        if (state is BlocDashboardStateLoading) {
+        if (state is BlocHomeStateLoading) {
           return const Center(
             child: CircularProgressIndicator(
               color: Color(0xff02B3A3),

@@ -43,15 +43,16 @@ class BlocDashboardEventSignOut extends BlocDashboardEvent {
 /// {@template BlocDashboardEventCreateFinancialEntity}
 /// Crea una entidad financiera.
 /// {@endtemplate}
-class BlocDashboardEventCreateFinancialEntity extends BlocDashboardEvent {
+class BlocDashboardEventCreateFinancialEntityTrigger
+    extends BlocDashboardEvent {
   /// {@macro BlocDashboardEventCreateFinancialEntity}
-  const BlocDashboardEventCreateFinancialEntity();
+  const BlocDashboardEventCreateFinancialEntityTrigger();
 }
 
 /// {@template BlocDashboardEventCreatePurchase}
 /// Crea una compra.
 /// {@endtemplate}
-class BlocDashboardEventCreatePurchase extends BlocDashboardEvent {
+class BlocDashboardEventCreatePurchaseTrigger extends BlocDashboardEvent {
   /// {@macro BlocDashboardEventCreatePurchase}
-  const BlocDashboardEventCreatePurchase();
+  const BlocDashboardEventCreatePurchaseTrigger();
 }

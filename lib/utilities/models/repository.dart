@@ -143,7 +143,7 @@ abstract class Repository {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token'
         },
-        body: jsonEncode(body),
+        body: body != null ? jsonEncode(body) : null,
       );
 
       final jsonData = jsonDecode(response.body) as Map<String, dynamic>;

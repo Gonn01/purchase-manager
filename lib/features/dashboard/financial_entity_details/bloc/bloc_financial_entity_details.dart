@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:purchase_manager/features/dashboard/financial_entity_details/dtos/financial_entity_details_dto.dart';
 import 'package:purchase_manager/features/dashboard/financial_entity_details/repository/financial_entity_detail_repository.dart';
 import 'package:purchase_manager/utilities/models/exception.dart';
@@ -23,11 +22,6 @@ class BlocFinancialEntityDetails extends Bloc<BlocFinancialEntityDetailsEvent,
   }
 
   final int idFinancialEntity;
-
-  /// Instancia de FirebaseAuth
-  ///
-  /// FirebaseAuth instance
-  final FirebaseAuth auth = FirebaseAuth.instance;
 
   Future<void> _onInitialize(
     BlocFinancialEntityDetailsEventInitialize event,

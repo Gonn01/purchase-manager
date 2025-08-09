@@ -23,6 +23,7 @@ class PMAppbar extends StatelessWidget implements PreferredSizeWidget {
   Future<void> _settings(BuildContext context) {
     return showDialog<void>(
       context: context,
+      useRootNavigator: false,
       builder: (_) => BlocProvider.value(
         value: context.read<BlocDashboard>(),
         child: const DialogSettings(),

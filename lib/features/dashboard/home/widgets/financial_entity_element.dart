@@ -175,14 +175,29 @@ class FinancialEntityElement extends StatelessWidget {
                     }
                     showDialog<void>(
                       context: context,
-                      builder: (_) => BlocProvider.value(
-                        value: context.read<BlocDashboard>(),
-                        child: DialogPayMonthAlert(
-                          financialEntityId: financialEntity.id,
-                          financialEntityName: financialEntity.name,
-                          purchaseList: lista,
-                        ),
-                      ),
+                      // Si tus providers están bajo el Navigator actual, dejá rootNavigator en false (default).
+                      // Si los tenés en el root y abrís desde un Navigator anidado, poné: useRootNavigator: true,
+                      builder: (dialogCtx) {
+                        // Tomá las instancias del árbol actual (afuera del diálogo)
+                        final dash = context.read<BlocDashboard>();
+                        final home = context.read<BlocHome>();
+
+                        return MultiBlocProvider(
+                          providers: [
+                            BlocProvider.value(value: dash),
+                            BlocProvider.value(value: home),
+                          ],
+                          // 🔑 Este Builder garantiza que el child se construya con un context
+                          // que YA está debajo de los BlocProviders de arriba.
+                          child: Builder(
+                            builder: (_) => DialogPayMonthAlert(
+                              financialEntityId: financialEntity.id,
+                              financialEntityName: financialEntity.name,
+                              purchaseList: lista,
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
                   text: 'Pagar este mes',

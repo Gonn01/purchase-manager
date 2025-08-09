@@ -4,6 +4,7 @@ import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/features/dashboard/home/views/view_current_purchases.dart';
 import 'package:purchase_manager/features/dashboard/home/views/view_settled_purchases.dart';
+import 'package:purchase_manager/utilities/widgets/dialogs/create_purchase_dialog.dart';
 
 /// {@template ViewHome}
 /// Vista principal de la pantalla de inicio
@@ -40,6 +41,17 @@ class _ViewHomeState extends State<ViewHome>
     super.dispose();
   }
 
+  void _showCreatePurchaseDialog() {
+    showModalBottomSheet<void>(
+      isScrollControlled: true,
+      context: context,
+      builder: (_) => BlocProvider.value(
+        value: context.read<BlocHome>(),
+        child: const CreatePurchaseModal(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
@@ -49,9 +61,10 @@ class _ViewHomeState extends State<ViewHome>
             if (state is BlocHomeStateError) {
               showDialog<void>(
                 context: context,
+                useRootNavigator: false,
                 builder: (_) {
                   return AlertDialog(
-                    title: const Text('Error'),
+                    title: Text(state.exception.title ?? 'Error'),
                     content: Text(state.exception.message ?? ''),
                     actions: const [
                       Text('OK'),
@@ -60,12 +73,15 @@ class _ViewHomeState extends State<ViewHome>
                 },
               );
             }
+            if (state is BlocHomeStateSuccessDeletingPurchase) {
+              Navigator.pop(context);
+            }
           },
         ),
         BlocListener<BlocDashboard, BlocDashboardState>(
           listener: (context, state) {
             if (state is BlocDashboardStateSuccessCreatePurchaseTriggered) {
-              print('Create purchase triggered');
+              _showCreatePurchaseDialog();
             }
           },
         ),

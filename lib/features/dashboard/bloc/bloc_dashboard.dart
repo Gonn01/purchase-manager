@@ -21,10 +21,10 @@ class BlocDashboard extends Bloc<BlocDashboardEvent, BlocDashboardState> {
     on<BlocDashboardEventInitialize>(_onInitialize);
     on<BlocDashboardEventSelectCurrency>(_onSelectCurrency);
 
-    on<BlocDashboardEventCreateFinancialEntity>((event, emit) {
+    on<BlocDashboardEventCreateFinancialEntityTrigger>((event, emit) {
       emit(BlocDashboardStateCreateFinancialEntityTriggered.from(state));
     });
-    on<BlocDashboardEventCreatePurchase>((event, emit) =>
+    on<BlocDashboardEventCreatePurchaseTrigger>((event, emit) =>
         emit(BlocDashboardStateSuccessCreatePurchaseTriggered.from(state)));
 
     add(BlocDashboardEventInitialize());

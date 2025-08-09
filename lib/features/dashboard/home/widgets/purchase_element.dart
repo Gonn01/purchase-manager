@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchase_manager/features/dashboard/bloc/bloc_dashboard.dart';
 import 'package:purchase_manager/features/dashboard/home/bloc/bloc_home.dart';
 import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_home_dto.dart';
 import 'package:purchase_manager/features/dashboard/home/dtos/purchase_home_dto.dart';
@@ -240,7 +239,7 @@ class Campos extends StatelessWidget {
       useSafeArea: true,
       builder: (_) {
         return BlocProvider.value(
-          value: context.read<BlocDashboard>(),
+          value: context.read<BlocHome>(),
           child: EditPurchaseModal(
             financialEntity: financialEntity,
             purchase: purchase,
