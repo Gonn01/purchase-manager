@@ -9,26 +9,29 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i6;
-import 'package:flutter/material.dart' as _i7;
-import 'package:purchase_manager/features/auth/login/page_login.dart' as _i5;
-import 'package:purchase_manager/features/dashboard/financial_entity_details/page_financial_entity_details.dart'
-    as _i3;
-import 'package:purchase_manager/features/dashboard/financial_entity_list/page_financial_entities_list.dart'
+import 'package:auto_route/auto_route.dart' as _i8;
+import 'package:flutter/material.dart' as _i9;
+import 'package:purchase_manager/features/auth/login/page_login.dart' as _i6;
+import 'package:purchase_manager/features/dashboard/financial_entities/presentation/pages/financial_entity_details/page_financial_entity_details.dart'
+    as _i4;
+import 'package:purchase_manager/features/dashboard/financial_entities/presentation/pages/financial_entity_list/page_financial_entities_list.dart'
     as _i2;
-import 'package:purchase_manager/features/dashboard/home/page_home.dart' as _i4;
+import 'package:purchase_manager/features/dashboard/financial_entities/presentation/pages/page_financial_entities_wrapper.dart'
+    as _i3;
+import 'package:purchase_manager/features/dashboard/financial_entities/presentation/pages/purchase_details/page_purchase_details.dart'
+    as _i7;
+import 'package:purchase_manager/features/dashboard/home/page_home.dart' as _i5;
 import 'package:purchase_manager/features/dashboard/page_dashboard.dart' as _i1;
-import 'package:purchase_manager/features/dashboard/purchase_details/page_purchase.dart';
 
 /// generated route for
 /// [_i1.PageDashboard]
-class RutaDashboard extends _i6.PageRouteInfo<void> {
-  const RutaDashboard({List<_i6.PageRouteInfo>? children})
+class RutaDashboard extends _i8.PageRouteInfo<void> {
+  const RutaDashboard({List<_i8.PageRouteInfo>? children})
       : super(RutaDashboard.name, initialChildren: children);
 
   static const String name = 'RutaDashboard';
 
-  static _i6.PageInfo page = _i6.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
       return const _i1.PageDashboard();
@@ -38,13 +41,13 @@ class RutaDashboard extends _i6.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.PageFinancialEntitiesList]
-class RutaFinancialEntitiesList extends _i6.PageRouteInfo<void> {
-  const RutaFinancialEntitiesList({List<_i6.PageRouteInfo>? children})
+class RutaFinancialEntitiesList extends _i8.PageRouteInfo<void> {
+  const RutaFinancialEntitiesList({List<_i8.PageRouteInfo>? children})
       : super(RutaFinancialEntitiesList.name, initialChildren: children);
 
   static const String name = 'RutaFinancialEntitiesList';
 
-  static _i6.PageInfo page = _i6.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
       return const _i2.PageFinancialEntitiesList();
@@ -53,13 +56,29 @@ class RutaFinancialEntitiesList extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i3.PageFinancialEntityDetails]
+/// [_i3.PageFinancialEntitiesWrapper]
+class RutaFinancialEntitiesWrapper extends _i8.PageRouteInfo<void> {
+  const RutaFinancialEntitiesWrapper({List<_i8.PageRouteInfo>? children})
+      : super(RutaFinancialEntitiesWrapper.name, initialChildren: children);
+
+  static const String name = 'RutaFinancialEntitiesWrapper';
+
+  static _i8.PageInfo page = _i8.PageInfo(
+    name,
+    builder: (data) {
+      return const _i3.PageFinancialEntitiesWrapper();
+    },
+  );
+}
+
+/// generated route for
+/// [_i4.PageFinancialEntityDetails]
 class RutaFinancialEntityDetails
-    extends _i6.PageRouteInfo<RutaFinancialEntityDetailsArgs> {
+    extends _i8.PageRouteInfo<RutaFinancialEntityDetailsArgs> {
   RutaFinancialEntityDetails({
     required int idFinancialEntity,
-    _i7.Key? key,
-    List<_i6.PageRouteInfo>? children,
+    _i9.Key? key,
+    List<_i8.PageRouteInfo>? children,
   }) : super(
           RutaFinancialEntityDetails.name,
           args: RutaFinancialEntityDetailsArgs(
@@ -72,7 +91,7 @@ class RutaFinancialEntityDetails
 
   static const String name = 'RutaFinancialEntityDetails';
 
-  static _i6.PageInfo page = _i6.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
       final pathParams = data.inheritedPathParams;
@@ -81,7 +100,7 @@ class RutaFinancialEntityDetails
           idFinancialEntity: pathParams.getInt('idFinancialEntity'),
         ),
       );
-      return _i3.PageFinancialEntityDetails(
+      return _i4.PageFinancialEntityDetails(
         idFinancialEntity: args.idFinancialEntity,
         key: args.key,
       );
@@ -97,7 +116,7 @@ class RutaFinancialEntityDetailsArgs {
 
   final int idFinancialEntity;
 
-  final _i7.Key? key;
+  final _i9.Key? key;
 
   @override
   String toString() {
@@ -116,45 +135,45 @@ class RutaFinancialEntityDetailsArgs {
 }
 
 /// generated route for
-/// [_i4.PageHome]
-class RutaHome extends _i6.PageRouteInfo<void> {
-  const RutaHome({List<_i6.PageRouteInfo>? children})
+/// [_i5.PageHome]
+class RutaHome extends _i8.PageRouteInfo<void> {
+  const RutaHome({List<_i8.PageRouteInfo>? children})
       : super(RutaHome.name, initialChildren: children);
 
   static const String name = 'RutaHome';
 
-  static _i6.PageInfo page = _i6.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      return const _i4.PageHome();
+      return const _i5.PageHome();
     },
   );
 }
 
 /// generated route for
-/// [_i5.PageLogin]
-class RutaLogin extends _i6.PageRouteInfo<void> {
-  const RutaLogin({List<_i6.PageRouteInfo>? children})
+/// [_i6.PageLogin]
+class RutaLogin extends _i8.PageRouteInfo<void> {
+  const RutaLogin({List<_i8.PageRouteInfo>? children})
       : super(RutaLogin.name, initialChildren: children);
 
   static const String name = 'RutaLogin';
 
-  static _i6.PageInfo page = _i6.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      return const _i5.PageLogin();
+      return const _i6.PageLogin();
     },
   );
 }
 
 /// generated route for
-/// [PagePurchaseDetails]
-class RutaPurchaseDetails extends _i6.PageRouteInfo<RutaPurchaseDetailsArgs> {
+/// [_i7.PagePurchaseDetails]
+class RutaPurchaseDetails extends _i8.PageRouteInfo<RutaPurchaseDetailsArgs> {
   RutaPurchaseDetails({
     required int idPurchase,
     required int idFinancialEntity,
-    _i7.Key? key,
-    List<_i6.PageRouteInfo>? children,
+    _i9.Key? key,
+    List<_i8.PageRouteInfo>? children,
   }) : super(
           RutaPurchaseDetails.name,
           args: RutaPurchaseDetailsArgs(
@@ -171,7 +190,7 @@ class RutaPurchaseDetails extends _i6.PageRouteInfo<RutaPurchaseDetailsArgs> {
 
   static const String name = 'RutaPurchaseDetails';
 
-  static _i6.PageInfo page = _i6.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
       final pathParams = data.inheritedPathParams;
@@ -181,7 +200,7 @@ class RutaPurchaseDetails extends _i6.PageRouteInfo<RutaPurchaseDetailsArgs> {
           idFinancialEntity: pathParams.getInt('idFinancialEntity'),
         ),
       );
-      return PagePurchaseDetails(
+      return _i7.PagePurchaseDetails(
         idPurchase: args.idPurchase,
         idFinancialEntity: args.idFinancialEntity,
         key: args.key,
@@ -201,7 +220,7 @@ class RutaPurchaseDetailsArgs {
 
   final int idFinancialEntity;
 
-  final _i7.Key? key;
+  final _i9.Key? key;
 
   @override
   String toString() {

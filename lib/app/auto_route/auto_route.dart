@@ -42,7 +42,7 @@ class MyObserver extends AutoRouterObserver {
   void didPush(Route route, Route? previousRoute) {
     final title = route.data;
     if (title == null) return;
-    print('Route pushed: ${title.name}');
+    debugPrint('Route pushed: ${title.name}');
     routeTitleManager.updateTitle(title);
   }
 
@@ -50,7 +50,7 @@ class MyObserver extends AutoRouterObserver {
   void didReplace({Route? newRoute, Route? oldRoute}) {
     final title = newRoute?.data;
     if (title == null) return;
-    print('Route replaced: ${title.name}');
+    debugPrint('Route replaced: ${title.name}');
     routeTitleManager.updateTitle(title);
   }
 
@@ -72,7 +72,7 @@ class MyObserver extends AutoRouterObserver {
         : (previousRoute?.settings.name ??
             previousRoute?.runtimeType.toString());
 
-    print('Route popped: $poppedName -> now: $afterName');
+    debugPrint('Route popped: $poppedName -> now: $afterName');
   }
 }
 
@@ -93,12 +93,12 @@ class AppRouter extends RootStackRouter {
         AutoRoute(
           page: RutaLogin.page,
           path: '/login',
-          guards: [authGuard],
           initial: true,
         ),
         AutoRoute(
           page: RutaDashboard.page,
           path: '/dashboard',
+          guards: [authGuard],
           children: [
             CustomRoute<AutoRoute>(
               page: RutaHome.page,
@@ -109,22 +109,31 @@ class AppRouter extends RootStackRouter {
               transitionsBuilder: TransitionsBuilders.zoomIn,
             ),
             CustomRoute<AutoRoute>(
-              page: RutaFinancialEntitiesList.page,
-              path: 'list',
-              maintainState: false,
-              title: (context, data) => 'Lista de entidades financieras',
-              transitionsBuilder: TransitionsBuilders.zoomIn,
-            ),
-            AutoRoute(
-              page: RutaFinancialEntityDetails.page,
-              path: 'details',
-              title: (context, data) => 'Detalles de la entidad financiera',
-            ),
-            AutoRoute(
-              page: RutaPurchaseDetails.page,
-              path: 'purchase',
-              title: (context, data) => 'Detalles de la compra',
-            ),
+                page: RutaFinancialEntitiesWrapper.page,
+                path: 'financial-entities',
+                maintainState: false,
+                transitionsBuilder: TransitionsBuilders.zoomIn,
+                children: [
+                  CustomRoute<AutoRoute>(
+                    initial: true,
+                    page: RutaFinancialEntitiesList.page,
+                    path: '',
+                    maintainState: false,
+                    title: (context, data) => 'Lista de entidades financieras',
+                    transitionsBuilder: TransitionsBuilders.zoomIn,
+                  ),
+                  AutoRoute(
+                    page: RutaFinancialEntityDetails.page,
+                    path: ':financialEntityId/details',
+                    title: (context, data) =>
+                        'Detalles de la entidad financiera',
+                  ),
+                  AutoRoute(
+                    page: RutaPurchaseDetails.page,
+                    path: ':financialEntityId/purchases/:purchaseId',
+                    title: (context, data) => 'Detalles de la compra',
+                  ),
+                ]),
           ],
         ),
       ];

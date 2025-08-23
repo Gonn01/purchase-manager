@@ -1,0 +1,32 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:purchase_manager/features/dashboard/financial_entities/presentation/bloc/bloc_financial_entity_details/bloc_financial_entity_details.dart';
+import 'package:purchase_manager/features/dashboard/financial_entities/presentation/pages/financial_entity_details/view/view_financial_entity_details.dart';
+
+/// {@template PageFinancialEntityDetails}
+/// Pagina que contiene los detalles de una entidad financiera
+///
+/// Page that contains the details of a financial entity
+/// {@endtemplate}
+@RoutePage()
+class PageFinancialEntityDetails extends StatelessWidget {
+  const PageFinancialEntityDetails(
+      {@PathParam('idFinancialEntity') required this.idFinancialEntity,
+      super.key});
+
+  /// Id de la entidad financiera
+  ///
+  /// Financial entity id
+  final int idFinancialEntity;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => BlocFinancialEntityDetails()
+        ..add(BlocFinancialEntityDetailsEventInitialize(
+            financialEntityId: idFinancialEntity)),
+      child: const ViewFinancialEntityDetails(),
+    );
+  }
+}

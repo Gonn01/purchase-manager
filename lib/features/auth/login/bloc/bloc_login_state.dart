@@ -45,5 +45,7 @@ class BlocLoginStateError extends BlocLoginState {
   BlocLoginStateError.from({
     required this.exception,
   }) : super.from();
+
+  ///
   final CustomException exception;
 }

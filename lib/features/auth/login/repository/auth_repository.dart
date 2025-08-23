@@ -23,7 +23,6 @@ abstract class AuthRepository {
       fromJson: (jsonData) =>
           UserDto.fromJson(jsonData['body'] as Map<String, dynamic>),
     );
-
     return response;
   }
 }

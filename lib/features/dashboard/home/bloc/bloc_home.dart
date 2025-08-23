@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:purchase_manager/features/dashboard/home/dtos/financial_entity_home_dto.dart';
 import 'package:purchase_manager/features/dashboard/home/dtos/purchase_home_dto.dart';
 import 'package:purchase_manager/features/dashboard/home/repository/home_repository.dart';
-import 'package:purchase_manager/features/dashboard/repositories/purchases_repository.dart';
 import 'package:purchase_manager/utilities/models/currency.dart';
 import 'package:purchase_manager/utilities/models/enums/currency_type.dart';
 import 'package:purchase_manager/utilities/models/enums/purchase_type.dart';
@@ -25,6 +24,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
   /// {@macro BlocInicio}
   BlocHome() : super(BlocHomeStateInitial()) {
     on<BlocHomeEventInitialize>(_onInitialize);
+    on<BlocHomeEventCreateFinancialEntity>(_onCreateFinancialEntity);
     on<BlocHomeEventIncreaseAmountOfQuotas>(_onIncreaseAmountOfQuotas);
     on<BlocHomeEventPayQuota>(_onPayQuota);
     on<BlocHomeEventCreatePurchase>(_onCreatePurchase);
@@ -67,6 +67,42 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
     }
   }
 
+  Future<void> _onCreateFinancialEntity(
+    BlocHomeEventCreateFinancialEntity event,
+    Emitter<BlocHomeState> emit,
+  ) async {
+    emit(BlocHomeStateLoading.from(state));
+    try {
+      final newFinancialEntityResponse =
+          await HomeRepository.createFinancialEntity(
+        event.financialEntityName,
+      );
+
+      final list = List<FinancialEntityHomeDto>.from(
+        state.financialEntityList,
+      )..add(newFinancialEntityResponse.body!);
+
+      emit(
+        BlocHomeStateSuccess.from(
+          state,
+          financialEntityList: list,
+        ),
+      );
+    } on Exception catch (e) {
+      emit(
+        BlocHomeStateError.from(
+          state,
+          exception: e is CustomException
+              ? e
+              : CustomException(
+                  title: e.toString(),
+                  message: 'An error occurred during processing.',
+                ),
+        ),
+      );
+    }
+  }
+
   Future<void> _onIncreaseAmountOfQuotas(
     BlocHomeEventIncreaseAmountOfQuotas event,
     Emitter<BlocHomeState> emit,
@@ -92,7 +128,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
         );
       }
 
-      final modifiedPurchaseResponse = await PurchasesRepository.unpayQuota(
+      final modifiedPurchaseResponse = await HomeRepository.unpayQuota(
         purchaseId: purchaseResult.purchase.id,
       );
 
@@ -159,7 +195,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       }
 
       // Llamada al back: devuelve la compra modificada
-      final modifiedPurchaseResponse = await PurchasesRepository.payQuota(
+      final modifiedPurchaseResponse = await HomeRepository.payQuota(
         purchaseId: event.idPurchase,
       );
       final updated = modifiedPurchaseResponse.body!; // PurchaseHomeDto
@@ -312,7 +348,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
         await uploadImage(state.images.first, event.name);
       }
 
-      final modifiedPurchaseResponse = await PurchasesRepository.editPurchase(
+      final modifiedPurchaseResponse = await HomeRepository.editPurchase(
         amount: event.amount,
         numberOfQuotas: event.amountOfQuotas,
         currencyType: event.currency,
@@ -393,7 +429,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       ),
     );
     try {
-      await PurchasesRepository.deletePurchase(
+      await HomeRepository.deletePurchase(
         purchaseId: event.purchase.id,
       );
 
@@ -462,7 +498,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       );
 
       // Llamada al repo: ahora devuelve TODAS las purchases de la FE
-      final modifiedPurchasesResponse = await PurchasesRepository.payMonth(
+      final modifiedPurchasesResponse = await HomeRepository.payMonth(
         purchaseIds: purchaseIds,
       );
 
@@ -561,7 +597,7 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
       ].firstWhere((c) => c.id == event.purchaseId);
 
       // Toggle ignored en el backend
-      await PurchasesRepository.ignorePurchase(
+      await HomeRepository.ignorePurchase(
         purchaseId: purchaseToModify.id,
       );
 
@@ -700,10 +736,11 @@ Future<String> deleteImage(String publicId) async {
 }
 
 class PurchaseResult {
-  final PurchaseHomeDto purchase;
-  final PurchaseType type; // "current" o "settled"
+  // "current" o "settled"
 
   PurchaseResult({required this.purchase, required this.type});
+  final PurchaseHomeDto purchase;
+  final PurchaseType type;
 }
 
 PurchaseResult? findPurchaseInDto(

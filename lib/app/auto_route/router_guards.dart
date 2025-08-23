@@ -14,8 +14,8 @@ class AuthGuard extends AutoRouteGuard {
   ) async {
     final user = FirebaseAuth.instance.currentUser;
 
-    if (user != null) {
-      return router.replace<void>(const RutaDashboard());
+    if (user == null) {
+      return router.replace<void>(const RutaLogin());
     }
 
     return resolver.next();

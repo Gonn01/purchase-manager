@@ -15,6 +15,21 @@ abstract class BlocHomeEvent {
 /// {@endtemplate}
 class BlocHomeEventInitialize extends BlocHomeEvent {}
 
+/// {@template BlocHomeEventCreateFinancialEntity}
+/// Crea una nueva categoría.
+/// Creates a new category.
+/// {@endtemplate}
+class BlocHomeEventCreateFinancialEntity extends BlocHomeEvent {
+  ///{@macro BlocHomeEventCreateFinancialEntity}
+  const BlocHomeEventCreateFinancialEntity({
+    required this.financialEntityName,
+  });
+
+  /// Nombre de la categoría a crear.
+  /// Name of the category to create.
+  final String financialEntityName;
+}
+
 /// {@template BlocHomeEventModifyAmountOfQuotas}
 /// Modifica la cantidad de cuotas de una compra.
 /// Modify the number of quotas of a purchase.

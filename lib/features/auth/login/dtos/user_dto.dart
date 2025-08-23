@@ -12,4 +12,9 @@ class UserDto {
   }
   final int id;
   final String token;
+
+  @override
+  String toString() {
+    return 'UserDto{id: $id, token: $token}';
+  }
 }

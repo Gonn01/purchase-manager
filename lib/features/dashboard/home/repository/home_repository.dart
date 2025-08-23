@@ -8,7 +8,37 @@ import 'package:purchase_manager/utilities/models/repository.dart';
 
 abstract class HomeRepository {
   /// Base URL de la API
-  static final purchaseUrls = '${Config.apiUrl}/purchases/';
+  static final homeBaseUrl = '${Config.apiUrl}/home/';
+  static final homeFinancialEntitiesBaseUrl =
+      '$homeBaseUrl/financial-entities/';
+  static final homePurchasesBaseUrl = '$homeBaseUrl/purchases/';
+
+  static Future<List<FinancialEntityHomeDto>> getHomeData() async {
+    final response = await Repository.get(
+      url: homeBaseUrl,
+      fromJson: (jsonData) => (jsonData['body'] as List)
+          .map(
+              (e) => FinancialEntityHomeDto.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+    return response.body ?? [];
+  }
+
+  static Future<ResponseLD<FinancialEntityHomeDto>> createFinancialEntity(
+      String financialEntityName) async {
+    final response = await Repository.post<FinancialEntityHomeDto>(
+      url: homeFinancialEntitiesBaseUrl,
+      fromJson: (jsonData) => FinancialEntityHomeDto.fromJson(
+        jsonData['body'] as Map<String, dynamic>,
+      ),
+      body: {
+        'name': financialEntityName,
+      },
+    );
+
+    return response;
+  }
 
   /// Metodo para crear una compra
   ///
@@ -25,9 +55,8 @@ abstract class HomeRepository {
     required int numberOfQuotas,
     required int financialEntityId,
   }) async {
-    final url = purchaseUrls;
     final response = await Repository.post(
-      url: url,
+      url: homePurchasesBaseUrl,
       fromJson: (jsonData) => PurchaseHomeDto.fromJson(
         jsonData['body'] as Map<String, dynamic>,
       ),
@@ -48,17 +77,104 @@ abstract class HomeRepository {
     return response;
   }
 
-  static Future<List<FinancialEntityHomeDto>> getHomeData() async {
-    final url = '${Config.apiUrl}/home/';
+  static Future<ResponseLD<PurchaseHomeDto>> editPurchase({
+    required int purchaseId,
+    required String? image,
+    required double amount,
+    required int payedQuotas,
+    required CurrencyType currencyType,
+    required String purchaseName,
+    required PurchaseType purchaseType,
+    required bool fixedExpense,
+    required bool ignored,
+    required int numberOfQuotas,
+    required int financialEntityId,
+  }) async {
+    final response = await Repository.put(
+      url: homePurchasesBaseUrl + purchaseId.toString(),
+      fromJson: (jsonData) => PurchaseHomeDto.fromJson(
+        jsonData['body'] as Map<String, dynamic>,
+      ),
+      body: {
+        'ignored': ignored,
+        'image': image,
+        'amount': amount,
+        'numberOfQuotas': numberOfQuotas,
+        'payedQuotas': payedQuotas,
+        'currencyType': currencyType.value,
+        'name': purchaseName,
+        'amountPerQuota': numberOfQuotas == 0 ? 0 : amount / numberOfQuotas,
+        'purchaseType': purchaseType.value,
+        'financialEntityId': financialEntityId,
+        'fixedExpense': fixedExpense,
+      },
+    );
+    return response;
+  }
 
-    final response = await Repository.get(
-      url: url,
-      fromJson: (jsonData) => (jsonData['body'] as List)
-          .map(
-              (e) => FinancialEntityHomeDto.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  static Future<ResponseLD<void>> deletePurchase({
+    required int purchaseId,
+  }) async {
+    final response = await Repository.delete(
+      url: homePurchasesBaseUrl + purchaseId.toString(),
+      fromJson: (jsonData) => ResponseLD.fromJson(
+        jsonData,
+        (json) => <void>{},
+      ),
+    );
+    return response;
+  }
+
+  static Future<ResponseLD<PurchaseHomeDto>> ignorePurchase({
+    required int purchaseId,
+  }) async {
+    final response = await Repository.put(
+      url: '$homePurchasesBaseUrl$purchaseId/ignore',
+      fromJson: (jsonData) => PurchaseHomeDto.fromJson(
+        jsonData['body'] as Map<String, dynamic>,
+      ),
     );
 
-    return response.body ?? [];
+    return response;
+  }
+
+  static Future<ResponseLD<PurchaseHomeDto>> payQuota({
+    required int purchaseId,
+  }) async {
+    final response = await Repository.put(
+      url: '$homePurchasesBaseUrl$purchaseId/pay-quota',
+      fromJson: (jsonData) => PurchaseHomeDto.fromJson(
+        jsonData['body'] as Map<String, dynamic>,
+      ),
+    );
+
+    return response;
+  }
+
+  static Future<ResponseLD<PurchaseHomeDto>> unpayQuota({
+    required int purchaseId,
+  }) async {
+    final response = await Repository.put(
+      url: '$homePurchasesBaseUrl$purchaseId/unpay-quota',
+      fromJson: (jsonData) => PurchaseHomeDto.fromJson(
+        jsonData['body'] as Map<String, dynamic>,
+      ),
+    );
+    return response;
+  }
+
+  static Future<ResponseLD<List<PurchaseHomeDto>>> payMonth({
+    required List<int> purchaseIds,
+  }) async {
+    final response = await Repository.put(
+      url: '$homePurchasesBaseUrl/pay-month',
+      fromJson: (jsonData) => (jsonData['body'] as List)
+          .map((e) => PurchaseHomeDto.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      body: {
+        'purchaseIds': purchaseIds,
+      },
+    );
+    return response;
   }
 }

@@ -7,7 +7,6 @@ class PurchaseHomeDto {
     required this.finalizationDate,
     required this.firstQuotaDate,
     required this.ignored,
-    this.image,
     required this.amount,
     required this.amountPerQuota,
     required this.numberOfQuotas,
@@ -17,6 +16,7 @@ class PurchaseHomeDto {
     required this.type,
     required this.fixedExpense,
     required this.financialEntityId,
+    this.image,
   });
   factory PurchaseHomeDto.fromJson(Map<String, dynamic> json) {
     return PurchaseHomeDto(
