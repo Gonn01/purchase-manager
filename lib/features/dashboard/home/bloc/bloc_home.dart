@@ -279,39 +279,10 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
         numberOfQuotas: event.amountQuotas,
       );
 
-      final newPurchase = newPurchaseResponse.body!;
-
-      // Copio la lista de DTOs
-      final newList =
-          List<FinancialEntityHomeDto>.from(state.financialEntityList);
-
-      // Busco la entidad a actualizar
-      final index = newList.indexWhere(
-        (dto) => dto.id == event.financialEntity.id,
-      );
-
-      if (index == -1) {
-        throw const CustomException(
-          title: 'Entidad no encontrada',
-          message: 'No se encontró la entidad financiera para crear la compra.',
-        );
-      }
-
-      // Actualizo la entidad con la nueva compra en currentPurchases
-      final updatedEntity = FinancialEntityHomeDto(
-        id: newList[index].id,
-        name: newList[index].name,
-        currentPurchases: [...newList[index].currentPurchases, newPurchase],
-        settledPurchases: newList[index].settledPurchases,
-      );
-
-      // Reemplazo la entidad en la lista
-      newList[index] = updatedEntity;
-
       emit(
         BlocHomeStateSuccess.from(
           state,
-          financialEntityList: newList,
+          financialEntityList: newPurchaseResponse.body,
           deleteImage: true,
         ),
       );

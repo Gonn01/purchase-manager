@@ -82,7 +82,6 @@ class _CreatePurchaseModalState extends State<CreatePurchaseModal> {
             ignored: ignored,
           ),
         );
-    Navigator.pop(context);
   }
 
   void removeImageDialog(BuildContext context) {

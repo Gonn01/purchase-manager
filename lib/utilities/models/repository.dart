@@ -54,6 +54,7 @@ abstract class Repository {
         stack: jsonData['stack'] as String?,
       );
     }
+    print('HTTP ${response.statusCode}: ${response.body}');
     return fromJson;
   }
 

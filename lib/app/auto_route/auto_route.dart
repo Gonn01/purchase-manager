@@ -93,12 +93,12 @@ class AppRouter extends RootStackRouter {
         AutoRoute(
           page: RutaLogin.page,
           path: '/login',
-          initial: true,
         ),
         AutoRoute(
           page: RutaDashboard.page,
           path: '/dashboard',
           guards: [authGuard],
+          initial: true,
           children: [
             CustomRoute<AutoRoute>(
               page: RutaHome.page,

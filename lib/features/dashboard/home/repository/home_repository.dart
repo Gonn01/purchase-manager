@@ -8,7 +8,7 @@ import 'package:purchase_manager/utilities/models/repository.dart';
 
 abstract class HomeRepository {
   /// Base URL de la API
-  static final homeBaseUrl = '${Config.apiUrl}/home/';
+  static final homeBaseUrl = '${Config.apiUrl}/home';
   static final homeFinancialEntitiesBaseUrl =
       '$homeBaseUrl/financial-entities/';
   static final homePurchasesBaseUrl = '$homeBaseUrl/purchases/';
@@ -68,7 +68,7 @@ abstract class HomeRepository {
         'name': purchaseName,
         'amount': amount,
         'currency_type': currencyType.value,
-        'number_of_quotas': numberOfQuotas,
+        'number_of_quotas': numberOfQuotas == 0 ? 1 : numberOfQuotas,
         'payed_quotas': payedQuotas,
         'image': image,
       },
